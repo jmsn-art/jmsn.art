@@ -2,37 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Art Circle Gallery</title>
 <style>
   body{margin:0;padding:20px;background:#111;color:#fff;font-family:Arial,Helvetica,sans-serif}
-  h1{text-align:center;margin:0 0 24px}
   .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
   .gallery img{width:100%;height:auto;display:block;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.5);cursor:pointer;transition:transform .25s}
   .gallery img:hover{transform:scale(1.04)}
-  .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999}
-  .lb img{display:block;margin:60px auto;max-width:92%;max-height:80vh}
+
+  /* Lightbox */
+  .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center}
+  .lb img{display:block;max-width:92%;max-height:80vh}
   .close{position:fixed;top:14px;right:24px;font-size:40px;color:#fff;cursor:pointer}
+
+  /* Fade-in animation */
+  .fade-in{opacity:0;animation:fadeIn .8s forwards}
+  @keyframes fadeIn{to{opacity:1}}
 </style>
 </head>
 <body>
 
-
-<div class="gallery">
-  <img src="images/File%2000001.jpeg" alt="Art Circle 1">
-  <img src="images/File%2000002.jpeg" alt="Art Circle 2">
-  <img src="images/File%2000003.jpeg" alt="Art Circle 3">
-  <img src="images/File%2000004.jpeg" alt="Art Circle 4">
-  <img src="images/File%2000005.jpeg" alt="Art Circle 5">
-  <img src="images/File%2000006.jpeg" alt="Art Circle 6">
-  <img src="images/File%2000007.jpeg" alt="Art Circle 7">
-  <img src="images/File%2000008.jpeg" alt="Art Circle 8">
-  <img src="images/File%2000009.jpeg" alt="Art Circle 9">
-  <img src="images/File%2000010.jpeg" alt="Art Circle 10">
-  <img src="images/File%2000011.jpeg" alt="Art Circle 11">
-  <img src="images/File%2000012.jpeg" alt="Art Circle 12">
-  <img src="images/File%2000013.jpeg" alt="Art Circle 13">
-  <img src="images/File%2000014.jpeg" alt="Art Circle 14">
-  <img src="images/File%2000015.jpeg" alt="Art Circle 15">
+<div class="gallery" id="gallery">
+  <img src="images/File%2000001.jpeg" alt="">
+  <img src="images/File%2000002.jpeg" alt="">
+  <img src="images/File%2000003.jpeg" alt="">
+  <img src="images/File%2000004.jpeg" alt="">
+  <img src="images/File%2000005.jpeg" alt="">
+  <img src="images/File%2000006.jpeg" alt="">
+  <img src="images/File%2000007.jpeg" alt="">
+  <img src="images/File%2000008.jpeg" alt="">
+  <img src="images/File%2000009.jpeg" alt="">
+  <img src="images/File%2000010.jpeg" alt="">
+  <img src="images/File%2000011.jpeg" alt="">
+  <img src="images/File%2000012.jpeg" alt="">
+  <img src="images/File%2000013.jpeg" alt="">
+  <img src="images/File%2000014.jpeg" alt="">
+  <img src="images/File%2000015.jpeg" alt="">
 </div>
 
 <div class="lb" id="lb">
@@ -41,13 +44,57 @@
 </div>
 
 <script>
-  const imgs=[...document.querySelectorAll('.gallery img')];
-  const lb=document.getElementById('lb');
-  const lbimg=document.getElementById('lbimg');
-  const x=document.getElementById('x');
-  imgs.forEach(i=>i.addEventListener('click',()=>{lb.style.display='block';lbimg.src=i.src;lbimg.alt=i.alt||'';}));
-  x.addEventListener('click',()=>lb.style.display='none');
-  lb.addEventListener('click',e=>{if(e.target!==lbimg) lb.style.display='none';});
+  document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('gallery');
+    let items = Array.from(gallery.children);
+
+    // Cache-bust so refreshes always fetch fresh order
+    const v = Date.now();
+    items.forEach(img => { img.src = `${img.src}?v=${v}`; });
+
+    // Fisher–Yates shuffle
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+
+    // Re-append in shuffled order with staggered fade-in
+    items.forEach((img, idx) => {
+      img.classList.add('fade-in');
+      img.style.animationDelay = `${idx * 0.15}s`;
+      gallery.appendChild(img);
+    });
+
+    // Lightbox + arrow key nav
+    const lb = document.getElementById('lb');
+    const lbimg = document.getElementById('lbimg');
+    const closeBtn = document.getElementById('x');
+    let current = 0;
+
+    items.forEach((img, idx) => {
+      img.addEventListener('click', () => {
+        current = idx;
+        lb.style.display = 'flex';
+        lbimg.src = img.src;
+      });
+    });
+
+    function showAt(i){
+      current = (i + items.length) % items.length;
+      lbimg.src = items[current].src;
+    }
+
+    closeBtn.addEventListener('click', () => lb.style.display = 'none');
+    lb.addEventListener('click', e => { if (e.target === lb) lb.style.display = 'none'; });
+
+    document.addEventListener('keydown', e => {
+      if (lb.style.display === 'flex') {
+        if (e.key === 'ArrowRight') showAt(current + 1);
+        if (e.key === 'ArrowLeft')  showAt(current - 1);
+        if (e.key === 'Escape')     lb.style.display = 'none';
+      }
+    });
+  });
 </script>
 </body>
 </html>
