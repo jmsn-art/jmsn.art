@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
   <style>
     /* Fade-in animation */
-    .fade-in { opacity: 0; animation: fadeIn 0.8s forwards; }
-    @keyframes fadeIn { to { opacity: 1; } }
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
   <div id="gallery" class="gallery">
-    <img src="images/File%2000001.jpeg" alt="">
-    <img src="images/File%2000002.jpeg" alt="">
-    <img src="images/File%2000003.jpeg" alt="">
-    <img src="images/File%2000004.jpeg" alt="">
-    <img src="images/File%2000005.jpeg" alt="">
-    <img src="images/File%2000006.jpeg" alt="">
-    <img src="images/File%2000007.jpeg" alt="">
-    <img src="images/File%2000008.jpeg" alt="">
-    <img src="images/File%2000009.jpeg" alt="">
-    <img src="images/File%2000010.jpeg" alt="">
-    <img src="images/File%2000011.jpeg" alt="">
-    <img src="images/File%2000012.jpeg" alt="">
-    <img src="images/File%2000013.jpeg" alt="">
-    <img src="images/File%2000014.jpeg" alt="">
-    <img src="images/File%2000015.jpeg" alt="">
+    <img src="images/image1.jpeg" alt="">
+    <img src="images/image2.jpeg" alt="">
+    <img src="images/image3.jpeg" alt="">
+    <img src="images/image4.jpeg" alt="">
+    <img src="images/image5.jpeg" alt="">
+    <img src="images/image6.jpeg" alt="">
+    <img src="images/image7.jpeg" alt="">
+    <img src="images/image8.jpeg" alt="">
+    <img src="images/image9.jpeg" alt="">
+    <img src="images/image10.jpeg" alt="">
+    <img src="images/image11.jpeg" alt="">
+    <img src="images/image12.jpeg" alt="">
+    <img src="images/image13.jpeg" alt="">
+    <img src="images/image14.jpeg" alt="">
+    <img src="images/image15.jpeg" alt="">
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const gallery = document.getElementById('gallery');
-      const items = Array.from(gallery.children);
+      const images = Array.from(gallery.children);
 
-      // Cache-bust so refreshes always pull fresh order
-      const ver = Date.now();
-      items.forEach(img => { img.src = `${img.src}?v=${ver}`; });
+      // Add cache-busting query string
+      images.forEach(img => {
+        img.src = `${img.src}?v=${Date.now()}`;
+      });
 
-      // Fisher–Yates shuffle
-      for (let i = items.length - 1; i > 0; i--) {
+      // Shuffle using Fisher–Yates
+      for (let i = images.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [items[i], items[j]] = [items[j], items[i]];
+        [images[i], images[j]] = [images[j], images[i]];
       }
 
-      // Staggered fade-in
-      items.forEach((img, idx) => {
+      // Apply fade-in with staggered delay
+      images.forEach((img, index) => {
         img.classList.add('fade-in');
-        img.style.animationDelay = `${idx * 0.15}s`;
+        img.style.animationDelay = `${index * 0.15}s`;
         gallery.appendChild(img);
       });
     });
