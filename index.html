@@ -9,7 +9,6 @@
   .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
   .gallery img{width:100%;height:auto;display:block;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.5);cursor:pointer;transition:transform .25s}
   .gallery img:hover{transform:scale(1.04)}
-  /* simple lightbox */
   .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999}
   .lb img{display:block;margin:60px auto;max-width:92%;max-height:80vh}
   .close{position:fixed;top:14px;right:24px;font-size:40px;color:#fff;cursor:pointer}
@@ -36,7 +35,6 @@
   <img src="images/File%2000015.jpeg" alt="Art Circle 15">
 </div>
 
-<!-- Lightbox -->
 <div class="lb" id="lb">
   <span class="close" id="x">&times;</span>
   <img id="lbimg" alt="">
