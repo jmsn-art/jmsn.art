@@ -1,37 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Fade-in animation */
+    .fade-in { opacity: 0; animation: fadeIn 0.8s forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* Lightbox styles */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80vh;
+    }
+    .lightbox .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div id="gallery" class="gallery">
-    <img src="images/image1.jpeg" alt="">
-    <img src="images/image2.jpeg" alt="">
-    <img src="images/image3.jpeg" alt="">
-    <img src="images/image4.jpeg" alt="">
-    <img src="images/image5.jpeg" alt="">
-    <img src="images/image6.jpeg" alt="">
-    <img src="images/image7.jpeg" alt="">
-    <img src="images/image8.jpeg" alt="">
-    <img src="images/image9.jpeg" alt="">
-    <img src="images/image10.jpeg" alt="">
-    <img src="images/image11.jpeg" alt="">
-    <img src="images/image12.jpeg" alt="">
-    <img src="images/image13.jpeg" alt="">
-    <img src="images/image14.jpeg" alt="">
+    <img src="images/File%2000001.jpeg" alt="">
+    <img src="images/File%2000002.jpeg" alt="">
+    <img src="images/File%2000003.jpeg" alt="">
+    <img src="images/File%2000004.jpeg" alt="">
+    <img src="images/File%2000005.jpeg" alt="">
+    <img src="images/File%2000006.jpeg" alt="">
+    <img src="images/File%2000007.jpeg" alt="">
+    <img src="images/File%2000008.jpeg" alt="">
+    <img src="images/File%2000009.jpeg" alt="">
+    <img src="images/File%2000010.jpeg" alt="">
+    <img src="images/File%2000011.jpeg" alt="">
+    <img src="images/File%2000012.jpeg" alt="">
+    <img src="images/File%2000013.jpeg" alt="">
+    <img src="images/File%2000014.jpeg" alt="">
+    <img src="images/File%2000015.jpeg" alt="">
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <span class="close" id="closeBtn">&times;</span>
+    <img id="lightboxImg" src="" alt="">
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const gallery = document.getElementById('gallery');
-      const images = Array.from(gallery.children);
+      let images = Array.from(gallery.children);
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const closeBtn = document.getElementById('closeBtn');
 
-      // Add cache-busting query string
-      images.forEach(img => {
-        img.src = `${img.src}?v=${Date.now()}`;
-      });
+      // Cache-bust so refreshes always pull fresh order
+      const ver = Date.now();
+      images.forEach(img => { img.src = `${img.src}?v=${ver}`; });
 
       // Fisher–Yates shuffle
       for (let i = images.length - 1; i > 0; i--) {
@@ -39,7 +76,48 @@
         [images[i], images[j]] = [images[j], images[i]];
       }
 
-      images.forEach(img => gallery.appendChild(img));
+      // Staggered fade-in
+      images.forEach((img, idx) => {
+        img.classList.add('fade-in');
+        img.style.animationDelay = `${idx * 0.15}s`;
+        gallery.appendChild(img);
+
+        // Open lightbox on click
+        img.addEventListener('click', () => {
+          currentIndex = idx;
+          lightbox.style.display = 'flex';
+          lightboxImg.src = img.src;
+        });
+      });
+
+      let currentIndex = 0;
+
+      // Close lightbox
+      closeBtn.addEventListener('click', () => {
+        lightbox.style.display = 'none';
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (lightbox.style.display === 'flex') {
+          if (e.key === 'ArrowRight') {
+            currentIndex = (currentIndex + 1) % images.length;
+            lightboxImg.src = images[currentIndex].src;
+          } else if (e.key === 'ArrowLeft') {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentIndex].src;
+          } else if (e.key === 'Escape') {
+            lightbox.style.display = 'none';
+          }
+        }
+      });
+
+      // Close when clicking outside image
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+          lightbox.style.display = 'none';
+        }
+      });
     });
   </script>
 </body>
