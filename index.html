@@ -1,132 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>jmsn.art — Jameson McShane</title>
-  <meta name="description" content="AI art portfolio by Jameson McShane (JMSN)." />
-  <style>
-    :root {
-      --bg: #0e0e11; --fg: #f4f4f5; --muted: #a1a1aa; --accent: #f5c542;
-      --card: #141419; --ring: rgba(245, 197, 66, 0.3);
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      background: radial-gradient(1000px 600px at 50% -10%, #181824 0%, var(--bg) 60%);
-      color: var(--fg);
-      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
-    }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
-    header { display:flex; align-items:center; justify-content:space-between; gap:16px; padding: 16px 0 8px; position: sticky; top: 0; backdrop-filter: blur(6px); }
-    .brand { display:flex; align-items:center; gap:12px; text-decoration:none; color: var(--fg); }
-    .brand .logo {
-      width: 32px; height: 32px; border-radius: 999px; border: 2px solid var(--accent);
-      box-shadow: 0 0 0 6px var(--ring), inset 0 0 0 2px #000; background: conic-gradient(from 0deg, #f6d772, #f5c542, #f6d772);
-    }
-    nav a { color: var(--muted); margin-left: 18px; text-decoration: none; }
-    nav a:hover { color: var(--fg); }
-
-    .hero { padding: 56px 0 24px; display:grid; gap: 18px; }
-    .title { font-size: clamp(32px, 5vw, 54px); line-height: 1.1; letter-spacing: -0.02em; }
-    .subtitle { color: var(--muted); max-width: 64ch; }
-    .cta { display:flex; gap:12px; flex-wrap: wrap; margin-top: 8px; }
-    .btn { border: 1px solid #2b2b35; background: linear-gradient(180deg, #1a1a22, #121219); color: var(--fg); padding: 10px 14px; border-radius: 999px; text-decoration:none; }
-    .btn:hover { border-color: #3a3a46; }
-    .btn.gold { border-color: rgba(245, 197, 66, 0.5); background: linear-gradient(180deg, #2a2415, #1b1710); }
-
-    .grid { display:grid; gap: 12px; grid-template-columns: repeat(12, 1fr); }
-    .card { grid-column: span 4; border-radius: 16px; overflow:hidden; background: var(--card); border:1px solid #232332; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
-    .card img { width: 100%; height: clamp(180px, 24vw, 320px); object-fit: cover; display:block; }
-    .card .meta { padding: 12px 12px 14px; display:flex; align-items:center; justify-content:space-between; gap: 8px; }
-    .card .name { font-weight: 600; }
-    .card .tags { color: var(--muted); font-size: 12px; }
-
-    @media (max-width: 960px) { .card { grid-column: span 6; } }
-    @media (max-width: 640px) { .card { grid-column: span 12; } header{position:relative;} }
-
-    .footer { color: var(--muted); padding: 40px 0 64px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 12px; }
-    .circle-note { display:flex; align-items:center; gap:10px; color: var(--muted); margin-top: 4px; }
-    .circle { width: 14px; height: 14px; border-radius: 99px; border: 2px solid var(--accent); box-shadow: 0 0 0 4px var(--ring), inset 0 0 0 2px #000; }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <a class="brand" href="#">
-        <span class="logo" aria-hidden="true"></span>
-        <strong>jmsn.art</strong>
-      </a>
-      <nav>
-        <a href="#works">Works</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
-
-    <section class="hero" id="top">
-      <h1 class="title">Art circles, broken circles, sanctified figures.</h1>
-      <p class="subtitle">A minimalist, surreal portfolio by <strong>Jameson McShane</strong>. This is a starter page for GitHub Pages — drop images into the cards below and replace titles/links. When you’re ready, connect <span class="mono">jmsn.art</span> in your repo settings.</p>
-      <div class="cta">
-        <a class="btn gold" href="#works">View portfolio</a>
-        <a class="btn" href="#about">About</a>
-      </div>
-    </section>
-
-    <section id="works" class="grid" aria-label="Gallery">
-      <!-- Replace the src values with your images in the repo (e.g., /images/filename.jpg) -->
-      <article class="card">
-        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1600&auto=format&fit=crop" alt="Abstract circle composition" />
-        <div class="meta">
-          <div>
-            <div class="name">Broken Circle I</div>
-            <div class="tags">2025 • edition of 5</div>
-          </div>
-          <a class="btn" href="#">Details</a>
-        </div>
-      </article>
-      <article class="card">
-        <img src="https://images.unsplash.com/photo-1526312426976-593c2a6a080b?q=80&w=1600&auto=format&fit=crop" alt="Minimalist halo motif" />
-        <div class="meta">
-          <div>
-            <div class="name">Sanctified Figure</div>
-            <div class="tags">NFT • 1 ETH</div>
-          </div>
-          <a class="btn" href="#">Mint</a>
-        </div>
-      </article>
-      <article class="card">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop" alt="Ensō inspired circle" />
-        <div class="meta">
-          <div>
-            <div class="name">Art Circle Study</div>
-            <div class="tags">2025 • print</div>
-          </div>
-          <a class="btn" href="#">Purchase</a>
-        </div>
-      </article>
-    </section>
-
-    <section id="about" style="margin-top:48px;">
-      <h2>About</h2>
-      <p>I make surreal, minimalist images anchored by <em>art circles</em> (broken circles) and sanctified archetypes. This site is built as a single static file you can host on GitHub Pages. Edit this file to update copy, add images, or link to Zora/Base for NFTs.</p>
-      <div class="circle-note"><span class="circle" aria-hidden="true"></span> <span>Signature motif: filled gold art circle.</span></div>
-    </section>
-
-    <section id="contact" style="margin-top:32px;">
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:hello@jmsn.art">hello@jmsn.art</a> · ENS: <span class="mono">jmsn.eth</span></p>
-    </section>
-
-    <footer class="footer">
-      <div>© <span id="y"></span> Jameson McShane</div>
-      <div class="mono">Built on GitHub Pages</div>
-    </footer>
-  </div>
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+<div class="gallery">
+  <img src="images/File 00001.jpeg" alt="Art Circle 1">
+  <img src="images/File 00002.jpeg" alt="Art Circle 2">
+  <img src="images/File 00003.jpeg" alt="Art Circle 3">
+  <img src="images/File 00004.jpeg" alt="Art Circle 4">
+  <img src="images/File 00005.jpeg" alt="Art Circle 5">
+  <img src="images/File 00006.jpeg" alt="Art Circle 6">
+  <img src="images/File 00007.jpeg" alt="Art Circle 7">
+  <img src="images/File 00008.jpeg" alt="Art Circle 8">
+  <img src="images/File 00009.jpeg" alt="Art Circle 9">
+  <img src="images/File 00010.jpeg" alt="Art Circle 10">
+  <img src="images/File 00011.jpeg" alt="Art Circle 11">
+  <img src="images/File 00012.jpeg" alt="Art Circle 12">
+  <img src="images/File 00013.jpeg" alt="Art Circle 13">
+  <img src="images/File 00014.jpeg" alt="Art Circle 14">
+  <img src="images/File 00015.jpeg" alt="Art Circle 15">
+</div>
