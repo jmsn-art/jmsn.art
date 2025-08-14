@@ -1,17 +1,59 @@
-<div class="gallery">
-  <img src="images/File 00001.jpeg" alt="Art Circle 1">
-  <img src="images/File 00002.jpeg" alt="Art Circle 2">
-  <img src="images/File 00003.jpeg" alt="Art Circle 3">
-  <img src="images/File 00004.jpeg" alt="Art Circle 4">
-  <img src="images/File 00005.jpeg" alt="Art Circle 5">
-  <img src="images/File 00006.jpeg" alt="Art Circle 6">
-  <img src="images/File 00007.jpeg" alt="Art Circle 7">
-  <img src="images/File 00008.jpeg" alt="Art Circle 8">
-  <img src="images/File 00009.jpeg" alt="Art Circle 9">
-  <img src="images/File 00010.jpeg" alt="Art Circle 10">
-  <img src="images/File 00011.jpeg" alt="Art Circle 11">
-  <img src="images/File 00012.jpeg" alt="Art Circle 12">
-  <img src="images/File 00013.jpeg" alt="Art Circle 13">
-  <img src="images/File 00014.jpeg" alt="Art Circle 14">
-  <img src="images/File 00015.jpeg" alt="Art Circle 15">
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Art Circle Gallery</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:20px; background:#111; color:#fff; }
+    h1 { text-align:center; margin-bottom:30px; }
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
+    .gallery img { width:100%; height:auto; display:block; border-radius:6px; box-shadow:0 4px 10px rgba(0,0,0,.5); transition:transform .3s; cursor:pointer; }
+    .gallery img:hover { transform:scale(1.05); }
+    .lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.9); }
+    .lightbox img { display:block; margin:auto; max-width:90%; max-height:80%; margin-top:50px; }
+    .close { position:absolute; top:20px; right:40px; font-size:40px; color:#fff; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1>Art Circle Gallery</h1>
+
+  <div class="gallery">
+    <img src="images/File%2000001.jpeg" alt="Art Circle 1">
+    <img src="images/File%2000002.jpeg" alt="Art Circle 2">
+    <img src="images/File%2000003.jpeg" alt="Art Circle 3">
+    <img src="images/File%2000004.jpeg" alt="Art Circle 4">
+    <img src="images/File%2000005.jpeg" alt="Art Circle 5">
+    <img src="images/File%2000006.jpeg" alt="Art Circle 6">
+    <img src="images/File%2000007.jpeg" alt="Art Circle 7">
+    <img src="images/File%2000008.jpeg" alt="Art Circle 8">
+    <img src="images/File%2000009.jpeg" alt="Art Circle 9">
+    <img src="images/File%2000010.jpeg" alt="Art Circle 10">
+    <img src="images/File%2000011.jpeg" alt="Art Circle 11">
+    <img src="images/File%2000012.jpeg" alt="Art Circle 12">
+    <img src="images/File%2000013.jpeg" alt="Art Circle 13">
+    <img src="images/File%2000014.jpeg" alt="Art Circle 14">
+    <img src="images/File%2000015.jpeg" alt="Art Circle 15">
+  </div>
+
+  <div id="lightbox" class="lightbox">
+    <span class="close">&times;</span>
+    <img id="lightbox-img" alt="">
+  </div>
+
+  <script>
+    const gallery = document.querySelectorAll('.gallery img');
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.close');
+
+    gallery.forEach(img => img.addEventListener('click', () => {
+      lightbox.style.display = 'block';
+      lbImg.src = img.src;
+      lbImg.alt = img.alt || '';
+    }));
+    closeBtn.addEventListener('click', () => lightbox.style.display = 'none');
+    lightbox.addEventListener('click', e => { if (e.target !== lbImg) lightbox.style.display = 'none'; });
+  </script>
+</body>
+</html>
