@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact — jmsn.art</title>
+<style>
+  :root{--bg:#111;--fg:#fff;--muted:#ccc;--accent:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Arial,Helvetica,sans-serif;display:flex;min-height:100vh}
+  .wrap{max-width:720px;margin:auto;padding:32px 20px;width:100%}
+  h1{margin:0 0 18px;font-size:28px;letter-spacing:.3px}
+  p.sub{margin:0 0 24px;color:var(--muted)}
+  form{display:grid;gap:14px}
+  label span{display:block;font-size:13px;margin:0 0 6px;color:var(--muted)}
+  input,textarea{width:100%;padding:12px 14px;border:1px solid #2a2a2a;background:#151515;color:var(--fg);border-radius:10px;outline:none}
+  textarea{min-height:140px;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  button{padding:12px 16px;border:0;border-radius:12px;background:var(--accent);color:#000;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  button:disabled{opacity:.6;cursor:not-allowed}
+  .note{font-size:12px;color:var(--muted)}
+  .ok{display:none;margin-top:10px;font-size:14px}
+  footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
+  a{color:var(--fg)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Contact</h1>
+    <p class="sub">Send me a note — your email app will open with everything filled in.</p>
+
+    <form id="contactForm" novalidate>
+      <div class="row">
+        <label>
+          <span>Your Name</span>
+          <input type="text" id="name" name="name" required placeholder="Jane Doe">
+        </label>
+        <label>
+          <span>Your Email</span>
+          <input type="email" id="email" name="email" required placeholder="jane@example.com">
+        </label>
+      </div>
+      <label>
+        <span>Subject</span>
+        <input type="text" id="subject" name="subject" required placeholder="Hello from jmsn.art">
+      </label>
+      <label>
+        <span>Message</span>
+        <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
+      </label>
+      <button type="submit" id="sendBtn">Send</button>
+      <div class="note">Heads up: this uses your device’s email app (no data stored on the site).</div>
+      <div class="ok" id="okMsg">Opening your email app… if nothing happens, you can email me at <a href="mailto:jamesonedwardmcshane@gmail.com">jamesonedwardmcshane@gmail.com</a>.</div>
+    </form>
+
+    <footer>© 2025 Jameson McShane · <a href="/">Back to gallery</a></footer>
+  </div>
+
+<script>
+  (function(){
+    const f = document.getElementById('contactForm');
+    const ok = document.getElementById('okMsg');
+    const btn = document.getElementById('sendBtn');
+
+    function valEmail(e){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+    }
+
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim() || 'Message from jmsn.art';
+      const message = document.getElementById('message').value.trim();
+
+      if(!name || !email || !message || !valEmail(email)){
+        alert('Please fill out your name, a valid email, and a message.');
+        return;
+      }
+
+      btn.disabled = true;
+
+      const body =
+        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+
+      const mailto =
+        `mailto:jamesonedwardmcshane@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      // Show hint and launch the user's email client
+      ok.style.display = 'block';
+      window.location.href = mailto;
+
+      // Re-enable after a moment in case user cancels compose window
+      setTimeout(()=>{ btn.disabled = false; }, 2500);
+    });
+  })();
+</script>
+</body>
+</html>
