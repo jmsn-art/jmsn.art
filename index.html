@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Art Gallery</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -25,12 +24,23 @@
   </div>
 
   <script>
-    // Shuffle images each time the page loads
-    const gallery = document.getElementById('gallery');
-    const images = Array.from(gallery.children);
-    const shuffled = images.sort(() => Math.random() - 0.5);
-    gallery.innerHTML = '';
-    shuffled.forEach(img => gallery.appendChild(img));
+    document.addEventListener('DOMContentLoaded', () => {
+      const gallery = document.getElementById('gallery');
+      const images = Array.from(gallery.children);
+
+      // Add cache-busting query string
+      images.forEach(img => {
+        img.src = `${img.src}?v=${Date.now()}`;
+      });
+
+      // Fisher–Yates shuffle
+      for (let i = images.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [images[i], images[j]] = [images[j], images[i]];
+      }
+
+      images.forEach(img => gallery.appendChild(img));
+    });
   </script>
 </body>
 </html>
