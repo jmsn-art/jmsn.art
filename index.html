@@ -136,4 +136,118 @@
   <img src="images/File%2000100.jpeg" alt="">
   <img src="images/File%2000101.jpeg" alt="">
   <img src="images/File%2000102.jpeg" alt="">
-  <img sr
+  <img src="images/File%2000103.jpeg" alt="">
+  <img src="images/File%2000104.jpeg" alt="">
+  <img src="images/File%2000105.jpeg" alt="">
+  <img src="images/File%2000106.jpeg" alt="">
+  <img src="images/File%2000107.jpeg" alt="">
+  <img src="images/File%2000108.jpeg" alt="">
+  <img src="images/File%2000109.jpeg" alt="">
+  <img src="images/File%2000110.jpeg" alt="">
+  <img src="images/File%2000111.jpeg" alt="">
+  <img src="images/File%2000112.jpeg" alt="">
+  <img src="images/File%2000113.jpeg" alt="">
+  <img src="images/File%2000114.jpeg" alt="">
+  <img src="images/File%2000115.jpeg" alt="">
+  <img src="images/File%2000116.jpeg" alt="">
+  <img src="images/File%2000117.jpeg" alt="">
+  <img src="images/File%2000118.jpeg" alt="">
+  <img src="images/File%2000119.jpeg" alt="">
+  <img src="images/File%2000120.jpeg" alt="">
+  <img src="images/File%2000121.jpeg" alt="">
+  <img src="images/File%2000122.jpeg" alt="">
+  <img src="images/File%2000123.jpeg" alt="">
+  <img src="images/File%2000124.jpeg" alt="">
+  <img src="images/File%2000125.jpeg" alt="">
+  <img src="images/File%2000126.jpeg" alt="">
+  <img src="images/File%2000127.jpeg" alt="">
+  <img src="images/File%2000128.jpeg" alt="">
+  <img src="images/File%2000129.jpeg" alt="">
+  <img src="images/File%2000130.jpeg" alt="">
+  <img src="images/File%2000131.jpeg" alt="">
+  <img src="images/File%2000132.jpeg" alt="">
+  <img src="images/File%2000133.jpeg" alt="">
+  <img src="images/File%2000134.jpeg" alt="">
+  <img src="images/File%2000135.jpeg" alt="">
+  <img src="images/File%2000136.jpeg" alt="">
+  <img src="images/File%2000137.jpeg" alt="">
+  <img src="images/File%2000138.jpeg" alt="">
+</div>
+
+<div class="lb" id="lb">
+  <span class="close" id="x">&times;</span>
+  <img id="lbimg" alt="">
+</div>
+
+<footer style="text-align:center;margin:40px 0 10px;opacity:.8;font-size:14px;letter-spacing:.2px">
+  © 2025 Jameson McShane · 
+  <a href="contact.html" style="color:#fff;text-decoration:underline">Contact</a>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('gallery');
+    let items = Array.from(gallery.children);
+
+    // Cache-bust so refreshes always fetch fresh order
+    const v = Date.now();
+    items.forEach(img => { img.src = `${img.src}?v=${v}`; });
+
+    // Enable native lazy-loading
+    items.forEach(img => { img.loading = 'lazy'; });
+
+    // Fisher–Yates shuffle
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+
+    // Re-append in shuffled order with staggered fade-in
+    items.forEach((img, idx) => {
+      img.classList.add('fade-in');
+      img.style.animationDelay = `${idx * 0.15}s`;
+      gallery.appendChild(img);
+    });
+
+    // Lightbox + arrow key nav
+    const lb = document.getElementById('lb');
+    const lbimg = document.getElementById('lbimg');
+    const closeBtn = document.getElementById('x');
+    let current = 0;
+
+    // Choose best source (uses src; add data-full later if you ever want hi-res on click)
+    function bestSrc(el){ return el.dataset.full || el.src; }
+
+    items.forEach((img, idx) => {
+      img.addEventListener('click', () => {
+        current = idx;
+        lb.style.display = 'flex';
+        lbimg.src = bestSrc(img);
+        document.body.classList.add('noscroll'); // lock scroll
+      });
+    });
+
+    function showAt(i){
+      current = (i + items.length) % items.length;
+      lbimg.src = bestSrc(items[current]);
+    }
+
+    function closeLB(){
+      lb.style.display = 'none';
+      document.body.classList.remove('noscroll'); // unlock scroll
+    }
+
+    closeBtn.addEventListener('click', closeLB);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+
+    document.addEventListener('keydown', e => {
+      if (lb.style.display === 'flex') {
+        if (e.key === 'ArrowRight') showAt(current + 1);
+        if (e.key === 'ArrowLeft')  showAt(current - 1);
+        if (e.key === 'Escape')     closeLB();
+      }
+    });
+  });
+</script>
+</body>
+</html>
