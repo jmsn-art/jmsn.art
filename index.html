@@ -8,9 +8,6 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://jmsn.art/">
-
   <!-- SEO Meta -->
   <meta name="description" content="The Art Circle Project by Jameson McShane: digital art created in collaboration with chatJMSN, exploring halos, broken circles, and the tension between wholeness and incompleteness.">
   <meta name="keywords" content="AI art, digital art, Art Circle, broken circles, Jameson McShane, generative art, sanctified figures">
@@ -20,7 +17,7 @@
   <meta property="og:title" content="jmsn.art – The Art Circle Project by Jameson McShane">
   <meta property="og:description" content="Digital art created in collaboration with chatJMSN, exploring halos, broken circles, and the Art Circle philosophy.">
   <meta property="og:image" content="https://jmsn.art/images/File%2000001.jpeg">
-  <meta property="og:url" content="https://jmsn.art/">
+  <meta property="og:url" content="https://jmsn.art">
   <meta property="og:type" content="website">
 
   <!-- Twitter Card -->
@@ -38,34 +35,51 @@
     gtag('config', 'G-FQPZNDPCCF');
   </script>
 
-  <style>
-    body{margin:0;padding:20px;background:#111;color:#fff;font-family:Arial,Helvetica,sans-serif}
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
-    .gallery img{width:100%;height:auto;display:block;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.5);cursor:pointer;transition:transform .25s}
-    .gallery img:hover{transform:scale(1.04)}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>jmsn.art</title>
 
-    /* Lightbox */
-    .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center}
-    .lb img{display:block;max-width:92%;max-height:80vh}
-    .close{position:fixed;top:14px;right:24px;font-size:40px;color:#fff;cursor:pointer}
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
 
-    /* Fade-in animation */
-    .fade-in{opacity:0;animation:fadeIn .8s forwards}
-    @keyframes fadeIn{to{opacity:1}}
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  ...
 
-    /* Lock background scroll when lightbox open */
-    .noscroll{overflow:hidden}
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 
-    footer{text-align:center;margin:40px 0 10px;opacity:.8;font-size:14px;letter-spacing:.2px}
-    footer a{color:#fff;text-decoration:underline}
-  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FQPZNDPCCF');
+</script>
+
+<style>
+  body{margin:0;padding:20px;background:#111;color:#fff;font-family:Arial,Helvetica,sans-serif}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+  .gallery img{width:100%;height:auto;display:block;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.5);cursor:pointer;transition:transform .25s}
+  .gallery img:hover{transform:scale(1.04)}
+
+  /* Lightbox */
+  .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center}
+  .lb img{display:block;max-width:92%;max-height:80vh}
+  .close{position:fixed;top:14px;right:24px;font-size:40px;color:#fff;cursor:pointer}
+
+  /* Fade-in animation */
+  .fade-in{opacity:0;animation:fadeIn .8s forwards}
+  @keyframes fadeIn{to{opacity:1}}
+
+  /* Lock background scroll when lightbox open */
+  .noscroll{overflow:hidden}
+
+  footer{text-align:center;margin:40px 0 10px;opacity:.8;font-size:14px;letter-spacing:.2px}
+  footer a{color:#fff;text-decoration:underline}
+</style>
 </head>
 <body>
-
-<!-- Visually hidden H1 for accessibility/SEO -->
-<h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
-  The Art Circle Project – jmsn.art by Jameson McShane
-</h1>
 
 <div class="gallery" id="gallery">
   <img src="images/File%2000001.jpeg" alt="">
