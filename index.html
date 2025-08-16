@@ -29,170 +29,154 @@
 
   /* Lock background scroll when lightbox open */
   .noscroll{overflow:hidden}
-
-  /* --- Purchase button in lightbox --- */
-  .toolbar{
-    position:fixed;left:0;right:0;bottom:24px;display:none;
-    align-items:center;justify-content:center;z-index:10000;
-  }
-  .purchase-btn{
-    display:inline-flex;align-items:center;justify-content:center;
-    padding:.6rem 1rem;border-radius:10px;background:#fff;color:#111;
-    font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.45);
-    transition:transform .15s ease,opacity .15s ease
-  }
-  .purchase-btn:hover{transform:translateY(-1px)}
 </style>
 </head>
 <body>
 
 <div class="gallery" id="gallery">
-  <img src="images/File%2000001.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00001?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000002.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00002?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000003.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00003?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000004.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00004?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000005.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00005?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000006.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00006?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000007.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00007?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000008.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00008?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000009.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00009?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000010.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00010?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000011.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00011?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000012.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00012?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000013.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00013?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000014.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00014?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000015.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00015?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000016.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00016?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000017.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00017?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000018.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00018?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000019.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00019?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000020.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00020?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000021.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00021?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000022.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00022?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000023.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00023?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000024.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00024?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000025.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00025?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000026.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00026?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000027.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00027?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000028.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00028?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000029.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00029?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000030.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00030?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000031.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00031?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000032.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00032?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000033.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00033?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000034.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00034?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000035.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00035?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000036.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00036?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000037.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00037?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000038.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00038?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000039.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00039?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000040.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00040?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000041.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00041?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000042.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00042?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000043.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00043?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000044.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00044?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000045.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00045?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000046.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00046?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000047.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00047?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000048.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00048?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000049.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00049?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000050.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00050?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000051.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00051?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000052.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00052?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000053.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00053?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000054.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00054?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000055.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00055?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000056.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00056?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000057.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00057?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000058.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00058?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000059.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00059?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000060.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00060?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000061.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00061?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000062.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00062?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000063.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00063?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000064.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00064?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000065.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00065?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000066.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00066?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000067.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00067?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000068.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00068?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000069.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00069?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000070.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00070?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000071.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00071?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000072.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00072?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000073.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00073?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000074.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00074?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000075.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00075?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000076.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00076?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000077.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00077?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000078.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00078?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000079.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00079?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000080.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00080?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000081.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00081?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000082.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00082?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000083.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00083?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000084.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00084?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000085.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00085?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000086.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00086?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000087.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00087?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000088.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00088?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000089.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00089?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000090.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00090?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000091.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00091?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000092.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00092?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000093.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00093?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000094.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00094?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000095.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00095?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000096.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00096?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000097.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00097?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000098.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00098?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000099.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00099?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000100.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00100?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000101.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00101?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000102.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00102?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000103.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00103?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000104.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00104?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000105.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00105?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000106.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00106?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000107.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00107?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000108.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00108?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000109.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00109?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000110.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00110?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000111.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00111?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000112.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00112?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000113.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00113?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000114.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00114?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000115.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00115?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000116.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00116?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000117.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00117?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000118.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00118?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000119.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00119?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000120.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00120?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000121.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00121?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000122.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00122?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000123.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00123?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000124.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00124?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000125.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00125?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000126.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00126?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000127.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00127?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000128.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00128?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000129.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00129?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000130.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00130?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000131.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00131?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000132.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00132?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000133.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00133?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000134.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00134?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000135.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00135?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000136.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00136?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000137.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00137?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
-  <img src="images/File%2000138.jpeg"  alt="" data-purchase-url="https://www.etsy.com/listing/REPLACE_WITH_ID/art-circle-00138?utm_source=jmsn.art&utm_medium=site&utm_campaign=modal">
+  <img src="images/File%2000001.jpeg" alt="">
+  <img src="images/File%2000002.jpeg" alt="">
+  <img src="images/File%2000003.jpeg" alt="">
+  <img src="images/File%2000004.jpeg" alt="">
+  <img src="images/File%2000005.jpeg" alt="">
+  <img src="images/File%2000006.jpeg" alt="">
+  <img src="images/File%2000007.jpeg" alt="">
+  <img src="images/File%2000008.jpeg" alt="">
+  <img src="images/File%2000009.jpeg" alt="">
+  <img src="images/File%2000010.jpeg" alt="">
+  <img src="images/File%2000011.jpeg" alt="">
+  <img src="images/File%2000012.jpeg" alt="">
+  <img src="images/File%2000013.jpeg" alt="">
+  <img src="images/File%2000014.jpeg" alt="">
+  <img src="images/File%2000015.jpeg" alt="">
+  <img src="images/File%2000016.jpeg" alt="">
+  <img src="images/File%2000017.jpeg" alt="">
+  <img src="images/File%2000018.jpeg" alt="">
+  <img src="images/File%2000019.jpeg" alt="">
+  <img src="images/File%2000020.jpeg" alt="">
+  <img src="images/File%2000021.jpeg" alt="">
+  <img src="images/File%2000022.jpeg" alt="">
+  <img src="images/File%2000023.jpeg" alt="">
+  <img src="images/File%2000024.jpeg" alt="">
+  <img src="images/File%2000025.jpeg" alt="">
+  <img src="images/File%2000026.jpeg" alt="">
+  <img src="images/File%2000027.jpeg" alt="">
+  <img src="images/File%2000028.jpeg" alt="">
+  <img src="images/File%2000029.jpeg" alt="">
+  <img src="images/File%2000030.jpeg" alt="">
+  <img src="images/File%2000031.jpeg" alt="">
+  <img src="images/File%2000032.jpeg" alt="">
+  <img src="images/File%2000033.jpeg" alt="">
+  <img src="images/File%2000034.jpeg" alt="">
+  <img src="images/File%2000035.jpeg" alt="">
+  <img src="images/File%2000036.jpeg" alt="">
+  <img src="images/File%2000037.jpeg" alt="">
+  <img src="images/File%2000038.jpeg" alt="">
+  <img src="images/File%2000039.jpeg" alt="">
+  <img src="images/File%2000040.jpeg" alt="">
+  <img src="images/File%2000041.jpeg" alt="">
+  <img src="images/File%2000042.jpeg" alt="">
+  <img src="images/File%2000043.jpeg" alt="">
+  <img src="images/File%2000044.jpeg" alt="">
+  <img src="images/File%2000045.jpeg" alt="">
+  <img src="images/File%2000046.jpeg" alt="">
+  <img src="images/File%2000047.jpeg" alt="">
+  <img src="images/File%2000048.jpeg" alt="">
+  <img src="images/File%2000049.jpeg" alt="">
+  <img src="images/File%2000050.jpeg" alt="">
+  <img src="images/File%2000051.jpeg" alt="">
+  <img src="images/File%2000052.jpeg" alt="">
+  <img src="images/File%2000053.jpeg" alt="">
+  <img src="images/File%2000054.jpeg" alt="">
+  <img src="images/File%2000055.jpeg" alt="">
+  <img src="images/File%2000056.jpeg" alt="">
+  <img src="images/File%2000057.jpeg" alt="">
+  <img src="images/File%2000058.jpeg" alt="">
+  <img src="images/File%2000059.jpeg" alt="">
+  <img src="images/File%2000060.jpeg" alt="">
+  <img src="images/File%2000061.jpeg" alt="">
+  <img src="images/File%2000062.jpeg" alt="">
+  <img src="images/File%2000063.jpeg" alt="">
+  <img src="images/File%2000064.jpeg" alt="">
+  <img src="images/File%2000065.jpeg" alt="">
+  <img src="images/File%2000066.jpeg" alt="">
+  <img src="images/File%2000067.jpeg" alt="">
+  <img src="images/File%2000068.jpeg" alt="">
+  <img src="images/File%2000069.jpeg" alt="">
+  <img src="images/File%2000070.jpeg" alt="">
+  <img src="images/File%2000071.jpeg" alt="">
+  <img src="images/File%2000072.jpeg" alt="">
+  <img src="images/File%2000073.jpeg" alt="">
+  <img src="images/File%2000074.jpeg" alt="">
+  <img src="images/File%2000075.jpeg" alt="">
+  <img src="images/File%2000076.jpeg" alt="">
+  <img src="images/File%2000077.jpeg" alt="">
+  <img src="images/File%2000078.jpeg" alt="">
+  <img src="images/File%2000079.jpeg" alt="">
+  <img src="images/File%2000080.jpeg" alt="">
+  <img src="images/File%2000081.jpeg" alt="">
+  <img src="images/File%2000082.jpeg" alt="">
+  <img src="images/File%2000083.jpeg" alt="">
+  <img src="images/File%2000084.jpeg" alt="">
+  <img src="images/File%2000085.jpeg" alt="">
+  <img src="images/File%2000086.jpeg" alt="">
+  <img src="images/File%2000087.jpeg" alt="">
+  <img src="images/File%2000088.jpeg" alt="">
+  <img src="images/File%2000089.jpeg" alt="">
+  <img src="images/File%2000090.jpeg" alt="">
+  <img src="images/File%2000091.jpeg" alt="">
+  <img src="images/File%2000092.jpeg" alt="">
+  <img src="images/File%2000093.jpeg" alt="">
+  <img src="images/File%2000094.jpeg" alt="">
+  <img src="images/File%2000095.jpeg" alt="">
+  <img src="images/File%2000096.jpeg" alt="">
+  <img src="images/File%2000097.jpeg" alt="">
+  <img src="images/File%2000098.jpeg" alt="">
+  <img src="images/File%2000099.jpeg" alt="">
+  <img src="images/File%2000100.jpeg" alt="">
+  <img src="images/File%2000101.jpeg" alt="">
+  <img src="images/File%2000102.jpeg" alt="">
+  <img src="images/File%2000103.jpeg" alt="">
+  <img src="images/File%2000104.jpeg" alt="">
+  <img src="images/File%2000105.jpeg" alt="">
+  <img src="images/File%2000106.jpeg" alt="">
+  <img src="images/File%2000107.jpeg" alt="">
+  <img src="images/File%2000108.jpeg" alt="">
+  <img src="images/File%2000109.jpeg" alt="">
+  <img src="images/File%2000110.jpeg" alt="">
+  <img src="images/File%2000111.jpeg" alt="">
+  <img src="images/File%2000112.jpeg" alt="">
+  <img src="images/File%2000113.jpeg" alt="">
+  <img src="images/File%2000114.jpeg" alt="">
+  <img src="images/File%2000115.jpeg" alt="">
+  <img src="images/File%2000116.jpeg" alt="">
+  <img src="images/File%2000117.jpeg" alt="">
+  <img src="images/File%2000118.jpeg" alt="">
+  <img src="images/File%2000119.jpeg" alt="">
+  <img src="images/File%2000120.jpeg" alt="">
+  <img src="images/File%2000121.jpeg" alt="">
+  <img src="images/File%2000122.jpeg" alt="">
+  <img src="images/File%2000123.jpeg" alt="">
+  <img src="images/File%2000124.jpeg" alt="">
+  <img src="images/File%2000125.jpeg" alt="">
+  <img src="images/File%2000126.jpeg" alt="">
+  <img src="images/File%2000127.jpeg" alt="">
+  <img src="images/File%2000128.jpeg" alt="">
+  <img src="images/File%2000129.jpeg" alt="">
+  <img src="images/File%2000130.jpeg" alt="">
+  <img src="images/File%2000131.jpeg" alt="">
+  <img src="images/File%2000132.jpeg" alt="">
+  <img src="images/File%2000133.jpeg" alt="">
+  <img src="images/File%2000134.jpeg" alt="">
+  <img src="images/File%2000135.jpeg" alt="">
+  <img src="images/File%2000136.jpeg" alt="">
+  <img src="images/File%2000137.jpeg" alt="">
+  <img src="images/File%2000138.jpeg" alt="">
 </div>
 
 <div class="lb" id="lb">
   <span class="close" id="x">&times;</span>
   <img id="lbimg" alt="">
-  <div class="toolbar" id="toolbar">
-    <a id="purchaseBtn" href="#" target="_blank" rel="noopener" class="purchase-btn">Purchase</a>
-  </div>
 </div>
 
 <footer style="text-align:center;margin:40px 0 10px;opacity:.8;font-size:14px;letter-spacing:.2px">
@@ -226,49 +210,31 @@
     });
 
     // Lightbox + arrow key nav
-    const lb       = document.getElementById('lb');
-    const lbimg    = document.getElementById('lbimg');
+    const lb = document.getElementById('lb');
+    const lbimg = document.getElementById('lbimg');
     const closeBtn = document.getElementById('x');
-
-    // Purchase UI
-    const toolbar     = document.getElementById('toolbar');
-    const purchaseBtn = document.getElementById('purchaseBtn');
-
     let current = 0;
 
+    // Choose best source (uses src; add data-full later if you ever want hi-res on click)
     function bestSrc(el){ return el.dataset.full || el.src; }
-
-    function updatePurchaseFor(img){
-      const url = img.dataset.purchaseUrl;
-      if (url){
-        purchaseBtn.href = url;
-        toolbar.style.display = 'flex';
-      } else {
-        purchaseBtn.removeAttribute('href');
-        toolbar.style.display = 'none';
-      }
-    }
 
     items.forEach((img, idx) => {
       img.addEventListener('click', () => {
         current = idx;
         lb.style.display = 'flex';
         lbimg.src = bestSrc(img);
-        updatePurchaseFor(img);
-        document.body.classList.add('noscroll');
+        document.body.classList.add('noscroll'); // lock scroll
       });
     });
 
     function showAt(i){
       current = (i + items.length) % items.length;
-      const img = items[current];
-      lbimg.src = bestSrc(img);
-      updatePurchaseFor(img);
+      lbimg.src = bestSrc(items[current]);
     }
 
     function closeLB(){
       lb.style.display = 'none';
-      document.body.classList.remove('noscroll');
+      document.body.classList.remove('noscroll'); // unlock scroll
     }
 
     closeBtn.addEventListener('click', closeLB);
