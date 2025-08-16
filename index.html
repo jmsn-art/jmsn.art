@@ -29,6 +29,9 @@
 
   /* Lock background scroll when lightbox open */
   .noscroll{overflow:hidden}
+
+  footer{text-align:center;margin:40px 0 10px;opacity:.8;font-size:14px;letter-spacing:.2px}
+  footer a{color:#fff;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -179,9 +182,10 @@
   <img id="lbimg" alt="">
 </div>
 
-<footer style="text-align:center;margin:40px 0 10px;opacity:.8;font-size:14px;letter-spacing:.2px">
+<footer>
   © 2025 Jameson McShane · 
-  <a href="contact.html" style="color:#fff;text-decoration:underline">Contact</a>
+  <a href="about.html" style="margin-right:10px">About</a>
+  <a href="contact.html">Contact</a>
 </footer>
 
 <script>
@@ -215,7 +219,6 @@
     const closeBtn = document.getElementById('x');
     let current = 0;
 
-    // Choose best source (uses src; add data-full later if you ever want hi-res on click)
     function bestSrc(el){ return el.dataset.full || el.src; }
 
     items.forEach((img, idx) => {
@@ -223,7 +226,7 @@
         current = idx;
         lb.style.display = 'flex';
         lbimg.src = bestSrc(img);
-        document.body.classList.add('noscroll'); // lock scroll
+        document.body.classList.add('noscroll');
       });
     });
 
@@ -234,7 +237,7 @@
 
     function closeLB(){
       lb.style.display = 'none';
-      document.body.classList.remove('noscroll'); // unlock scroll
+      document.body.classList.remove('noscroll');
     }
 
     closeBtn.addEventListener('click', closeLB);
