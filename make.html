@@ -4,270 +4,307 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Make an Art Circle – jmsn.art</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://jmsn.art/make.html">
+
+  <!-- SEO -->
+  <meta name="description" content="Create your own minimal Art Circle: adjust radius, broken gap, glow, colors, and download a PNG.">
+  <meta name="author" content="Jameson McShane">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Make an Art Circle – jmsn.art">
+  <meta property="og:description" content="Interactive canvas to design minimal Art Circles with a broken halo.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jmsn.art/make.html">
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCGF');
+  </script>
+
   <style>
-    :root { --bg:#111; --fg:#fff; --gold:#d4af37; }
-    html, body { height:100%; }
-    body {
+    :root{
+      --bg:#111; --fg:#fff; --muted:#9a9a9a; --panel:#181818; --line:#2a2a2a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
       margin:0; background:var(--bg); color:var(--fg);
-      font-family: Arial, Helvetica, sans-serif; display:flex; flex-direction:column;
+      font-family:Arial,Helvetica,sans-serif; line-height:1.35;
+      display:flex; flex-direction:column;
     }
-    header, footer {
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:14px 18px; font-size:14px; opacity:.9;
+    header,footer{
+      padding:14px 18px; opacity:.9;
+      display:flex; align-items:center; justify-content:space-between;
     }
-    header a, footer a { color:var(--fg); text-decoration:underline; }
-    .wrap {
-      flex:1; display:flex; align-items:center; justify-content:center; padding:10px;
+    header a, footer a{color:var(--fg); text-decoration:underline}
+    .wrap{
+      display:grid; grid-template-columns:1fr; gap:14px; padding:14px;
     }
-    .panel {
-      width:min(92vw, 980px);
-      display:grid; grid-template-columns:1fr; gap:14px;
-      align-items:center; justify-items:center;
+    .canvas-wrap{
+      background:#0d0d0d; border:1px solid var(--line); border-radius:10px;
+      display:flex; align-items:center; justify-content:center; min-height:50vh;
     }
-    .controls {
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+    canvas{max-width:100%; height:auto; background:transparent}
+    .controls{
+      background:var(--panel); border:1px solid var(--line); border-radius:12px;
+      padding:12px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;
     }
-    button {
-      background:#222; color:#fff; border:1px solid #333; border-radius:10px;
-      padding:10px 14px; cursor:pointer; letter-spacing:.3px;
-      box-shadow:0 4px 12px rgba(0,0,0,.4); transition:transform .12s ease, background .2s ease;
+    .grp{display:flex; flex-direction:column; gap:6px}
+    .grp label{font-size:.9rem; color:var(--muted)}
+    .row{display:flex; gap:8px; align-items:center}
+    input[type="range"]{width:100%}
+    button{
+      background:#1b1b1b; color:#fff; border:1px solid var(--line);
+      padding:10px 12px; border-radius:999px; cursor:pointer;
     }
-    button:hover { transform:translateY(-1px); background:#1a1a1a; }
-    svg {
-      width:min(92vw, 900px); height:auto; border-radius:12px;
-      box-shadow:0 10px 30px rgba(0,0,0,.6);
-      background:#0b0b0b;
+    button:hover{border-color:#777}
+    .inline{display:flex; gap:10px; flex-wrap:wrap}
+    .hint{font-size:.85rem; color:var(--muted)}
+    @media (min-width: 980px){
+      .wrap{grid-template-columns:1fr 360px}
+      .controls{grid-template-columns:1fr}
     }
-    /* subtle appear animation */
-    .fade-in { animation: fade .7s ease forwards; opacity:0; }
-    @keyframes fade { to { opacity:1 } }
-    /* tiny helper text */
-    .hint { opacity:.7; font-size:12px; text-align:center; }
   </style>
 </head>
 <body>
   <header>
-    <a href="/">← Back to Gallery</a>
     <div>Make an Art Circle</div>
-    <div style="width:80px"></div>
+    <nav class="inline">
+      <a href="/">Gallery</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
   </header>
 
-  <div class="wrap">
-    <div class="panel">
-      <div class="controls">
-        <button id="makeBtn">Make an Art Circle</button>
-        <button id="saveSvgBtn" title="Download as SVG">Save SVG</button>
+  <main class="wrap">
+    <section class="canvas-wrap">
+      <!-- High-res drawing surface; scaled for crisp export -->
+      <canvas id="art" width="1600" height="1600" aria-label="Art Circle canvas"></canvas>
+    </section>
+
+    <aside class="controls" aria-label="Art Circle controls">
+      <div class="grp">
+        <label for="bg">Background</label>
+        <div class="row">
+          <input type="color" id="bg" value="#111111" />
+          <span class="hint">Page background</span>
+        </div>
       </div>
-      <div id="stage" aria-live="polite"></div>
-      <div class="hint">Tip: press <kbd>R</kbd> to generate again.</div>
-    </div>
-  </div>
+
+      <div class="grp">
+        <label for="stroke">Circle Stroke Color</label>
+        <div class="row">
+          <input type="color" id="stroke" value="#d4af37" />
+          <span class="hint">Gold by default</span>
+        </div>
+      </div>
+
+      <div class="grp">
+        <label for="fill">Glow / Fill Color</label>
+        <div class="row">
+          <input type="color" id="fill" value="#d4af37" />
+          <span class="hint">Used for glow + optional fill</span>
+        </div>
+      </div>
+
+      <div class="grp">
+        <label>Radii</label>
+        <div class="row"><input type="range" id="outerR" min="200" max="750" value="520"><span class="hint">Outer radius</span></div>
+        <div class="row"><input type="range" id="innerR" min="0" max="400" value="0"><span class="hint">Inner radius (0 = ring)</span></div>
+      </div>
+
+      <div class="grp">
+        <label>Stroke & Glow</label>
+        <div class="row"><input type="range" id="strokeW" min="1" max="80" value="12"><span class="hint">Stroke width</span></div>
+        <div class="row"><input type="range" id="glow" min="0" max="80" value="28"><span class="hint">Glow strength</span></div>
+      </div>
+
+      <div class="grp">
+        <label>Broken Gap & Rotation</label>
+        <div class="row"><input type="range" id="gap" min="0" max="180" value="40"><span class="hint">Gap (degrees)</span></div>
+        <div class="row"><input type="range" id="rot" min="0" max="359" value="0"><span class="hint">Rotate (°)</span></div>
+      </div>
+
+      <div class="grp">
+        <label>Texture Speckle</label>
+        <div class="row"><input type="range" id="speckle" min="0" max="2000" value="250"><span class="hint">0 = off</span></div>
+      </div>
+
+      <div class="grp">
+        <label>Actions</label>
+        <div class="inline">
+          <button id="random">Randomize (R)</button>
+          <button id="download">Download PNG (D)</button>
+          <button id="clear">Reset</button>
+        </div>
+        <div class="hint">Tips: ←/→ rotate, R randomize, D download</div>
+      </div>
+    </aside>
+  </main>
 
   <footer>
-    <span>© 2025 Jameson McShane</span>
-    <a href="about.html">About</a>
+    © 2025 Jameson McShane · <a href="/">jmsn.art</a>
   </footer>
 
   <script>
-    // Utilities
-    const rand = (min, max) => Math.random() * (max - min) + min;
-    const randInt = (min, max) => Math.floor(rand(min, max + 1));
-    const choice = arr => arr[randInt(0, arr.length - 1)];
+    const $ = id => document.getElementById(id);
+    const cfg = {
+      bg:   $('bg'), stroke: $('stroke'), fill: $('fill'),
+      outerR:$('outerR'), innerR:$('innerR'), strokeW:$('strokeW'),
+      glow: $('glow'), gap: $('gap'), rot: $('rot'), speckle:$('speckle'),
+      random:$('random'), download:$('download'), clear:$('clear'),
+      canvas:$('art')
+    };
+    const ctx = cfg.canvas.getContext('2d');
 
-    function makeSVGArt() {
-      const size = 900;
-      const svgNS = "http://www.w3.org/2000/svg";
-      const svg = document.createElementNS(svgNS, "svg");
-      svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
-      svg.setAttribute("role", "img");
-      svg.setAttribute("aria-label", "Generated art circle composition");
-      svg.classList.add('fade-in');
+    function hsla(h,s,l,a=1){ return `hsla(${h} ${s}% ${l}% / ${a})`; }
 
-      const defs = document.createElementNS(svgNS, "defs");
+    function resizeToDisplay() {
+      // Fit canvas to container CSS size while keeping internal 1600x1600 resolution
+      const box = cfg.canvas.parentElement.getBoundingClientRect();
+      const side = Math.min(box.width, box.height || box.width);
+      cfg.canvas.style.width = side + 'px';
+      cfg.canvas.style.height = side + 'px';
+    }
+    window.addEventListener('resize', resizeToDisplay);
 
-      // Soft glow filter
-      const filter = document.createElementNS(svgNS, "filter");
-      filter.setAttribute("id", "glow");
-      const fe = document.createElementNS(svgNS, "feGaussianBlur");
-      fe.setAttribute("stdDeviation", "2.2");
-      fe.setAttribute("result", "coloredBlur");
-      filter.appendChild(fe);
-
-      const feMerge = document.createElementNS(svgNS, "feMerge");
-      ["coloredBlur", "SourceGraphic"].forEach(inp => {
-        const feMNode = document.createElementNS(svgNS, "feMergeNode");
-        feMNode.setAttribute("in", inp);
-        feMerge.appendChild(feMNode);
-      });
-      filter.appendChild(feMerge);
-      defs.appendChild(filter);
-
-      // Gold gradient (slight)
-      const grad = document.createElementNS(svgNS, "radialGradient");
-      grad.setAttribute("id", "gold");
-      grad.setAttribute("cx", "50%"); grad.setAttribute("cy", "50%");
-      grad.setAttribute("r", "60%");
-      const stops = [
-        ["0%",   "#f6e27a"],
-        ["35%",  "#e7c96a"],
-        ["70%",  "#d4af37"],
-        ["100%", "#a98a26"]
-      ];
-      stops.forEach(([off, col]) => {
-        const s = document.createElementNS(svgNS, "stop");
-        s.setAttribute("offset", off); s.setAttribute("stop-color", col);
-        grad.appendChild(s);
-      });
-      defs.appendChild(grad);
-
-      // Subtle vignette
-      const vignette = document.createElementNS(svgNS, "radialGradient");
-      vignette.setAttribute("id", "vignette");
-      vignette.setAttribute("cx", "50%"); vignette.setAttribute("cy", "50%");
-      vignette.setAttribute("r", "70%");
-      const vStops = [
-        ["70%", "rgba(0,0,0,0)"],
-        ["100%", "rgba(0,0,0,0.45)"]
-      ];
-      vStops.forEach(([off, col]) => {
-        const s = document.createElementNS(svgNS, "stop");
-        s.setAttribute("offset", off); s.setAttribute("stop-color", col);
-        vignette.appendChild(s);
-      });
-      defs.appendChild(vignette);
-
-      svg.appendChild(defs);
-
-      // Background
-      const bg = document.createElementNS(svgNS, "rect");
-      bg.setAttribute("x", 0); bg.setAttribute("y", 0);
-      bg.setAttribute("width", size); bg.setAttribute("height", size);
-      bg.setAttribute("fill", "#0b0b0b");
-      svg.appendChild(bg);
-
-      // Center
-      const cx = size/2, cy = size/2;
-
-      // Draw a stack of broken rings
-      const ringCount = randInt(3, 6);
-      for (let i = 0; i < ringCount; i++) {
-        const radius = rand(120, 360) + i * rand(18, 26);
-        const strokeW = rand(3, 12);
-
-        // Use a circle with stroke-dasharray to create "broken" segments
-        const circ = document.createElementNS(svgNS, "circle");
-        circ.setAttribute("cx", cx);
-        circ.setAttribute("cy", cy);
-        circ.setAttribute("r", radius.toFixed(2));
-        circ.setAttribute("fill", "none");
-        circ.setAttribute("stroke", "url(#gold)");
-        circ.setAttribute("stroke-width", strokeW.toFixed(2));
-        const dash = rand(18, 90).toFixed(1);
-        const gap  = rand(30, 160).toFixed(1);
-        circ.setAttribute("stroke-dasharray", `${dash} ${gap}`);
-        circ.setAttribute("transform", `rotate(${rand(0,360).toFixed(1)} ${cx} ${cy})`);
-        circ.setAttribute("filter", "url(#glow)");
-        svg.appendChild(circ);
-      }
-
-      // Optional branching lines inside (subtle, low opacity)
-      const branchCount = randInt(5, 12);
-      for (let i = 0; i < branchCount; i++) {
-        const angle = rand(0, Math.PI * 2);
-        const len = rand(80, 220);
-        const x1 = cx + Math.cos(angle) * rand(0, 40);
-        const y1 = cy + Math.sin(angle) * rand(0, 40);
-        const x2 = cx + Math.cos(angle + rand(-0.35, 0.35)) * (len + rand(-20, 30));
-        const y2 = cy + Math.sin(angle + rand(-0.35, 0.35)) * (len + rand(-20, 30));
-
-        const path = document.createElementNS(svgNS, "path");
-        const mx = (x1 + x2) / 2 + rand(-30, 30);
-        const my = (y1 + y2) / 2 + rand(-30, 30);
-        path.setAttribute("d", `M ${x1.toFixed(1)} ${y1.toFixed(1)} Q ${mx.toFixed(1)} ${my.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`);
-        path.setAttribute("stroke", "url(#gold)");
-        path.setAttribute("stroke-width", rand(0.6, 2.0).toFixed(2));
-        path.setAttribute("stroke-linecap", "round");
-        path.setAttribute("fill", "none");
-        path.setAttribute("opacity", rand(0.15, 0.5).toFixed(2));
-        svg.appendChild(path);
-      }
-
-      // Central halo (solid with a gap via stroke-dasharray)
-      const halo = document.createElementNS(svgNS, "circle");
-      halo.setAttribute("cx", cx);
-      halo.setAttribute("cy", cy);
-      halo.setAttribute("r", rand(70, 140).toFixed(1));
-      halo.setAttribute("fill", "none");
-      halo.setAttribute("stroke", "url(#gold)");
-      halo.setAttribute("stroke-width", rand(6, 12).toFixed(1));
-      halo.setAttribute("stroke-dasharray", `${rand(60,140).toFixed(1)} ${rand(80,190).toFixed(1)}`);
-      halo.setAttribute("transform", `rotate(${rand(0,360).toFixed(1)} ${cx} ${cy})`);
-      halo.setAttribute("filter", "url(#glow)");
-      svg.appendChild(halo);
-
-      // Star dust: a few faint dots
-      const stars = randInt(12, 28);
-      for (let i = 0; i < stars; i++) {
-        const r = rand(1.0, 2.8);
-        const a = rand(0, Math.PI * 2);
-        const dist = rand(160, 410);
-        const x = cx + Math.cos(a) * dist;
-        const y = cy + Math.sin(a) * dist;
-        const dot = document.createElementNS(svgNS, "circle");
-        dot.setAttribute("cx", x.toFixed(1));
-        dot.setAttribute("cy", y.toFixed(1));
-        dot.setAttribute("r", r.toFixed(1));
-        dot.setAttribute("fill", "url(#gold)");
-        dot.setAttribute("opacity", rand(0.25, 0.6).toFixed(2));
-        svg.appendChild(dot);
-      }
-
-      // Vignette overlay
-      const vig = document.createElementNS(svgNS, "rect");
-      vig.setAttribute("x", 0); vig.setAttribute("y", 0);
-      vig.setAttribute("width", size); vig.setAttribute("height", size);
-      vig.setAttribute("fill", "url(#vignette)");
-      svg.appendChild(vig);
-
-      return svg;
+    function clear() {
+      ctx.save();
+      ctx.fillStyle = cfg.bg.value;
+      ctx.fillRect(0,0,cfg.canvas.width,cfg.canvas.height);
+      ctx.restore();
     }
 
-    function render() {
-      const stage = document.getElementById("stage");
-      stage.innerHTML = "";
-      stage.appendChild(makeSVGArt());
+    function drawSpeckle(amount) {
+      if (amount <= 0) return;
+      const w = cfg.canvas.width, h = cfg.canvas.height;
+      ctx.save();
+      ctx.globalAlpha = 0.08;
+      ctx.fillStyle = '#000';
+      for (let i=0;i<amount;i++){
+        const x = Math.random()*w, y=Math.random()*h;
+        const r = Math.random()*1.4;
+        ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+      }
+      ctx.restore();
     }
 
-    // Actions
-    document.getElementById("makeBtn").addEventListener("click", render);
-    document.addEventListener("keydown", (e) => {
-      if (e.key.toLowerCase() === "r") render();
-    });
+    function draw() {
+      clear();
+      const cx = cfg.canvas.width/2, cy = cfg.canvas.height/2;
 
-    // Save SVG
-    document.getElementById("saveSvgBtn").addEventListener("click", () => {
-      const svg = document.querySelector("#stage svg");
-      if (!svg) return;
-      const serializer = new XMLSerializer();
-      let source = serializer.serializeToString(svg);
+      const outerR = +cfg.outerR.value;
+      const innerR = +cfg.innerR.value; // 0 for ring
+      const strokeW = +cfg.strokeW.value;
+      const glow = +cfg.glow.value;
+      const gapDeg = +cfg.gap.value;
+      const rotDeg = +cfg.rot.value;
 
-      // Add namespace if missing
-      if (!source.match(/^<svg[^>]+xmlns=/)) {
-        source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      const start = ((rotDeg + gapDeg/2) * Math.PI)/180;
+      const end   = ((rotDeg + 360 - gapDeg/2) * Math.PI)/180;
+
+      // Outer ring (with gap)
+      ctx.save();
+      ctx.translate(cx, cy);
+
+      // Glow
+      ctx.shadowColor = cfg.fill.value;
+      ctx.shadowBlur = glow;
+
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = cfg.stroke.value;
+      ctx.lineWidth = strokeW;
+
+      ctx.beginPath();
+      ctx.arc(0,0,outerR, start, end, false);
+      ctx.stroke();
+
+      // Optional filled disk if innerR > 0
+      if (innerR > 0) {
+        ctx.shadowBlur = glow * 0.6;
+        ctx.fillStyle = cfg.fill.value;
+        ctx.beginPath();
+        ctx.arc(0,0,innerR,0,Math.PI*2);
+        ctx.fill();
       }
-      // Pretty filename with timestamp
-      const name = `art-circle-${Date.now()}.svg`;
-      const url = URL.createObjectURL(new Blob([source], {type: "image/svg+xml;charset=utf-8"}));
-      const link = Object.assign(document.createElement("a"), { href:url, download:name });
-      document.body.appendChild(link);
+      ctx.restore();
+
+      drawSpeckle(+cfg.speckle.value);
+    }
+
+    function randomize() {
+      // Dark background hues near black
+      const darks = ['#0f0f10','#101112','#0e0e0e','#111111'];
+      cfg.bg.value = darks[(Math.random()*darks.length)|0];
+
+      // Gold/amber/white strokes, occasionally icy
+      const palette = ['#d4af37','#f5e6a7','#ffffff','#f1c27d','#c9b037','#e6d8ad','#c0c0c0','#9ad7ff'];
+      const stroke = palette[(Math.random()*palette.length)|0];
+      cfg.stroke.value = stroke;
+      cfg.fill.value = stroke;
+
+      cfg.outerR.value = 420 + Math.floor(Math.random()*240);
+      cfg.innerR.value = (Math.random() < 0.25) ? 0 : 80 + Math.floor(Math.random()*200);
+      cfg.strokeW.value = 6 + Math.floor(Math.random()*36);
+      cfg.glow.value = 10 + Math.floor(Math.random()*60);
+      cfg.gap.value = Math.floor(Math.random()*140); // 0-140 deg gap
+      cfg.rot.value = Math.floor(Math.random()*360);
+      cfg.speckle.value = (Math.random()<0.5) ? Math.floor(Math.random()*800) : 0;
+
+      draw();
+    }
+
+    function downloadPNG() {
+      // Create a temporary canvas without CSS scaling for crisp export
+      const link = document.createElement('a');
+      link.download = `art-circle-${Date.now()}.png`;
+      link.href = cfg.canvas.toDataURL('image/png');
       link.click();
-      link.remove();
-      URL.revokeObjectURL(url);
+    }
+
+    function resetAll() {
+      cfg.bg.value = '#111111';
+      cfg.stroke.value = '#d4af37';
+      cfg.fill.value = '#d4af37';
+      cfg.outerR.value = 520;
+      cfg.innerR.value = 0;
+      cfg.strokeW.value = 12;
+      cfg.glow.value = 28;
+      cfg.gap.value = 40;
+      cfg.rot.value = 0;
+      cfg.speckle.value = 250;
+      draw();
+    }
+
+    // Bind controls
+    ['bg','stroke','fill','outerR','innerR','strokeW','glow','gap','rot','speckle']
+      .forEach(id => $(id).addEventListener('input', draw));
+
+    cfg.random.addEventListener('click', randomize);
+    cfg.download.addEventListener('click', downloadPNG);
+    cfg.clear.addEventListener('click', resetAll);
+
+    // Keys: R randomize, D download, arrows rotate
+    window.addEventListener('keydown', (e) => {
+      if (e.key==='r' || e.key==='R') { randomize(); }
+      if (e.key==='d' || e.key==='D') { downloadPNG(); }
+      if (e.key==='ArrowLeft')  { cfg.rot.value = (+cfg.rot.value + 357) % 360; draw(); }
+      if (e.key==='ArrowRight') { cfg.rot.value = (+cfg.rot.value + 3) % 360; draw(); }
     });
 
-    // First render on load
-    render();
+    // Init
+    resizeToDisplay();
+    resetAll();
+    window.addEventListener('resize', draw);
   </script>
 </body>
 </html>
