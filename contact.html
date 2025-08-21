@@ -62,7 +62,7 @@
       <div class="note">Heads up: this uses your device’s email app (no data stored on the site).</div>
       <div class="ok" id="okMsg">
         Opening your email app… if nothing happens, you can email me at
-        <a href="mailto:contact@jmsn.art">contact@jmsn.art</a>.
+        <a id="safeEmail" href="#">(click to reveal)</a>.
       </div>
     </form>
 
@@ -74,9 +74,16 @@
     const f = document.getElementById('contactForm');
     const ok = document.getElementById('okMsg');
     const btn = document.getElementById('sendBtn');
+    const safeEmail = document.getElementById('safeEmail');
+
+    // Build email dynamically (keeps it out of raw HTML)
+    const parts = ["contact","@","jmsn",".","art"];
+    const addr = parts.join("");
+    safeEmail.textContent = addr;
+    safeEmail.href = "mailto:" + addr;
 
     function valEmail(e){
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+      return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(e);
     }
 
     f.addEventListener('submit', function(e){
@@ -94,10 +101,10 @@
       btn.disabled = true;
 
       const body =
-        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+        `Name: ${name}\\nEmail: ${email}\\n\\nMessage:\\n${message}`;
 
       const mailto =
-        `mailto:contact@jmsn.art?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        `mailto:${addr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
       // Show hint and launch the user's email client
       ok.style.display = 'block';
