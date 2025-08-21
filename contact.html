@@ -15,7 +15,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Contact — jmsn.art</title>
   <style>
-    :root{--bg:#111;--fg:#fff;--muted:#ccc;--accent:#fff}
+    :root{--bg:#111;--fg:#fff;--muted:#ccc;--accent:#fff;--err:#ff6b6b}
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Arial,Helvetica,sans-serif;display:flex;min-height:100vh}
     .wrap{max-width:720px;margin:auto;padding:32px 20px;width:100%}
@@ -23,9 +23,12 @@
     p.sub{margin:0 0 24px;color:var(--muted)}
     form{display:grid;gap:14px}
     label span{display:block;font-size:13px;margin:0 0 6px;color:var(--muted)}
-    input,textarea{width:100%;padding:12px 14px;border:1px solid #2a2a2a;background:#151515;color:var(--fg);border-radius:10px;outline:none}
+    input,textarea{width:100%;padding:12px 14px;border:1px solid #2a2a2a;background:#151515;color:var(--fg);border-radius:10px;outline:none;transition:border-color .15s}
+    input.err,textarea.err{border-color:var(--err)}
     textarea{min-height:140px;resize:vertical}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .err-msg{display:none;font-size:12px;color:var(--err);margin-top:6px}
+    .err-msg.show{display:block}
     button{padding:12px 16px;border:0;border-radius:12px;background:var(--accent);color:#000;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35)}
     button:disabled{opacity:.6;cursor:not-allowed}
     .note{font-size:12px;color:var(--muted)}
@@ -43,20 +46,24 @@
       <div class="row">
         <label>
           <span>Your Name</span>
-          <input type="text" id="name" name="name" required placeholder="Jane Doe">
+          <input type="text" id="name" name="name" placeholder="Jane Doe">
+          <div class="err-msg" id="err-name">Please add your name.</div>
         </label>
         <label>
           <span>Your Email</span>
-          <input type="email" id="email" name="email" required placeholder="jane@example.com">
+          <input type="email" id="email" name="email" placeholder="jane@example.com">
+          <div class="err-msg" id="err-email">Please enter a valid email.</div>
         </label>
       </div>
       <label>
-        <span>Subject</span>
-        <input type="text" id="subject" name="subject" required placeholder="Hello from jmsn.art">
+        <span>Subject (optional)</span>
+        <input type="text" id="subject" name="subject" placeholder="Hello from jmsn.art">
+        <div class="err-msg" id="err-subject"></div>
       </label>
       <label>
         <span>Message</span>
-        <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
+        <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+        <div class="err-msg" id="err-message">Please add a message.</div>
       </label>
       <button type="submit" id="sendBtn">Send</button>
       <div class="note">Heads up: this uses your device’s email app (no data stored on the site).</div>
@@ -71,6 +78,8 @@
 
 <script>
   (function(){
+    console.log('contact inline-errors v1');
+
     const f = document.getElementById('contactForm');
     const ok = document.getElementById('okMsg');
     const btn = document.getElementById('sendBtn');
@@ -82,35 +91,65 @@
     safeEmail.textContent = addr;
     safeEmail.href = "mailto:" + addr;
 
+    // helpers
+    const $ = id => document.getElementById(id);
+    const setErr = (inputEl, errEl, msg) => {
+      if (msg) {
+        inputEl.classList.add('err');
+        errEl.textContent = msg;
+        errEl.classList.add('show');
+      } else {
+        inputEl.classList.remove('err');
+        errEl.classList.remove('show');
+      }
+    };
+    const clearAllErrs = () => {
+      document.querySelectorAll('.err-msg').forEach(n => n.classList.remove('show'));
+      document.querySelectorAll('input,textarea').forEach(n => n.classList.remove('err'));
+    };
+
     function valEmail(e){
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);  // FIXED regex
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+    }
+
+    // live validation on blur
+    ['name','email','message'].forEach(id=>{
+      $(id).addEventListener('blur', ()=> validate(false));
+    });
+
+    function validate(showAll=true){
+      clearAllErrs();
+      const name = $('name').value.trim();
+      const email = $('email').value.trim();
+      const message = $('message').value.trim();
+
+      let ok = true;
+      if (!name){ setErr($('name'), $('err-name'), 'Please add your name.'); ok = false; }
+      if (!email){ setErr($('email'), $('err-email'), 'Please enter your email.'); ok = false; }
+      else if (!valEmail(email)){ setErr($('email'), $('err-email'), 'Please enter a valid email.'); ok = false; }
+      if (!message){ setErr($('message'), $('err-message'), 'Please add a message.'); ok = false; }
+
+      return ok;
     }
 
     f.addEventListener('submit', function(e){
       e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const subject = document.getElementById('subject').value.trim() || 'Message from jmsn.art';
-      const message = document.getElementById('message').value.trim();
-
-      if(!name || !email || !message || !valEmail(email)){
-        alert('Please fill out your name, a valid email, and a message.');
-        return;
-      }
+      if (!validate()) return;
 
       btn.disabled = true;
 
-      const body =
-        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+      const name = $('name').value.trim();
+      const email = $('email').value.trim();
+      const subject = $('subject').value.trim() || 'Message from jmsn.art';
+      const message = $('message').value.trim();
 
-      const mailto =
-        `mailto:${addr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+      const mailto = `mailto:${addr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
       // Show hint and launch the user's email client
       ok.style.display = 'block';
       window.location.href = mailto;
 
-      // Re-enable after a moment in case user cancels compose window
       setTimeout(()=>{ btn.disabled = false; }, 2500);
     });
   })();
