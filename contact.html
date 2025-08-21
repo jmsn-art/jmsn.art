@@ -15,7 +15,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Contact — jmsn.art</title>
   <style>
-    :root{--bg:#111;--fg:#fff;--muted:#ccc;--accent:#fff;--err:#ff6b6b}
+    :root{--bg:#111;--fg:#fff;--muted:#ccc;--accent:#fff;--err:#ff6b6b;--ok:#4caf50}
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Arial,Helvetica,sans-serif;display:flex;min-height:100vh}
     .wrap{max-width:720px;margin:auto;padding:32px 20px;width:100%}
@@ -23,13 +23,31 @@
     p.sub{margin:0 0 24px;color:var(--muted)}
     form{display:grid;gap:14px}
     label span{display:block;font-size:13px;margin:0 0 6px;color:var(--muted)}
-    input,textarea{width:100%;padding:12px 14px;border:1px solid #2a2a2a;background:#151515;color:var(--fg);border-radius:10px;outline:none;transition:border-color .15s}
-    input.err,textarea.err{border-color:var(--err)}
+    input,textarea{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #2a2a2a;
+      background:#151515;
+      color:var(--fg);
+      border-radius:10px;
+      outline:none;
+      transition:border-color .3s ease, box-shadow .3s ease, background-position .3s ease;
+      background-repeat:no-repeat;
+      background-position:right 12px center;
+      background-size:18px 18px;
+    }
+    input.err,textarea.err{border-color:var(--err);box-shadow:0 0 6px rgba(255,107,107,.6);background-image:none}
+    input.ok-field,textarea.ok-field{
+      border-color:var(--ok);
+      box-shadow:0 0 6px rgba(76,175,80,.6);
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234caf50'><path d='M16.7 5.3a1 1 0 010 1.4l-7.8 7.8a1 1 0 01-1.4 0L3.3 10a1 1 0 011.4-1.4l3.2 3.2 7.1-7.1a1 1 0 011.4 0z'/></svg>");
+    }
     textarea{min-height:140px;resize:vertical}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .err-msg{display:none;font-size:12px;color:var(--err);margin-top:6px}
-    .err-msg.show{display:block}
-    button{padding:12px 16px;border:0;border-radius:12px;background:var(--accent);color:#000;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+    .err-msg{display:none;font-size:12px;color:var(--err);margin-top:6px;opacity:0;transition:opacity .3s ease}
+    .err-msg.show{display:block;opacity:1}
+    button{padding:12px 16px;border:0;border-radius:12px;background:var(--accent);color:#000;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:background .3s ease, transform .2s ease}
+    button:hover{transform:translateY(-1px)}
     button:disabled{opacity:.6;cursor:not-allowed}
     .note{font-size:12px;color:var(--muted)}
     .ok{display:none;margin-top:10px;font-size:14px}
@@ -78,7 +96,7 @@
 
 <script>
   (function(){
-    console.log('contact inline-errors v1');
+    console.log('contact inline-errors live v5');
 
     const f = document.getElementById('contactForm');
     const ok = document.getElementById('okMsg');
@@ -96,6 +114,7 @@
     const setErr = (inputEl, errEl, msg) => {
       if (msg) {
         inputEl.classList.add('err');
+        inputEl.classList.remove('ok-field');
         errEl.textContent = msg;
         errEl.classList.add('show');
       } else {
@@ -103,34 +122,38 @@
         errEl.classList.remove('show');
       }
     };
-    const clearAllErrs = () => {
-      document.querySelectorAll('.err-msg').forEach(n => n.classList.remove('show'));
-      document.querySelectorAll('input,textarea').forEach(n => n.classList.remove('err'));
+    const setOk = (inputEl) => {
+      inputEl.classList.remove('err');
+      inputEl.classList.add('ok-field');
     };
 
     function valEmail(e){
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
     }
 
-    // live validation on blur
-    ['name','email','message'].forEach(id=>{
-      $(id).addEventListener('blur', ()=> validate(false));
-    });
-
-    function validate(showAll=true){
-      clearAllErrs();
+    function validate(){
       const name = $('name').value.trim();
       const email = $('email').value.trim();
       const message = $('message').value.trim();
 
       let ok = true;
-      if (!name){ setErr($('name'), $('err-name'), 'Please add your name.'); ok = false; }
+      if (!name){ setErr($('name'), $('err-name'), 'Please add your name.'); ok = false; } 
+      else { setErr($('name'), $('err-name'), ''); setOk($('name')); }
+
       if (!email){ setErr($('email'), $('err-email'), 'Please enter your email.'); ok = false; }
       else if (!valEmail(email)){ setErr($('email'), $('err-email'), 'Please enter a valid email.'); ok = false; }
+      else { setErr($('email'), $('err-email'), ''); setOk($('email')); }
+
       if (!message){ setErr($('message'), $('err-message'), 'Please add a message.'); ok = false; }
+      else { setErr($('message'), $('err-message'), ''); setOk($('message')); }
 
       return ok;
     }
+
+    // live validation on typing
+    ['name','email','message'].forEach(id=>{
+      $(id).addEventListener('input', ()=> validate());
+    });
 
     f.addEventListener('submit', function(e){
       e.preventDefault();
