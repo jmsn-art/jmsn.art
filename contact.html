@@ -83,7 +83,7 @@
     safeEmail.href = "mailto:" + addr;
 
     function valEmail(e){
-      return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(e);
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);  // FIXED regex
     }
 
     f.addEventListener('submit', function(e){
@@ -101,7 +101,7 @@
       btn.disabled = true;
 
       const body =
-        `Name: ${name}\\nEmail: ${email}\\n\\nMessage:\\n${message}`;
+        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
 
       const mailto =
         `mailto:${addr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
