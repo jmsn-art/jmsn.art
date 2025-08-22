@@ -119,21 +119,36 @@
     opacity:1;
   }
 
-  /* Lightbox */
+  /* Lightbox (slower fade) */
   .lb {
-    display:none;
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.92);
     z-index:9999;
     align-items:center;
     justify-content:center;
+
+    /* fade system */
+    display:flex;            /* keep in flow */
+    opacity:0;               /* hidden by default */
+    pointer-events:none;     /* ignore clicks when hidden */
+    transition:opacity .45s ease;
+  }
+  .lb.open {
+    opacity:1;
+    pointer-events:auto;
   }
   .lb img {
     display:block;
     max-width:92%;
     max-height:80vh;
+
+    /* slower image fade */
+    opacity:0;
+    transition:opacity .7s ease .12s;
   }
+  .lb.open img { opacity:1; }
+
   .close {
     position:fixed;
     top:14px;
@@ -160,6 +175,11 @@
   footer a {
     color:#fff;
     text-decoration:underline;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .lb, .lb img { transition:none; }
   }
 </style>
 
@@ -222,16 +242,16 @@
   <!-- <img src="images/File%2000048.jpeg" alt="Dove of the Suburban Crosswalk by Jameson McShane"> -->
   <img src="images/File%2000049.jpeg" alt="Dusk Over Farm and Silo by Jameson McShane">
   <!-- <img src="images/File%2000050.jpeg" alt="Elegant Couple in Front of Art by Jameson McShane"> -->
-  <img src="images/File%2000051.jpeg" alt="Enso Circle of Ants by Jameson McShane">
-  <img src="images/File%2000052.jpeg" alt="Ethereal Figures with Ornate Halos by Jameson McShane">
-  <img src="images/File%2000053.jpeg" alt="Ethereal Haloes Figure in Soft Hues by Jameson McShane">
-  <img src="images/File%2000054.jpeg" alt="Fierce Wolf with Golden Dreamcatcher by Jameson McShane">
-  <img src="images/File%2000055.jpeg" alt="Fleeing Though the Storm by Jameson McShane">
-  <img src="images/File%2000056.jpeg" alt="Gleaming Skull with Halo and Hand by Jameson McShane">
-  <img src="images/File%2000057.jpeg" alt="Glowing Arc of Ember Light by Jameson McShane">
-  <img src="images/File%2000058.jpeg" alt="Glowing Fireflies in Dark Night by Jameson McShane">
-  <img src="images/File%2000059.jpeg" alt="Gold Spiral on Pink Pastel by Jameson McShane">
-  <img src="images/File%2000060.jpeg" alt="Golden Agricultural Patchwork by Jameson McShane">
+  <img src="images/File%2000051.jpeg" alt="">
+  <img src="images/File%2000052.jpeg" alt="">
+  <img src="images/File%2000053.jpeg" alt="">
+  <img src="images/File%2000054.jpeg" alt="">
+  <img src="images/File%2000055.jpeg" alt="">
+  <img src="images/File%2000056.jpeg" alt="">
+  <img src="images/File%2000057.jpeg" alt="">
+  <img src="images/File%2000058.jpeg" alt="">
+  <img src="images/File%2000059.jpeg" alt="">
+  <img src="images/File%2000060.jpeg" alt="">
   <img src="images/File%2000061.jpeg" alt="">
   <img src="images/File%2000062.jpeg" alt="">
   <!-- <img src="images/File%2000063.jpeg" alt=""> -->
@@ -361,10 +381,10 @@
     items.forEach((img, idx) => {
       img.addEventListener('click', () => {
         current = idx;
-        lb.style.display = 'flex';
         lbimg.decoding = 'async';
         lbimg.setAttribute('fetchpriority','high');
         lbimg.src = bestSrc(img);
+        lb.classList.add('open');            // slower fade-in
         document.body.classList.add('noscroll');
       });
     });
@@ -375,7 +395,7 @@
     }
 
     function closeLB(){
-      lb.style.display = 'none';
+      lb.classList.remove('open');           // slower fade-out
       document.body.classList.remove('noscroll');
     }
 
@@ -383,7 +403,7 @@
     lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
 
     document.addEventListener('keydown', e => {
-      if (lb.style.display === 'flex') {
+      if (lb.classList.contains('open')) {   // updated guard
         if (e.key === 'ArrowRight') showAt(current + 1);
         if (e.key === 'ArrowLeft')  showAt(current - 1);
         if (e.key === 'Escape')     closeLB();
