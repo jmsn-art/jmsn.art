@@ -426,7 +426,6 @@ body {
       img.loading = idx === 0 ? 'eager' : 'lazy';
       img.decoding = 'async';
       img.setAttribute('fetchpriority', idx === 0 ? 'high' : 'low');
-      // smooth fade-in when each image finishes
       img.addEventListener('load', () => img.classList.add('lazy-loaded'));
     });
 
@@ -443,7 +442,7 @@ body {
       gallery.appendChild(img);
     });
 
-    // Lightbox + arrow key nav
+    // Lightbox
     const lb = document.getElementById('lb');
     const lbimg = document.getElementById('lbimg');
     const closeBtn = document.getElementById('x');
@@ -457,7 +456,7 @@ body {
         lbimg.decoding = 'async';
         lbimg.setAttribute('fetchpriority','high');
         lbimg.src = bestSrc(img);
-        lb.classList.add('open');            // slower fade-in
+        lb.classList.add('open');
         document.body.classList.add('noscroll');
       });
     });
@@ -468,7 +467,7 @@ body {
     }
 
     function closeLB(){
-      lb.classList.remove('open');           // slower fade-out
+      lb.classList.remove('open');
       document.body.classList.remove('noscroll');
     }
 
@@ -476,20 +475,22 @@ body {
     lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
 
     document.addEventListener('keydown', e => {
-      if (lb.classList.contains('open')) {   // updated guard
+      if (lb.classList.contains('open')) {
         if (e.key === 'ArrowRight') showAt(current + 1);
         if (e.key === 'ArrowLeft')  showAt(current - 1);
         if (e.key === 'Escape')     closeLB();
       }
     });
-  });
-  const toggleBtn = document.getElementById('theme-toggle');
-toggleBtn.addEventListener('click', () => {
-  const root = document.documentElement;
-  const isLight = root.classList.toggle('light');
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
-});
 
+    // ✅ Theme toggle: now safe inside DOMContentLoaded
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+      const root = document.documentElement;
+      const isLight = root.classList.toggle('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  });
 </script>
+
 </body>
 </html>
