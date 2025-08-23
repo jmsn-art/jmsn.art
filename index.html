@@ -7,6 +7,16 @@
 <!-- (Optional) Google Search Console verification -->
 <meta name="google-site-verification" content="DCp-0ee_YelzAvSTWw4qI5o1S_DTUAVLVQi88xirPj0" />
 
+  <script>
+  // Check for saved preference or system default
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+    document.documentElement.classList.add('light');
+  }
+</script>
+
+
 <!-- JSON-LD: Site + Artist -->
 <script type="application/ld+json">
 {
@@ -84,6 +94,33 @@
   </script>
 
 <style>
+  :root {
+  --bg: #111;
+  --fg: #fff;
+  --muted: #ccc;
+  --accent: #fff;
+}
+
+:root.light {
+  --bg: #f5f5f5;
+  --fg: #111;
+  --muted: #444;
+  --accent: #111;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* Update links and shadows if needed */
+.gallery img {
+  box-shadow: 0 4px 12px rgba(0,0,0,.5);
+}
+:root.light .gallery img {
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
   /* Gentle hover zoom only on hover-capable devices */
 @media (hover: hover) and (pointer: fine) {
   .gallery img:hover {
@@ -357,6 +394,21 @@
   <span class="close" id="x">&times;</span>
   <img id="lbimg" alt="">
 </div>
+  <button id="theme-toggle" style="
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  padding:8px 12px;
+  background:var(--fg);
+  color:var(--bg);
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  z-index:10000;
+">
+  Toggle Theme
+</button>
+
 
 <footer>
   © 2025 Jameson McShane · 
@@ -431,6 +483,13 @@
       }
     });
   });
+  const toggleBtn = document.getElementById('theme-toggle');
+toggleBtn.addEventListener('click', () => {
+  const root = document.documentElement;
+  const isLight = root.classList.toggle('light');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
+
 </script>
 </body>
 </html>
