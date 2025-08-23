@@ -32,7 +32,7 @@
   "@type": "Person",
   "name": "Jameson McShane",
   "url": "https://jmsn.art/",
-  "image": "https://jmsn.art/images/File%2000001.jpeg",
+  "image": "https://jmsn.art/images/file_000001_1200x1200.jpg",
   "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN."
 }
 </script>
@@ -95,7 +95,7 @@
   .gallery {
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px; /* wider gutter */
+    gap:15px;
   }
 
   .gallery img {
@@ -108,33 +108,18 @@
 
     /* Fade-in effect */
     opacity:0;
-    transition:
-      opacity .6s ease-in-out,
-      transform 240ms ease,
-      filter 240ms ease,
-      box-shadow 240ms ease;
-    will-change: transform;
+    transition:opacity .6s ease-in-out;
 
-    /* Reserve space before load (no CLS) */
+    /* 🟢 Reserve space before load (no CLS) */
     aspect-ratio: 4 / 5;
     object-fit: cover;
-
-    transform: scale(1);
-    transform-origin: 50% 50%;
   }
 
-  .gallery img.lazy-loaded { opacity:1; }
-
-  /* Gentle hover zoom only on hover-capable devices */
-  @media (hover: hover) and (pointer: fine) {
-    .gallery img:hover {
-      transform: scale(1.04);
-      filter: brightness(1.02);
-      box-shadow: 0 10px 28px rgba(0,0,0,.6);
-    }
+  .gallery img.lazy-loaded {
+    opacity:1;
   }
 
-  /* Lightbox */
+  /* Lightbox (slower fade) */
   .lb {
     position:fixed;
     inset:0;
@@ -142,20 +127,28 @@
     z-index:9999;
     align-items:center;
     justify-content:center;
-    display:flex;
-    opacity:0;
-    pointer-events:none;
+
+    /* fade system */
+    display:flex;            /* keep in flow */
+    opacity:0;               /* hidden by default */
+    pointer-events:none;     /* ignore clicks when hidden */
     transition:opacity .45s ease;
   }
-  .lb.open { opacity:1; pointer-events:auto; }
+  .lb.open {
+    opacity:1;
+    pointer-events:auto;
+  }
   .lb img {
     display:block;
     max-width:92%;
     max-height:80vh;
+
+    /* slower image fade */
     opacity:0;
     transition:opacity 1.5s ease .12s;
   }
   .lb.open img { opacity:1; }
+
   .close {
     position:fixed;
     top:14px;
@@ -165,8 +158,11 @@
     cursor:pointer;
   }
 
+  /* Fade-in animation for stagger entry */
   .fade-in {opacity:0;animation:fadeIn .8s forwards}
   @keyframes fadeIn {to{opacity:1}}
+
+  /* Lock background scroll when lightbox open */
   .noscroll {overflow:hidden}
 
   footer {
@@ -176,10 +172,14 @@
     font-size:14px;
     letter-spacing:.2px;
   }
-  footer a { color:#fff; text-decoration:underline; }
+  footer a {
+    color:#fff;
+    text-decoration:underline;
+  }
 
+  /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .lb, .lb img, .gallery img { transition:none; }
+    .lb, .lb img { transition:none; }
   }
 </style>
 
@@ -192,31 +192,145 @@
 </h1>
 
 <div class="gallery" id="gallery">
-  <img src="images/File%2000001.jpeg" alt="Haloed Figure in Black and White by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000003.jpeg" alt="Leaky Bucket with Water Spill by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000004.jpeg" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000005.jpeg" alt="Mughal-Inspired Silhouette with Golden Halo by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000006.jpeg" alt="Pop Art Billboard on Suburban Highway by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000007.jpeg" alt="Roto Dorado en Mosaico by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000008.jpeg" alt="Sacred Canine in Haloed Glory by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000009.jpeg" alt="Sacred Reflection of Child and Dog by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000010.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000011.jpeg" alt="The Circle of Conflict by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000012.jpeg" alt="Stealth Bombers Over Eastern Europe by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000014.jpeg" alt="Surreal Dining with Man and Puppy by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000015.jpeg" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000016.jpeg" alt="Aerial View of Circular Crops by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000017.jpeg" alt="Attack on the Twin Towers by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000018.jpeg" alt="Banana Cream Pie on Turquoise Table by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000019.jpeg" alt="Banana on Blue Wall with Tape by Jameson McShane" width="960" height="1200">
+  <img src="images/File%2000001.jpeg" alt="Haloed Figure in Black and White by Jameson McShane">
+  <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane">
+  <img src="images/File%2000003.jpeg" alt="Leaky Bucket with Water Spill by Jameson McShane">
+  <img src="images/File%2000004.jpeg" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane">
+  <img src="images/File%2000005.jpeg" alt="Mughal-Inspired Silhouette with Golden Halo by Jameson McShane">
+  <img src="images/File%2000006.jpeg" alt="Pop Art Billboard on Suburban Highway by Jameson McShane">
+  <img src="images/File%2000007.jpeg" alt="Roto Dorado en Mosaico by Jameson McShane">
+  <img src="images/File%2000008.jpeg" alt="Sacred Canine in Haloed Glory by Jameson McShane">
+  <img src="images/File%2000009.jpeg" alt="Sacred Reflection of Child and Dog by Jameson McShane">
+  <img src="images/File%2000010.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane">
+  <img src="images/File%2000011.jpeg" alt="The Circle of Conflict by Jameson McShane">
+  <img src="images/File%2000012.jpeg" alt="Stealth Bombers Over Eastern Europe by Jameson McShane">
+  <img src="images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette by Jameson McShane">
+  <img src="images/File%2000014.jpeg" alt="Surreal Dining with Man and Puppy by Jameson McShane">
+  <img src="images/File%2000015.jpeg" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane">
+  <img src="images/File%2000016.jpeg" alt="Aerial View of Circular Crops by Jameson McShane">
+  <img src="images/File%2000017.jpeg" alt="Attack on the Twin Towers by Jameson McShane">
+  <img src="images/File%2000018.jpeg" alt="Banana Cream Pie on Turquoise Table by Jameson McShane">
+  <img src="images/File%2000019.jpeg" alt="Banana on Blue Wall with Tape by Jameson McShane">
   <!-- <img src="images/File%2000020.jpeg" alt="Bees in a Modern Office by Jameson McShane"> -->
   <!-- <img src="images/File%2000021.jpeg" alt=""> -->
-  <img src="images/File%2000022.jpeg" alt="Bees with Halos in Golden Glow by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000023.jpeg" alt="Billboard with Four Symbols on Highway by Jameson McShane" width="960" height="1200">
-  <img src="images/File%2000024.jpeg" alt="Bite-Sized Bagel Variety by Jameson McShane" width="960" height="1200">
-  <!-- <img src="images/File%2000025.jpeg" alt="Black Sheep in
+  <img src="images/File%2000022.jpeg" alt="Bees with Halos in Golden Glow by Jameson McShane">
+  <img src="images/File%2000023.jpeg" alt="Billboard with Four Symbols on Highway by Jameson McShane">
+  <img src="images/File%2000024.jpeg" alt="Bite-Sized Bagel Variety by Jameson McShane">
+  <!-- <img src="images/File%2000025.jpeg" alt="Black Sheep in Hospital Flood by Jameson McShane"> -->
+  <!-- <img src="images/File%2000026.jpeg" alt="Blooming Mallow in Green Frame by Jameson McShane"> -->
+  <img src="images/File%2000027.jpeg" alt="Border Collie in Stylish Living Room by Jameson McShane">
+  <img src="images/File%2000028.jpeg" alt="Breakfast Bagels in Cozy Coffee Shop by Jameson McShane">
+  <img src="images/File%2000029.jpeg" alt="Broken Circle with Objects by Jameson McShane">
+  <img src="images/File%2000030.jpeg" alt="Buddha's Serenity Amidst the City by Jameson McShane">
+  <img src="images/File%2000031.jpeg" alt="Celestial Dogs in a Concrete Lot by Jameson McShane">
+  <img src="images/File%2000032.jpeg" alt="Light Circle Around a Column by Jameson McShane">
+  <img src="images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth Art by Jameson McShane">
+  <img src="images/File%2000034.jpeg" alt="Skulls, Leaves, and Tropical Flowers by Jameson McShane">
+  <img src="images/File%2000035.jpeg" alt="Circular Roadway Interchange in a Dry Landscape by Jameson McShane">
+  <img src="images/File%2000036.jpeg" alt="Clear Skies and Bold Warnings by Jameson McShane">
+  <img src="images/File%2000037.jpeg" alt="Contemplation with Haloed Companions by Jameson McShane">
+  <img src="images/File%2000038.jpeg" alt="Cornfield Overpass at Daybreak by Jameson McShane">
+  <img src="images/File%2000039.jpeg" alt="Cozy Cylindrical Bedroom with Twilight View by Jameson McShane">
+  <img src="images/File%2000040.jpeg" alt="Damaged SUV in Target Lot by Jameson McShane">
+  <img src="images/File%2000041.jpeg" alt="Divine Canine in Classical Hallway by Jameson McShane">
+  <img src="images/File%2000042.jpeg" alt="Divine Canine Resting in Warm Glow by Jameson McShane">
+  <img src="images/File%2000043.jpeg" alt="Divine Justice and Silent Vows by Jameson McShane">
+  <img src="images/File%2000044.jpeg" alt="Divine Playmates in Sepia Tones by Jameson McShane">
+  <img src="images/File%2000045.jpeg" alt="Divine Silhouettes on Golden Canvas by Jameson McShane">
+  <img src="images/File%2000046.jpeg" alt="Dog with Halo in Desert Oasis by Jameson McShane">
+  <img src="images/File%2000047.jpeg" alt="Dog with Halo in Empty Lot by Jameson McShane">
+  <!-- <img src="images/File%2000048.jpeg" alt="Dove of the Suburban Crosswalk by Jameson McShane"> -->
+  <img src="images/File%2000049.jpeg" alt="Dusk Over Farm and Silo by Jameson McShane">
+  <!-- <img src="images/File%2000050.jpeg" alt="Elegant Couple in Front of Art by Jameson McShane"> -->
+  <img src="images/File%2000051.jpeg" alt="Enso Circle of Ants by Jameson McShane">
+  <img src="images/File%2000052.jpeg" alt="Ethereal Figures with Ornate Halos by Jameson McShane">
+  <img src="images/File%2000053.jpeg" alt="Ethereal Haloed Figure in Soft Hues by Jameson McShane">
+  <img src="images/File%2000054.jpeg" alt="Fierce Wolf with Golden Dreamcatcher by Jameson McShane">
+  <img src="images/File%2000055.jpeg" alt="Fleeing Through the Storm by Jameson McShane">
+  <img src="images/File%2000056.jpeg" alt="Gleaming Skull with Halo and Hand by Jameson McShane">
+  <img src="images/File%2000057.jpeg" alt="Glowing Arc of Ember Light by Jameson McShane">
+  <img src="images/File%2000058.jpeg" alt="Glowing Fireflies in Dark Night by Jameson McShane">
+  <img src="images/File%2000059.jpeg" alt="Gold Spiral on Pink Pastel by Jameson McShane">
+  <img src="images/File%2000060.jpeg" alt="Golden Agricultural Patchwork by Jameson McShane">
+  <img src="images/File%2000061.jpeg" alt="Golden Ant Circle Fragment by Jameson McShane">
+  <img src="images/File%2000062.jpeg" alt="Golden Burst on Soft Pink by Jameson McShane">
+  <!-- <img src="images/File%2000063.jpeg" alt="Golden Circle and Pedals Abstract by Jameson McShane"> -->
+  <img src="images/File%2000064.jpeg" alt="Golden Circle in a Cozy Home by Jameson McShane">
+  <img src="images/File%2000065.jpeg" alt="Golden Circle on Pastel Pink by Jameson McShane">
+  <img src="images/File%2000066.jpeg" alt="Golden Circle with Radiating Light by Jameson McShane">
+  <img src="images/File%2000067.jpeg" alt="Golden Fragment on Brown Surface by Jameson McShane">
+  <img src="images/File%2000068.jpeg" alt="Golden Glow and Sleeping Circle by Jameson McShane">
+  <img src="images/File%2000069.jpeg" alt="Golden Glow in a Cozy Bedroom by Jameson McShane">
+  <img src="images/File%2000070.jpeg" alt="Golden Guardians in Pool Shine by Jameson McShane">
+  <img src="images/File%2000071.jpeg" alt="Golden Halo and Angels by Jameson McShane">
+  <img src="images/File%2000072.jpeg" alt="Golden Halo and Black Tongue by Jameson McShane">
+  <!-- <img src="images/File%2000073.jpeg" alt="Golden Halo and Serene Silhouette by Jameson McShane"> -->
+  <img src="images/File%2000074.jpeg" alt="Golden Halo and Silent Figure by Jameson McShane">
+  <img src="images/File%2000075.jpeg" alt="Golden Halo and Silhouette by Jameson McShane">
+  <img src="images/File%2000076.jpeg" alt="Golden Halo and Tongue Silhouette by Jameson McShane">
+  <img src="images/File%2000077.jpeg" alt="Golden Halo on Aged Background by Jameson McShane">
+  <img src="images/File%2000078.jpeg" alt="Golden Halo on White Background by Jameson McShane">
+  <img src="images/File%2000079.jpeg" alt="Golden Halo on White Canvas by Jameson McShane">
+  <img src="images/File%2000080.jpeg" alt="Golden Halo Over Silent Figure by Jameson McShane">
+  <img src="images/File%2000081.jpeg" alt="Golden Halo with White Silhouette by Jameson McShane">
+  <img src="images/File%2000082.jpeg" alt="Golden Haloed Angels in Harmony by Jameson McShane">
+  <img src="images/File%2000083.jpeg" alt="Golden Halos and Graceful Hands by Jameson McShane">
+  <!-- <img src="images/File%2000084.jpeg" alt="Golden Halos and Mischievous Smiles by Jameson McShane"> -->
+  <img src="images/File%2000085.jpeg" alt="Golden Hour Satellite Dish by Jameson McShane">
+  <img src="images/File%2000086.jpeg" alt="Golden Serenity in Blue by Jameson McShane">
+  <img src="images/File%2000087.jpeg" alt="Golden Silhouettes of Faith by Jameson McShane">
+  <img src="images/File%2000088.jpeg" alt="Golden Spiral by the Lake by Jameson McShane">
+  <!-- <img src="images/File%2000089.jpeg" alt="Haloed Figure in Black and White by Jameson McShane"> -->
+  <img src="images/File%2000090.jpeg" alt="Haloed Sheep in Flooded Hospital Room by Jameson McShane">
+  <img src="images/File%2000091.jpeg" alt="Labrador with Golden Halo by Jameson McShane">
+  <img src="images/File%2000092.jpeg" alt="Labradors in Glowing Halos by Jameson McShane">
+  <img src="images/File%2000093.jpeg" alt="Majestic Rider and Horse under Halo by Jameson McShane">
+  <img src="images/File%2000094.jpeg" alt="Man with Halo and Haloed Dogs by Jameson McShane">
+  <!-- <img src="images/File%2000095.jpeg" alt="Mandala Art and Elegant Portrait by Jameson McShane"> -->
+  <img src="images/File%2000096.jpeg" alt="Minimalist Cylindrical Home Design by Jameson McShane">
+  <img src="images/File%2000097.jpeg" alt="Missiles Over Fertile Fields by Jameson McShane">
+  <img src="images/File%2000098.jpeg" alt="Moon Explosion with Earth Backdrop by Jameson McShane">
+  <img src="images/File%2000099.jpeg" alt="Mudroom and Dog Wash Station Design by Jameson McShane">
+  <!-- <img src="images/File%2000100.jpeg" alt="Pink Porsche on Floral Mural by Jameson McShane"> -->
+  <!-- <img src="images/File%2000101.jpeg" alt="Pink-Haired Cat Girl with Halo by Jameson McShane"> -->
+  <img src="images/File%2000102.jpeg" alt="Puppy and Diamond Skull Halo by Jameson McShane">
+  <img src="images/File%2000103.jpeg" alt="Puppy Halo Parade by Jameson McShane">
+  <img src="images/File%2000104.jpeg" alt="Radiant Halo Above White Silhouette by Jameson McShane">
+  <img src="images/File%2000105.jpeg" alt="Rainbow Over Geometric Mountain Skyline by Jameson McShane">
+  <!-- <img src="images/File%2000106.jpeg" alt="Red Cup with Reddish-Brown Liquid by Jameson McShane"> -->
+  <!-- <img src="images/File%2000107.jpeg" alt="Repurposed Silo with Greenhouse and Living Spaces by Jameson McShane"> -->
+  <img src="images/File%2000108.jpeg" alt="Sacred Canine with Halo by Jameson McShane">
+  <img src="images/File%2000109.jpeg" alt="Sacred Canine with Ornate Halo by Jameson McShane">
+  <img src="images/File%2000110.jpeg" alt="Sacred Canines on Textured Paper by Jameson McShane">
+  <img src="images/File%2000111.jpeg" alt="Sacred Figures with Golden Halo and Lamp by Jameson McShane">
+  <img src="images/File%2000112.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane">
+  <img src="images/File%2000113.jpeg" alt="Sacred Silhouettes on Parchment Backdrop by Jameson McShane">
+  <img src="images/File%2000114.jpeg" alt="Sanctity in Gold and White by Jameson McShane">
+  <img src="images/File%2000115.jpeg" alt="Serene Canine by the Hearth by Jameson McShane">
+  <img src="images/File%2000116.jpeg" alt="Serene Poolside with Golden Halo by Jameson McShane">
+  <img src="images/File%2000117.jpeg" alt="Serene Portrait with Puppy Halo by Jameson McShane">
+  <img src="images/File%2000118.jpeg" alt="Sheep Halo by the Sea by Jameson McShane">
+  <img src="images/File%2000119.jpeg" alt="Sheep with Halo Above Dark Waters by Jameson McShane">
+  <!-- <img src="images/File%2000120.jpeg" alt="Silhouette with Halo in Blue by Jameson McShane"> -->
+  <img src="images/File%2000121.jpeg" alt="Sisters in Golden Halo Light by Jameson McShane">
+  <img src="images/File%2000122.jpeg" alt="Sleeping Dog with Golden Halo by Jameson McShane">
+  <img src="images/File%2000123.jpeg" alt="Spiral Staircase and Golden Halo by Jameson McShane">
+  <img src="images/File%2000124.jpeg" alt="Starlink Satellite in Orbit Over Earth by Jameson McShane">
+  <img src="images/File%2000125.jpeg" alt="Stealth Aircraft Against Yellow Halo by Jameson McShane">
+  <img src="images/File%2000126.jpeg" alt="Surprised Man with Glowing Halo by Jameson McShane">
+  <!-- <img src="images/File%2000127.jpeg" alt="Surreal Dove in Suburban Streetscape by Jameson McShane"> -->
+  <img src="images/File%2000128.jpeg" alt="Surreal Fusion of Sci-Fi and Pastoral by Jameson McShane">
+  <!-- <img src="images/File%2000129.jpeg" alt="Surreal Portrait with Golden Halos by Jameson McShane"> -->
+  <img src="images/File%2000130.jpeg" alt="Symbolic Fertilization in Abstract Form by Jameson McShane">
+  <img src="images/File%2000131.jpeg" alt="Symmetry and Gold Circle by Jameson McShane">
+  <img src="images/File%2000132.jpeg" alt="Tongues with Vibrant Halos by Jameson McShane">
+  <img src="images/File%2000133.jpeg" alt="Trio de ballenas beluga bajo el agua by Jameson McShane">
+  <img src="images/File%2000134.jpeg" alt="Tumbling Garments in Golden Glow by Jameson McShane">
+  <img src="images/File%2000135.jpeg" alt="Vintage Femme Fatales in Action by Jameson McShane">
+  <img src="images/File%2000136.jpeg" alt="Vintage Femme Vigilantes by Jameson McShane">
+  <img src="images/File%2000137.jpeg" alt="Virgin Mary and Child Jesus Silhouettes by Jameson McShane">
+  <img src="images/File%2000138.jpeg" alt="Whale, Dog, and Meatloaf in Harmony by Jameson McShane">
+</div>
 
 <div class="lb" id="lb">
   <span class="close" id="x">&times;</span>
@@ -234,11 +348,12 @@
     const gallery = document.getElementById('gallery');
     let items = Array.from(gallery.children);
 
-    // Native lazy-load + async decode + priority
+    // Native lazy-load + async decode + low priority for gallery only
     items.forEach((img, idx) => {
       img.loading = idx === 0 ? 'eager' : 'lazy';
       img.decoding = 'async';
       img.setAttribute('fetchpriority', idx === 0 ? 'high' : 'low');
+      // smooth fade-in when each image finishes
       img.addEventListener('load', () => img.classList.add('lazy-loaded'));
     });
 
@@ -248,14 +363,14 @@
       [items[i], items[j]] = [items[j], items[i]];
     }
 
-    // Staggered fade-in on first paint
+    // Re-append in shuffled order with staggered fade-in on first paint
     items.forEach((img, idx) => {
       img.classList.add('fade-in');
       img.style.animationDelay = `${idx * 0.15}s`;
       gallery.appendChild(img);
     });
 
-    // Lightbox
+    // Lightbox + arrow key nav
     const lb = document.getElementById('lb');
     const lbimg = document.getElementById('lbimg');
     const closeBtn = document.getElementById('x');
@@ -269,7 +384,7 @@
         lbimg.decoding = 'async';
         lbimg.setAttribute('fetchpriority','high');
         lbimg.src = bestSrc(img);
-        lb.classList.add('open');
+        lb.classList.add('open');            // slower fade-in
         document.body.classList.add('noscroll');
       });
     });
@@ -280,7 +395,7 @@
     }
 
     function closeLB(){
-      lb.classList.remove('open');
+      lb.classList.remove('open');           // slower fade-out
       document.body.classList.remove('noscroll');
     }
 
@@ -288,7 +403,7 @@
     lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
 
     document.addEventListener('keydown', e => {
-      if (lb.classList.contains('open')) {
+      if (lb.classList.contains('open')) {   // updated guard
         if (e.key === 'ArrowRight') showAt(current + 1);
         if (e.key === 'ArrowLeft')  showAt(current - 1);
         if (e.key === 'Escape')     closeLB();
