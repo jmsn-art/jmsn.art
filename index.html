@@ -119,6 +119,32 @@
     opacity:1;
   }
 
+  /* Hover zoom (no CLS) */
+.gallery img {
+  transition: transform .25s ease, opacity .6s ease-in-out; /* keep your fade */
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Only on devices that support hover + fine pointer (avoid mobile) */
+@media (hover:hover) and (pointer:fine) {
+  .gallery img:hover {
+    transform: scale(1.04); /* subtle zoom */
+  }
+  /* Optional: keyboard focus gets same treatment if you ever tab to images */
+  .gallery img:focus-visible {
+    transform: scale(1.04);
+    outline: 2px solid #888;
+    outline-offset: 2px;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .gallery img { transition: opacity .01s linear; }
+}
+
+
   /* Lightbox (slower fade) */
   .lb {
     position:fixed;
