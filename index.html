@@ -122,11 +122,18 @@
 
     /* Fade-in effect */
     opacity:0;
-    transition:opacity .6s ease-in-out;
+    transition:
+      opacity .6s ease-in-out,
+      transform 280ms ease,
+      filter 280ms ease,
+      box-shadow 280ms ease;
 
     /* 🟢 Reserve space before load (no CLS) */
     aspect-ratio: 4 / 5;
     object-fit: cover;
+
+    /* base state for hover animation */
+    transform: scale(1);
   }
 
   .gallery img.lazy-loaded {
