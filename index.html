@@ -83,51 +83,7 @@
     gtag('config', 'G-FQPZNDPCGF');
   </script>
 
-  <script>
-  let lightboxOpenTime = null;
-  let currentArtworkTitle = null;
-  let currentArtworkSrc = null;
-
-  function openLightbox(imgElement) {
-    document.getElementById("lightbox").style.display = "block";
-    const lightboxImg = document.getElementById("lightbox-img");
-
-    currentArtworkTitle = imgElement.alt || 'untitled';
-    currentArtworkSrc = imgElement.src;
-    lightboxImg.src = currentArtworkSrc;
-
-    lightboxOpenTime = Date.now();
-
-    gtag('event', 'art_view', {
-      'event_category': 'Engagement',
-      'event_label': currentArtworkTitle,
-      'artwork_src': currentArtworkSrc
-    });
-  }
-
-  function closeLightbox() {
-    document.getElementById("lightbox").style.display = "none";
-
-    let dwellTime = 0;
-    if (lightboxOpenTime) {
-      dwellTime = Math.round((Date.now() - lightboxOpenTime) / 1000);
-    }
-
-    gtag('event', 'art_close', {
-      'event_category': 'Engagement',
-      'event_label': currentArtworkTitle || 'unknown',
-      'artwork_src': currentArtworkSrc || 'unknown',
-      'dwell_time_seconds': dwellTime
-    });
-
-    lightboxOpenTime = null;
-    currentArtworkTitle = null;
-    currentArtworkSrc = null;
-  }
-</script>
-
-
-<style>
+  <style>
   body {
     margin:0;
     padding:20px;
