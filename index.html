@@ -83,6 +83,50 @@
     gtag('config', 'G-FQPZNDPCGF');
   </script>
 
+  <script>
+  let lightboxOpenTime = null;
+  let currentArtworkTitle = null;
+  let currentArtworkSrc = null;
+
+  function openLightbox(imgElement) {
+    document.getElementById("lightbox").style.display = "block";
+    const lightboxImg = document.getElementById("lightbox-img");
+
+    currentArtworkTitle = imgElement.alt || 'untitled';
+    currentArtworkSrc = imgElement.src;
+    lightboxImg.src = currentArtworkSrc;
+
+    lightboxOpenTime = Date.now();
+
+    gtag('event', 'art_view', {
+      'event_category': 'Engagement',
+      'event_label': currentArtworkTitle,
+      'artwork_src': currentArtworkSrc
+    });
+  }
+
+  function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+
+    let dwellTime = 0;
+    if (lightboxOpenTime) {
+      dwellTime = Math.round((Date.now() - lightboxOpenTime) / 1000);
+    }
+
+    gtag('event', 'art_close', {
+      'event_category': 'Engagement',
+      'event_label': currentArtworkTitle || 'unknown',
+      'artwork_src': currentArtworkSrc || 'unknown',
+      'dwell_time_seconds': dwellTime
+    });
+
+    lightboxOpenTime = null;
+    currentArtworkTitle = null;
+    currentArtworkSrc = null;
+  }
+</script>
+
+
 <style>
   body {
     margin:0;
@@ -376,12 +420,22 @@
     const gallery = document.getElementById('gallery');
     let items = Array.from(gallery.children);
 
+    // ---- Analytics helpers ----
+    let openedAt = 0;
+    let currentTitle = '';
+    let currentSrc = '';
+
+    function sendGA(eventName, params) {
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, params);
+      }
+    }
+
     // Native lazy-load + async decode + low priority for gallery only
     items.forEach((img, idx) => {
       img.loading = idx === 0 ? 'eager' : 'lazy';
       img.decoding = 'async';
       img.setAttribute('fetchpriority', idx === 0 ? 'high' : 'low');
-      // smooth fade-in when each image finishes
       img.addEventListener('load', () => img.classList.add('lazy-loaded'));
     });
 
@@ -412,13 +466,17 @@
         lbimg.decoding = 'async';
         lbimg.setAttribute('fetchpriority','high');
         lbimg.src = bestSrc(img);
-        lb.classList.add('open');            // slower fade-in
+        lb.classList.add('open');
         document.body.classList.add('noscroll');
-        
-        // Send event to GA4 when artwork is viewed
-gtag('event', 'art_view', {
-  artwork_title: img.alt,  // descriptive title from alt text
-  artwork_src: img.src     // file path
+
+        // ---- GA: mark open time + fire art_view ----
+        openedAt = Date.now();
+        currentTitle = img.alt || 'untitled';
+        currentSrc = bestSrc(img);
+
+        sendGA('art_view', {
+          artwork_title: currentTitle,
+          artwork_src: currentSrc
         });
       });
     });
@@ -429,7 +487,22 @@ gtag('event', 'art_view', {
     }
 
     function closeLB(){
-      lb.classList.remove('open');           // slower fade-out
+      // ---- GA: send art_close with dwell time ----
+      const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
+      if (openedAt) {
+        sendGA('art_close', {
+          artwork_title: currentTitle || 'unknown',
+          artwork_src: currentSrc || 'unknown',
+          dwell_time_seconds: dwell
+        });
+      }
+      // reset trackers
+      openedAt = 0;
+      currentTitle = '';
+      currentSrc = '';
+
+      // close UI
+      lb.classList.remove('open');
       document.body.classList.remove('noscroll');
     }
 
@@ -437,7 +510,7 @@ gtag('event', 'art_view', {
     lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
 
     document.addEventListener('keydown', e => {
-      if (lb.classList.contains('open')) {   // updated guard
+      if (lb.classList.contains('open')) {
         if (e.key === 'ArrowRight') showAt(current + 1);
         if (e.key === 'ArrowLeft')  showAt(current - 1);
         if (e.key === 'Escape')     closeLB();
@@ -445,5 +518,6 @@ gtag('event', 'art_view', {
     });
   });
 </script>
+
 </body>
 </html>
