@@ -414,6 +414,12 @@
         lbimg.src = bestSrc(img);
         lb.classList.add('open');            // slower fade-in
         document.body.classList.add('noscroll');
+        
+        // Send event to GA4 when artwork is viewed
+gtag('event', 'art_view', {
+  artwork_title: img.alt,  // descriptive title from alt text
+  artwork_src: img.src     // file path
+        });
       });
     });
 
