@@ -99,13 +99,27 @@
   </script>
 
   <style>
-  body {
-    margin:0;
-    padding:20px;
-    background:#111;
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
-  }
+  :root {
+  --bg:#111;
+  --fg:#fff;
+  --muted:#ccc;
+  --accent:#fff;
+}
+
+.light-mode {
+  --bg:#fefefe;
+  --fg:#111;
+  --muted:#444;
+  --accent:#111;
+}
+
+body {
+  margin:0;
+  padding:20px;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:Arial,Helvetica,sans-serif;
+}
 
   .gallery {
     display:grid;
@@ -235,6 +249,16 @@
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
+}
+    footer button {
+  background: none;
+  border: 1px solid var(--muted);
+  color: var(--fg);
+  font-size: 0.9em;
+  padding: 0.4em 0.6em;
+  margin-top: 0.5em;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 </style>
@@ -402,7 +426,10 @@
   © 2025 Jameson McShane · 
   <a href="about.html" style="margin-right:10px">About</a>
   <a href="contact.html">Contact</a>
+  <br><br>
+  <button id="toggleTheme" aria-label="light/dark mode">☀️ / 🌙</button>
 </footer>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -516,6 +543,23 @@ setTimeout(() => {
     });
   });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const button = document.getElementById('toggleTheme');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme === 'light') {
+      document.body.classList.add('light-mode');
+    }
+
+    button.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+      localStorage.setItem('theme', theme);
+    });
+  });
+</script>
+
 
 </body>
 </html>
