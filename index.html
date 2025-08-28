@@ -458,13 +458,13 @@
         lb.classList.add('open');
         document.body.classList.add('noscroll');
 
-        // Show title for 3 seconds
+        // Show title for 7 seconds
 const titleEl = document.getElementById('lb-title');
 titleEl.textContent = img.alt || '';
 titleEl.style.opacity = '1';
 setTimeout(() => {
   titleEl.style.opacity = '0';
-}, 5000);
+}, 7000);
 
 
         // ---- GA: mark open time + fire art_view ----
