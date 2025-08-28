@@ -222,17 +222,16 @@
   @media (prefers-reduced-motion: reduce) {
     .lb, .lb img { transition:none; }
   }
+    
     #lb-title {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
+  margin-top: 12px;
   color: #fff;
+  background: rgba(0, 0, 0, 0.7);
   padding: 6px 12px;
   font-size: 14px;
   border-radius: 4px;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -393,8 +392,10 @@
 
 <div class="lb" id="lb">
   <span class="close" id="x">&times;</span>
-  <img id="lbimg" alt="">
-  <div id="lb-title"></div>
+  <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <img id="lbimg" alt="">
+    <div id="lb-title"></div>
+  </div>
 </div>
 
 <footer>
