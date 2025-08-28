@@ -227,11 +227,7 @@ body {
     font-size:14px;
     letter-spacing:.2px;
   }
-  footer a {
-    color:#fff;
-    text-decoration:underline;
-  }
-
+  
   /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .lb, .lb img { transition:none; }
@@ -260,6 +256,15 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+    footer a {
+  color: var(--fg);
+  text-decoration: underline;
+}
+footer a:hover {
+  color: var(--accent);
+}
+
 
 </style>
 
