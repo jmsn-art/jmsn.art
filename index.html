@@ -423,8 +423,9 @@ footer a:hover {
   <img src="images/File%2000140.jpeg" alt="Diverse Group in Gym Circle by Jameson McShane">
 </div>
 
-<div class="lb" id="lb">
-  <span class="close" id="x">&times;</span>
+<!-- Lightbox as an accessible dialog -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+  <button class="close" id="x" aria-label="Close lightbox">&times;</button>
   <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
     <img id="lbimg" alt="">
     <div id="lb-title"></div>
