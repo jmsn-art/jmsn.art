@@ -7,60 +7,92 @@
   <!-- (Optional) Google Search Console verification -->
   <meta name="google-site-verification" content="DCp-0ee_YelzAvSTWw4qI5o1S_DTUAVLVQi88xirPj0" />
 
-  <!-- JSON-LD: Site + Artist (linked via @id) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "https://jmsn.art/#website",
-    "name": "jmsn.art – The Art Circle Project by Jameson McShane",
-    "url": "https://jmsn.art/",
-    "publisher": { "@id": "https://jmsn.art/#person" },
-    "inLanguage": "en-US",
-    "potentialAction": { "@type": "ViewAction", "target": "https://jmsn.art/" }
-  }
-  </script>
+  <!-- Color scheme hint -->
+  <meta name="color-scheme" content="dark light">
 
-  <!-- JSON-LD: Person -->
+  <!-- JSON-LD (single consolidated graph) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "@id": "https://jmsn.art/#person",
-    "name": "Jameson McShane",
-    "url": "https://jmsn.art/about.html",
-    "image": "https://jmsn.art/images/file_000001_1200x1200.jpg",
-    "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN."
-  }
-  </script>
-
-  <!-- JSON-LD: Collection of Artworks / Gallery Page -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "@id": "https://jmsn.art/#gallery",
-    "name": "The Art Circle Gallery by Jameson McShane",
-    "url": "https://jmsn.art/",
-    "isPartOf": { "@id": "https://jmsn.art/#website" },
-    "about": { "@id": "https://jmsn.art/#person" },
-    "hasPart": [
-      { "@type": "ImageObject", "name": "Haloed Figure in Black and White by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000001.jpeg" },
-      { "@type": "ImageObject", "name": "Human and Robot, Contrasting Forces by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000002.jpeg" },
-      { "@type": "ImageObject", "name": "Leaky Bucket with Water Spill by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000003.jpeg" },
-      { "@type": "ImageObject", "name": "Medieval-Inspired Golden Haloed Figures by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000004.jpeg" },
-      { "@type": "ImageObject", "name": "Pop Art Billboard on Suburban Highway by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000006.jpeg" },
-      { "@type": "ImageObject", "name": "Roto Dorado en Mosaico by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000007.jpeg" },
-      { "@type": "ImageObject", "name": "Sacred Canine in Haloed Glory by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000008.jpeg" },
-      { "@type": "ImageObject", "name": "Sacred Reflection of Child and Dog by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000009.jpeg" },
-      { "@type": "ImageObject", "name": "The Circle of Conflict by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000011.jpeg" },
-      { "@type": "ImageObject", "name": "Stealth Bombers Over Eastern Europe by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000012.jpeg" }
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://jmsn.art/#website",
+        "name": "jmsn.art – The Art Circle Project by Jameson McShane",
+        "url": "https://jmsn.art/",
+        "publisher": { "@id": "https://jmsn.art/#person" },
+        "inLanguage": "en-US",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://jmsn.art/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://jmsn.art/#person",
+        "name": "Jameson McShane",
+        "url": "https://jmsn.art/about.html",
+        "image": "https://jmsn.art/images/file_000001_1200x1200.jpg",
+        "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN."
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://jmsn.art/#gallery",
+        "name": "The Art Circle Gallery by Jameson McShane",
+        "url": "https://jmsn.art/",
+        "isPartOf": { "@id": "https://jmsn.art/#website" },
+        "about": { "@id": "https://jmsn.art/#person" },
+        "hasPart": {
+          "@type": "ItemList",
+          "itemListOrder": "http://schema.org/ItemListUnordered",
+          "numberOfItems": 35,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "item": { "@type": "ImageObject", "name": "Haloed Figure in Black and White by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000001.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000001.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 2, "item": { "@type": "ImageObject", "name": "Human and Robot, Contrasting Forces by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000002.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000002.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 3, "item": { "@type": "ImageObject", "name": "Leaky Bucket with Water Spill by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000003.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000003.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 4, "item": { "@type": "ImageObject", "name": "Medieval-Inspired Golden Haloed Figures by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000004.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000004.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 5, "item": { "@type": "ImageObject", "name": "Pop Art Billboard on Suburban Highway by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000006.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000006.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 6, "item": { "@type": "ImageObject", "name": "Roto Dorado en Mosaico by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000007.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000007.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 7, "item": { "@type": "ImageObject", "name": "Sacred Canine in Haloed Glory by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000008.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000008.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 8, "item": { "@type": "ImageObject", "name": "Sacred Reflection of Child and Dog by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000009.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000009.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 9, "item": { "@type": "ImageObject", "name": "The Circle of Conflict by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000011.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000011.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 10, "item": { "@type": "ImageObject", "name": "Stealth Bombers Over Eastern Europe by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000012.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000012.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 11, "item": { "@type": "ImageObject", "name": "Sunset and Satellite Dish Silhouette by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000013.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000013.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 12, "item": { "@type": "ImageObject", "name": "Surreal Dining with Man and Puppy by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000014.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000014.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 13, "item": { "@type": "ImageObject", "name": "Vibrant Canola Field in Afternoon Light by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000015.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000015.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 14, "item": { "@type": "ImageObject", "name": "Broken Circle with Objects by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000029.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000029.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 15, "item": { "@type": "ImageObject", "name": "Buddha's Serenity Amidst the City by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000030.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000030.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 16, "item": { "@type": "ImageObject", "name": "Light Circle Around a Column by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000032.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000032.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 17, "item": { "@type": "ImageObject", "name": "Golden Circle and Shark Teeth by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000033.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000033.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 18, "item": { "@type": "ImageObject", "name": "Circular Roadway Interchange in a Dry Landscape by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000035.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000035.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 19, "item": { "@type": "ImageObject", "name": "Damaged SUV in Target Lot by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000040.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000040.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 20, "item": { "@type": "ImageObject", "name": "Ethereal Figures with Ornate Halos by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000052.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000052.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 21, "item": { "@type": "ImageObject", "name": "Glowing Arc of Ember Light by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000057.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000057.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 22, "item": { "@type": "ImageObject", "name": "Golden Circle with Radiating Light by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000066.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000066.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 23, "item": { "@type": "ImageObject", "name": "Golden Glow and Sleeping Circle by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000068.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000068.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 24, "item": { "@type": "ImageObject", "name": "Golden Halo on Aged Background by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000077.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000077.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 25, "item": { "@type": "ImageObject", "name": "Golden Halo on White Background by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000078.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000078.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 26, "item": { "@type": "ImageObject", "name": "Golden Halo Over Silent Figure by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000080.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000080.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 27, "item": { "@type": "ImageObject", "name": "Golden Halos and Graceful Hands by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000083.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000083.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 28, "item": { "@type": "ImageObject", "name": "Labradors in Glowing Halos by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000092.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000092.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 29, "item": { "@type": "ImageObject", "name": "Puppy and Diamond Skull Halo by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000102.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000102.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 30, "item": { "@type": "ImageObject", "name": "Sacred Silhouettes in Gilded Reverence by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000112.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000112.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 31, "item": { "@type": "ImageObject", "name": "Sacred Silhouettes on Parchment Backdrop by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000113.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000113.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 32, "item": { "@type": "ImageObject", "name": "Sisters in Golden Halo Light by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000121.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000121.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 33, "item": { "@type": "ImageObject", "name": "Stealth Aircraft Against Yellow Halo by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000125.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000125.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 34, "item": { "@type": "ImageObject", "name": "Whale, Dog, and Meatloaf in Harmony by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000138.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000138.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 35, "item": { "@type": "ImageObject", "name": "Diverse Group in Gym Circle by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000140.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000140.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } }
+          ]
+        }
+      }
     ]
   }
   </script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+
   <title>jmsn.art – The Art Circle Project by Jameson McShane</title>
 
   <!-- Sitemap hint for crawlers -->
@@ -83,7 +115,6 @@
 
   <!-- SEO Meta -->
   <meta name="description" content="The Art Circle Project by Jameson McShane: digital art created in collaboration with chatJMSN, exploring halos, broken circles, and the tension between wholeness and incompleteness.">
-  <meta name="keywords" content="AI art, digital art, Art Circle, broken circles, Jameson McShane, generative art, sanctified figures">
   <meta name="author" content="Jameson McShane">
 
   <!-- Open Graph / Social -->
@@ -115,8 +146,8 @@
   </script>
 
   <style>
-  :root { --bg:#111; --fg:#fff; --muted:#ccc; --accent:#fff; }
-  .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; }
+  :root { --bg:#111; --fg:#fff; --muted:#ccc; --accent:#fff; color-scheme: dark light; }
+  .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
 
   body {
     margin:0; padding:20px; background:var(--bg); color:var(--fg);
@@ -139,7 +170,6 @@
     .gallery img:hover { transform: scale(1.04); }
     .gallery img:focus-visible { transform: scale(1.04); outline:2px solid #888; outline-offset:2px; }
   }
-  @media (prefers-reduced-motion: reduce) { .gallery img { transition: opacity .01s linear; } }
 
   /* Lightbox */
   .lb {
@@ -178,9 +208,12 @@
     border-radius:4px; white-space:normal; text-align:center; opacity:0; transition: opacity .75s ease; pointer-events:none;
   }
 
-  @media (prefers-reduced-motion: reduce) { .lb, .lb img { transition:none; } }
-    
-  /* --- Mobile tweaks: smaller thumbs & gentler lightbox --- */
+  /* Reduced motion: extend to all animated elements */
+  @media (prefers-reduced-motion: reduce) {
+    .gallery img,
+    .lb,
+    .lb img { transition:none !important; animation:none !important; }
+  }
   </style>
 </head>
 <body>
@@ -191,51 +224,65 @@
   </h1>
 
   <div class="gallery" id="gallery">
-    <!-- First image: eager load for LCP -->
-    <img src="images/File%2000001.jpeg" alt="Haloed Figure in Black and White by Jameson McShane" decoding="async" fetchpriority="high">
+    <!-- First image: eager load for LCP with intrinsic size -->
+    <img src="images/File%2000001.jpeg"
+         alt="Haloed Figure in Black and White by Jameson McShane"
+         decoding="async" fetchpriority="high"
+         width="1200" height="1500"
+         sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <!-- Remaining images: lazy -->
-    <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000003.jpeg" alt="Leaky Bucket with Water Spill by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000004.jpeg" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane" loading="lazy" decoding="async">
-    <!-- <img src="images/File%2000005.jpeg" alt="Mughal-Inspired Silhouette with Golden Halo by Jameson McShane" loading="lazy" decoding="async"> -->
-    <img src="images/File%2000006.jpeg" alt="Pop Art Billboard on Suburban Highway by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000007.jpeg" alt="Roto Dorado en Mosaico by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000008.jpeg" alt="Sacred Canine in Haloed Glory by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000009.jpeg" alt="Sacred Reflection of Child and Dog by Jameson McShane" loading="lazy" decoding="async">
+    <!-- Remaining images: lazy + intrinsic sizes (assuming 4:5, 1200x1500) -->
+    <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000003.jpeg" alt="Leaky Bucket with Water Spill by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000004.jpeg" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
     <!-- <img src="images/File%2000010.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async"> -->
-    <img src="images/File%2000011.jpeg" alt="The Circle of Conflict by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000012.jpeg" alt="Stealth Bombers Over Eastern Europe by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000014.jpeg" alt="Surreal Dining with Man and Puppy by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000015.jpeg" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000029.jpeg" alt="Broken Circle with Objects by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000030.jpeg" alt="Buddha's Serenity Amidst the City by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000032.jpeg" alt="Light Circle Around a Column by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000035.jpeg" alt="Circular Roadway Interchange in a Dry Landscape by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000040.jpeg" alt="Damaged SUV in Target Lot by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000052.jpeg" alt="Ethereal Figures with Ornate Halos by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000057.jpeg" alt="Glowing Arc of Ember Light by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000066.jpeg" alt="Golden Circle with Radiating Light by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000068.jpeg" alt="Golden Glow and Sleeping Circle by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000077.jpeg" alt="Golden Halo on Aged Background by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000078.jpeg" alt="Golden Halo on White Background by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000080.jpeg" alt="Golden Halo Over Silent Figure by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000083.jpeg" alt="Golden Halos and Graceful Hands by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000092.jpeg" alt="Labradors in Glowing Halos by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000102.jpeg" alt="Puppy and Diamond Skull Halo by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000112.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000113.jpeg" alt="Sacred Silhouettes on Parchment Backdrop by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000121.jpeg" alt="Sisters in Golden Halo Light by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000125.jpeg" alt="Stealth Aircraft Against Yellow Halo by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000138.jpeg" alt="Whale, Dog, and Meatloaf in Harmony by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000140.jpeg" alt="Diverse Group in Gym Circle by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000006.jpeg" alt="Pop Art Billboard on Suburban Highway by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000007.jpeg" alt="Roto Dorado en Mosaico by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000008.jpeg" alt="Sacred Canine in Haloed Glory by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000009.jpeg" alt="Sacred Reflection of Child and Dog by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000011.jpeg" alt="The Circle of Conflict by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000012.jpeg" alt="Stealth Bombers Over Eastern Europe by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000014.jpeg" alt="Surreal Dining with Man and Puppy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000015.jpeg" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000029.jpeg" alt="Broken Circle with Objects by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000030.jpeg" alt="Buddha's Serenity Amidst the City by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000032.jpeg" alt="Light Circle Around a Column by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000035.jpeg" alt="Circular Roadway Interchange in a Dry Landscape by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000040.jpeg" alt="Damaged SUV in Target Lot by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000052.jpeg" alt="Ethereal Figures with Ornate Halos by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000057.jpeg" alt="Glowing Arc of Ember Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000066.jpeg" alt="Golden Circle with Radiating Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000068.jpeg" alt="Golden Glow and Sleeping Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000077.jpeg" alt="Golden Halo on Aged Background by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000078.jpeg" alt="Golden Halo on White Background by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000080.jpeg" alt="Golden Halo Over Silent Figure by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000083.jpeg" alt="Golden Halos and Graceful Hands by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000092.jpeg" alt="Labradors in Glowing Halos by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000102.jpeg" alt="Puppy and Diamond Skull Halo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000112.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000113.jpeg" alt="Sacred Silhouettes on Parchment Backdrop by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000121.jpeg" alt="Sisters in Golden Halo Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000125.jpeg" alt="Stealth Aircraft Against Yellow Halo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000138.jpeg" alt="Whale, Dog, and Meatloaf in Harmony by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+
+    <img src="images/File%2000140.jpeg" alt="Diverse Group in Gym Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
   </div>
 
   <!-- Lightbox as an accessible dialog -->
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
-    <button id="lightboxClose" class="close" aria-label="Close lightbox" title="Close lightbox">&times;</button>
+    <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close lightbox">&times;</button>
     <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
       <img id="lbimg" alt="" tabindex="-1">
       <div id="lb-title"></div>
@@ -279,10 +326,12 @@
     const lb = document.getElementById('lb');
     const lbimg = document.getElementById('lbimg');
     const closeBtn = document.getElementById('lightboxClose');
+    const lbTitle = document.getElementById('lb-title');
+
     // Fisher–Yates shuffle (except first image to preserve LCP)
     function shuffleExceptFirst(container) {
       const arr = Array.from(container.querySelectorAll('img'));
-      if (arr.length <= 2) return; // nothing to do (or single extra)
+      if (arr.length <= 2) return;
       const first = arr.shift();
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -296,7 +345,6 @@
 
     // Re-query after shuffle
     const items = gallery.querySelectorAll('img');
-    const lbTitle = document.getElementById('lb-title');
 
     let lastFocus = null;
     let current = 0;
@@ -315,6 +363,15 @@
     });
 
     function bestSrc(el) { return el.dataset.full || el.src; }
+
+    // --- Focus trap helpers ---
+    let firstFocusable = null, lastFocusable = null;
+    function trapFocus(container, first, last, e) {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    function trapper(e){ trapFocus(lb, firstFocusable, lastFocusable, e); }
 
     function openLightbox(index) {
       const img = items[index];
@@ -335,10 +392,14 @@
       lbTitle.style.opacity = '1';
       setTimeout(() => { lbTitle.style.opacity = '0'; }, 7000);
 
+      // Focusables for trap
+      const focusables = lb.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+      firstFocusable = focusables[0];
+      lastFocusable  = focusables[focusables.length - 1];
+      document.addEventListener('keydown', trapper);
+
       openedAt = Date.now();
-      // Custom event name preserved for your reports
       sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-      // Also emit GA4 recommended event (optional)
       sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
     }
 
@@ -352,6 +413,9 @@
       lb.classList.remove('open');
       lb.setAttribute('aria-hidden','true');
       document.body.classList.remove('noscroll');
+
+      document.removeEventListener('keydown', trapper);
+
       if (lastFocus) lastFocus.focus();
     }
 
@@ -371,13 +435,12 @@
     // Backdrop click
     lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
 
-    // ESC / arrows + focus trap while dialog is open
+    // ESC / arrows
     document.addEventListener('keydown', (e) => {
       if (!lb.classList.contains('open')) return;
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowRight') showAt(current + 1);
       if (e.key === 'ArrowLeft') showAt(current - 1);
-      if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }
     });
   });
   </script>
