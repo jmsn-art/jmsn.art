@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,10 +10,6 @@
 
   <!-- Color scheme hint -->
   <meta name="color-scheme" content="dark light">
-
-  <!-- Theme color (auto-match browser UI to theme) -->
-  <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#fefefe"  media="(prefers-color-scheme: light)">
 
   <!-- JSON-LD (single consolidated graph) -->
   <script type="application/ld+json">
@@ -47,7 +44,6 @@
         "url": "https://jmsn.art/",
         "isPartOf": { "@id": "https://jmsn.art/#website" },
         "about": { "@id": "https://jmsn.art/#person" },
-        "image": "https://jmsn.art/images/File%2000001.jpeg",
         "hasPart": {
           "@type": "ItemList",
           "itemListOrder": "http://schema.org/ItemListUnordered",
@@ -113,6 +109,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#111111">
   <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#111111">
 
   <!-- Canonical -->
   <link rel="canonical" href="https://jmsn.art/">
@@ -125,7 +122,6 @@
   <meta property="og:title" content="jmsn.art – The Art Circle Project by Jameson McShane">
   <meta property="og:description" content="Digital art created in collaboration with chatJMSN, exploring halos, broken circles, and the Art Circle philosophy.">
   <meta property="og:image" content="https://jmsn.art/images/File%2000001.jpeg">
-  <meta property="og:image:alt" content="Haloed Figure in Black and White by Jameson McShane">
   <meta property="og:url" content="https://jmsn.art/">
   <meta property="og:type" content="website">
 
@@ -134,13 +130,9 @@
   <meta name="twitter:title" content="jmsn.art – The Art Circle Project by Jameson McShane">
   <meta name="twitter:description" content="Exploring halos, broken circles, and surreal visions through AI collaboration.">
   <meta name="twitter:image" content="https://jmsn.art/images/File%2000001.jpeg">
-  <meta name="twitter:image:alt" content="Haloed Figure in Black and White by Jameson McShane">
 
-  <!-- Preload first image to improve LCP (use responsive names) -->
-  <link rel="preload" as="image"
-        href="images/File%2000001-1200w.jpeg"
-        imagesrcset="images/File%2000001-800w.jpeg 800w, images/File%2000001-1200w.jpeg 1200w"
-        fetchpriority="high">
+  <!-- Preload first image to improve LCP -->
+  <link rel="preload" as="image" href="images/File%2000001.jpeg" imagesrcset="images/File%2000001.jpeg" fetchpriority="high">
 
   <!-- Preconnect for GA -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
@@ -217,7 +209,7 @@
     border-radius:4px; white-space:normal; text-align:center; opacity:0; transition: opacity .75s ease; pointer-events:none;
   }
 
-  /* Reduced motion */
+  /* Reduced motion: extend to all animated elements */
   @media (prefers-reduced-motion: reduce) {
     .gallery img,
     .lb,
@@ -233,68 +225,67 @@
   </h1>
 
   <div class="gallery" id="gallery">
-    <!-- First image: eager load for LCP with intrinsic size + responsive srcset -->
-    <img src="images/File%2000001-1200w.jpeg"
-         srcset="images/File%2000001-800w.jpeg 800w, images/File%2000001-1200w.jpeg 1200w"
+    <!-- First image: eager load for LCP with intrinsic size -->
+    <img src="images/File%2000001.jpeg"
          alt="Haloed Figure in Black and White by Jameson McShane"
-         decoding="sync" fetchpriority="high"
+         decoding="async" fetchpriority="high"
          width="1200" height="1500"
          sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <!-- Remaining images: lazy + intrinsic sizes + responsive srcset (assumes 800w/1200w files exist) -->
-    <img src="images/File%2000002-1200w.jpeg" srcset="images/File%2000002-800w.jpeg 800w, images/File%2000002-1200w.jpeg 1200w" alt="Human and Robot, Contrasting Forces by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000003-1200w.jpeg" srcset="images/File%2000003-800w.jpeg 800w, images/File%2000003-1200w.jpeg 1200w" alt="Leaky Bucket with Water Spill by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000004-1200w.jpeg" srcset="images/File%2000004-800w.jpeg 800w, images/File%2000004-1200w.jpeg 1200w" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <!-- Remaining images: lazy + intrinsic sizes (assuming 4:5, 1200x1500) -->
+    <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000003.jpeg" alt="Leaky Bucket with Water Spill by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000004.jpeg" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
     <!-- <img src="images/File%2000010.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async"> -->
-    <img src="images/File%2000006-1200w.jpeg" srcset="images/File%2000006-800w.jpeg 800w, images/File%2000006-1200w.jpeg 1200w" alt="Pop Art Billboard on Suburban Highway by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000007-1200w.jpeg" srcset="images/File%2000007-800w.jpeg 800w, images/File%2000007-1200w.jpeg 1200w" alt="Roto Dorado en Mosaico by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000008-1200w.jpeg" srcset="images/File%2000008-800w.jpeg 800w, images/File%2000008-1200w.jpeg 1200w" alt="Sacred Canine in Haloed Glory by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000009-1200w.jpeg" srcset="images/File%2000009-800w.jpeg 800w, images/File%2000009-1200w.jpeg 1200w" alt="Sacred Reflection of Child and Dog by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000011-1200w.jpeg" srcset="images/File%2000011-800w.jpeg 800w, images/File%2000011-1200w.jpeg 1200w" alt="The Circle of Conflict by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000012-1200w.jpeg" srcset="images/File%2000012-800w.jpeg 800w, images/File%2000012-1200w.jpeg 1200w" alt="Stealth Bombers Over Eastern Europe by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000013-1200w.jpeg" srcset="images/File%2000013-800w.jpeg 800w, images/File%2000013-1200w.jpeg 1200w" alt="Sunset and Satellite Dish Silhouette by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000014-1200w.jpeg" srcset="images/File%2000014-800w.jpeg 800w, images/File%2000014-1200w.jpeg 1200w" alt="Surreal Dining with Man and Puppy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000015-1200w.jpeg" srcset="images/File%2000015-800w.jpeg 800w, images/File%2000015-1200w.jpeg 1200w" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000006.jpeg" alt="Pop Art Billboard on Suburban Highway by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000007.jpeg" alt="Roto Dorado en Mosaico by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000008.jpeg" alt="Sacred Canine in Haloed Glory by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000009.jpeg" alt="Sacred Reflection of Child and Dog by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000011.jpeg" alt="The Circle of Conflict by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000012.jpeg" alt="Stealth Bombers Over Eastern Europe by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000014.jpeg" alt="Surreal Dining with Man and Puppy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000015.jpeg" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000029-1200w.jpeg" srcset="images/File%2000029-800w.jpeg 800w, images/File%2000029-1200w.jpeg 1200w" alt="Broken Circle with Objects by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000030-1200w.jpeg" srcset="images/File%2000030-800w.jpeg 800w, images/File%2000030-1200w.jpeg 1200w" alt="Buddha's Serenity Amidst the City by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000032-1200w.jpeg" srcset="images/File%2000032-800w.jpeg 800w, images/File%2000032-1200w.jpeg 1200w" alt="Light Circle Around a Column by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000033-1200w.jpeg" srcset="images/File%2000033-800w.jpeg 800w, images/File%2000033-1200w.jpeg 1200w" alt="Golden Circle and Shark Teeth by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000035-1200w.jpeg" srcset="images/File%2000035-800w.jpeg 800w, images/File%2000035-1200w.jpeg 1200w" alt="Circular Roadway Interchange in a Dry Landscape by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000029.jpeg" alt="Broken Circle with Objects by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000030.jpeg" alt="Buddha's Serenity Amidst the City by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000032.jpeg" alt="Light Circle Around a Column by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000035.jpeg" alt="Circular Roadway Interchange in a Dry Landscape by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000040-1200w.jpeg" srcset="images/File%2000040-800w.jpeg 800w, images/File%2000040-1200w.jpeg 1200w" alt="Damaged SUV in Target Lot by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000040.jpeg" alt="Damaged SUV in Target Lot by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000052-1200w.jpeg" srcset="images/File%2000052-800w.jpeg 800w, images/File%2000052-1200w.jpeg 1200w" alt="Ethereal Figures with Ornate Halos by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000057-1200w.jpeg" srcset="images/File%2000057-800w.jpeg 800w, images/File%2000057-1200w.jpeg 1200w" alt="Glowing Arc of Ember Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000052.jpeg" alt="Ethereal Figures with Ornate Halos by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000057.jpeg" alt="Glowing Arc of Ember Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000066-1200w.jpeg" srcset="images/File%2000066-800w.jpeg 800w, images/File%2000066-1200w.jpeg 1200w" alt="Golden Circle with Radiating Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000068-1200w.jpeg" srcset="images/File%2000068-800w.jpeg 800w, images/File%2000068-1200w.jpeg 1200w" alt="Golden Glow and Sleeping Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000066.jpeg" alt="Golden Circle with Radiating Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000068.jpeg" alt="Golden Glow and Sleeping Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000077-1200w.jpeg" srcset="images/File%2000077-800w.jpeg 800w, images/File%2000077-1200w.jpeg 1200w" alt="Golden Halo on Aged Background by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000078-1200w.jpeg" srcset="images/File%2000078-800w.jpeg 800w, images/File%2000078-1200w.jpeg 1200w" alt="Golden Halo on White Background by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000080-1200w.jpeg" srcset="images/File%2000080-800w.jpeg 800w, images/File%2000080-1200w.jpeg 1200w" alt="Golden Halo Over Silent Figure by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000083-1200w.jpeg" srcset="images/File%2000083-800w.jpeg 800w, images/File%2000083-1200w.jpeg 1200w" alt="Golden Halos and Graceful Hands by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000077.jpeg" alt="Golden Halo on Aged Background by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000078.jpeg" alt="Golden Halo on White Background by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000080.jpeg" alt="Golden Halo Over Silent Figure by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000083.jpeg" alt="Golden Halos and Graceful Hands by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000092-1200w.jpeg" srcset="images/File%2000092-800w.jpeg 800w, images/File%2000092-1200w.jpeg 1200w" alt="Labradors in Glowing Halos by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000092.jpeg" alt="Labradors in Glowing Halos by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000102-1200w.jpeg" srcset="images/File%2000102-800w.jpeg 800w, images/File%2000102-1200w.jpeg 1200w" alt="Puppy and Diamond Skull Halo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000102.jpeg" alt="Puppy and Diamond Skull Halo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000112-1200w.jpeg" srcset="images/File%2000112-800w.jpeg 800w, images/File%2000112-1200w.jpeg 1200w" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000113-1200w.jpeg" srcset="images/File%2000113-800w.jpeg 800w, images/File%2000113-1200w.jpeg 1200w" alt="Sacred Silhouettes on Parchment Backdrop by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000112.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000113.jpeg" alt="Sacred Silhouettes on Parchment Backdrop by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000121-1200w.jpeg" srcset="images/File%2000121-800w.jpeg 800w, images/File%2000121-1200w.jpeg 1200w" alt="Sisters in Golden Halo Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
-    <img src="images/File%2000125-1200w.jpeg" srcset="images/File%2000125-800w.jpeg 800w, images/File%2000125-1200w.jpeg 1200w" alt="Stealth Aircraft Against Yellow Halo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000121.jpeg" alt="Sisters in Golden Halo Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000125.jpeg" alt="Stealth Aircraft Against Yellow Halo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000138-1200w.jpeg" srcset="images/File%2000138-800w.jpeg 800w, images/File%2000138-1200w.jpeg 1200w" alt="Whale, Dog, and Meatloaf in Harmony by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000138.jpeg" alt="Whale, Dog, and Meatloaf in Harmony by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
 
-    <img src="images/File%2000140-1200w.jpeg" srcset="images/File%2000140-800w.jpeg 800w, images/File%2000140-1200w.jpeg 1200w" alt="Diverse Group in Gym Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+    <img src="images/File%2000140.jpeg" alt="Diverse Group in Gym Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
   </div>
 
   <!-- Lightbox as an accessible dialog -->
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
     <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close lightbox">&times;</button>
     <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
-      <img id="lbimg" alt="" aria-describedby="lb-title" tabindex="-1">
+      <img id="lbimg" alt="" tabindex="-1">
       <div id="lb-title"></div>
     </div>
   </div>
@@ -306,10 +297,6 @@
     <br><br>
     <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
   </footer>
-
-  <noscript>
-    <p style="color:var(--muted)">JavaScript is off. Tap any image to view full size.</p>
-  </noscript>
 
   <script>
   // --- GA helper: safely emit custom or GA4-recommended events ---
@@ -344,17 +331,14 @@
 
     // Fisher–Yates shuffle (except first image to preserve LCP)
     function shuffleExceptFirst(container) {
-      const rect = container.getBoundingClientRect();
-      container.style.minHeight = rect.height + 'px';
       const arr = Array.from(container.querySelectorAll('img'));
-      if (arr.length <= 2) { container.style.minHeight = ''; return; }
+      if (arr.length <= 2) return;
       const first = arr.shift();
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
       }
       container.replaceChildren(first, ...arr);
-      requestAnimationFrame(()=> container.style.minHeight = '');
     }
 
     // Shuffle before wiring listeners
@@ -379,7 +363,7 @@
       img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
     });
 
-    function bestSrc(el) { return el.dataset.full || el.currentSrc || el.src; }
+    function bestSrc(el) { return el.dataset.full || el.src; }
 
     // --- Focus trap helpers ---
     let firstFocusable = null, lastFocusable = null;
@@ -397,7 +381,7 @@
       currentSrc = bestSrc(img);
 
       lbimg.src = currentSrc;
-      lbimg.alt = '';
+      lbimg.alt = currentTitle;
       lb.classList.add('open');
       lb.removeAttribute('aria-hidden');
       document.body.classList.add('noscroll');
@@ -416,8 +400,6 @@
       document.addEventListener('keydown', trapper);
 
       openedAt = Date.now();
-      // GA4-friendly event + custom
-      sendGA('select_content', { content_type: 'artwork', items: [{ item_name: currentTitle, item_id: currentSrc }] });
       sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
       sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
     }
