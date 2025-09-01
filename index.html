@@ -183,6 +183,34 @@
   /* --- Mobile tweaks: smaller thumbs & gentler lightbox --- */
   @media (max-width: 560px) {
     body { padding: 12px; }
+    /* One-row, horizontal scroll with snap */
+    .gallery {
+      display: grid;
+      grid-auto-flow: column;
+      /* full content width: viewport minus body padding (12px x 2) */
+      grid-auto-columns: calc(100vw - 24px);
+      overflow-x: auto;
+      overflow-y: hidden;
+      gap: 10px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x pinch-zoom;
+    }
+    /* Hide scrollbar on mobile */
+    .gallery::-webkit-scrollbar { display: none; }
+
+    .gallery img {
+      width: 100%;
+      height: auto;
+      /* Ensure image never exceeds the visible screen height */
+      max-height: 82dvh;
+      scroll-snap-align: center;
+    }
+
+    /* Lightbox slightly smaller on mobile */
+    .lb img { max-height: 78dvh; }
+  }
     .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
     /* Keep your 4:5 crop; remove this next line if you want taller thumbs */
     /* .gallery img { aspect-ratio: 1 / 1; } */
