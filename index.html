@@ -519,6 +519,7 @@ footer a:hover {
 </footer>
 
 
+<script>
 document.addEventListener('DOMContentLoaded', () => {
   const gallery = document.getElementById('gallery');
   const lb = document.getElementById('lb');
@@ -616,23 +617,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowLeft') showAt(current - 1);
   });
 });
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const button = document.getElementById('toggleTheme');
-    const currentTheme = localStorage.getItem('theme');
-
-    if (currentTheme === 'light') {
-      document.body.classList.add('light-mode');
-    }
-
-    button.addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-      const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
-      localStorage.setItem('theme', theme);
-    });
-  });
 </script>
+
 
 
 </body>
