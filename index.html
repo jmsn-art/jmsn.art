@@ -1,1 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Robots -->
+  <meta name="robots" content="index,follow,max-image-preview:large">
 
+  <!-- (Optional) Google Search Console verification -->
+  <meta name="google-site-verification" content="DCp-0ee_YelzAvSTWw4qI5o1S_DTUAVLVQi88xirPj0" />
+
+  <!-- JSON-LD: Site + Artist (linked via @id) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://jmsn.art/#website",
+    "name": "jmsn.art – The Art Circle Project by Jameson McShane",
+    "url": "https://jmsn.art/",
+    "publisher": { "@id": "https://jmsn.art/#person" },
+    "inLanguage": "en-US",
+    "potentialAction": { "@type": "ViewAction", "target": "https://jmsn.art/" }
+  }
+  </script>
+
+  <!-- JSON-LD: Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://jmsn.art/#person",
+    "name": "Jameson McShane",
+    "url": "https://jmsn.art/about.html",
+    "image": "https://jmsn.art/images/file_000001_1200x1200.jpg",
+    "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN."
+  }
+  </script>
+
+  <!-- JSON-LD: Collection of Artworks / Gallery Page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "https://jmsn.art/#gallery",
+    "name": "The Art Circle Gallery by Jameson McShane",
+    "url": "https://jmsn.art/",
+    "isPartOf": { "@id": "https://jmsn.art/#website" },
+    "about": { "@id": "https://jmsn.art/#person" },
+    "hasPart": [
+      { "@type": "ImageObject", "name": "Haloed Figure in Black and White by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000001.jpeg" },
+      { "@type": "ImageObject", "name": "Human and Robot, Contrasting Forces by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000002.jpeg" },
+      { "@type": "ImageObject", "name": "Leaky Bucket with Water Spill by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000003.jpeg" },
+      { "@type": "ImageObject", "name": "Medieval-Inspired Golden Haloed Figures by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000004.jpeg" },
+      { "@type": "ImageObject", "name": "Pop Art Billboard on Suburban Highway by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000006.jpeg" },
+      { "@type": "ImageObject", "name": "Roto Dorado en Mosaico by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000007.jpeg" },
+      { "@type": "ImageObject", "name": "Sacred Canine in Haloed Glory by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000008.jpeg" },
+      { "@type": "ImageObject", "name": "Sacred Reflection of Child and Dog by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000009.jpeg" },
+      { "@type": "ImageObject", "name": "The Circle of Conflict by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000011.jpeg" },
+      { "@type": "ImageObject", "name": "Stealth Bombers Over Eastern Europe by Jameson McShane", "contentUrl": "https://jmsn.art/images/File%2000012.jpeg" }
+    ]
+  }
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>jmsn.art – The Art Circle Project by Jameson McShane</title>
+
+  <!-- Sitemap hint for crawlers -->
+  <link rel="sitemap" type="application/xml" href="https://jmsn.art/sitemap.xml">
+
+  <!-- Bing Webmaster Tools Verification-->
+  <meta name="msvalidate.01" content="FB9ACE8AB7FEC46B96561CEC1888FB39" />
+
+  <!-- Favicon set -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#111111">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#111111">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://jmsn.art/">
+
+  <!-- SEO Meta -->
+  <meta name="description" content="The Art Circle Project by Jameson McShane: digital art created in collaboration with chatJMSN, exploring halos, broken circles, and the tension between wholeness and incompleteness.">
+  <meta name="keywords" content="AI art, digital art, Art Circle, broken circles, Jameson McShane, generative art, sanctified figures">
+  <meta name="author" content="Jameson McShane">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="jmsn.art – The Art Circle Project by Jameson McShane">
+  <meta property="og:description" content="Digital art created in collaboration with chatJMSN, exploring halos, broken circles, and the Art Circle philosophy.">
+  <meta property="og:image" content="https://jmsn.art/images/File%2000001.jpeg">
+  <meta property="og:url" content="https://jmsn.art/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="jmsn.art – The Art Circle Project by Jameson McShane">
+  <meta name="twitter:description" content="Exploring halos, broken circles, and surreal visions through AI collaboration.">
+  <meta name="twitter:image" content="https://jmsn.art/images/File%2000001.jpeg">
+
+  <!-- Preload first image to improve LCP -->
+  <link rel="preload" as="image" href="images/File%2000001.jpeg" imagesrcset="images/File%2000001.jpeg" fetchpriority="high">
+
+  <!-- Preconnect for GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCGF');
+  </script>
+
+  <style>
+  :root { --bg:#111; --fg:#fff; --muted:#ccc; --accent:#fff; }
+  .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; }
+
+  body {
+    margin:0; padding:20px; background:var(--bg); color:var(--fg);
+    font-family:Arial,Helvetica,sans-serif;
+    transition: background 1.5s ease, color 1.5s ease;
+  }
+
+  .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
+  .gallery img {
+    width:100%; height:auto; display:block; border-radius:8px;
+    box-shadow:0 4px 12px rgba(0,0,0,.5); cursor:pointer;
+    opacity:0; transition: transform .75s ease, opacity 1.5s ease-in-out;
+    transform-origin:center center; will-change:transform;
+    /* Reserve space before load (no CLS) */
+    aspect-ratio: 4 / 5; object-fit: cover;
+  }
+  .gallery img.lazy-loaded { opacity:1; }
+
+  @media (hover:hover) and (pointer:fine) {
+    .gallery img:hover { transform: scale(1.04); }
+    .gallery img:focus-visible { transform: scale(1.04); outline:2px solid #888; outline-offset:2px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .gallery img { transition: opacity .01s linear; } }
+
+  /* Lightbox */
+  .lb {
+    position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999;
+    align-items:center; justify-content:center; display:flex;
+    opacity:0; pointer-events:none; transition:opacity .75s ease;
+  }
+  .lb.open { opacity:1; pointer-events:auto; }
+  .lb img { display:block; max-width:92%; max-height:80vh; opacity:0; transition:opacity 1.5s ease .12s; }
+  .lb.open img { opacity:1; }
+
+  .close {
+    position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer;
+    -webkit-appearance:none; appearance:none; background:transparent; border:0; line-height:1; padding:0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
+  .close::-moz-focus-inner { border:0; }
+
+  .fade-in { opacity:0; animation:fadeIn .8s forwards }
+  @keyframes fadeIn { to { opacity:1 } }
+
+  .noscroll { overflow:hidden }
+
+  footer { text-align:center; margin:40px 0 10px; opacity:.8; font-size:14px; letter-spacing:.2px; }
+  footer button {
+    background:none; border:1px solid var(--muted); color:var(--fg);
+    font-size:.9em; padding:.4em .6em; margin-top:.5em; border-radius:5px; cursor:pointer;
+    transition: color 1.5s ease, border-color 1.5s ease, background 1.5s ease;
+  }
+  footer a { color:var(--fg); text-decoration:underline; transition: color 1.5s ease; }
+  footer a:hover { color:var(--accent); }
+
+  #lb-title {
+    margin-top:12px; color:#fff; background:rgba(0,0,0,.7); padding:6px 12px; font-size:14px;
+    border-radius:4px; white-space:normal; text-align:center; opacity:0; transition: opacity .75s ease; pointer-events:none;
+  }
+
+  @media (prefers-reduced-motion: reduce) { .lb, .lb img { transition:none; } }
+    
+  /* --- Mobile tweaks: smaller thumbs & gentler lightbox --- */
+  </style>
+</head>
+<body>
+
+  <!-- Visually hidden H1 for accessibility/SEO -->
+  <h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+    The Art Circle Project – jmsn.art by Jameson McShane
+  </h1>
+
+  <div class="gallery" id="gallery">
+    <!-- First image: eager load for LCP -->
+    <img src="images/File%2000001.jpeg" alt="Haloed Figure in Black and White by Jameson McShane" decoding="async" fetchpriority="high">
+
+    <!-- Remaining images: lazy -->
+    <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000003.jpeg" alt="Leaky Bucket with Water Spill by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000004.jpeg" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane" loading="lazy" decoding="async">
+    <!-- <img src="images/File%2000005.jpeg" alt="Mughal-Inspired Silhouette with Golden Halo by Jameson McShane" loading="lazy" decoding="async"> -->
+    <img src="images/File%2000006.jpeg" alt="Pop Art Billboard on Suburban Highway by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000007.jpeg" alt="Roto Dorado en Mosaico by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000008.jpeg" alt="Sacred Canine in Haloed Glory by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000009.jpeg" alt="Sacred Reflection of Child and Dog by Jameson McShane" loading="lazy" decoding="async">
+    <!-- <img src="images/File%2000010.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async"> -->
+    <img src="images/File%2000011.jpeg" alt="The Circle of Conflict by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000012.jpeg" alt="Stealth Bombers Over Eastern Europe by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000014.jpeg" alt="Surreal Dining with Man and Puppy by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000015.jpeg" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000029.jpeg" alt="Broken Circle with Objects by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000030.jpeg" alt="Buddha's Serenity Amidst the City by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000032.jpeg" alt="Light Circle Around a Column by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000035.jpeg" alt="Circular Roadway Interchange in a Dry Landscape by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000040.jpeg" alt="Damaged SUV in Target Lot by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000052.jpeg" alt="Ethereal Figures with Ornate Halos by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000057.jpeg" alt="Glowing Arc of Ember Light by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000066.jpeg" alt="Golden Circle with Radiating Light by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000068.jpeg" alt="Golden Glow and Sleeping Circle by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000077.jpeg" alt="Golden Halo on Aged Background by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000078.jpeg" alt="Golden Halo on White Background by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000080.jpeg" alt="Golden Halo Over Silent Figure by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000083.jpeg" alt="Golden Halos and Graceful Hands by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000092.jpeg" alt="Labradors in Glowing Halos by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000102.jpeg" alt="Puppy and Diamond Skull Halo by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000112.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000113.jpeg" alt="Sacred Silhouettes on Parchment Backdrop by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000121.jpeg" alt="Sisters in Golden Halo Light by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000125.jpeg" alt="Stealth Aircraft Against Yellow Halo by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000138.jpeg" alt="Whale, Dog, and Meatloaf in Harmony by Jameson McShane" loading="lazy" decoding="async">
+    <img src="images/File%2000140.jpeg" alt="Diverse Group in Gym Circle by Jameson McShane" loading="lazy" decoding="async">
+  </div>
+
+  <!-- Lightbox as an accessible dialog -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
+    <button id="lightboxClose" class="close" aria-label="Close lightbox" title="Close lightbox">&times;</button>
+    <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
+      <img id="lbimg" alt="" tabindex="-1">
+      <div id="lb-title"></div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Jameson McShane - The Art Circle Project ·
+    <a href="about.html" style="margin-right:10px">About</a>
+    <a href="contact.html">Contact</a>
+    <br><br>
+    <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+  </footer>
+
+  <script>
+  // --- GA helper: safely emit custom or GA4-recommended events ---
+  function sendGA(eventName, params) {
+    try { if (typeof gtag === 'function') { gtag('event', eventName, params || {}); } } catch (e) {}
+  }
+
+  // --- Theme: apply saved or system preference ---
+  (function initTheme(){
+    const btn = document.getElementById('toggleTheme');
+    const saved = localStorage.getItem('theme');
+    const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    function apply(mode){
+      if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+      else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+    }
+    apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+    btn.addEventListener('click', ()=>{
+      const isLight = document.body.classList.toggle('light-mode');
+      btn.setAttribute('aria-pressed', String(isLight));
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  })();
+
+  // --- Gallery / Lightbox ---
+  document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('gallery');
+    const lb = document.getElementById('lb');
+    const lbimg = document.getElementById('lbimg');
+    const closeBtn = document.getElementById('lightboxClose');
+    // Fisher–Yates shuffle (except first image to preserve LCP)
+    function shuffleExceptFirst(container) {
+      const arr = Array.from(container.querySelectorAll('img'));
+      if (arr.length <= 2) return; // nothing to do (or single extra)
+      const first = arr.shift();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      container.replaceChildren(first, ...arr);
+    }
+
+    // Shuffle before wiring listeners
+    shuffleExceptFirst(gallery);
+
+    // Re-query after shuffle
+    const items = gallery.querySelectorAll('img');
+    const lbTitle = document.getElementById('lb-title');
+
+    let lastFocus = null;
+    let current = 0;
+    let openedAt = 0;
+    let currentTitle = '';
+    let currentSrc = '';
+
+    // Fade-in when each image completes load (works with lazy)
+    items.forEach(img => {
+      if (img.complete) img.classList.add('lazy-loaded');
+      img.addEventListener('load', () => img.classList.add('lazy-loaded'));
+      // Make images operable by keyboard
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
+    });
+
+    function bestSrc(el) { return el.dataset.full || el.src; }
+
+    function openLightbox(index) {
+      const img = items[index];
+      current = index;
+      currentTitle = img.alt || 'untitled';
+      currentSrc = bestSrc(img);
+
+      lbimg.src = currentSrc;
+      lbimg.alt = currentTitle;
+      lb.classList.add('open');
+      lb.removeAttribute('aria-hidden');
+      document.body.classList.add('noscroll');
+
+      lastFocus = document.activeElement;
+      setTimeout(() => closeBtn.focus(), 50);
+
+      lbTitle.textContent = currentTitle;
+      lbTitle.style.opacity = '1';
+      setTimeout(() => { lbTitle.style.opacity = '0'; }, 7000);
+
+      openedAt = Date.now();
+      // Custom event name preserved for your reports
+      sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+      // Also emit GA4 recommended event (optional)
+      sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+    }
+
+    function closeLightbox() {
+      const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
+      if (openedAt) {
+        sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
+      }
+      openedAt = 0; currentTitle = ''; currentSrc = '';
+
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden','true');
+      document.body.classList.remove('noscroll');
+      if (lastFocus) lastFocus.focus();
+    }
+
+    function showAt(i) { current = (i + items.length) % items.length; openLightbox(current); }
+
+    // Hook up images
+    items.forEach((img, idx) => {
+      img.addEventListener('click', () => openLightbox(idx));
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(idx); }
+      });
+    });
+
+    // Close button
+    closeBtn.addEventListener('click', closeLightbox);
+
+    // Backdrop click
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+
+    // ESC / arrows + focus trap while dialog is open
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showAt(current + 1);
+      if (e.key === 'ArrowLeft') showAt(current - 1);
+      if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }
+    });
+  });
+  </script>
+</body>
+</html>
