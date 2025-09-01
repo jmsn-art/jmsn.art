@@ -503,7 +503,7 @@ footer a:hover {
 
 <!-- Lightbox as an accessible dialog -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title">
-  <button class="close" id="x" aria-label="Close lightbox">&times;</button>
+  <button id="lightboxClose" class="close" aria-label="Close lightbox" title="Close lightbox">&times;</button>
   <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
     <img id="lbimg" alt="">
     <div id="lb-title"></div>
@@ -522,6 +522,9 @@ footer a:hover {
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const gallery = document.getElementById('gallery');
+    const lb = document.getElementById('lb');
+    const lbimg = document.getElementById('lbimg');
+
     let items = Array.from(gallery.children);
 
     // ---- Analytics helpers ----
@@ -541,6 +544,41 @@ footer a:hover {
       img.decoding = 'async';
       img.setAttribute('fetchpriority', idx === 0 ? 'high' : 'low');
       img.addEventListener('load', () => img.classList.add('lazy-loaded'));
+
+      const closeBtn = document.getElementById('lightboxClose');
+let lastFocus = null;
+
+function closeLB() {
+  // ---- GA: send art_close with dwell time ----
+  const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
+  if (openedAt) {
+    sendGA('art_close', {
+      artwork_title: currentTitle || 'unknown',
+      artwork_src: currentSrc || 'unknown',
+      dwell_time_seconds: dwell
+    });
+  }
+
+  // Return focus if possible
+  if (lastFocus) {
+    lastFocus.focus();
+  }
+
+  // Reset trackers
+  openedAt = 0;
+  currentTitle = '';
+  currentSrc = '';
+
+  // Close UI
+  lb.classList.remove('open');
+  document.body.classList.remove('noscroll');
+}
+
+if (closeBtn) {
+  closeBtn.addEventListener('click', closeLB);
+}
+
+      
     });
 
     // Fisher–Yates shuffle
