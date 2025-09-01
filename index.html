@@ -503,35 +503,42 @@ footer a:hover {
 
     function bestSrc(el){ return el.dataset.full || el.src; }
 
-    items.forEach((img, idx) => {
-      img.addEventListener('click', () => {
-        current = idx;
-        lbimg.decoding = 'async';
-        lbimg.setAttribute('fetchpriority','high');
-        lbimg.src = bestSrc(img);
-        lb.classList.add('open');
-        document.body.classList.add('noscroll');
+items.forEach((img, idx) => {
+  // Make thumbnail keyboard-openable
+  img.tabIndex = 0;
+  img.setAttribute('role', 'button');
+  img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
 
-        // Show title for 7 seconds
-const titleEl = document.getElementById('lb-title');
-titleEl.textContent = img.alt || '';
-titleEl.style.opacity = '1';
-setTimeout(() => {
-  titleEl.style.opacity = '0';
-}, 7000);
+  function openLightbox() {
+    current = idx;
+    lbimg.decoding = 'async';
+    lbimg.setAttribute('fetchpriority','high');
+    lbimg.src = bestSrc(img);
+    lb.classList.add('open');
+    document.body.classList.add('noscroll');
 
+    // Show title for 7 seconds
+    const titleEl = document.getElementById('lb-title');
+    titleEl.textContent = img.alt || '';
+    titleEl.style.opacity = '1';
+    setTimeout(() => { titleEl.style.opacity = '0'; }, 7000);
 
-        // ---- GA: mark open time + fire art_view ----
-        openedAt = Date.now();
-        currentTitle = img.alt || 'untitled';
-        currentSrc = bestSrc(img);
+    // ---- GA: mark open time + fire art_view ----
+    openedAt = Date.now();
+    currentTitle = img.alt || 'untitled';
+    currentSrc = bestSrc(img);
+    sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+  }
 
-        sendGA('art_view', {
-          artwork_title: currentTitle,
-          artwork_src: currentSrc
-        });
-      });
-    });
+  img.addEventListener('click', openLightbox);
+  img.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault(); // prevent page scroll on Space
+      openLightbox();
+    }
+  });
+});
+
 
     function showAt(i){
       current = (i + items.length) % items.length;
