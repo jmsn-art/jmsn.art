@@ -206,13 +206,30 @@ body {
   .lb.open img { opacity:1; }
 
   .close {
-    position:fixed;
-    top:14px;
-    right:24px;
-    font-size:40px;
-    color:#fff;
-    cursor:pointer;
-  }
+  position:fixed;
+  top:14px;
+  right:24px;
+  font-size:40px;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* ⬇️ Add these right below the .close block */
+.close{
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  line-height: 1;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent; /* kills iOS "white flash" */
+}
+.close:focus-visible{
+  outline: 2px solid #888;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 
   /* Fade-in animation for stagger entry */
   .fade-in {opacity:0;animation:fadeIn .8s forwards}
