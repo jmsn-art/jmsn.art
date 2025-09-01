@@ -179,7 +179,17 @@
   }
 
   @media (prefers-reduced-motion: reduce) { .lb, .lb img { transition:none; } }
-  </style>
+    
+  /* --- Mobile tweaks: smaller thumbs & gentler lightbox --- */
+  @media (max-width: 560px) {
+    body { padding: 12px; }
+    .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    /* Keep your 4:5 crop; remove this next line if you want taller thumbs */
+    /* .gallery img { aspect-ratio: 1 / 1; } */
+    .lb img { max-height: 72vh; }
+  }
+
+</style>
 </head>
 <body>
 
