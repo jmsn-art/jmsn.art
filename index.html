@@ -586,18 +586,9 @@ setTimeout(() => {
   closeBtn.focus(); // Move focus to close button
 }, 50);
 
-// Trap tab focus inside lightbox
-lb.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab') {
-    e.preventDefault();
-    const index = focusableElements.indexOf(document.activeElement);
-    const next = (index + 1) % focusableElements.length;
-    focusableElements[next].focus();
-  }
-});
+    
 
-
-    // Show title for 7 seconds
+ // Show title for 7 seconds
     const titleEl = document.getElementById('lb-title');
     titleEl.textContent = img.alt || '';
     titleEl.style.opacity = '1';
