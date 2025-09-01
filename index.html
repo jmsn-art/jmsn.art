@@ -593,17 +593,14 @@ if (closeBtn) {
       img.style.animationDelay = `${idx * 0.15}s`;
       gallery.appendChild(img);
     });
+// Lightbox + arrow key nav
+const closeBtn = document.getElementById('lightboxClose');
+let current = 0;
+let lastFocus = null;
 
-    // Lightbox + arrow key nav
-    const lb = document.getElementById('lb');
-    const lbimg = document.getElementById('lbimg');
-    const closeBtn = document.getElementById('x');
-    let current = 0;
-
-    function bestSrc(el){ return el.dataset.full || el.src; }
+function bestSrc(el){ return el.dataset.full || el.src; }
 
 items.forEach((img, idx) => {
-  // Make thumbnail keyboard-openable
   img.tabIndex = 0;
   img.setAttribute('role', 'button');
   img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
@@ -616,16 +613,66 @@ items.forEach((img, idx) => {
     lb.classList.add('open');
     document.body.classList.add('noscroll');
 
-    // ---- Focus Trap Setup ----
-const focusableElements = [closeBtn, lbimg];
-let lastFocus = document.activeElement;
+    lastFocus = document.activeElement;
 
-setTimeout(() => {
-  closeBtn.focus(); // Move focus to close button
-}, 50);
+    setTimeout(() => { closeBtn.focus(); }, 50);
+
+    const titleEl = document.getElementById('lb-title');
+    titleEl.textContent = img.alt || '';
+    titleEl.style.opacity = '1';
+    setTimeout(() => { titleEl.style.opacity = '0'; }, 7000);
+
+    openedAt = Date.now();
+    currentTitle = img.alt || 'untitled';
+    currentSrc = bestSrc(img);
+    sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+  }
+
+  img.addEventListener('click', openLightbox);
+  img.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openLightbox();
+    }
+  });
+});
+
+function showAt(i){
+  current = (i + items.length) % items.length;
+  lbimg.src = bestSrc(items[current]);
+}
+
+function closeLB(){
+  const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
+  if (openedAt) {
+    sendGA('art_close', {
+      artwork_title: currentTitle || 'unknown',
+      artwork_src: currentSrc || 'unknown',
+      dwell_time_seconds: dwell
+    });
+  }
+
+  if (lastFocus) lastFocus.focus();
+
+  openedAt = 0;
+  currentTitle = '';
+  currentSrc = '';
+  lb.classList.remove('open');
+  document.body.classList.remove('noscroll');
+}
+
+closeBtn.addEventListener('click', closeLB);
+lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+
+document.addEventListener('keydown', e => {
+  if (lb.classList.contains('open')) {
+    if (e.key === 'ArrowRight') showAt(current + 1);
+    if (e.key === 'ArrowLeft')  showAt(current - 1);
+    if (e.key === 'Escape')     closeLB();
+  }
+});
 
     
-
  // Show title for 7 seconds
     const titleEl = document.getElementById('lb-title');
     titleEl.textContent = img.alt || '';
