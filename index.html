@@ -581,6 +581,25 @@ items.forEach((img, idx) => {
     lb.classList.add('open');
     document.body.classList.add('noscroll');
 
+    // ---- Focus Trap Setup ----
+const focusableElements = [closeBtn, lbimg];
+let lastFocus = document.activeElement;
+
+setTimeout(() => {
+  closeBtn.focus(); // Move focus to close button
+}, 50);
+
+// Trap tab focus inside lightbox
+lb.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const index = focusableElements.indexOf(document.activeElement);
+    const next = (index + 1) % focusableElements.length;
+    focusableElements[next].focus();
+  }
+});
+
+
     // Show title for 7 seconds
     const titleEl = document.getElementById('lb-title');
     titleEl.textContent = img.alt || '';
@@ -617,6 +636,10 @@ items.forEach((img, idx) => {
           artwork_title: currentTitle || 'unknown',
           artwork_src: currentSrc || 'unknown',
           dwell_time_seconds: dwell
+          if (lastFocus) {
+  lastFocus.focus();
+}
+
         });
       }
       // reset trackers
