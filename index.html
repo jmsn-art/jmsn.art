@@ -519,223 +519,104 @@ footer a:hover {
 </footer>
 
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const gallery = document.getElementById('gallery');
-    const lb = document.getElementById('lb');
-    const lbimg = document.getElementById('lbimg');
+document.addEventListener('DOMContentLoaded', () => {
+  const gallery = document.getElementById('gallery');
+  const lb = document.getElementById('lb');
+  const lbimg = document.getElementById('lbimg');
+  const closeBtn = document.getElementById('lightboxClose');
+  const items = gallery.querySelectorAll('img');
+  const lbTitle = document.getElementById('lb-title');
 
-    let items = Array.from(gallery.children);
+  let lastFocus = null;
+  let current = 0;
+  let openedAt = 0;
+  let currentTitle = '';
+  let currentSrc = '';
 
-    // ---- Analytics helpers ----
-    let openedAt = 0;
-    let currentTitle = '';
-    let currentSrc = '';
-
-    function sendGA(eventName, params) {
-      if (typeof gtag === 'function') {
-        gtag('event', eventName, params);
-      }
-    }
-
-    // Native lazy-load + async decode + low priority for gallery only
-    items.forEach((img, idx) => {
-      img.loading = idx === 0 ? 'eager' : 'lazy';
-      img.decoding = 'async';
-      img.setAttribute('fetchpriority', idx === 0 ? 'high' : 'low');
-      img.addEventListener('load', () => img.classList.add('lazy-loaded'));
-
-      const closeBtn = document.getElementById('lightboxClose');
-let lastFocus = null;
-
-function closeLB() {
-  // ---- GA: send art_close with dwell time ----
-  const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
-  if (openedAt) {
-    sendGA('art_close', {
-      artwork_title: currentTitle || 'unknown',
-      artwork_src: currentSrc || 'unknown',
-      dwell_time_seconds: dwell
-    });
+  function bestSrc(el) {
+    return el.dataset.full || el.src;
   }
 
-  // Return focus if possible
-  if (lastFocus) {
-    lastFocus.focus();
-  }
-
-  // Reset trackers
-  openedAt = 0;
-  currentTitle = '';
-  currentSrc = '';
-
-  // Close UI
-  lb.classList.remove('open');
-  document.body.classList.remove('noscroll');
-}
-
-if (closeBtn) {
-  closeBtn.addEventListener('click', closeLB);
-}
-
-      
-    });
-
-    // Fisher–Yates shuffle
-    for (let i = items.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [items[i], items[j]] = [items[j], items[i]];
-    }
-
-    // Re-append in shuffled order with staggered fade-in on first paint
-    items.forEach((img, idx) => {
-      img.classList.add('fade-in');
-      img.style.animationDelay = `${idx * 0.15}s`;
-      gallery.appendChild(img);
-    });
-// Lightbox + arrow key nav
-const closeBtn = document.getElementById('lightboxClose');
-let current = 0;
-let lastFocus = null;
-
-function bestSrc(el){ return el.dataset.full || el.src; }
-
-items.forEach((img, idx) => {
-  img.tabIndex = 0;
-  img.setAttribute('role', 'button');
-  img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
-
-  function openLightbox() {
-    current = idx;
-    lbimg.decoding = 'async';
-    lbimg.setAttribute('fetchpriority','high');
+  function openLightbox(index) {
+    const img = items[index];
+    current = index;
     lbimg.src = bestSrc(img);
     lb.classList.add('open');
     document.body.classList.add('noscroll');
 
     lastFocus = document.activeElement;
+    setTimeout(() => closeBtn.focus(), 50);
 
-    setTimeout(() => { closeBtn.focus(); }, 50);
-
-    const titleEl = document.getElementById('lb-title');
-    titleEl.textContent = img.alt || '';
-    titleEl.style.opacity = '1';
-    setTimeout(() => { titleEl.style.opacity = '0'; }, 7000);
-
-    openedAt = Date.now();
     currentTitle = img.alt || 'untitled';
     currentSrc = bestSrc(img);
-    sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-  }
+    lbTitle.textContent = currentTitle;
+    lbTitle.style.opacity = '1';
+    setTimeout(() => { lbTitle.style.opacity = '0'; }, 7000);
 
-  img.addEventListener('click', openLightbox);
-  img.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openLightbox();
-    }
-  });
-});
-
-function showAt(i){
-  current = (i + items.length) % items.length;
-  lbimg.src = bestSrc(items[current]);
-}
-
-function closeLB(){
-  const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
-  if (openedAt) {
-    sendGA('art_close', {
-      artwork_title: currentTitle || 'unknown',
-      artwork_src: currentSrc || 'unknown',
-      dwell_time_seconds: dwell
+    openedAt = Date.now();
+    sendGA('art_view', {
+      artwork_title: currentTitle,
+      artwork_src: currentSrc
     });
   }
 
-  if (lastFocus) lastFocus.focus();
+  function closeLightbox() {
+    const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
+    if (openedAt) {
+      sendGA('art_close', {
+        artwork_title: currentTitle || 'unknown',
+        artwork_src: currentSrc || 'unknown',
+        dwell_time_seconds: dwell
+      });
+    }
 
-  openedAt = 0;
-  currentTitle = '';
-  currentSrc = '';
-  lb.classList.remove('open');
-  document.body.classList.remove('noscroll');
-}
+    openedAt = 0;
+    currentTitle = '';
+    currentSrc = '';
 
-closeBtn.addEventListener('click', closeLB);
-lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+    lb.classList.remove('open');
+    document.body.classList.remove('noscroll');
 
-document.addEventListener('keydown', e => {
-  if (lb.classList.contains('open')) {
+    if (lastFocus) lastFocus.focus();
+  }
+
+  function showAt(i) {
+    current = (i + items.length) % items.length;
+    openLightbox(current);
+  }
+
+  // Hook up images
+  items.forEach((img, idx) => {
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
+
+    img.addEventListener('click', () => openLightbox(idx));
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox(idx);
+      }
+    });
+  });
+
+  // Close button
+  closeBtn.addEventListener('click', closeLightbox);
+
+  // Backdrop click
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) closeLightbox();
+  });
+
+  // ESC / arrow key support
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowRight') showAt(current + 1);
-    if (e.key === 'ArrowLeft')  showAt(current - 1);
-    if (e.key === 'Escape')     closeLB();
-  }
-});
-
-    
- // Show title for 7 seconds
-    const titleEl = document.getElementById('lb-title');
-    titleEl.textContent = img.alt || '';
-    titleEl.style.opacity = '1';
-    setTimeout(() => { titleEl.style.opacity = '0'; }, 7000);
-
-    // ---- GA: mark open time + fire art_view ----
-    openedAt = Date.now();
-    currentTitle = img.alt || 'untitled';
-    currentSrc = bestSrc(img);
-    sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-  }
-
-  img.addEventListener('click', openLightbox);
-  img.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault(); // prevent page scroll on Space
-      openLightbox();
-    }
+    if (e.key === 'ArrowLeft') showAt(current - 1);
   });
 });
 
-
-    function showAt(i){
-      current = (i + items.length) % items.length;
-      lbimg.src = bestSrc(items[current]);
-    }
-
-    function closeLB(){
-      // ---- GA: send art_close with dwell time ----
-      const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
-      if (openedAt) {
-        sendGA('art_close', {
-          artwork_title: currentTitle || 'unknown',
-          artwork_src: currentSrc || 'unknown',
-          dwell_time_seconds: dwell
-        });
-      }
-          if (lastFocus) {
-  lastFocus.focus();
-  }
-      // reset trackers
-      openedAt = 0;
-      currentTitle = '';
-      currentSrc = '';
-
-      // close UI
-      lb.classList.remove('open');
-      document.body.classList.remove('noscroll');
-    }
-
-    closeBtn.addEventListener('click', closeLB);
-    lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
-
-    document.addEventListener('keydown', e => {
-      if (lb.classList.contains('open')) {
-        if (e.key === 'ArrowRight') showAt(current + 1);
-        if (e.key === 'ArrowLeft')  showAt(current - 1);
-        if (e.key === 'Escape')     closeLB();
-      }
-    });
-  });
-</script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const button = document.getElementById('toggleTheme');
