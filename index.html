@@ -279,6 +279,22 @@
     const lb = document.getElementById('lb');
     const lbimg = document.getElementById('lbimg');
     const closeBtn = document.getElementById('lightboxClose');
+    // Fisher–Yates shuffle (except first image to preserve LCP)
+    function shuffleExceptFirst(container) {
+      const arr = Array.from(container.querySelectorAll('img'));
+      if (arr.length <= 2) return; // nothing to do (or single extra)
+      const first = arr.shift();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      container.replaceChildren(first, ...arr);
+    }
+
+    // Shuffle before wiring listeners
+    shuffleExceptFirst(gallery);
+
+    // Re-query after shuffle
     const items = gallery.querySelectorAll('img');
     const lbTitle = document.getElementById('lb-title');
 
