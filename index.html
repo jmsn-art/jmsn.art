@@ -633,12 +633,11 @@ lb.addEventListener('keydown', (e) => {
           artwork_title: currentTitle || 'unknown',
           artwork_src: currentSrc || 'unknown',
           dwell_time_seconds: dwell
-          if (lastFocus) {
-  lastFocus.focus();
-}
-
         });
       }
+          if (lastFocus) {
+  lastFocus.focus();
+  }
       // reset trackers
       openedAt = 0;
       currentTitle = '';
