@@ -98,6 +98,7 @@
   <meta name="twitter:title" content="jmsn.art – The Art Circle Project by Jameson McShane">
   <meta name="twitter:description" content="Exploring halos, broken circles, and surreal visions through AI collaboration.">
   <meta name="twitter:image" content="https://jmsn.art/images/File%2000001.jpeg">
+  <meta name="twitter:image:alt" content="Haloed Figure in Black and White by Jameson McShane">
 
   <!-- Preload first image to improve LCP -->
   <link rel="preload" as="image" href="images/File%2000001.jpeg" imagesrcset="images/File%2000001.jpeg" fetchpriority="high">
@@ -124,6 +125,10 @@
     transition: background 1.5s ease, color 1.5s ease;
   }
 
+  /* focus only on keyboard nav */
+  :focus { outline: none; }
+  :focus-visible { outline:2px solid #888; outline-offset:2px; }
+
   .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
   .gallery img {
     width:100%; height:auto; display:block; border-radius:8px;
@@ -133,11 +138,14 @@
     /* Reserve space before load (no CLS) */
     aspect-ratio: 4 / 5; object-fit: cover;
   }
+  /* lighter shadows in light mode */
+  .light-mode .gallery img { box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+
   .gallery img.lazy-loaded { opacity:1; }
 
   @media (hover:hover) and (pointer:fine) {
     .gallery img:hover { transform: scale(1.04); }
-    .gallery img:focus-visible { transform: scale(1.04); outline:2px solid #888; outline-offset:2px; }
+    .gallery img:focus-visible { transform: scale(1.04); }
   }
   @media (prefers-reduced-motion: reduce) { .gallery img { transition: opacity .01s linear; } }
 
@@ -155,6 +163,7 @@
     position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer;
     -webkit-appearance:none; appearance:none; background:transparent; border:0; line-height:1; padding:0;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
   .close::-moz-focus-inner { border:0; }
@@ -179,8 +188,24 @@
   }
 
   @media (prefers-reduced-motion: reduce) { .lb, .lb img { transition:none; } }
-    
-  /* --- Mobile tweaks: smaller thumbs & gentler lightbox --- */
+
+  /* --- Desktop guardrails so tiles don't get huge --- */
+  @media (min-width: 900px) {
+    .gallery {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 300px));
+      justify-content: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+  }
+
+  /* --- Phone: exactly one column & comfy fit on iPhone SE --- */
+  @media (max-width: 420px) {
+    body { padding: 12px; }
+    .gallery { grid-template-columns: 1fr; gap: 12px; }
+    .gallery img { border-radius: 6px; }
+    .lb img { max-width: 94%; max-height: 76vh; }
+  }
   </style>
 </head>
 <body>
@@ -192,194 +217,24 @@
 
   <div class="gallery" id="gallery">
     <!-- First image: eager load for LCP -->
-    <img src="images/File%2000001.jpeg" alt="Haloed Figure in Black and White by Jameson McShane" decoding="async" fetchpriority="high">
+    <img src="images/File%2000001.jpeg" alt="Haloed Figure in Black and White by Jameson McShane" decoding="async" fetchpriority="high" width="1200" height="1500">
 
-    <!-- Remaining images: lazy -->
-    <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000003.jpeg" alt="Leaky Bucket with Water Spill by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000004.jpeg" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane" loading="lazy" decoding="async">
-    <!-- <img src="images/File%2000005.jpeg" alt="Mughal-Inspired Silhouette with Golden Halo by Jameson McShane" loading="lazy" decoding="async"> -->
-    <img src="images/File%2000006.jpeg" alt="Pop Art Billboard on Suburban Highway by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000007.jpeg" alt="Roto Dorado en Mosaico by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000008.jpeg" alt="Sacred Canine in Haloed Glory by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000009.jpeg" alt="Sacred Reflection of Child and Dog by Jameson McShane" loading="lazy" decoding="async">
-    <!-- <img src="images/File%2000010.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async"> -->
-    <img src="images/File%2000011.jpeg" alt="The Circle of Conflict by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000012.jpeg" alt="Stealth Bombers Over Eastern Europe by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000014.jpeg" alt="Surreal Dining with Man and Puppy by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000015.jpeg" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000029.jpeg" alt="Broken Circle with Objects by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000030.jpeg" alt="Buddha's Serenity Amidst the City by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000032.jpeg" alt="Light Circle Around a Column by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000035.jpeg" alt="Circular Roadway Interchange in a Dry Landscape by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000040.jpeg" alt="Damaged SUV in Target Lot by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000052.jpeg" alt="Ethereal Figures with Ornate Halos by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000057.jpeg" alt="Glowing Arc of Ember Light by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000066.jpeg" alt="Golden Circle with Radiating Light by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000068.jpeg" alt="Golden Glow and Sleeping Circle by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000077.jpeg" alt="Golden Halo on Aged Background by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000078.jpeg" alt="Golden Halo on White Background by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000080.jpeg" alt="Golden Halo Over Silent Figure by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000083.jpeg" alt="Golden Halos and Graceful Hands by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000092.jpeg" alt="Labradors in Glowing Halos by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000102.jpeg" alt="Puppy and Diamond Skull Halo by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000112.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000113.jpeg" alt="Sacred Silhouettes on Parchment Backdrop by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000121.jpeg" alt="Sisters in Golden Halo Light by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000125.jpeg" alt="Stealth Aircraft Against Yellow Halo by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000138.jpeg" alt="Whale, Dog, and Meatloaf in Harmony by Jameson McShane" loading="lazy" decoding="async">
-    <img src="images/File%2000140.jpeg" alt="Diverse Group in Gym Circle by Jameson McShane" loading="lazy" decoding="async">
-  </div>
-
-  <!-- Lightbox as an accessible dialog -->
-  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
-    <button id="lightboxClose" class="close" aria-label="Close lightbox" title="Close lightbox">&times;</button>
-    <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
-      <img id="lbimg" alt="" tabindex="-1">
-      <div id="lb-title"></div>
-    </div>
-  </div>
-
-  <footer>
-    © 2025 Jameson McShane - The Art Circle Project ·
-    <a href="about.html" style="margin-right:10px">About</a>
-    <a href="contact.html">Contact</a>
-    <br><br>
-    <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-  </footer>
-
-  <script>
-  // --- GA helper: safely emit custom or GA4-recommended events ---
-  function sendGA(eventName, params) {
-    try { if (typeof gtag === 'function') { gtag('event', eventName, params || {}); } } catch (e) {}
-  }
-
-  // --- Theme: apply saved or system preference ---
-  (function initTheme(){
-    const btn = document.getElementById('toggleTheme');
-    const saved = localStorage.getItem('theme');
-    const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-    function apply(mode){
-      if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
-      else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
-    }
-    apply(saved ? saved : (preferLight ? 'light' : 'dark'));
-    btn.addEventListener('click', ()=>{
-      const isLight = document.body.classList.toggle('light-mode');
-      btn.setAttribute('aria-pressed', String(isLight));
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    });
-  })();
-
-  // --- Gallery / Lightbox ---
-  document.addEventListener('DOMContentLoaded', () => {
-    const gallery = document.getElementById('gallery');
-    const lb = document.getElementById('lb');
-    const lbimg = document.getElementById('lbimg');
-    const closeBtn = document.getElementById('lightboxClose');
-    // Fisher–Yates shuffle (except first image to preserve LCP)
-    function shuffleExceptFirst(container) {
-      const arr = Array.from(container.querySelectorAll('img'));
-      if (arr.length <= 2) return; // nothing to do (or single extra)
-      const first = arr.shift();
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      container.replaceChildren(first, ...arr);
-    }
-
-    // Shuffle before wiring listeners
-    shuffleExceptFirst(gallery);
-
-    // Re-query after shuffle
-    const items = gallery.querySelectorAll('img');
-    const lbTitle = document.getElementById('lb-title');
-
-    let lastFocus = null;
-    let current = 0;
-    let openedAt = 0;
-    let currentTitle = '';
-    let currentSrc = '';
-
-    // Fade-in when each image completes load (works with lazy)
-    items.forEach(img => {
-      if (img.complete) img.classList.add('lazy-loaded');
-      img.addEventListener('load', () => img.classList.add('lazy-loaded'));
-      // Make images operable by keyboard
-      img.tabIndex = 0;
-      img.setAttribute('role', 'button');
-      img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
-    });
-
-    function bestSrc(el) { return el.dataset.full || el.src; }
-
-    function openLightbox(index) {
-      const img = items[index];
-      current = index;
-      currentTitle = img.alt || 'untitled';
-      currentSrc = bestSrc(img);
-
-      lbimg.src = currentSrc;
-      lbimg.alt = currentTitle;
-      lb.classList.add('open');
-      lb.removeAttribute('aria-hidden');
-      document.body.classList.add('noscroll');
-
-      lastFocus = document.activeElement;
-      setTimeout(() => closeBtn.focus(), 50);
-
-      lbTitle.textContent = currentTitle;
-      lbTitle.style.opacity = '1';
-      setTimeout(() => { lbTitle.style.opacity = '0'; }, 7000);
-
-      openedAt = Date.now();
-      // Custom event name preserved for your reports
-      sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-      // Also emit GA4 recommended event (optional)
-      sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
-    }
-
-    function closeLightbox() {
-      const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt) / 1000)) : 0;
-      if (openedAt) {
-        sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
-      }
-      openedAt = 0; currentTitle = ''; currentSrc = '';
-
-      lb.classList.remove('open');
-      lb.setAttribute('aria-hidden','true');
-      document.body.classList.remove('noscroll');
-      if (lastFocus) lastFocus.focus();
-    }
-
-    function showAt(i) { current = (i + items.length) % items.length; openLightbox(current); }
-
-    // Hook up images
-    items.forEach((img, idx) => {
-      img.addEventListener('click', () => openLightbox(idx));
-      img.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(idx); }
-      });
-    });
-
-    // Close button
-    closeBtn.addEventListener('click', closeLightbox);
-
-    // Backdrop click
-    lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
-
-    // ESC / arrows + focus trap while dialog is open
-    document.addEventListener('keydown', (e) => {
-      if (!lb.classList.contains('open')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') showAt(current + 1);
-      if (e.key === 'ArrowLeft') showAt(current - 1);
-      if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }
-    });
-  });
-  </script>
-</body>
-</html>
+    <!-- Remaining images: lazy, with intrinsic size + low priority -->
+    <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000003.jpeg" alt="Leaky Bucket with Water Spill by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000004.jpeg" alt="Medieval-Inspired Golden Haloed Figures by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <!-- <img src="images/File%2000005.jpeg" alt="Mughal-Inspired Silhouette with Golden Halo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low"> -->
+    <img src="images/File%2000006.jpeg" alt="Pop Art Billboard on Suburban Highway by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000007.jpeg" alt="Roto Dorado en Mosaico by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000008.jpeg" alt="Sacred Canine in Haloed Glory by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000009.jpeg" alt="Sacred Reflection of Child and Dog by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <!-- <img src="images/File%2000010.jpeg" alt="Sacred Silhouettes in Gilded Reverence by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low"> -->
+    <img src="images/File%2000011.jpeg" alt="The Circle of Conflict by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000012.jpeg" alt="Stealth Bombers Over Eastern Europe by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000014.jpeg" alt="Surreal Dining with Man and Puppy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000015.jpeg" alt="Vibrant Canola Field in Afternoon Light by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000029.jpeg" alt="Broken Circle with Objects by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000030.jpeg" alt="Buddha's Serenity Amidst the City by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000032.jpeg" alt="Light Circle Around a Column by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" fetchpriority="low">
+    <img src="images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth by Jameson McShane" loading="lazy" decoding="async" width="1200" height="15
