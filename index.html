@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +24,7 @@
         "inLanguage": "en-US",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://jmsn.art/?q={search_term_string}",
+          "target": { "@type": "EntryPoint", "urlTemplate": "https://jmsn.art/?q={search_term_string}" },
           "query-input": "required name=search_term_string"
         }
       },
@@ -34,7 +33,7 @@
         "@id": "https://jmsn.art/#person",
         "name": "Jameson McShane",
         "url": "https://jmsn.art/about.html",
-        "image": "https://jmsn.art/images/file_000001_1200x1200.jpg",
+        "image": "https://jmsn.art/images/File%2000001.jpeg",
         "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN."
       },
       {
@@ -43,6 +42,7 @@
         "name": "The Art Circle Gallery by Jameson McShane",
         "url": "https://jmsn.art/",
         "isPartOf": { "@id": "https://jmsn.art/#website" },
+        "mainEntityOfPage": { "@id": "https://jmsn.art/#website" },
         "about": { "@id": "https://jmsn.art/#person" },
         "hasPart": {
           "@type": "ItemList",
@@ -132,10 +132,11 @@
   <meta name="twitter:image" content="https://jmsn.art/images/File%2000001.jpeg">
 
   <!-- Preload first image to improve LCP -->
-  <link rel="preload" as="image" href="images/File%2000001.jpeg" imagesrcset="images/File%2000001.jpeg" fetchpriority="high">
+  <link rel="preload" as="image" href="images/File%2000001.jpeg" imagesrcset="images/File%2000001.jpeg 1200w" imagesizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" fetchpriority="high">
 
-  <!-- Preconnect for GA -->
+  <!-- Preconnect + DNS Prefetch for GA -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
@@ -164,6 +165,7 @@
     transform-origin:center center; will-change:transform;
     /* Reserve space before load (no CLS) */
     aspect-ratio: 4 / 5; object-fit: cover;
+    -webkit-tap-highlight-color: transparent;
   }
   .gallery img.lazy-loaded { opacity:1; }
 
@@ -230,7 +232,8 @@
          alt="Haloed Figure in Black and White by Jameson McShane"
          decoding="async" fetchpriority="high"
          width="1200" height="1500"
-         sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
+         sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"
+         style="content-visibility:auto;">
 
     <!-- Remaining images: lazy + intrinsic sizes (assuming 4:5, 1200x1500) -->
     <img src="images/File%2000002.jpeg" alt="Human and Robot, Contrasting Forces by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px">
@@ -285,7 +288,7 @@
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
     <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close lightbox">&times;</button>
     <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
-      <img id="lbimg" alt="" tabindex="-1">
+      <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
       <div id="lb-title"></div>
     </div>
   </div>
