@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,14 +10,19 @@
   <link rel="canonical" href="https://jmsn.art/about.html">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#111111">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#111111">
 
   <!-- Robots -->
   <meta name="robots" content="index,follow,max-image-preview:large">
 
   <!-- SEO Meta -->
   <meta name="description" content="About The Art Circle Project by Jameson McShane: halos, broken circles, and the sacred within the ordinary — a collaboration between human imagination and AI chance.">
-  <meta name="keywords" content="AI art, digital art, Art Circle, broken circles, Jameson McShane, generative art, sanctified figures">
   <meta name="author" content="Jameson McShane">
 
   <!-- Open Graph / Social -->
@@ -32,33 +38,99 @@
   <meta name="twitter:description" content="Exploring the Art Circle philosophy: halos, broken circles, and AI collaboration.">
   <meta name="twitter:image" content="https://jmsn.art/images/File%2000001.jpeg">
 
+  <!-- JSON-LD (page-scoped graph) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://jmsn.art/#person",
+        "name": "Jameson McShane",
+        "url": "https://jmsn.art/about.html",
+        "image": "https://jmsn.art/images/File%2000001.jpeg",
+        "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN."
+      },
+      {
+        "@type": "AboutPage",
+        "@id": "https://jmsn.art/about.html#page",
+        "name": "About – The Art Circle Project by Jameson McShane",
+        "url": "https://jmsn.art/about.html",
+        "isPartOf": { "@id": "https://jmsn.art/#website" },
+        "about": { "@id": "https://jmsn.art/#person" },
+        "inLanguage": "en-US",
+        "mainEntity": { "@id": "https://jmsn.art/#person" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jmsn.art/" },
+          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://jmsn.art/about.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Preconnect for GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-FQPZNDPCGF');
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-FQPZNDPCGF');
   </script>
 
   <style>
-    :root { --bg:#111; --fg:#fff; --muted:#ddd; --link:#bbb; --max:860px; }
+    :root { --bg:#111; --fg:#fff; --muted:#ddd; --link:#bbb; --max:860px; color-scheme: dark light; }
+    .light-mode { --bg:#fefefe; --fg:#111; --muted:#333; --link:#333; color-scheme: dark light; }
     * { box-sizing: border-box; }
     body { margin:0; padding:40px 20px; background:var(--bg); color:var(--muted);
-           font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; }
+           font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+           transition: background 1.2s ease, color 1.2s ease; }
     .wrap { max-width: var(--max); margin: 0 auto; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:24px; }
+    .brand a { color:var(--fg); text-decoration:none; font-weight:600; letter-spacing:.2px; }
+    #toggleTheme { background:none; border:1px solid #444; color:var(--fg); padding:.35em .55em; border-radius:6px; cursor:pointer; }
+
     h1, h2 { color: var(--fg); margin: 0 0 14px; line-height: 1.25; }
     h1 { text-align:center; margin-bottom: 24px; }
     p { margin: 0 0 18px; }
-    em { color:#efefef; }
+    em, i {
+  color: inherit;   /* makes italics same color as body text */
+  font-style: italic;
+}
     a { color: var(--link); text-decoration: underline; }
     .divider { height:1px; background:#222; margin:28px 0; }
     footer { text-align:center; margin-top:36px; font-size:14px; opacity:.9; }
     .small { font-size:.95rem; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition:none !important; animation:none !important; }
+    }
+    /* Unified theme transition: everything changes together */
+:where(body, body *) {
+  transition-property: color, background-color, border-color, box-shadow, fill, stroke;
+  transition-duration: 1.5s;
+  transition-timing-function: ease;
+}
+
+/* Elements that shouldn't animate color (images/SVG bitmaps) */
+img, video, canvas { transition: none !important; }
+
+/* Your divider uses `background`; ensure it participates smoothly */
+.divider { background-color: #222; } /* was `background` */
+
   </style>
 </head>
 <body>
   <div class="wrap">
+    <header>
+      <div class="brand"><a href="/">← jmsn.art</a></div>
+      <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+    </header>
+
     <h1>About</h1>
 
     <!-- Intro / Manifesto -->
@@ -104,16 +176,32 @@
 
     <!-- Footer -->
     <footer>
-      <p><a href="index.html">← Back to Gallery</a></p>
-      <p class="small">
-        Contact: <a href="mailto:contact@jmsn.art">contact@jmsn.art</a> · ENS: <a href="https://app.ens.domains/jmsn.eth" rel="me">jmsn.eth</a>
-      </p>
+      <p><a href="/">← Back to Gallery</a> · <a href="/contact.html">Contact</a></p>
+      <p class="small">Contact: <a href="mailto:contact@jmsn.art">contact@jmsn.art</a> · ENS: <a href="https://app.ens.domains/jmsn.eth" rel="me">jmsn.eth</a></p>
       <p class="small">© <span id="y"></span> Jameson McShane</p>
     </footer>
   </div>
 
   <script>
+    // Year stamp
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Theme toggle (match index.html behavior)
+    (function initTheme(){
+      const btn = document.getElementById('toggleTheme');
+      const saved = localStorage.getItem('theme');
+      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      function apply(mode){
+        if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+        else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+      }
+      apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+      btn.addEventListener('click', ()=>{
+        const isLight = document.body.classList.toggle('light-mode');
+        btn.setAttribute('aria-pressed', String(isLight));
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      });
+    })();
   </script>
 </body>
 </html>
