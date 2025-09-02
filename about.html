@@ -108,6 +108,19 @@
     @media (prefers-reduced-motion: reduce) {
       * { transition:none !important; animation:none !important; }
     }
+    /* Unified theme transition: everything changes together */
+:where(body, body *) {
+  transition-property: color, background-color, border-color, box-shadow, fill, stroke;
+  transition-duration: .6s;
+  transition-timing-function: ease;
+}
+
+/* Elements that shouldn't animate color (images/SVG bitmaps) */
+img, video, canvas { transition: none !important; }
+
+/* Your divider uses `background`; ensure it participates smoothly */
+.divider { background-color: #222; } /* was `background` */
+
   </style>
 </head>
 <body>
