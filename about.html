@@ -2,90 +2,189 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About – The Art Circle Project by Jameson McShane</title>
 
+  <!-- Canonical -->
+  <link rel="canonical" href="https://jmsn.art/about.html">
+
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#111111">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#111111">
+
+  <!-- Robots -->
+  <meta name="robots" content="index,follow,max-image-preview:large">
+
+  <!-- SEO Meta -->
+  <meta name="description" content="About The Art Circle Project by Jameson McShane: halos, broken circles, and the sacred within the ordinary — a collaboration between human imagination and AI chance.">
+  <meta name="author" content="Jameson McShane">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="About – The Art Circle Project by Jameson McShane">
+  <meta property="og:description" content="Discover the philosophy behind The Art Circle Project: halos, broken circles, and AI collaboration shaping surreal digital visions.">
+  <meta property="og:image" content="https://jmsn.art/images/File%2000001.jpeg">
+  <meta property="og:url" content="https://jmsn.art/about.html">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About – The Art Circle Project by Jameson McShane">
+  <meta name="twitter:description" content="Exploring the Art Circle philosophy: halos, broken circles, and AI collaboration.">
+  <meta name="twitter:image" content="https://jmsn.art/images/File%2000001.jpeg">
+
+  <!-- JSON-LD (page-scoped graph) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://jmsn.art/#person",
+        "name": "Jameson McShane",
+        "url": "https://jmsn.art/about.html",
+        "image": "https://jmsn.art/images/File%2000001.jpeg",
+        "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN."
+      },
+      {
+        "@type": "AboutPage",
+        "@id": "https://jmsn.art/about.html#page",
+        "name": "About – The Art Circle Project by Jameson McShane",
+        "url": "https://jmsn.art/about.html",
+        "isPartOf": { "@id": "https://jmsn.art/#website" },
+        "about": { "@id": "https://jmsn.art/#person" },
+        "inLanguage": "en-US",
+        "mainEntity": { "@id": "https://jmsn.art/#person" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jmsn.art/" },
+          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://jmsn.art/about.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Preconnect for GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-FQPZNDPCGF');
+  </script>
 
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      margin: 2rem auto;
-      max-width: 700px;
-      padding: 0 1rem;
-      line-height: 1.6;
-      color: #111;
-      background-color: #fff;
-      transition: background-color 0.3s, color 0.3s;
-    }
+    :root { --bg:#111; --fg:#fff; --muted:#ddd; --link:#bbb; --max:860px; color-scheme: dark light; }
+    .light-mode { --bg:#fefefe; --fg:#111; --muted:#333; --link:#333; color-scheme: dark light; }
+    * { box-sizing: border-box; }
+    body { margin:0; padding:40px 20px; background:var(--bg); color:var(--muted);
+           font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+           transition: background 1.2s ease, color 1.2s ease; }
+    .wrap { max-width: var(--max); margin: 0 auto; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:24px; }
+    .brand a { color:var(--fg); text-decoration:none; font-weight:600; letter-spacing:.2px; }
+    #toggleTheme { background:none; border:1px solid #444; color:var(--fg); padding:.35em .55em; border-radius:6px; cursor:pointer; }
 
-    h1, h2 {
-      font-weight: 700;
-      line-height: 1.3;
-    }
+    h1, h2 { color: var(--fg); margin: 0 0 14px; line-height: 1.25; }
+    h1 { text-align:center; margin-bottom: 24px; }
+    p { margin: 0 0 18px; }
+    em { color:#efefef; }
+    a { color: var(--link); text-decoration: underline; }
+    .divider { height:1px; background:#222; margin:28px 0; }
+    footer { text-align:center; margin-top:36px; font-size:14px; opacity:.9; }
+    .small { font-size:.95rem; }
 
-    hr {
-      margin: 2rem 0;
-      border: none;
-      border-top: 1px solid #ccc;
-    }
-
-    a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      text-align: center;
-      color: #555;
-    }
-
-    /* Italics fix */
-    em, i {
-      color: inherit;
-      font-style: italic;
-    }
-
-    @media (prefers-color-scheme: light) {
-      body { background-color: #fff; color: #111; }
-      em, i { color: #222; }
-    }
-
-    @media (prefers-color-scheme: dark) {
-      body { background-color: #111; color: #eee; }
-      em, i { color: #ddd; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition:none !important; animation:none !important; }
     }
   </style>
 </head>
 <body>
-  <h1>About</h1>
-  <p>Art has always absorbed new tools — from brushes to cameras to code. At <strong>jmsn.art, Jameson McShane</strong> works in dialogue with <strong>chatJMSN</strong>, an artificial intelligence, to explore how creativity expands when human imagination meets algorithmic chance. Each piece is not only an image, but a record of collaboration between artist and machine.</p>
+  <div class="wrap">
+    <header>
+      <div class="brand"><a href="/">← jmsn.art</a></div>
+      <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+    </header>
 
-  <h2>The Art Circle</h2>
-  <p>At the heart of this work is the <em>art circle</em> — a recurring symbol that appears as halo, broken ring, or glowing form. These circles are not perfection but presence: reminders of continuity, fracture, and the spaces left open for interpretation.</p>
-  <p>By reimagining the circle in different contexts, the work explores sanctity, absence, and the tension between wholeness and incompleteness. The art circle is both motif and philosophy — a way of seeing the world as incomplete but radiant.</p>
+    <h1>About</h1>
 
-  <hr>
+    <!-- Intro / Manifesto -->
+    <p>
+      Art has always absorbed new tools — from brushes to cameras to code. At <strong>jmsn.art</strong>,
+      <strong>Jameson McShane</strong> works in dialogue with <strong>chatJMSN</strong>, an artificial intelligence,
+      to explore how creativity expands when human imagination meets algorithmic chance. Each piece is not only an image,
+      but a record of collaboration between artist and machine.
+    </p>
 
-  <h2>The Art Circle Project</h2>
-  <p>Halos, broken circles, and sanctified figures recur across this work as both <em>symbol</em> and <em>structure</em>. In this ongoing series, the circle becomes a vessel: of divinity, of rupture, of play.</p>
-  <p>Rendered with a stark minimalism and surreal wit, these images position the <em>sacred within the ordinary</em> — a dog at rest, a leaking bucket, a suburban field, even the machinery of war. Each composition invites viewers to consider how icons are made, dismantled, and reimagined in a contemporary world marked by technology, humor, and unease.</p>
-  <p>The project moves fluidly between the <em>monumental</em> and the <em>intimate</em>, between images that could hang as ancient altarpieces and those that wink with pop absurdity. What binds them is the circle: a timeless, universal form, fractured and reassembled here as both question and answer.</p>
+    <h2>The Art Circle</h2>
+    <p>
+      At the heart of this work is the <em>art circle</em> — a recurring symbol that appears as halo, broken ring, or
+      glowing form. These circles are not perfection but presence: reminders of continuity, fracture, and the spaces
+      left open for interpretation.
+    </p>
+    <p>
+      By reimagining the circle in different contexts, the work explores sanctity, absence, and the tension between
+      wholeness and incompleteness. The art circle is both motif and philosophy — a way of seeing the world as incomplete
+      but radiant.
+    </p>
 
-  <footer>
-    <p><a href="index.html">← Back to Gallery</a> · <a href="contact.html">Contact</a></p>
-    <p>Contact: <a href="mailto:contact@jmsn.art">contact@jmsn.art</a> · ENS: <a href="https://jmsn.eth.limo" target="_blank" rel="noopener">jmsn.eth</a></p>
-    <p>© 2025 Jameson McShane</p>
-  </footer>
+    <div class="divider"></div>
+
+    <!-- Curatorial Statement -->
+    <h2>The Art Circle Project</h2>
+    <p>
+      Halos, broken circles, and sanctified figures recur across this work as both <em>symbol</em> and <em>structure</em>.
+      In this ongoing series, the circle becomes a vessel: of divinity, of rupture, of play.
+    </p>
+    <p>
+      Rendered with a stark minimalism and surreal wit, these images position the <em>sacred within the ordinary</em> —
+      a dog at rest, a leaking bucket, a suburban field, even the machinery of war. Each composition invites viewers to
+      consider how icons are made, dismantled, and reimagined in a contemporary world marked by technology, humor, and unease.
+    </p>
+    <p>
+      The project moves fluidly between the <em>monumental</em> and the <em>intimate</em>, between images that could hang as
+      ancient altarpieces and those that wink with pop absurdity. What binds them is the circle: a timeless, universal form,
+      fractured and reassembled here as both question and answer.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- Footer -->
+    <footer>
+      <p><a href="/">← Back to Gallery</a> · <a href="/contact.html">Contact</a></p>
+      <p class="small">Contact: <a href="mailto:contact@jmsn.art">contact@jmsn.art</a> · ENS: <a href="https://app.ens.domains/jmsn.eth" rel="me">jmsn.eth</a></p>
+      <p class="small">© <span id="y"></span> Jameson McShane</p>
+    </footer>
+  </div>
+
+  <script>
+    // Year stamp
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Theme toggle (match index.html behavior)
+    (function initTheme(){
+      const btn = document.getElementById('toggleTheme');
+      const saved = localStorage.getItem('theme');
+      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      function apply(mode){
+        if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+        else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+      }
+      apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+      btn.addEventListener('click', ()=>{
+        const isLight = document.body.classList.toggle('light-mode');
+        btn.setAttribute('aria-pressed', String(isLight));
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      });
+    })();
+  </script>
 </body>
 </html>
