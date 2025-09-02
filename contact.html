@@ -103,6 +103,32 @@
     footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
     a{color:var(--fg)}
     @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+    /* --- Fix form readability in light mode --- */
+.light-mode input,
+.light-mode textarea {
+  background: #fff;
+  color: #111;
+  border-color: #ddd;
+}
+
+input, textarea { caret-color: currentColor; }
+
+.light-mode input::placeholder,
+.light-mode textarea::placeholder { color: #777; }
+
+.light-mode input.err,
+.light-mode textarea.err {
+  border-color: var(--err);
+  box-shadow: 0 0 6px rgba(255,107,107,.35);
+}
+
+.light-mode input.ok-field,
+.light-mode textarea.ok-field {
+  border-color: var(--ok);
+  box-shadow: 0 0 6px rgba(76,175,80,.3);
+}
+/* --- End patch --- */
+
   </style>
 </head>
 <body>
