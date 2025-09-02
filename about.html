@@ -96,7 +96,10 @@
     h1, h2 { color: var(--fg); margin: 0 0 14px; line-height: 1.25; }
     h1 { text-align:center; margin-bottom: 24px; }
     p { margin: 0 0 18px; }
-    em { color:#efefef; }
+    em, i {
+  color: inherit;   /* makes italics same color as body text */
+  font-style: italic;
+}
     a { color: var(--link); text-decoration: underline; }
     .divider { height:1px; background:#222; margin:28px 0; }
     footer { text-align:center; margin-top:36px; font-size:14px; opacity:.9; }
