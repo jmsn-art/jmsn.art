@@ -1,49 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact — jmsn.art</title>
+
+  <!-- Canonical -->
   <link rel="canonical" href="https://jmsn.art/contact.html">
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Favicon & PWA (match site) -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#111111">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#111111">
+
+  <!-- Robots -->
+  <meta name="robots" content="index,follow,max-image-preview:large">
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Contact Jameson McShane about The Art Circle Project. This form opens your own email app—no data stored on the site.">
+  <meta name="author" content="Jameson McShane">
+
+  <!-- Social -->
+  <meta property="og:title" content="Contact — jmsn.art">
+  <meta property="og:description" content="Send a note about The Art Circle Project. Your email app opens locally; nothing is stored on the website.">
+  <meta property="og:url" content="https://jmsn.art/contact.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://jmsn.art/images/File%2000001.jpeg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- JSON-LD (page-scoped) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        "@id": "https://jmsn.art/contact.html#page",
+        "name": "Contact — jmsn.art",
+        "url": "https://jmsn.art/contact.html",
+        "isPartOf": { "@id": "https://jmsn.art/#website" },
+        "inLanguage": "en-US",
+        "about": { "@id": "https://jmsn.art/#person" },
+        "mainEntity": { "@id": "https://jmsn.art/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://jmsn.art/#person",
+        "name": "Jameson McShane",
+        "url": "https://jmsn.art/about.html",
+        "image": "https://jmsn.art/images/File%2000001.jpeg",
+        "email": "mailto:contact@jmsn.art"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jmsn.art/" },
+          { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://jmsn.art/contact.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-FQPZNDPCGF');
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-FQPZNDPCGF');
   </script>
 
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Contact — jmsn.art</title>
   <style>
-    :root{--bg:#111;--fg:#fff;--muted:#ccc;--accent:#fff;--err:#ff6b6b;--ok:#4caf50}
+    :root{--bg:#111;--fg:#fff;--muted:#ccc;--accent:#fff;--err:#ff6b6b;--ok:#4caf50;color-scheme: dark light}
+    .light-mode{--bg:#fefefe;--fg:#111;--muted:#444;--accent:#111;color-scheme: dark light}
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Arial,Helvetica,sans-serif;display:flex;min-height:100vh}
+    body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;display:flex;min-height:100vh;transition:background 1.2s ease,color 1.2s ease}
     .wrap{max-width:720px;margin:auto;padding:32px 20px;width:100%}
-    h1{margin:0 0 18px;font-size:28px;letter-spacing:.3px}
-    p.sub{margin:0 0 24px;color:var(--muted)}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand a{color:var(--fg);text-decoration:none}
+    #toggleTheme{background:none;border:1px solid #444;color:var(--fg);padding:.35em .55em;border-radius:6px;cursor:pointer}
+    h1{margin:0 0 6px;font-size:28px;letter-spacing:.3px}
+    p.sub{margin:0 0 16px;color:var(--muted)}
     form{display:grid;gap:14px}
     label span{display:block;font-size:13px;margin:0 0 6px;color:var(--muted)}
-    input,textarea{
-      width:100%;
-      padding:12px 14px;
-      border:1px solid #2a2a2a;
-      background:#151515;
-      color:var(--fg);
-      border-radius:10px;
-      outline:none;
-      transition:border-color .3s ease, box-shadow .3s ease, background-position .3s ease;
-      background-repeat:no-repeat;
-      background-position:right 12px center;
-      background-size:18px 18px;
-    }
+    input,textarea{width:100%;padding:12px 14px;border:1px solid #2a2a2a;background:#151515;color:var(--fg);border-radius:10px;outline:none;transition:border-color .3s ease,box-shadow .3s ease,background-position .3s ease;background-repeat:no-repeat;background-position:right 12px center;background-size:18px 18px;-webkit-tap-highlight-color:transparent}
     input.err,textarea.err{border-color:var(--err);box-shadow:0 0 6px rgba(255,107,107,.6);background-image:none}
-    input.ok-field,textarea.ok-field{
-      border-color:var(--ok);
-      box-shadow:0 0 6px rgba(76,175,80,.6);
-      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234caf50'><path d='M16.7 5.3a1 1 0 010 1.4l-7.8 7.8a1 1 0 01-1.4 0L3.3 10a1 1 0 011.4-1.4l3.2 3.2 7.1-7.1a1 1 0 011.4 0z'/></svg>");
-    }
+    input.ok-field,textarea.ok-field{border-color:var(--ok);box-shadow:0 0 6px rgba(76,175,80,.6);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234caf50'><path d='M16.7 5.3a1 1 0 010 1.4l-7.8 7.8a1 1 0 01-1.4 0L3.3 10a1 1 0 011.4-1.4l3.2 3.2 7.1-7.1a1 1 0 011.4 0z'/></svg>")}
     textarea{min-height:140px;resize:vertical}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width: 560px){.row{grid-template-columns:1fr}}
     .err-msg{display:none;font-size:12px;color:var(--err);margin-top:6px;opacity:0;transition:opacity .3s ease}
     .err-msg.show{display:block;opacity:1}
     button{padding:12px 16px;border:0;border-radius:12px;background:var(--accent);color:#000;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:background .3s ease, transform .2s ease}
@@ -53,34 +102,40 @@
     .ok{display:none;margin-top:10px;font-size:14px}
     footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
     a{color:var(--fg)}
+    @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
   </style>
 </head>
 <body>
   <div class="wrap">
+    <header>
+      <div class="brand"><a href="/">← jmsn.art</a></div>
+      <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+    </header>
+
     <h1>Contact</h1>
-    <p class="sub">Send me a note — your email app will open with everything filled in.</p>
+    <p class="sub">Send me a note — your email app will open with everything filled in. No information is stored on this site.</p>
 
     <form id="contactForm" novalidate>
       <div class="row">
-        <label>
+        <label for="name">
           <span>Your Name</span>
-          <input type="text" id="name" name="name" placeholder="Jane Doe">
+          <input type="text" id="name" name="name" placeholder="Jane Doe" autocomplete="name" inputmode="text" aria-describedby="err-name">
           <div class="err-msg" id="err-name">Please add your name.</div>
         </label>
-        <label>
+        <label for="email">
           <span>Your Email</span>
-          <input type="email" id="email" name="email" placeholder="jane@example.com">
+          <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" inputmode="email" aria-describedby="err-email">
           <div class="err-msg" id="err-email">Please enter a valid email.</div>
         </label>
       </div>
-      <label>
+      <label for="subject">
         <span>Subject (optional)</span>
-        <input type="text" id="subject" name="subject" placeholder="Hello from jmsn.art">
+        <input type="text" id="subject" name="subject" placeholder="Hello from jmsn.art" autocomplete="off" aria-describedby="err-subject">
         <div class="err-msg" id="err-subject"></div>
       </label>
-      <label>
+      <label for="message">
         <span>Message</span>
-        <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+        <textarea id="message" name="message" placeholder="Write your message here..." aria-describedby="err-message"></textarea>
         <div class="err-msg" id="err-message">Please add a message.</div>
       </label>
       <button type="submit" id="sendBtn">Send</button>
@@ -88,26 +143,49 @@
       <div class="ok" id="okMsg">
         Opening your email app… if nothing happens, you can email me at
         <a id="safeEmail" href="#">(click to reveal)</a>.
+        <noscript>
+          <br>Or email <a href="mailto:contact@jmsn.art">contact@jmsn.art</a>.
+        </noscript>
       </div>
     </form>
 
-    <footer>© 2025 Jameson McShane · <a href="/">Back to gallery</a></footer>
+    <footer>© <span id="y"></span> Jameson McShane · <a href="/">Back to gallery</a></footer>
   </div>
 
 <script>
+  // Theme toggle (match other pages)
+  (function initTheme(){
+    const btn = document.getElementById('toggleTheme');
+    const saved = localStorage.getItem('theme');
+    const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    function apply(mode){
+      if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+      else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+    }
+    apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+    btn.addEventListener('click', ()=>{
+      const isLight = document.body.classList.toggle('light-mode');
+      btn.setAttribute('aria-pressed', String(isLight));
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  })();
+
+  // Year stamp
+  document.getElementById('y').textContent = new Date().getFullYear();
+
   (function(){
-    console.log('contact inline-errors live v5');
+    console.log('contact inline-errors live v6');
 
     const f = document.getElementById('contactForm');
-    const ok = document.getElementById('okMsg');
+    const okBox = document.getElementById('okMsg');
     const btn = document.getElementById('sendBtn');
     const safeEmail = document.getElementById('safeEmail');
 
     // Build email dynamically (keeps it out of raw HTML)
-    const parts = ["contact","@","jmsn",".","art"];
-    const addr = parts.join("");
+    const parts = ['contact','@','jmsn','.','art'];
+    const addr = parts.join('');
     safeEmail.textContent = addr;
-    safeEmail.href = "mailto:" + addr;
+    safeEmail.href = 'mailto:' + addr;
 
     // helpers
     const $ = id => document.getElementById(id);
@@ -115,45 +193,44 @@
       if (msg) {
         inputEl.classList.add('err');
         inputEl.classList.remove('ok-field');
+        inputEl.setAttribute('aria-invalid','true');
         errEl.textContent = msg;
         errEl.classList.add('show');
       } else {
         inputEl.classList.remove('err');
+        inputEl.removeAttribute('aria-invalid');
         errEl.classList.remove('show');
       }
     };
     const setOk = (inputEl) => {
       inputEl.classList.remove('err');
       inputEl.classList.add('ok-field');
+      inputEl.removeAttribute('aria-invalid');
     };
 
-    function valEmail(e){
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
-    }
+    function valEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
     function validate(){
       const name = $('name').value.trim();
       const email = $('email').value.trim();
       const message = $('message').value.trim();
 
-      let ok = true;
-      if (!name){ setErr($('name'), $('err-name'), 'Please add your name.'); ok = false; } 
+      let valid = true;
+      if (!name){ setErr($('name'), $('err-name'), 'Please add your name.'); valid = false; } 
       else { setErr($('name'), $('err-name'), ''); setOk($('name')); }
 
-      if (!email){ setErr($('email'), $('err-email'), 'Please enter your email.'); ok = false; }
-      else if (!valEmail(email)){ setErr($('email'), $('err-email'), 'Please enter a valid email.'); ok = false; }
+      if (!email){ setErr($('email'), $('err-email'), 'Please enter your email.'); valid = false; }
+      else if (!valEmail(email)){ setErr($('email'), $('err-email'), 'Please enter a valid email.'); valid = false; }
       else { setErr($('email'), $('err-email'), ''); setOk($('email')); }
 
-      if (!message){ setErr($('message'), $('err-message'), 'Please add a message.'); ok = false; }
+      if (!message){ setErr($('message'), $('err-message'), 'Please add a message.'); valid = false; }
       else { setErr($('message'), $('err-message'), ''); setOk($('message')); }
 
-      return ok;
+      return valid;
     }
 
     // live validation on typing
-    ['name','email','message'].forEach(id=>{
-      $(id).addEventListener('input', ()=> validate());
-    });
+    ['name','email','message'].forEach(id=>{ $(id).addEventListener('input', validate); });
 
     f.addEventListener('submit', function(e){
       e.preventDefault();
@@ -170,8 +247,13 @@
       const mailto = `mailto:${addr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
       // Show hint and launch the user's email client
-      ok.style.display = 'block';
+      okBox.style.display = 'block';
       window.location.href = mailto;
+
+      // Analytics events (optional)
+      if (typeof gtag === 'function') {
+        gtag('event','contact_attempt', { method: 'mailto' });
+      }
 
       setTimeout(()=>{ btn.disabled = false; }, 2500);
     });
