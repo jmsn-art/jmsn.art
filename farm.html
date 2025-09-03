@@ -79,18 +79,22 @@
 </head>
 <body>
   <header>
-    <div>
-      <h1>Art Circle Farm <span class="tag">private</span></h1>
-      <div class="notice">Unlisted catalog. Share URL only with trusted viewers.</div>
-    </div>
+  <div>
+    <h1>Art Circle Farm <span class="tag">private</span></h1>
+    <div class="notice">Unlisted catalog. Share URL only with trusted viewers.</div>
+  </div>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <a href="https://jmsn.art" style="color:inherit; text-decoration:underline; font-size:14px;">↩︎ jmsn.art</a>
     <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-  </header>
+  </div>
+</header>
+
 
   <div class="gallery" id="gallery">
     <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
     <img src="/images/Farm_00001.jpeg" alt="Farm 1 by Jameson McShane" width="1200" height="1500" decoding="async">
     <img src="/images/Farm_00002.jpeg" alt="Farm 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00003.jpeg" alt="Farm 3 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00003.jpeg" alt="Farm 3 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
     <img src="/images/Farm_00004.jpeg" alt="Farm 4 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00005.jpeg" alt="Farm 5 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00006.jpeg" alt="Farm 6 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
@@ -118,8 +122,10 @@
   </div>
 
   <footer>
-    © 2025 Jameson McShane — Art Circle Farm (private)
-  </footer>
+  © 2025 Jameson McShane — Art Circle Farm (private) · 
+  <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a>
+</footer>
+
 
   <script>
     // Theme toggle (same behavior as main site)
