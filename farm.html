@@ -17,6 +17,19 @@
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png">
 
+  <!-- Preconnect + GA4 (same Measurement ID as main site) -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCGF');
+    // Helper to safely emit GA events
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
+  </script>
+
   <style>
     :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
     .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
@@ -74,7 +87,8 @@
   </header>
 
   <div class="gallery" id="gallery">
-    <img src="/images/Farm_00001.jpeg" alt="Farm 1 by Jameson McShane" width="1200" height="1500" decoding="async" fetchpriority="high">
+    <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
+    <img src="/images/Farm_00001.jpeg" alt="Farm 1 by Jameson McShane" width="1200" height="1500" decoding="async">
     <img src="/images/Farm_00002.jpeg" alt="Farm 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00003.jpeg" alt="Farm 3 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00004.jpeg" alt="Farm 4 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
@@ -108,6 +122,7 @@
   </footer>
 
   <script>
+    // Theme toggle (same behavior as main site)
     (function initTheme(){
       const btn = document.getElementById('toggleTheme');
       const saved = localStorage.getItem('theme');
@@ -126,81 +141,130 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       const gallery = document.getElementById('gallery');
+
       // Fisher–Yates shuffle but keep Farm_00018.jpeg first
-function shuffleExceptFirst(container) {
-  const arr = Array.from(container.querySelectorAll('img'));
-  if (arr.length <= 1) return;
+      function shuffleExceptFirst(container) {
+        const all = Array.from(container.querySelectorAll('img'));
+        if (all.length <= 1) return;
 
-  // find Farm_00018.jpeg
-  const first = arr.find(img => img.src.includes("Farm_00018.jpeg"));
-  const rest = arr.filter(img => img !== first);
+        // Find the intended first image (Farm_00018.jpeg)
+        const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
+        const rest = all.filter(img => img !== first);
 
-  // shuffle the rest
-  for (let i = rest.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [rest[i], rest[j]] = [rest[j], rest[i]];
-  }
+        // Shuffle the rest
+        for (let i = rest.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [rest[i], rest[j]] = [rest[j], rest[i]];
+        }
 
-  // rebuild gallery with Farm_00018.jpeg pinned
-  if (first) {
-    container.replaceChildren(first, ...rest);
-  } else {
-    container.replaceChildren(...rest); // fallback if not found
-  }
-}
+        // Rebuild with Farm_00018 first (if found)
+        if (first) container.replaceChildren(first, ...rest);
+        else container.replaceChildren(...rest);
+      }
 
-// Shuffle before wiring listeners
-shuffleExceptFirst(gallery);
+      // Shuffle now
+      shuffleExceptFirst(gallery);
 
-      const items = gallery.querySelectorAll('img');
+      // PRIORITIZE the pinned first image for LCP + make it visible immediately
+      const firstImg = gallery.querySelector('img');
+      if (firstImg) {
+        // Highest network priority
+        firstImg.setAttribute('fetchpriority', 'high');
+        firstImg.removeAttribute('loading'); // ensure eager load if browser respects it
+        // Immediate fade-in (skip waiting for 'load' to add class)
+        firstImg.classList.add('lazy-loaded');
+      }
+
+      // Build a live ordered list after shuffle (for navigation)
+      let ordered = Array.from(gallery.querySelectorAll('img'));
+
+      // Lightbox elements
       const lb = document.getElementById('lb');
       const lbimg = document.getElementById('lbimg');
       const closeBtn = document.getElementById('lightboxClose');
       const lbTitle = document.getElementById('lb-title');
 
-      items.forEach(img => {
-        if (img.complete) img.classList.add('lazy-loaded');
-        img.addEventListener('load', () => img.classList.add('lazy-loaded'));
-        img.tabIndex = 0; img.setAttribute('role','button');
+      // Progressive fade-in on load for the rest
+      ordered.forEach(img => {
+        if (img !== firstImg) {
+          if (img.complete) img.classList.add('lazy-loaded');
+          else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
+        }
+        img.tabIndex = 0;
+        img.setAttribute('role','button');
         img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
       });
 
-      let current = 0, openedAt = 0, lastFocus = null;
-      let currentTitle = '', currentSrc = '';
+      let currentIndex = 0;
+      let openedAt = 0;
+      let lastFocus = null;
+      let currentTitle = '';
+      let currentSrc = '';
 
-      function bestSrc(el){ return el.dataset.full || el.src; }
+      function openLightboxByIndex(index){
+        ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
+        currentIndex = (index + ordered.length) % ordered.length;
+        const img = ordered[currentIndex];
+        currentTitle = img.alt || 'untitled';
+        currentSrc = img.dataset.full || img.src;
 
-      function openLightbox(index){
-        const img = items[index]; current = index;
-        currentTitle = img.alt || 'untitled'; currentSrc = bestSrc(img);
-        lbimg.src = currentSrc; lbimg.alt = currentTitle;
-        lb.classList.add('open'); lb.removeAttribute('aria-hidden');
+        lbimg.src = currentSrc;
+        lbimg.alt = currentTitle;
+        lb.classList.add('open');
+        lb.removeAttribute('aria-hidden');
         document.body.classList.add('noscroll');
-        lastFocus = document.activeElement; setTimeout(()=> closeBtn.focus(), 50);
+        lastFocus = document.activeElement;
+        setTimeout(()=> closeBtn.focus(), 50);
         lbTitle.textContent = currentTitle;
         openedAt = Date.now();
+
+        // GA4: mirror main gallery events
+        sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+        sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+      }
+
+      function openLightboxByEl(el){
+        ordered = Array.from(gallery.querySelectorAll('img'));
+        const idx = ordered.indexOf(el);
+        openLightboxByIndex(idx >= 0 ? idx : 0);
       }
 
       function closeLightbox(){
         const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt)/1000)) : 0;
-        lb.classList.remove('open'); lb.setAttribute('aria-hidden','true');
-        document.body.classList.remove('noscroll'); openedAt = 0;
+        lb.classList.remove('open');
+        lb.setAttribute('aria-hidden','true');
+        document.body.classList.remove('noscroll');
         if (lastFocus) lastFocus.focus();
+
+        // GA4: close event with dwell time
+        if (openedAt) {
+          sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
+        }
+        openedAt = 0; currentTitle = ''; currentSrc = '';
       }
 
-      function showAt(i){ const n = items.length; if (!n) return; const next = (i + n) % n; openLightbox(next); }
+      function showNext(delta){
+        openLightboxByIndex(currentIndex + delta);
+      }
 
-      items.forEach((img, idx) => {
-        img.addEventListener('click', () => openLightbox(idx));
-        img.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' ') { e.preventDefault(); openLightbox(idx); } });
+      // Click / keyboard hooks
+      ordered.forEach((img) => {
+        img.addEventListener('click', () => openLightboxByEl(img));
+        img.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightboxByEl(img); }
+        });
       });
+
+      // Close interactions
       closeBtn.addEventListener('click', closeLightbox);
-      lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
-      document.addEventListener('keydown', e => {
+      document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
+
+      // Global key handling
+      document.addEventListener('keydown', (e) => {
         if (!lb.classList.contains('open')) return;
-        if (e.key==='Escape') closeLightbox();
-        if (e.key==='ArrowRight') showAt(current + 1);
-        if (e.key==='ArrowLeft') showAt(current - 1);
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') showNext(+1);
+        if (e.key === 'ArrowLeft') showNext(-1);
       });
     });
   </script>
