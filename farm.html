@@ -126,6 +126,32 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       const gallery = document.getElementById('gallery');
+      // Fisher–Yates shuffle but keep Farm_00018.jpeg first
+function shuffleExceptFirst(container) {
+  const arr = Array.from(container.querySelectorAll('img'));
+  if (arr.length <= 1) return;
+
+  // find Farm_00018.jpeg
+  const first = arr.find(img => img.src.includes("Farm_00018.jpeg"));
+  const rest = arr.filter(img => img !== first);
+
+  // shuffle the rest
+  for (let i = rest.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rest[i], rest[j]] = [rest[j], rest[i]];
+  }
+
+  // rebuild gallery with Farm_00018.jpeg pinned
+  if (first) {
+    container.replaceChildren(first, ...rest);
+  } else {
+    container.replaceChildren(...rest); // fallback if not found
+  }
+}
+
+// Shuffle before wiring listeners
+shuffleExceptFirst(gallery);
+
       const items = gallery.querySelectorAll('img');
       const lb = document.getElementById('lb');
       const lbimg = document.getElementById('lbimg');
