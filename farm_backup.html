@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Secret catalog page: intentionally unlinked -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Keep this page out of search results -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+
+  <title>Art Circle Farm — Secret Catalog</title>
+
+  <!-- Optional: lightweight social preview (won't be crawled if noindex respected) -->
+  <meta property="og:title" content="Art Circle Farm — Secret Catalog">
+  <meta property="og:description" content="Private catalog of the new Art Circle Farm series by Jameson McShane.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" type="image/png" href="/favicon-32x32.png">
+
+  <!-- Preconnect + GA4 (same Measurement ID as main site) -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCGF');
+    // Helper to safely emit GA events
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
+  </script>
+
+  <style>
+    :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
+    .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
+
+    html, body { height:100%; }
+    body {
+      margin:0; padding:20px; background:var(--bg); color:var(--fg);
+      font-family: Arial, Helvetica, sans-serif;
+      transition: background 1.5s ease, color 1.5s ease;
+    }
+
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+    header h1 { font-size:18px; margin:0; letter-spacing:.3px; font-weight:600; opacity:.9; }
+    header small { opacity:.6; font-size:12px; }
+
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
+    .gallery img {
+      width:100%; height:auto; display:block; border-radius:8px;
+      box-shadow:0 4px 12px rgba(0,0,0,.5); cursor:pointer;
+      opacity:0; transition: transform .75s ease, opacity 1.5s ease-in-out;
+      transform-origin:center center; will-change:transform;
+      aspect-ratio: 4 / 5; object-fit: cover; -webkit-tap-highlight-color: transparent;
+    }
+    .gallery img.lazy-loaded { opacity:1; }
+
+    @media (hover:hover) and (pointer:fine) {
+      .gallery img:hover { transform: scale(1.04); }
+      .gallery img:focus-visible { transform: scale(1.04); outline:2px solid #888; outline-offset:2px; }
+    }
+
+    /* Lightbox */
+    .lb { position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .75s ease; }
+    .lb.open { opacity:1; pointer-events:auto; }
+    .lb img { display:block; max-width:92%; max-height:80vh; opacity:0; transition:opacity 1.5s ease .12s; }
+    .lb.open img { opacity:1; }
+    .close { position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; background:transparent; border:0; line-height:1; padding:0; -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; }
+    .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
+
+    footer { text-align:center; margin:36px 0 6px; opacity:.8; font-size:13px; }
+    footer button { background:none; border:1px solid var(--muted); color:var(--fg); font-size:.9em; padding:.4em .6em; border-radius:5px; cursor:pointer; }
+
+    .notice { display:flex; gap:8px; align-items:center; font-size:12px; opacity:.65; }
+    .tag { display:inline-block; border:1px solid var(--muted); color:var(--fg); padding:.1em .45em; border-radius:999px; font-size:11px; letter-spacing:.2px; }
+
+    @media (prefers-reduced-motion: reduce) { .gallery img, .lb, .lb img { transition:none !important; animation:none !important; } }
+  </style>
+</head>
+<body>
+  <header>
+  <div>
+    <h1>Art Circle Farm <span class="tag">private</span></h1>
+    <div class="notice">Unlisted catalog. Share URL only with trusted viewers.</div>
+  </div>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <a href="https://jmsn.art" style="color:inherit; text-decoration:underline; font-size:14px;">↩︎ jmsn.art</a>
+    <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+  </div>
+</header>
+
+
+  <div class="gallery" id="gallery">
+    <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
+    <img src="/images/Farm_00001.jpeg" alt="Farm 1 by Jameson McShane" width="1200" height="1500" decoding="async">
+    <img src="/images/Farm_00002.jpeg" alt="Farm 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00003.jpeg" alt="Farm 3 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
+    <img src="/images/Farm_00004.jpeg" alt="Farm 4 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00005.jpeg" alt="Farm 5 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00006.jpeg" alt="Farm 6 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00007.jpeg" alt="Farm 7 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00008.jpeg" alt="Farm 8 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
+    <img src="/images/Farm_00009.jpeg" alt="Farm 9 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00010.jpeg" alt="Farm 10 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00011.jpeg" alt="Farm 11 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00012.jpeg" alt="Farm 12 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00013.jpeg" alt="Farm 13 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00014.jpeg" alt="Farm 14 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00015.jpeg" alt="Farm 15 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00016.jpeg" alt="Farm 16 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00017.jpeg" alt="Farm 17 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00018.jpeg" alt="Farm 18 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+  <img src="/images/Farm_00019.jpeg" alt="Farm 19 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+  <img src="/images/Farm_00020.jpeg" alt="Farm 20 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+  <img src="/images/Farm_00021.jpeg" alt="Farm 21 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+  <img src="/images/Farm_00022.jpeg" alt="Farm 22 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+  <img src="/images/Farm_00023.jpeg" alt="Farm 23 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+  <img src="/images/Farm_00024.jpeg" alt="Farm 24 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+  <img src="/images/Farm_00025.jpeg" alt="Farm 25 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+  <img src="/images/Farm_00026.jpeg" alt="Farm 26 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+</div>
+
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
+    <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close">&times;</button>
+    <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
+      <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
+      <div id="lb-title" style="margin-top:12px; color:#fff; background:rgba(0,0,0,.7); padding:6px 12px; font-size:14px; border-radius:4px; white-space:normal; text-align:center;"></div>
+    </div>
+  </div>
+
+  <footer>
+  © 2025 Jameson McShane — Art Circle Farm (private) · 
+  <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a>
+</footer>
+
+
+  <script>
+    // Theme toggle (same behavior as main site)
+    (function initTheme(){
+      const btn = document.getElementById('toggleTheme');
+      const saved = localStorage.getItem('theme');
+      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      function apply(mode){
+        if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+        else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+      }
+      apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+      btn.addEventListener('click', ()=>{
+        const isLight = document.body.classList.toggle('light-mode');
+        btn.setAttribute('aria-pressed', String(isLight));
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      });
+    })();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const gallery = document.getElementById('gallery');
+
+      // Fisher–Yates shuffle but keep Farm_00018.jpeg first
+      function shuffleExceptFirst(container) {
+        const all = Array.from(container.querySelectorAll('img'));
+        if (all.length <= 1) return;
+
+        // Find the intended first image (Farm_00018.jpeg)
+        const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
+        const rest = all.filter(img => img !== first);
+
+        // Shuffle the rest
+        for (let i = rest.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [rest[i], rest[j]] = [rest[j], rest[i]];
+        }
+
+        // Rebuild with Farm_00018 first (if found)
+        if (first) container.replaceChildren(first, ...rest);
+        else container.replaceChildren(...rest);
+      }
+
+      // Shuffle now
+      shuffleExceptFirst(gallery);
+
+      // PRIORITIZE the pinned first image for LCP + make it visible immediately
+      const firstImg = gallery.querySelector('img');
+      if (firstImg) {
+        // Highest network priority
+        firstImg.setAttribute('fetchpriority', 'high');
+        firstImg.removeAttribute('loading'); // ensure eager load if browser respects it
+        // Immediate fade-in (skip waiting for 'load' to add class)
+        firstImg.classList.add('lazy-loaded');
+      }
+
+      // Build a live ordered list after shuffle (for navigation)
+      let ordered = Array.from(gallery.querySelectorAll('img'));
+
+      // Lightbox elements
+      const lb = document.getElementById('lb');
+      const lbimg = document.getElementById('lbimg');
+      const closeBtn = document.getElementById('lightboxClose');
+      const lbTitle = document.getElementById('lb-title');
+
+      // Progressive fade-in on load for the rest
+      ordered.forEach(img => {
+        if (img !== firstImg) {
+          if (img.complete) img.classList.add('lazy-loaded');
+          else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
+        }
+        img.tabIndex = 0;
+        img.setAttribute('role','button');
+        img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
+      });
+
+      let currentIndex = 0;
+      let openedAt = 0;
+      let lastFocus = null;
+      let currentTitle = '';
+      let currentSrc = '';
+
+      function openLightboxByIndex(index){
+        ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
+        currentIndex = (index + ordered.length) % ordered.length;
+        const img = ordered[currentIndex];
+        currentTitle = img.alt || 'untitled';
+        currentSrc = img.dataset.full || img.src;
+
+        lbimg.src = currentSrc;
+        lbimg.alt = currentTitle;
+        lb.classList.add('open');
+        lb.removeAttribute('aria-hidden');
+        document.body.classList.add('noscroll');
+        lastFocus = document.activeElement;
+        setTimeout(()=> closeBtn.focus(), 50);
+        lbTitle.textContent = currentTitle;
+        openedAt = Date.now();
+
+        // GA4: mirror main gallery events
+        sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+        sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+      }
+
+      function openLightboxByEl(el){
+        ordered = Array.from(gallery.querySelectorAll('img'));
+        const idx = ordered.indexOf(el);
+        openLightboxByIndex(idx >= 0 ? idx : 0);
+      }
+
+      function closeLightbox(){
+        const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt)/1000)) : 0;
+        lb.classList.remove('open');
+        lb.setAttribute('aria-hidden','true');
+        document.body.classList.remove('noscroll');
+        if (lastFocus) lastFocus.focus();
+
+        // GA4: close event with dwell time
+        if (openedAt) {
+          sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
+        }
+        openedAt = 0; currentTitle = ''; currentSrc = '';
+      }
+
+      function showNext(delta){
+        openLightboxByIndex(currentIndex + delta);
+      }
+
+      // Click / keyboard hooks
+      ordered.forEach((img) => {
+        img.addEventListener('click', () => openLightboxByEl(img));
+        img.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightboxByEl(img); }
+        });
+      });
+
+      // Close interactions
+      closeBtn.addEventListener('click', closeLightbox);
+      document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
+
+      // Global key handling
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') showNext(+1);
+        if (e.key === 'ArrowLeft') showNext(-1);
+      });
+    });
+  </script>
+</body>
+</html>
