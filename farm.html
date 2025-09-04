@@ -17,6 +17,9 @@
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png">
 
+  <!-- Preload pinned/LCP image -->
+  <link rel="preload" as="image" href="/images/Farm_00018.jpeg" imagesrcset="/images/Farm_00018.jpeg 1200w" imagesizes="(min-width: 600px) 50vw, 100vw">
+
   <!-- Preconnect + GA4 (same Measurement ID as main site) -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
@@ -40,6 +43,8 @@
       font-family: Arial, Helvetica, sans-serif;
       transition: background 1.5s ease, color 1.5s ease;
     }
+    /* prevent background scroll when lightbox is open */
+    body.noscroll { overflow: hidden; }
 
     header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
     header h1 { font-size:18px; margin:0; letter-spacing:.3px; font-weight:600; opacity:.9; }
@@ -55,7 +60,7 @@
     }
     .gallery img.lazy-loaded { opacity:1; }
 
-    @media (hover:hover) and (pointer:fine) {
+    @media (hover:hover) and (pointer:fine)) {
       .gallery img:hover { transform: scale(1.04); }
       .gallery img:focus-visible { transform: scale(1.04); outline:2px solid #888; outline-offset:2px; }
     }
@@ -79,16 +84,15 @@
 </head>
 <body>
   <header>
-  <div>
-    <h1>Art Circle Farm <span class="tag">private</span></h1>
-    <div class="notice">Unlisted catalog. Share URL only with trusted viewers.</div>
-  </div>
-  <div style="display:flex; gap:10px; align-items:center;">
-    <a href="https://jmsn.art" style="color:inherit; text-decoration:underline; font-size:14px;">↩︎ jmsn.art</a>
-    <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-  </div>
-</header>
-
+    <div>
+      <h1>Art Circle Farm <span class="tag">private</span></h1>
+      <div class="notice">Unlisted catalog. Share URL only with trusted viewers.</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <a href="https://jmsn.art" style="color:inherit; text-decoration:underline; font-size:14px;">↩︎ jmsn.art</a>
+      <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+    </div>
+  </header>
 
   <div class="gallery" id="gallery">
     <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
@@ -110,16 +114,15 @@
     <img src="/images/Farm_00016.jpeg" alt="Farm 16 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00017.jpeg" alt="Farm 17 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00018.jpeg" alt="Farm 18 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00019.jpeg" alt="Farm 19 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00020.jpeg" alt="Farm 20 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00021.jpeg" alt="Farm 21 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00022.jpeg" alt="Farm 22 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00023.jpeg" alt="Farm 23 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00024.jpeg" alt="Farm 24 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00025.jpeg" alt="Farm 25 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00026.jpeg" alt="Farm 26 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-</div>
 
+    <img src="/images/Farm_00019.jpeg" alt="Farm 19 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00019.jpeg">
+    <img src="/images/Farm_00020.jpeg" alt="Farm 20 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00020.jpeg">
+    <img src="/images/Farm_00021.jpeg" alt="Farm 21 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00021.jpeg">
+    <img src="/images/Farm_00022.jpeg" alt="Farm 22 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00022.jpeg">
+    <img src="/images/Farm_00023.jpeg" alt="Farm 23 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00023.jpeg">
+    <img src="/images/Farm_00024.jpeg" alt="Farm 24 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00024.jpeg">
+    <img src="/images/Farm_00025.jpeg" alt="Farm 25 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00025.jpeg">
+    <img src="/images/Farm_00026.jpeg" alt="Farm 26 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00026.jpeg">
   </div>
 
   <!-- Lightbox -->
@@ -132,10 +135,9 @@
   </div>
 
   <footer>
-  © 2025 Jameson McShane — Art Circle Farm (private) · 
-  <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a>
-</footer>
-
+    © 2025 Jameson McShane — Art Circle Farm (private) ·
+    <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a>
+  </footer>
 
   <script>
     // Theme toggle (same behavior as main site)
@@ -155,8 +157,30 @@
       });
     })();
 
+    // ---- ALT TITLES you can edit (only 19–26 shown) ----
+    // Fill in any you know. Leave blank to keep the existing "Farm N by Jameson McShane".
+    const ALT_TITLES = {
+      "Farm_00019.jpeg": "", // e.g., "Art Circle Farm — Two Silos at Dusk"
+      "Farm_00020.jpeg": "",
+      "Farm_00021.jpeg": "",
+      "Farm_00022.jpeg": "",
+      "Farm_00023.jpeg": "",
+      "Farm_00024.jpeg": "",
+      "Farm_00025.jpeg": "",
+      "Farm_00026.jpeg": ""
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
       const gallery = document.getElementById('gallery');
+
+      // Apply any custom alt titles (19–26) before shuffling
+      Array.from(gallery.querySelectorAll('img[data-filename]')).forEach(img => {
+        const file = img.getAttribute('data-filename');
+        const custom = ALT_TITLES[file];
+        if (custom && custom.trim()) {
+          img.alt = custom.trim();
+        }
+      });
 
       // Fisher–Yates shuffle but keep Farm_00018.jpeg first
       function shuffleExceptFirst(container) {
