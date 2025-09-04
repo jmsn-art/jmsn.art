@@ -11,7 +11,7 @@
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png">
 
-  <!-- Preconnect + GA4 (same Measurement ID as main site) -->
+  <!-- Preconnect + GA4 -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
@@ -20,7 +20,6 @@
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-FQPZNDPCGF');
-    // Helper to safely emit GA events (mirrors farm.html)
     function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
   </script>
 
@@ -28,67 +27,71 @@
     :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
     .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
 
-    html, body { height:100%; }
+    html, body { height:100%; margin:0; }
     body {
-      margin:0; padding:20px; background:var(--bg); color:var(--fg);
+      background:var(--bg); color:var(--fg);
       font-family: Arial, Helvetica, sans-serif;
+      display:flex; align-items:center; justify-content:center;
       transition: background 1.5s ease, color 1.5s ease;
     }
+
+    .dialogue {
+      max-width: 600px;
+      padding: 30px 40px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.75);
+      box-shadow: 0 8px 30px rgba(0,0,0,.6);
+      text-align: center;
+
+      /* synced fade-in */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+    }
+    .dialogue.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .light-mode .dialogue { background: rgba(255,255,255,.9); }
+
+    h1 { font-size:20px; margin-top:0; font-weight:600; }
+    p { margin: 0 0 1em; line-height:1.6; }
     a { color:inherit; text-decoration:underline; }
 
-    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
-    header h1 { font-size:18px; margin:0; letter-spacing:.3px; font-weight:600; opacity:.9; }
-    .tag { display:inline-block; border:1px solid var(--muted); color:var(--fg); padding:.1em .45em; border-radius:999px; font-size:11px; letter-spacing:.2px; }
-    .notice { display:flex; gap:8px; align-items:center; font-size:12px; opacity:.65; }
-
-    main { max-width: 720px; line-height: 1.6; margin: 0 auto; }
-    h2 { font-size:16px; margin-top:1.6em; }
-    p { margin: 0 0 1em; }
-
-    footer { text-align:center; margin:36px 0 6px; opacity:.8; font-size:13px; }
-    #toggleTheme { background:none; border:1px solid var(--muted); color:var(--fg); font-size:.9em; padding:.4em .6em; border-radius:5px; cursor:pointer; }
+    footer { margin-top: 24px; font-size:13px; opacity:.8; }
+    #toggleTheme { background:none; border:1px solid var(--muted); color:var(--fg); font-size:.9em; padding:.3em .5em; border-radius:5px; cursor:pointer; }
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>About — Art Circle Farm <span class="tag">private</span></h1>
-      <div class="notice">Unlisted page. Share URL only with trusted viewers.</div>
-    </div>
-    <div style="display:flex; gap:10px; align-items:center;">
-      <a href="/farm.html" style="font-size:14px;">↩︎ Catalog</a>
-      <a href="https://jmsn.art" style="font-size:14px;">jmsn.art</a>
+  <div class="dialogue" id="dialogueBox">
+    <header>
+      <h1>About — Art Circle Farm</h1>
+    </header>
+
+    <main>
+      <p><em>Art Circle Farm</em> is a field project inside my larger Art Circle practice. I’m documenting
+      working land—silos, fence lines, windbreaks, machine sheds—and letting a single shape, the circle,
+      act as a steady note across changeable scenes.</p>
+
+      <p>I grew up with this horizon. It isn’t romantic and it isn’t ironic. It’s practical, exposed, and full
+      of small decisions people make so things keep standing. I’m interested in that feeling: the patience
+      of maintenance, the geometry of storage, the way light clears out after weather.</p>
+
+      <p><em>Art Circle Farm</em> is ongoing. I keep the titles literal on purpose—the restraint lets the form
+      do the talking and leaves room for whoever brings their own miles to the picture.</p>
+    </main>
+
+    <footer>
+      © 2025 Jameson McShane · 
+      <a href="/farm.html">Catalog</a> · 
+      <a href="https://jmsn.art">jmsn.art</a> · 
       <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-    </div>
-  </header>
-
-  <main>
-    <p><em>Art Circle Farm</em> is a field project inside my larger Art Circle practice. I’m documenting
-    working land—silos, fence lines, windbreaks, machine sheds—and letting a single shape, the circle,
-    act as a steady note across changeable scenes. The circle is not a symbol of perfection; it’s a tool.
-    It measures space, slows the eye, and makes a plain subject hold a little longer.</p>
-
-    <p>I grew up with this horizon. It isn’t romantic and it isn’t ironic. It’s practical, exposed, and full
-    of small decisions people make so things keep standing. I’m interested in that feeling: the patience
-    of maintenance, the geometry of storage, the way light clears out after weather. If the images feel
-    calm, it’s because the work they point to is not.</p>
-
-    <p><em>Art Circle Farm</em> is ongoing. I keep the titles literal on purpose—the restraint lets the form
-    do the talking and leaves room for whoever brings their own miles to the picture.</p>
-
-    <!-- Optional: materials/process line (uncomment if you want it visible)
-    <p class="muted">Archival pigment prints on cotton rag paper. Small editions, noted per work.</p>
-    -->
-  </main>
-
-  <footer>
-    © 2025 Jameson McShane — Art Circle Farm ·
-    <a href="/farm.html">Catalog</a> ·
-    <a href="https://jmsn.art">jmsn.art</a>
-  </footer>
+    </footer>
+  </div>
 
   <script>
-    // Theme toggle (same behavior as farm.html)
+    // Theme toggle
     (function initTheme(){
       const btn = document.getElementById('toggleTheme');
       const saved = localStorage.getItem('theme');
@@ -105,8 +108,13 @@
       });
     })();
 
-    // Optional: GA event for visits to About page
-    sendGA('page_type', { page: 'about_art_circle_farm' });
+    // Fade-in after load
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('dialogueBox').classList.add('visible');
+    });
+
+    // GA marker
+    sendGA('page_type', { page: 'about_farm_dialogue_fadein' });
   </script>
 </body>
 </html>
