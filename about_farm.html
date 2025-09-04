@@ -27,68 +27,74 @@
     :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
     .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
 
-    html, body { height:100%; margin:0; }
     body {
-      background:var(--bg); color:var(--fg);
+      margin:0;
+      padding:20px;
+      background:var(--bg);
+      color:var(--fg);
       font-family: Arial, Helvetica, sans-serif;
-      display:flex; align-items:center; justify-content:center;
       transition: background 1.5s ease, color 1.5s ease;
     }
 
-    .dialogue {
-      max-width: 600px;
-      padding: 30px 40px;
-      border-radius: 12px;
-      background: rgba(0,0,0,.75);
-      box-shadow: 0 8px 30px rgba(0,0,0,.6);
-      text-align: center;
-
-      /* synced fade-in */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.6;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
     }
-    .dialogue.visible {
+    main.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .light-mode .dialogue { background: rgba(255,255,255,.9); }
-
-    h1 { font-size:20px; margin-top:0; font-weight:600; }
-    p { margin: 0 0 1em; line-height:1.6; }
+    h1 { font-size:22px; margin-top:0; font-weight:600; }
+    p { margin: 0 0 1em; }
     a { color:inherit; text-decoration:underline; }
 
-    footer { margin-top: 24px; font-size:13px; opacity:.8; }
-    #toggleTheme { background:none; border:1px solid var(--muted); color:var(--fg); font-size:.9em; padding:.3em .5em; border-radius:5px; cursor:pointer; }
+    footer {
+      text-align:center;
+      margin:60px 0 20px; /* matches farm.html */
+      font-size:13px;
+      opacity:.8;
+    }
+
+    #toggleTheme {
+      background:none;
+      border:1px solid var(--muted);
+      color:var(--fg);
+      font-size:.9em;
+      padding:.3em .5em;
+      border-radius:5px;
+      cursor:pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="dialogue" id="dialogueBox">
-    <header>
-      <h1>About — Art Circle Farm</h1>
-    </header>
+  <header>
+    <h1>About — Art Circle Farm</h1>
+  </header>
 
-    <main>
-      <p><em>Art Circle Farm</em> is a field project inside my larger Art Circle practice. I’m documenting
-      working land—silos, fence lines, windbreaks, machine sheds—and letting a single shape, the circle,
-      act as a steady note across changeable scenes.</p>
+  <main id="aboutContent">
+    <p><em>Art Circle Farm</em> is a field project inside my larger Art Circle practice. I’m documenting
+    working land—silos, fence lines, windbreaks, machine sheds—and letting a single shape, the circle,
+    act as a steady note across changeable scenes.</p>
 
-      <p>I grew up with this horizon. It isn’t romantic and it isn’t ironic. It’s practical, exposed, and full
-      of small decisions people make so things keep standing. I’m interested in that feeling: the patience
-      of maintenance, the geometry of storage, the way light clears out after weather.</p>
+    <p>I grew up with this horizon. It isn’t romantic and it isn’t ironic. It’s practical, exposed, and full
+    of small decisions people make so things keep standing. I’m interested in that feeling: the patience
+    of maintenance, the geometry of storage, the way light clears out after weather.</p>
 
-      <p><em>Art Circle Farm</em> is ongoing. I keep the titles literal on purpose—the restraint lets the form
-      do the talking and leaves room for whoever brings their own miles to the picture.</p>
-    </main>
+    <p><em>Art Circle Farm</em> is ongoing. I keep the titles literal on purpose—the restraint lets the form
+    do the talking and leaves room for whoever brings their own miles to the picture.</p>
+  </main>
 
-    <footer>
-      © 2025 Jameson McShane · 
-      <a href="/farm.html">Catalog</a> · 
-      <a href="https://jmsn.art">jmsn.art</a> · 
-      <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-    </footer>
-  </div>
+  <footer>
+    © 2025 Jameson McShane · 
+    <a href="/farm.html">Catalog</a> · 
+    <a href="https://jmsn.art">jmsn.art</a> · 
+    <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+  </footer>
 
   <script>
     // Theme toggle
@@ -110,11 +116,11 @@
 
     // Fade-in after load
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('dialogueBox').classList.add('visible');
+      document.getElementById('aboutContent').classList.add('visible');
     });
 
     // GA marker
-    sendGA('page_type', { page: 'about_farm_dialogue_fadein' });
+    sendGA('page_type', { page: 'about_farm_fadein' });
   </script>
 </body>
 </html>
