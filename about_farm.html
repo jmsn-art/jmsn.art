@@ -11,7 +11,7 @@
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png">
 
-  <!-- Preconnect + GA4 (same Measurement ID) -->
+  <!-- Preconnect + GA4 -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
@@ -27,45 +27,42 @@
     :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
     .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
 
-    html, body { min-height:100%; }
+    html, body { min-height:100%; margin:0; }
     body {
-      margin:0; padding:20px; background:var(--bg); color:var(--fg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--bg);
+      color:var(--fg);
       font-family: Arial, Helvetica, sans-serif;
+      padding:20px;
       transition: background 1.5s ease, color 1.5s ease;
     }
 
-    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
-    header h1 { font-size:18px; margin:0; letter-spacing:.3px; font-weight:600; opacity:.9; }
-    .tag { display:inline-block; border:1px solid var(--muted); color:var(--fg); padding:.1em .45em; border-radius:999px; font-size:11px; letter-spacing:.2px; }
-    a { color:inherit; text-decoration:underline; }
-
-    /* Content */
     main {
       max-width: 720px;
-      margin: 0 auto;
-      line-height: 1.6;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out; /* synced with gallery */
+      text-align:left;
+      line-height:1.6;
+      opacity:0;
+      transform:translateY(20px);
+      transition:opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
     }
-    main.visible { opacity: 1; transform: translateY(0); }
+    main.visible { opacity:1; transform:translateY(0); }
 
-    h2 { font-size:16px; margin-top:1.6em; }
+    h1 { font-size:20px; margin-top:0; font-weight:600; }
     p { margin: 0 0 1em; }
 
-    /* Footer (match farm.html spacing) */
     footer {
       text-align:center;
       margin:60px 0 20px;
       opacity:.8;
       font-size:13px;
     }
+    footer a { color:inherit; text-decoration:underline; }
     footer button {
       background:none; border:1px solid var(--muted); color:var(--fg);
       font-size:.9em; padding:.3em .5em; border-radius:5px; cursor:pointer;
     }
-
-    /* Theme */
     #toggleTheme {
       background:none; border:1px solid var(--muted); color:var(--fg);
       font-size:.9em; padding:.3em .5em; border-radius:5px; cursor:pointer;
@@ -73,18 +70,9 @@
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>About — Art Circle Farm <span class="tag">private</span></h1>
-    </div>
-    <div style="display:flex; gap:10px; align-items:center;">
-      <a href="/farm.html" style="font-size:14px;">↩︎ Catalog</a>
-      <a href="https://jmsn.art" style="font-size:14px;">jmsn.art</a>
-      <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-    </div>
-  </header>
-
   <main id="aboutContent">
+    <h1>About — Art Circle Farm</h1>
+
     <p><em>Art Circle Farm</em> is a field project inside my larger Art Circle practice. I’m documenting
     working land—silos, fence lines, windbreaks, machine sheds—and letting a single shape, the circle,
     act as a steady note across changeable scenes. The circle is not a symbol of perfection; it’s a tool.
@@ -97,18 +85,19 @@
 
     <p><em>Art Circle Farm</em> is ongoing. I keep the titles literal on purpose—the restraint lets the form
     do the talking and leaves room for whoever brings their own miles to the picture.</p>
+
+    <footer>
+      © 2025 Jameson McShane — Art Circle Farm ·
+      <a href="/farm.html">Catalog</a> ·
+      <a href="https://jmsn.art">jmsn.art</a> ·
+      <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+    </footer>
   </main>
 
-  <footer>
-    © 2025 Jameson McShane — Art Circle Farm ·
-    <a href="/farm.html">Catalog</a> ·
-    <a href="https://jmsn.art">jmsn.art</a> ·
-    <button id="toggleThemeFooter" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-  </footer>
-
   <script>
-    // Theme toggle (shared behavior with farm.html)
-    function setupThemeToggle(btn){
+    // Theme toggle
+    (function initTheme(){
+      const btn = document.getElementById('toggleTheme');
       const saved = localStorage.getItem('theme');
       const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
       function apply(mode){
@@ -121,17 +110,9 @@
         btn.setAttribute('aria-pressed', String(isLight));
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
       });
-    }
-
-    // Init header + footer toggles (both work)
-    (function initTheme(){
-      const headerBtn = document.getElementById('toggleTheme');
-      const footerBtn = document.getElementById('toggleThemeFooter');
-      if (headerBtn) setupThemeToggle(headerBtn);
-      if (footerBtn) setupThemeToggle(footerBtn);
     })();
 
-    // Fade in content
+    // Fade-in after load
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('aboutContent').classList.add('visible');
     });
