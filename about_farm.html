@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Keep this page out of search results -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+
+  <title>About — Art Circle Farm</title>
+
+  <link rel="icon" type="image/png" href="/favicon-32x32.png">
+
+  <!-- Preconnect + GA4 (same Measurement ID as main site) -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCGF');
+    // Helper to safely emit GA events (mirrors farm.html)
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
+  </script>
+
+  <style>
+    :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
+    .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
+
+    html, body { height:100%; }
+    body {
+      margin:0; padding:20px; background:var(--bg); color:var(--fg);
+      font-family: Arial, Helvetica, sans-serif;
+      transition: background 1.5s ease, color 1.5s ease;
+    }
+    a { color:inherit; text-decoration:underline; }
+
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+    header h1 { font-size:18px; margin:0; letter-spacing:.3px; font-weight:600; opacity:.9; }
+    .tag { display:inline-block; border:1px solid var(--muted); color:var(--fg); padding:.1em .45em; border-radius:999px; font-size:11px; letter-spacing:.2px; }
+    .notice { display:flex; gap:8px; align-items:center; font-size:12px; opacity:.65; }
+
+    main { max-width: 720px; line-height: 1.6; margin: 0 auto; }
+    h2 { font-size:16px; margin-top:1.6em; }
+    p { margin: 0 0 1em; }
+
+    footer { text-align:center; margin:36px 0 6px; opacity:.8; font-size:13px; }
+    #toggleTheme { background:none; border:1px solid var(--muted); color:var(--fg); font-size:.9em; padding:.4em .6em; border-radius:5px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>About — Art Circle Farm <span class="tag">private</span></h1>
+      <div class="notice">Unlisted page. Share URL only with trusted viewers.</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <a href="/farm.html" style="font-size:14px;">↩︎ Catalog</a>
+      <a href="https://jmsn.art" style="font-size:14px;">jmsn.art</a>
+      <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <p><em>Art Circle Farm</em> is a field project inside my larger Art Circle practice. I’m documenting
+    working land—silos, fence lines, windbreaks, machine sheds—and letting a single shape, the circle,
+    act as a steady note across changeable scenes. The circle is not a symbol of perfection; it’s a tool.
+    It measures space, slows the eye, and makes a plain subject hold a little longer.</p>
+
+    <p>I grew up with this horizon. It isn’t romantic and it isn’t ironic. It’s practical, exposed, and full
+    of small decisions people make so things keep standing. I’m interested in that feeling: the patience
+    of maintenance, the geometry of storage, the way light clears out after weather. If the images feel
+    calm, it’s because the work they point to is not.</p>
+
+    <p><em>Art Circle Farm</em> is ongoing. I keep the titles literal on purpose—the restraint lets the form
+    do the talking and leaves room for whoever brings their own miles to the picture.</p>
+
+    <!-- Optional: materials/process line (uncomment if you want it visible)
+    <p class="muted">Archival pigment prints on cotton rag paper. Small editions, noted per work.</p>
+    -->
+  </main>
+
+  <footer>
+    © 2025 Jameson McShane — Art Circle Farm ·
+    <a href="/farm.html">Catalog</a> ·
+    <a href="https://jmsn.art">jmsn.art</a>
+  </footer>
+
+  <script>
+    // Theme toggle (same behavior as farm.html)
+    (function initTheme(){
+      const btn = document.getElementById('toggleTheme');
+      const saved = localStorage.getItem('theme');
+      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      function apply(mode){
+        if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+        else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+      }
+      apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+      btn.addEventListener('click', ()=>{
+        const isLight = document.body.classList.toggle('light-mode');
+        btn.setAttribute('aria-pressed', String(isLight));
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      });
+    })();
+
+    // Optional: GA event for visits to About page
+    sendGA('page_type', { page: 'about_art_circle_farm' });
+  </script>
+</body>
+</html>
