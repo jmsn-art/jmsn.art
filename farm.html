@@ -56,7 +56,6 @@
       gap:15px;
       margin-bottom:48px; /* adds breathing room before footer */
     }
-
     .gallery img {
       width:100%; height:auto; display:block; border-radius:8px;
       box-shadow:0 4px 12px rgba(0,0,0,.5); cursor:pointer;
@@ -104,8 +103,34 @@
   </header>
 
   <div class="gallery" id="gallery">
-    <!-- your images (Farm_00001.jpeg through Farm_00026.jpeg) -->
-    <!-- … existing <img> tags unchanged … -->
+    <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
+    <img src="/images/Farm_00001.jpeg" alt="Farm 1 by Jameson McShane" width="1200" height="1500" decoding="async">
+    <img src="/images/Farm_00002.jpeg" alt="Farm 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00003.jpeg" alt="Farm 3 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
+    <img src="/images/Farm_00004.jpeg" alt="Farm 4 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00005.jpeg" alt="Farm 5 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00006.jpeg" alt="Farm 6 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00007.jpeg" alt="Farm 7 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00008.jpeg" alt="Farm 8 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
+    <img src="/images/Farm_00009.jpeg" alt="Farm 9 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00010.jpeg" alt="Farm 10 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00011.jpeg" alt="Farm 11 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00012.jpeg" alt="Farm 12 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00013.jpeg" alt="Farm 13 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00014.jpeg" alt="Farm 14 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00015.jpeg" alt="Farm 15 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00016.jpeg" alt="Farm 16 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00017.jpeg" alt="Farm 17 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00018.jpeg" alt="Farm 18 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+
+    <img src="/images/Farm_00019.jpeg" alt="Farm 19 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00019.jpeg">
+    <img src="/images/Farm_00020.jpeg" alt="Farm 20 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00020.jpeg">
+    <img src="/images/Farm_00021.jpeg" alt="Farm 21 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00021.jpeg">
+    <img src="/images/Farm_00022.jpeg" alt="Farm 22 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00022.jpeg">
+    <img src="/images/Farm_00023.jpeg" alt="Farm 23 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00023.jpeg">
+    <img src="/images/Farm_00024.jpeg" alt="Farm 24 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00024.jpeg">
+    <!-- <img src="/images/Farm_00025.jpeg" alt="Farm 25 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00025.jpeg"> -->
+    <img src="/images/Farm_00026.jpeg" alt="Farm 26 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00026.jpeg">
   </div> <!-- closes .gallery -->
 
   <!-- guaranteed gap before the footer -->
@@ -146,7 +171,7 @@
 
     // ---- ALT TITLES you can edit (only 19–26 shown) ----
     const ALT_TITLES = {
-      "Farm_00019.jpeg": "",
+      "Farm_00019.jpeg": "", // e.g., "Art Circle Farm — Two Silos at Dusk"
       "Farm_00020.jpeg": "",
       "Farm_00021.jpeg": "",
       "Farm_00022.jpeg": "",
@@ -163,19 +188,27 @@
       Array.from(gallery.querySelectorAll('img[data-filename]')).forEach(img => {
         const file = img.getAttribute('data-filename');
         const custom = ALT_TITLES[file];
-        if (custom && custom.trim()) { img.alt = custom.trim(); }
+        if (custom && custom.trim()) {
+          img.alt = custom.trim();
+        }
       });
 
       // Fisher–Yates shuffle but keep Farm_00018.jpeg first
       function shuffleExceptFirst(container) {
         const all = Array.from(container.querySelectorAll('img'));
         if (all.length <= 1) return;
+
+        // Find the intended first image (Farm_00018.jpeg)
         const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
         const rest = all.filter(img => img !== first);
+
+        // Shuffle the rest
         for (let i = rest.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [rest[i], rest[j]] = [rest[j], rest[i]];
         }
+
+        // Rebuild with Farm_00018 first (if found)
         if (first) container.replaceChildren(first, ...rest);
         else container.replaceChildren(...rest);
       }
@@ -186,8 +219,10 @@
       // PRIORITIZE the pinned first image for LCP + make it visible immediately
       const firstImg = gallery.querySelector('img');
       if (firstImg) {
+        // Highest network priority
         firstImg.setAttribute('fetchpriority', 'high');
-        firstImg.removeAttribute('loading');
+        firstImg.removeAttribute('loading'); // ensure eager load if browser respects it
+        // Immediate fade-in (skip waiting for 'load' to add class)
         firstImg.classList.add('lazy-loaded');
       }
 
@@ -218,7 +253,7 @@
       let currentSrc = '';
 
       function openLightboxByIndex(index){
-        ordered = Array.from(gallery.querySelectorAll('img'));
+        ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
         currentIndex = (index + ordered.length) % ordered.length;
         const img = ordered[currentIndex];
         currentTitle = img.alt || 'untitled';
@@ -234,7 +269,7 @@
         lbTitle.textContent = currentTitle;
         openedAt = Date.now();
 
-        // GA4 events
+        // GA4: mirror main gallery events
         sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
         sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
       }
@@ -251,13 +286,17 @@
         lb.setAttribute('aria-hidden','true');
         document.body.classList.remove('noscroll');
         if (lastFocus) lastFocus.focus();
+
+        // GA4: close event with dwell time
         if (openedAt) {
           sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
         }
         openedAt = 0; currentTitle = ''; currentSrc = '';
       }
 
-      function showNext(delta){ openLightboxByIndex(currentIndex + delta); }
+      function showNext(delta){
+        openLightboxByIndex(currentIndex + delta);
+      }
 
       // Click / keyboard hooks
       ordered.forEach((img) => {
