@@ -128,8 +128,11 @@
     <img src="/images/Farm_00023.jpeg" alt="Farm 23 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00023.jpeg">
     <img src="/images/Farm_00024.jpeg" alt="Farm 24 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00024.jpeg">
     <!-- <img src="/images/Farm_00025.jpeg" alt="Farm 25 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00025.jpeg"> -->
-    <img src="/images/Farm_00026.jpeg" alt="Farm 26 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00026.jpeg">
-  </div>
+        <img src="/images/Farm_00026.jpeg" alt="Farm 26 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00026.jpeg">
+  </div> <!-- closes .gallery -->
+
+  <!-- Hard spacer to ensure breathing room above the footer -->
+  <div style="height:32px"></div>
 
   <!-- Lightbox -->
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
@@ -141,12 +144,10 @@
   </div>
 
   <footer>
-  © 2025 Jameson McShane — Art Circle Farm (private)· 
-  <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a> · 
-  <a href="/about_farm.html" style="color:inherit; text-decoration:underline;">About</a>
-    ...
-</footer>
-
+    © 2025 Jameson McShane — Art Circle Farm (private) ·
+    <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a> ·
+    <a href="/about_farm.html" style="color:inherit; text-decoration:underline;">About</a>
+  </footer>
 
   <script>
     // Theme toggle (same behavior as main site)
@@ -167,9 +168,8 @@
     })();
 
     // ---- ALT TITLES you can edit (only 19–26 shown) ----
-    // Fill in any you know. Leave blank to keep the existing "Farm N by Jameson McShane".
     const ALT_TITLES = {
-      "Farm_00019.jpeg": "", // e.g., "Art Circle Farm — Two Silos at Dusk"
+      "Farm_00019.jpeg": "",
       "Farm_00020.jpeg": "",
       "Farm_00021.jpeg": "",
       "Farm_00022.jpeg": "",
@@ -186,27 +186,19 @@
       Array.from(gallery.querySelectorAll('img[data-filename]')).forEach(img => {
         const file = img.getAttribute('data-filename');
         const custom = ALT_TITLES[file];
-        if (custom && custom.trim()) {
-          img.alt = custom.trim();
-        }
+        if (custom && custom.trim()) { img.alt = custom.trim(); }
       });
 
       // Fisher–Yates shuffle but keep Farm_00018.jpeg first
       function shuffleExceptFirst(container) {
         const all = Array.from(container.querySelectorAll('img'));
         if (all.length <= 1) return;
-
-        // Find the intended first image (Farm_00018.jpeg)
         const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
         const rest = all.filter(img => img !== first);
-
-        // Shuffle the rest
         for (let i = rest.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [rest[i], rest[j]] = [rest[j], rest[i]];
         }
-
-        // Rebuild with Farm_00018 first (if found)
         if (first) container.replaceChildren(first, ...rest);
         else container.replaceChildren(...rest);
       }
@@ -217,10 +209,8 @@
       // PRIORITIZE the pinned first image for LCP + make it visible immediately
       const firstImg = gallery.querySelector('img');
       if (firstImg) {
-        // Highest network priority
         firstImg.setAttribute('fetchpriority', 'high');
-        firstImg.removeAttribute('loading'); // ensure eager load if browser respects it
-        // Immediate fade-in (skip waiting for 'load' to add class)
+        firstImg.removeAttribute('loading');
         firstImg.classList.add('lazy-loaded');
       }
 
@@ -251,7 +241,7 @@
       let currentSrc = '';
 
       function openLightboxByIndex(index){
-        ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
+        ordered = Array.from(gallery.querySelectorAll('img'));
         currentIndex = (index + ordered.length) % ordered.length;
         const img = ordered[currentIndex];
         currentTitle = img.alt || 'untitled';
@@ -267,7 +257,7 @@
         lbTitle.textContent = currentTitle;
         openedAt = Date.now();
 
-        // GA4: mirror main gallery events
+        // GA4
         sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
         sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
       }
@@ -284,17 +274,13 @@
         lb.setAttribute('aria-hidden','true');
         document.body.classList.remove('noscroll');
         if (lastFocus) lastFocus.focus();
-
-        // GA4: close event with dwell time
         if (openedAt) {
           sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
         }
         openedAt = 0; currentTitle = ''; currentSrc = '';
       }
 
-      function showNext(delta){
-        openLightboxByIndex(currentIndex + delta);
-      }
+      function showNext(delta){ openLightboxByIndex(currentIndex + delta); }
 
       // Click / keyboard hooks
       ordered.forEach((img) => {
@@ -319,3 +305,4 @@
   </script>
 </body>
 </html>
+
