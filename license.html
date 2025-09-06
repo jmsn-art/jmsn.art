@@ -47,14 +47,12 @@
       --bg: #111;
       --fg: #eee;
       --fg-dim: #ccc;
-      --link: #f2c94c;
-      --link-hover: #ffe07a;
+      --link: #ACE1AF;       /* celadon */
+      --link-hover: #bdeac0; /* lighter celadon */
       --card: #1a1a1a;
       --border: #2a2a2a;
     }
-    html, body {
-      height: 100%;
-    }
+    html, body { height: 100%; }
     body {
       margin: 0;
       background: var(--bg);
@@ -62,13 +60,13 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.6;
       display: flex;
-      align-items: center;            /* vertical center */
-      justify-content: center;        /* horizontal center */
+      align-items: center;
+      justify-content: center;
       padding: 2rem;
     }
     .container {
       max-width: 820px;
-      text-align: center;             /* center the words */
+      text-align: center;
       width: 100%;
     }
     h1 {
@@ -82,26 +80,16 @@
       font-size: 1.25rem;
       color: #ddd;
     }
-    p {
-      margin: 0.5rem auto 1rem;
-      color: var(--fg);
-    }
-    a {
-      color: var(--link);
-      text-decoration: none;
-    }
+    p { margin: 0.5rem auto 1rem; }
+    a { color: var(--link); text-decoration: none; }
     a:hover { text-decoration: underline; color: var(--link-hover); }
-
-    /* Centered lists */
     ul {
       list-style-position: inside;
       padding: 0;
       margin: 0.25rem auto 1rem;
-      text-align: center;             /* keep list text centered */
+      text-align: center;
     }
     li { margin: 0.2rem 0; }
-
-    /* CTA button */
     .cta {
       display: inline-block;
       margin-top: 0.5rem;
@@ -115,12 +103,11 @@
       text-decoration: none;
     }
     .cta:hover {
-      text-decoration: none;
       transform: translateY(-1px);
       box-shadow: 0 6px 16px #00000055;
+      background: var(--link-hover);
       color: #111;
     }
-
     footer {
       margin-top: 2.5rem;
       font-size: 0.95rem;
@@ -132,6 +119,21 @@
       border-radius: 10px;
       padding: 1rem 1.25rem;
       margin: 0.75rem auto;
+    }
+    .note {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: #111;
+      background: var(--link);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      display: inline-block;
+      max-width: 700px;
+      line-height: 1.5;
+    }
+    .note strong {
+      color: #000;
     }
   </style>
 </head>
@@ -167,8 +169,12 @@
       Request a License
     </a>
 
+    <p class="note">
+      ✅ You are welcome to share artworks from jmsn.art on social media or blogs for <em>personal, non-commercial use</em> as long as you include clear credit to <strong>Jameson McShane · The Art Circle Project</strong>.
+    </p>
+
     <footer>
-      &copy; 2025 Jameson McShane · The Art Circle Project · jmsn.art
+      &copy; 2025 Jameson McShane · The Art Circle Project · jmsn.eth
     </footer>
   </main>
 </body>
