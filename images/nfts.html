@@ -1,0 +1,79 @@
+<!-- Art Circle Project NFT Collection Embed (Adaptive to Light/Dark) -->
+<section id="nfts" style="padding: 2rem 0; text-align: center;">
+  <h2 style="margin-bottom: 1rem;">The Art Circle Project — 2025 NFTs</h2>
+
+  <!-- Light mode embed -->
+  <iframe 
+    id="zora-light"
+    src="https://zora.co/collections/0xYourContractAddress?view=grid&theme=light"
+    width="100%"
+    height="800"
+    frameborder="0"
+    style="border-radius:12px;border:1px solid #ccc;display:block;background:#fff;">
+  </iframe>
+
+  <!-- Dark mode embed -->
+  <iframe 
+    id="zora-dark"
+    src="https://zora.co/collections/0xYourContractAddress?view=grid&theme=dark"
+    width="100%"
+    height="800"
+    frameborder="0"
+    style="border-radius:12px;border:1px solid #333;display:none;background:#111;">
+  </iframe>
+
+  <p style="margin-top:1rem;font-size:0.9rem;">
+    Minted on <a href="https://zora.co" target="_blank" rel="noopener" style="color:#9fe2bf;">Zora</a> · Powered by Base
+  </p>
+</section>
+
+<script>
+  (function () {
+    const lightFrame = document.getElementById('zora-light');
+    const darkFrame  = document.getElementById('zora-dark');
+
+    function show(mode) {
+      const dark = (mode === 'dark');
+      lightFrame.style.display = dark ? 'none'  : 'block';
+      darkFrame.style.display  = dark ? 'block' : 'none';
+    }
+
+    function detectTheme() {
+      // 1) Check data-theme on <html> or <body>
+      const htmlTheme = document.documentElement.getAttribute('data-theme');
+      const bodyTheme = document.body.getAttribute('data-theme');
+      if (htmlTheme === 'dark' || bodyTheme === 'dark') return 'dark';
+      if (htmlTheme === 'light' || bodyTheme === 'light') return 'light';
+
+      // 2) Fallback to system preference
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    // Initial render
+    show(detectTheme());
+
+    // 3) Listen for system preference changes (fallback)
+    try {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      mq.addEventListener('change', () => show(detectTheme()));
+    } catch (e) {}
+
+    // 4) If your site fires a CustomEvent('themechange', { detail: { theme: 'dark'|'light' } })
+    window.addEventListener('themechange', (e) => {
+      if (e && e.detail && (e.detail.theme === 'dark' || e.detail.theme === 'light')) {
+        show(e.detail.theme);
+      } else {
+        show(detectTheme());
+      }
+    });
+
+    // 5) If your toggle sets data-theme, observe it and switch automatically
+    const observer = new MutationObserver(() => show(detectTheme()));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+
+    // Optional: if your toggle is a button with id="theme-toggle", hook it:
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.addEventListener('click', () => setTimeout(() => show(detectTheme()), 0));
+  })();
+</script>
