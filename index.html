@@ -217,41 +217,66 @@
     .lb,
     .lb img { transition:none !important; animation:none !important; }
   }
-    /* Floating Manifold button */
+    /* Floating Manifold button — bottom-right, small, black & white */
 .floating-mint{
   position:fixed;
-  right:20px;
-  bottom:calc(env(safe-area-inset-bottom, 0px) + 20px);
+  right:16px;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 16px);
   z-index:10000;
 
-  padding:12px 18px;
+  /* smaller + monochrome */
+  padding:8px 12px;
   border-radius:9999px;
-  background:#ace1af; /* celadon */
-  color:#111;
-  font-weight:700;
+  background:#111;       /* black */
+  color:#fff;            /* white text */
+  border:1px solid rgba(255,255,255,.18);
+  font-weight:600;
+  font-size:14px;
+  line-height:1;
   text-decoration:none;
-  box-shadow:0 8px 24px rgba(0,0,0,.18);
-  backdrop-filter:saturate(140%) blur(2px);
 
-  transition:opacity .25s ease, transform .1s ease;
+  opacity:.9;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
+  transition:opacity .2s ease, transform .08s ease;
 }
 
-.floating-mint:hover{ filter:brightness(0.95); }
+.floating-mint:hover{ opacity:1; }
 .floating-mint:active{ transform:scale(0.98); }
 
+/* Hide button when lightbox is open (because .lb appears earlier in the DOM) */
+.lb.open ~ .floating-mint{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(4px);
+}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
-  .floating-mint, .floating-mint:active{ transform:translateX(-50%); transition:none; }
+  .floating-mint,
+  .floating-mint:active{
+    transition:none;
+    transform:none;   /* no leftover translate */
+  }
 }
 
-/* Small screens: full-width pill */
+/* Keep it compact on phones too (no full-width) */
 @media (max-width:520px){
-  .floating-mint{ width:92%; text-align:center; padding:14px 16px; }
+  .floating-mint{
+    padding:10px 12px;
+    font-size:13px;
+    right:12px;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 12px);
+  }
 }
 
-/* Optional: tweak for light theme */
-.light-mode .floating-mint{ color:#000; }
+/* Optional: invert for light mode, if you prefer white pill on light background */
+/*
+.light-mode .floating-mint{
+  background:#fff;
+  color:#111;
+  border:1px solid rgba(0,0,0,.15);
+}
+*/
 
   </style>
 </head>
