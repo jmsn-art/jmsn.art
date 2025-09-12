@@ -224,7 +224,6 @@
   bottom:calc(env(safe-area-inset-bottom, 0px) + 16px);
   z-index:10000;
 
-  /* smaller + monochrome */
   padding:8px 12px;
   border-radius:9999px;
   background:#111;       /* black */
@@ -235,10 +234,18 @@
   line-height:1;
   text-decoration:none;
 
-  opacity:.9;
-  box-shadow:0 6px 18px rgba(0,0,0,.25);
-  transition:opacity .2s ease, transform .08s ease;
+  opacity:0;                       /* start invisible */
+  transform:translateY(10px);      /* start slightly lower */
+  animation:fadeSlideIn 0.8s ease forwards 0.6s; /* duration, easing, delay */
 }
+
+@keyframes fadeSlideIn {
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
 
 .floating-mint:hover{ opacity:1; }
 .floating-mint:active{ transform:scale(0.98); }
