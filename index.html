@@ -220,9 +220,8 @@
     /* Floating Manifold button */
 .floating-mint{
   position:fixed;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:calc(env(safe-area-inset-bottom, 0px) + 16px);
+  right:20px;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 20px);
   z-index:10000;
 
   padding:12px 18px;
@@ -238,11 +237,8 @@
 }
 
 .floating-mint:hover{ filter:brightness(0.95); }
-.floating-mint:active{ transform:translateX(-50%) scale(0.98); }
+.floating-mint:active{ transform:scale(0.98); }
 
-.floating-mint{
-  bottom:calc(env(safe-area-inset-bottom, 0px) + 88px);
-}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
