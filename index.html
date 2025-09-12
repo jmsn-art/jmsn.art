@@ -217,6 +217,49 @@
     .lb,
     .lb img { transition:none !important; animation:none !important; }
   }
+    /* Floating Manifold button */
+.floating-mint{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 16px);
+  z-index:10000;
+
+  padding:12px 18px;
+  border-radius:9999px;
+  background:#ace1af; /* celadon */
+  color:#111;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+  backdrop-filter:saturate(140%) blur(2px);
+
+  transition:opacity .25s ease, transform .1s ease;
+}
+
+.floating-mint:hover{ filter:brightness(0.95); }
+.floating-mint:active{ transform:translateX(-50%) scale(0.98); }
+
+/* Hide button when lightbox is open (lb appears earlier in DOM) */
+.lb.open ~ .floating-mint{
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(-50%) translateY(8px);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .floating-mint, .floating-mint:active{ transform:translateX(-50%); transition:none; }
+}
+
+/* Small screens: full-width pill */
+@media (max-width:520px){
+  .floating-mint{ width:92%; text-align:center; padding:14px 16px; }
+}
+
+/* Optional: tweak for light theme */
+.light-mode .floating-mint{ color:#000; }
+
   </style>
 </head>
 <body>
@@ -282,6 +325,17 @@
       <div id="lb-title"></div>
     </div>
   </div>
+
+  <a
+  href="https://manifold.xyz/@jmsn"
+  target="_blank" rel="noopener"
+  class="floating-mint"
+  onclick="sendGA('mint_click',{link:'manifold_profile'})"
+  aria-label="View my NFTs on Manifold (opens in a new tab)"
+>
+  🕳️ View on Manifold
+</a>
+
 
   <footer>
     © 2025 Jameson McShane - The Art Circle Project ·
