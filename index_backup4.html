@@ -11,6 +11,9 @@
   <!-- Color scheme hint -->
   <meta name="color-scheme" content="dark light">
 
+  <!-- Identity -->
+  <link rel="me" href="https://jmsn.eth">
+  
   <!-- JSON-LD (single consolidated graph) -->
   <script type="application/ld+json">
   {
@@ -145,7 +148,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-FQPZNDPCCF');
+    gtag('config', 'G-FQPZNDPCCF', { 'debug_mode': true });
   </script>
 
   <style>
@@ -218,6 +221,74 @@
     .lb,
     .lb img { transition:none !important; animation:none !important; }
   }
+    /* Floating Manifold button — bottom-right, small, black & white */
+.floating-mint{
+  position:fixed;
+  right:16px;
+  bottom:calc(env(safe-area-inset-bottom, 0px) + 16px);
+  z-index:10000;
+
+  padding:8px 12px;
+  border-radius:9999px;
+  background:#111;       /* black */
+  color:#fff;            /* white text */
+  border:1px solid rgba(255,255,255,.18);
+  font-weight:600;
+  font-size:14px;
+  line-height:1;
+  text-decoration:none;
+
+  opacity:0;                       /* start invisible */
+  transform:translateY(10px);      /* start slightly lower */
+  animation:fadeSlideIn 0.8s ease forwards 0.6s; /* duration, easing, delay */
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+
+.floating-mint:hover{ opacity:1; }
+.floating-mint:active{ transform:scale(0.98); }
+
+/* Hide button when lightbox is open (because .lb appears earlier in the DOM) 
+.lb.open ~ .floating-mint{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(4px);
+}
+*/  
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .floating-mint,
+  .floating-mint:active{
+    transition:none;
+    transform:none;   /* no leftover translate */
+  }
+}
+
+/* Keep it compact on phones too (no full-width) */
+@media (max-width:520px){
+  .floating-mint{
+    padding:10px 12px;
+    font-size:13px;
+    right:12px;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 12px);
+  }
+}
+
+/* Optional: invert for light mode, if you prefer white pill on light background */
+/*
+.light-mode .floating-mint{
+  background:#fff;
+  color:#111;
+  border:1px solid rgba(0,0,0,.15);
+}
+*/
+
   </style>
 </head>
 <body>
@@ -283,6 +354,17 @@
       <div id="lb-title"></div>
     </div>
   </div>
+
+  <a
+  href="https://manifold.xyz/@jmsn"
+  target="_blank" rel="noopener"
+  class="floating-mint"
+  onclick="sendGA('mint_click',{link:'manifold_profile'})"
+  aria-label="View my NFTs on Manifold (opens in a new tab)"
+>
+  Mint NFT
+</a>
+
 
   <footer>
     © 2025 Jameson McShane - The Art Circle Project ·
