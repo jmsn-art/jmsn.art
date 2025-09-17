@@ -461,7 +461,9 @@ lbimg.addEventListener('wheel', (e) => {
 }, { passive: false });
 
 // Drag to pan when zoomed
-lbimg.addEventListener('pointerdown', (e) => {
+let moved = false;
+
+    lbimg.addEventListener('pointerdown', (e) => {
   if (scale <= 1) return;       // only pan when zoomed
   dragging = true;
   activePointerId = e.pointerId;
