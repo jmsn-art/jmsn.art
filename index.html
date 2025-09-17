@@ -214,7 +214,6 @@
   cursor: zoom-in;
   touch-action: none;              /* allow pinch/drag without browser gestures */
 }
-#lbimg { transform-origin: center center; }
 #lbimg.zoomed { cursor: grab; }
 #lbimg.zoomed:active { cursor: grabbing; }
 
@@ -443,42 +442,14 @@ function zoomAt(clientX, clientY, newScale) {
   if (scale > 1) lbimg.classList.add('zoomed'); else lbimg.classList.remove('zoomed');
 }
 
-// Track movement between pointerdown and pointerup
-let moved = false;
-
-lbimg.addEventListener('pointerdown', e => {
-  moved = false; // reset on new press
-  if (scale <= 1) return; // only drag when zoomed
-  dragging = true;
-  activePointerId = e.pointerId;
-  lbimg.setPointerCapture(activePointerId);
-  startX = e.clientX;
-  startY = e.clientY;
-});
-
-lbimg.addEventListener('pointermove', e => {
-  if (!dragging || e.pointerId !== activePointerId) return;
-  moved = true; // mark that a drag happened
-  const dx = e.clientX - startX;
-  const dy = e.clientY - startY;
-  startX = e.clientX;
-  startY = e.clientY;
-  tx += dx;
-  ty += dy;
-  clampPan();
-  applyTransform();
-});
-
-// Click to toggle zoom — but only if no drag occurred
+// Click to toggle zoom (zoom into click point / reset)
 lbimg.addEventListener('click', (e) => {
-  if (moved) return; // ignore click if it was a drag
   if (scale === 1) {
-    zoomAt(e.clientX, e.clientY, 2.5);
+    zoomAt(e.clientX, e.clientY, 2.5); // initial zoom factor
   } else {
     resetZoom();
   }
 });
-
 
 // Wheel / trackpad pinch to zoom (centered at pointer)
 lbimg.addEventListener('wheel', (e) => {
@@ -489,9 +460,7 @@ lbimg.addEventListener('wheel', (e) => {
 }, { passive: false });
 
 // Drag to pan when zoomed
-let moved = false;
-
-    lbimg.addEventListener('pointerdown', (e) => {
+lbimg.addEventListener('pointerdown', (e) => {
   if (scale <= 1) return;       // only pan when zoomed
   dragging = true;
   activePointerId = e.pointerId;
