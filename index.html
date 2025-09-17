@@ -577,6 +577,8 @@ lbimg.addEventListener('load', resetZoom);
       }
       openedAt = 0; currentTitle = ''; currentSrc = '';
 
+      resetZoom();
+
       lb.classList.remove('open');
       lb.setAttribute('aria-hidden','true');
       document.body.classList.remove('noscroll');
