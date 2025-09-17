@@ -208,6 +208,16 @@
 
   .lb.open img { opacity:1; }
 
+    /* Lightbox zoom affordances */
+#lbimg {
+  will-change: transform;
+  cursor: zoom-in;
+  touch-action: none;              /* allow pinch/drag without browser gestures */
+}
+#lbimg.zoomed { cursor: grab; }
+#lbimg.zoomed:active { cursor: grabbing; }
+
+
   .close {
     position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer;
     -webkit-appearance:none; appearance:none; background:transparent; border:0; line-height:1; padding:0;
@@ -394,6 +404,96 @@
     const lbimg = document.getElementById('lbimg');
     const closeBtn = document.getElementById('lightboxClose');
     const lbTitle = document.getElementById('lb-title');
+    // --- Zoom + Pan state for lightbox image ---
+let scale = 1, tx = 0, ty = 0;
+let dragging = false, startX = 0, startY = 0, activePointerId = null;
+
+function applyTransform() {
+  lbimg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+}
+
+function resetZoom() {
+  scale = 1; tx = 0; ty = 0;
+  lbimg.classList.remove('zoomed');
+  applyTransform();
+}
+
+function clampPan() {
+  // Limit panning so you can't drag beyond image edges
+  const rect = lbimg.getBoundingClientRect();
+  // rect represents the *displayed* (fit) size before scaling
+  const maxX = ((rect.width  * scale) - rect.width ) / 2;
+  const maxY = ((rect.height * scale) - rect.height) / 2;
+  if (maxX > 0) tx = Math.max(-maxX, Math.min(maxX, tx)); else tx = 0;
+  if (maxY > 0) ty = Math.max(-maxY, Math.min(maxY, ty)); else ty = 0;
+}
+
+function zoomAt(clientX, clientY, newScale) {
+  // Keep the point under the cursor stable while zooming
+  const rect = lbimg.getBoundingClientRect();
+  const cx = clientX - (rect.left + rect.width  / 2);
+  const cy = clientY - (rect.top  + rect.height / 2);
+  const k = newScale / scale;
+  tx = tx - cx * (k - 1);
+  ty = ty - cy * (k - 1);
+  scale = newScale;
+  clampPan();
+  applyTransform();
+  if (scale > 1) lbimg.classList.add('zoomed'); else lbimg.classList.remove('zoomed');
+}
+
+// Click to toggle zoom (zoom into click point / reset)
+lbimg.addEventListener('click', (e) => {
+  if (scale === 1) {
+    zoomAt(e.clientX, e.clientY, 2.5); // initial zoom factor
+  } else {
+    resetZoom();
+  }
+});
+
+// Wheel / trackpad pinch to zoom (centered at pointer)
+lbimg.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const step = e.deltaY < 0 ? 1.1 : 0.9;
+  const next = Math.max(1, Math.min(5, scale * step));
+  if (next !== scale) zoomAt(e.clientX, e.clientY, next);
+}, { passive: false });
+
+// Drag to pan when zoomed
+lbimg.addEventListener('pointerdown', (e) => {
+  if (scale <= 1) return;       // only pan when zoomed
+  dragging = true;
+  activePointerId = e.pointerId;
+  lbimg.setPointerCapture(activePointerId);
+  startX = e.clientX;
+  startY = e.clientY;
+});
+
+lbimg.addEventListener('pointermove', (e) => {
+  if (!dragging || e.pointerId !== activePointerId) return;
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+  startX = e.clientX;
+  startY = e.clientY;
+  tx += dx;
+  ty += dy;
+  clampPan();
+  applyTransform();
+});
+
+function endPan(e){
+  if (e.pointerId !== activePointerId) return;
+  dragging = false;
+  activePointerId = null;
+}
+
+lbimg.addEventListener('pointerup', endPan);
+lbimg.addEventListener('pointercancel', endPan);
+lbimg.addEventListener('lostpointercapture', () => { dragging = false; activePointerId = null; });
+
+// Reset transform whenever a new image loads or lightbox closes
+lbimg.addEventListener('load', resetZoom);
+
 
     // Fisher–Yates shuffle (except first image to preserve LCP)
     function shuffleExceptFirst(container) {
