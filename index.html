@@ -195,7 +195,17 @@
     opacity:0; pointer-events:none; transition:opacity .75s ease;
   }
   .lb.open { opacity:1; pointer-events:auto; }
-  .lb img { display:block; max-width:92%; max-height:80vh; opacity:0; transition:opacity 1.5s ease .12s; }
+  .lb img {
+  display: block;
+  width: auto;         /* let it size itself naturally */
+  height: auto;        /* preserve aspect ratio */
+  max-width: 90vw;     /* keep inside viewport width */
+  max-height: 85vh;    /* keep inside viewport height */
+  object-fit: contain; /* no distortion if both constraints apply */
+  opacity: 0;
+  transition: opacity 1.5s ease .12s;
+}
+
   .lb.open img { opacity:1; }
 
   .close {
