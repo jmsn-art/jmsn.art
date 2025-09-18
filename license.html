@@ -69,6 +69,19 @@
       text-align: center;
       width: 100%;
     }
+    header {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    header a {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #ccc;
+      text-decoration: none;
+    }
+    header a:hover {
+      color: var(--link-hover);
+    }
     h1 {
       margin: 0 0 0.75rem 0;
       font-size: 2rem;
@@ -113,6 +126,14 @@
       font-size: 0.95rem;
       color: #aaa;
     }
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+      color: var(--link-hover);
+    }
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -139,6 +160,10 @@
 </head>
 <body>
   <main class="container">
+    <header>
+      <a href="/">jmsn.art — The Art Circle Project</a>
+    </header>
+
     <h1>Licensing</h1>
     <p class="card">
       All artworks featured on <a href="https://jmsn.art">jmsn.art</a> are original works created by
@@ -174,7 +199,7 @@
     </p>
 
     <footer>
-      &copy; 2025 Jameson McShane · The Art Circle Project · jmsn.eth
+      &copy; 2025 Jameson McShane · <a href="/">jmsn.art</a> · The Art Circle Project · jmsn.eth
     </footer>
   </main>
 </body>
