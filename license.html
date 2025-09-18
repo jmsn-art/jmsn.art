@@ -64,20 +64,21 @@
     html, body { height: 100%; }
     body {
       margin: 0;
-      background: var(--bg);
+      background-color: var(--bg);
       color: var(--fg);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.6;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 2rem;
-      transition: background 1s ease, color 1s ease;
+      transition: background-color 0.6s ease, color 0.6s ease;
     }
     .container {
       max-width: 820px;
       text-align: center;
       width: 100%;
+      margin-top: 3rem; /* extra breathing room */
     }
     h1 {
       margin: 0 0 0.75rem 0;
@@ -109,125 +110,3 @@
       border-radius: 6px;
       font-weight: 600;
       border: 1px solid #00000020;
-      transition: transform 120ms ease, box-shadow 120ms ease;
-      text-decoration: none;
-    }
-    .cta:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px #00000055;
-      background: var(--link-hover);
-      color: #111;
-    }
-    footer {
-      margin-top: 2.5rem;
-      font-size: 0.95rem;
-      color: var(--fg-dim);
-    }
-    footer a {
-      color: var(--fg-dim);
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-      color: var(--link-hover);
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem 1.25rem;
-      margin: 0.75rem auto;
-    }
-    .note {
-      margin-top: 1.5rem;
-      font-size: 0.95rem;
-      color: #111;
-      background: var(--link);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.8rem 1rem;
-      display: inline-block;
-      max-width: 700px;
-      line-height: 1.5;
-    }
-    .note strong { color: #000; }
-    #toggleTheme {
-      margin-top: 1.5rem;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--fg);
-      padding: 0.4rem 0.6rem;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: color 1s ease, border-color 1s ease, background 1s ease;
-    }
-  </style>
-</head>
-<body>
-  <main class="container">
-    <h1>Licensing</h1>
-    <p class="card">
-      All artworks featured on <a href="https://jmsn.art">jmsn.art</a> are original works created by
-      <strong>Jameson McShane</strong> as part of <em>The Art Circle Project</em>.
-      Copyright is retained by the artist. If you’d like to use these works in publications, media, products, or other projects, a license is required.
-    </p>
-
-    <h2>Available Licensing</h2>
-    <ul>
-      <li><strong>Editorial Use</strong> – magazines, blogs, news, or non-commercial features.</li>
-      <li><strong>Commercial Use</strong> – advertising, merchandise, branding, or promotional campaigns.</li>
-      <li><strong>Media &amp; Design</strong> – album covers, book jackets, film/TV, or digital installations.</li>
-      <li><strong>Custom Agreements</strong> – tailored licenses for unique projects.</li>
-    </ul>
-
-    <h2>How to Request a License</h2>
-    <p>
-      Email <a href="mailto:contact@jmsn.art?subject=Licensing%20Request%20%E2%80%93%20The%20Art%20Circle%20Project">contact@jmsn.art</a> with details about your project:
-    </p>
-    <ul>
-      <li>Which artwork(s) you’d like to use</li>
-      <li>Type of usage (editorial, commercial, etc.)</li>
-      <li>Duration and region of usage</li>
-      <li>Your organization or project info</li>
-    </ul>
-
-    <a class="cta" href="mailto:contact@jmsn.art?subject=Licensing%20Request%20%E2%80%93%20The%20Art%20Circle%20Project">
-      Request a License
-    </a>
-
-    <p class="note">
-      ✅ You are welcome to share artworks from jmsn.art on social media or blogs for <em>personal, non-commercial use</em> as long as you include clear credit to <strong>Jameson McShane · The Art Circle Project</strong>.
-    </p>
-
-    <footer>
-      &copy; 2025 Jameson McShane · <a href="/">jmsn.art</a> · The Art Circle Project · jmsn.eth
-      <br><br>
-      <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-    </footer>
-  </main>
-
-  <script>
-    (function initTheme(){
-      const btn = document.getElementById('toggleTheme');
-      const saved = localStorage.getItem('theme');
-      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-      function apply(mode){
-        if (mode === 'light') {
-          document.body.classList.add('light-mode');
-          btn.setAttribute('aria-pressed','true');
-        } else {
-          document.body.classList.remove('light-mode');
-          btn.setAttribute('aria-pressed','false');
-        }
-      }
-      apply(saved ? saved : (preferLight ? 'light' : 'dark'));
-      btn.addEventListener('click', ()=>{
-        const isLight = document.body.classList.toggle('light-mode');
-        btn.setAttribute('aria-pressed', String(isLight));
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      });
-    })();
-  </script>
-</body>
-</html>
