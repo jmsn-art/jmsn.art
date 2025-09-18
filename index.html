@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Parsing-critical metas first -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
   <!-- Robots -->
   <meta name="robots" content="index,follow,max-image-preview:large">
 
@@ -52,20 +56,22 @@
         "isPartOf": { "@id": "https://jmsn.art/#website" },
         "mainEntityOfPage": { "@id": "https://jmsn.art/#website" },
         "about": { "@id": "https://jmsn.art/#person" },
+        "author": { "@id": "https://jmsn.art/#person" },
+        "primaryImageOfPage": { "@id": "https://jmsn.art/images/File%2000001.jpeg#image" },
         "hasPart": {
           "@type": "ItemList",
-          "itemListOrder": "http://schema.org/ItemListUnordered",
+          "itemListOrder": "https://schema.org/ItemListUnordered",
           "numberOfItems": 35,
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000001.jpeg#image", "name": "Haloed Figure in Black and White", "contentUrl": "https://jmsn.art/images/File%2000001.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000001.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000141.jpeg#image", "name": "No Smoking?", "contentUrl": "https://jmsn.art/images/File%2000141.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000141.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000003.jpeg#image", "name": "Leaky Bucket with Water Spill", "contentUrl": "https://jmsn.art/images/File%2000003.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000003.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000004.jpeg#image", "name": "Medieval-Inspired Golden Haloed Figures", "contentUrl": "https://jmsn.art/images/File%2000004.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000004.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
-            { "@type": "ListItem", "position": 5, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000006.jpeg#image", "name": "Pop Art Billboard on Suburban Highway", "contentUrl": "https://jmsn.art/images/File%2000006.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000006.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
-            { "@type": "ListItem", "position": 6, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000007.jpeg#image", "name": "Roto Dorado en Mosaico", "contentUrl": "https://jmsn.art/images/File%2000007.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000007.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
-            { "@type": "ListItem", "position": 7, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000008.jpeg#image", "name": "Sacred Canine in Haloed Glory", "contentUrl": "https://jmsn.art/images/File%2000008.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000008.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
-            { "@type": "ListItem", "position": 8, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000009.jpeg#image", "name": "Sacred Reflection of Child and Dog", "contentUrl": "https://jmsn.art/images/File%2000009.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000009.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
-            { "@type": "ListItem", "position": 9, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000011.jpeg#image", "name": "The Circle of Conflict", "contentUrl": "https://jmsn.art/images/File%2000011.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000011.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 1,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000001.jpeg#image", "name": "Haloed Figure in Black and White", "contentUrl": "https://jmsn.art/images/File%2000001.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000001.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 2,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000141.jpeg#image", "name": "No Smoking?", "contentUrl": "https://jmsn.art/images/File%2000141.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000141.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 3,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000003.jpeg#image", "name": "Leaky Bucket with Water Spill", "contentUrl": "https://jmsn.art/images/File%2000003.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000003.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 4,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000004.jpeg#image", "name": "Medieval-Inspired Golden Haloed Figures", "contentUrl": "https://jmsn.art/images/File%2000004.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000004.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 5,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000006.jpeg#image", "name": "Pop Art Billboard on Suburban Highway", "contentUrl": "https://jmsn.art/images/File%2000006.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000006.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 6,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000007.jpeg#image", "name": "Roto Dorado en Mosaico", "contentUrl": "https://jmsn.art/images/File%2000007.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000007.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 7,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000008.jpeg#image", "name": "Sacred Canine in Haloed Glory", "contentUrl": "https://jmsn.art/images/File%2000008.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000008.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 8,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000009.jpeg#image", "name": "Sacred Reflection of Child and Dog", "contentUrl": "https://jmsn.art/images/File%2000009.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000009.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
+            { "@type": "ListItem", "position": 9,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000011.jpeg#image", "name": "The Circle of Conflict", "contentUrl": "https://jmsn.art/images/File%2000011.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000011.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
             { "@type": "ListItem", "position": 10, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000012.jpeg#image", "name": "Stealth Bombers Over Eastern Europe", "contentUrl": "https://jmsn.art/images/File%2000012.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000012.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
             { "@type": "ListItem", "position": 11, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000013.jpeg#image", "name": "Sunset and Satellite Dish Silhouette", "contentUrl": "https://jmsn.art/images/File%2000013.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000013.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
             { "@type": "ListItem", "position": 12, "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000014.jpeg#image", "name": "Surreal Dining with Man and Puppy", "contentUrl": "https://jmsn.art/images/File%2000014.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000014.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
@@ -98,9 +104,6 @@
     ]
   }
   </script>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <title>jmsn.art – The Art Circle Project by Jameson McShane</title>
 
@@ -135,6 +138,7 @@
   <meta property="og:image:alt" content="Haloed Figure in Black and White">
   <meta property="og:url" content="https://jmsn.art/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="jmsn.art">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -196,26 +200,26 @@
   }
   .lb.open { opacity:1; pointer-events:auto; }
   .lb img {
-  display: block;
-  width: auto;         /* let it size itself naturally */
-  height: auto;        /* preserve aspect ratio */
-  max-width: 90vw;     /* keep inside viewport width */
-  max-height: 85vh;    /* keep inside viewport height */
-  object-fit: contain; /* no distortion if both constraints apply */
-  opacity: 0;
-  transition: opacity 1.5s ease .12s;
-}
+    display: block;
+    width: auto;         /* let it size itself naturally */
+    height: auto;        /* preserve aspect ratio */
+    max-width: 90vw;     /* keep inside viewport width */
+    max-height: 85vh;    /* keep inside viewport height */
+    object-fit: contain; /* no distortion if both constraints apply */
+    opacity: 0;
+    transition: opacity 1.5s ease .12s;
+  }
 
   .lb.open img { opacity:1; }
 
-    /* Lightbox zoom affordances */
-#lbimg {
-  will-change: transform;
-  cursor: zoom-in;
-  touch-action: none;              /* allow pinch/drag without browser gestures */
-}
-#lbimg.zoomed { cursor: grab; }
-#lbimg.zoomed:active { cursor: grabbing; }
+  /* Lightbox zoom affordances */
+  #lbimg {
+    will-change: transform;
+    cursor: zoom-in;
+    touch-action: none;              /* allow pinch/drag without browser gestures */
+  }
+  #lbimg.zoomed { cursor: grab; }
+  #lbimg.zoomed:active { cursor: grabbing; }
 
 
   .close {
@@ -347,10 +351,10 @@
   </div>
 
   <!-- Lightbox as an accessible dialog -->
-  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-label="Artwork viewer" aria-hidden="true">
     <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close lightbox">&times;</button>
     <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
-      <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
+      <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title" width="1200" height="1500">
       <div id="lb-title" aria-live="polite"></div>
     </div>
   </div>
@@ -372,6 +376,8 @@
     <br><br>
     <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false" aria-controls="gallery">☀️ / 🌙</button>
   </footer>
+
+  <noscript><p style="color:#ccc;text-align:center">Lightbox requires JavaScript. Images still viewable below.</p></noscript>
 
   <script>
   // --- GA helper: safely emit custom or GA4-recommended events ---
@@ -404,96 +410,96 @@
     const lbimg = document.getElementById('lbimg');
     const closeBtn = document.getElementById('lightboxClose');
     const lbTitle = document.getElementById('lb-title');
+
     // --- Zoom + Pan state for lightbox image ---
-let scale = 1, tx = 0, ty = 0;
-let dragging = false, startX = 0, startY = 0, activePointerId = null;
+    let scale = 1, tx = 0, ty = 0;
+    let dragging = false, startX = 0, startY = 0, activePointerId = null;
 
-function applyTransform() {
-  lbimg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
-}
+    function applyTransform() {
+      lbimg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+    }
 
-function resetZoom() {
-  scale = 1; tx = 0; ty = 0;
-  lbimg.classList.remove('zoomed');
-  applyTransform();
-}
+    function resetZoom() {
+      scale = 1; tx = 0; ty = 0;
+      lbimg.classList.remove('zoomed');
+      applyTransform();
+    }
 
-function clampPan() {
-  // Limit panning so you can't drag beyond image edges
-  const rect = lbimg.getBoundingClientRect();
-  // rect represents the *displayed* (fit) size before scaling
-  const maxX = ((rect.width  * scale) - rect.width ) / 2;
-  const maxY = ((rect.height * scale) - rect.height) / 2;
-  if (maxX > 0) tx = Math.max(-maxX, Math.min(maxX, tx)); else tx = 0;
-  if (maxY > 0) ty = Math.max(-maxY, Math.min(maxY, ty)); else ty = 0;
-}
+    function clampPan() {
+      // Limit panning so you can't drag beyond image edges
+      const rect = lbimg.getBoundingClientRect();
+      // rect represents the *displayed* (fit) size before scaling
+      const maxX = ((rect.width  * scale) - rect.width ) / 2;
+      const maxY = ((rect.height * scale) - rect.height) / 2;
+      if (maxX > 0) tx = Math.max(-maxX, Math.min(maxX, tx)); else tx = 0;
+      if (maxY > 0) ty = Math.max(-maxY, Math.min(maxY, ty)); else ty = 0;
+    }
 
-function zoomAt(clientX, clientY, newScale) {
-  // Keep the point under the cursor stable while zooming
-  const rect = lbimg.getBoundingClientRect();
-  const cx = clientX - (rect.left + rect.width  / 2);
-  const cy = clientY - (rect.top  + rect.height / 2);
-  const k = newScale / scale;
-  tx = tx - cx * (k - 1);
-  ty = ty - cy * (k - 1);
-  scale = newScale;
-  clampPan();
-  applyTransform();
-  if (scale > 1) lbimg.classList.add('zoomed'); else lbimg.classList.remove('zoomed');
-}
+    function zoomAt(clientX, clientY, newScale) {
+      // Keep the point under the cursor stable while zooming
+      const rect = lbimg.getBoundingClientRect();
+      const cx = clientX - (rect.left + rect.width  / 2);
+      const cy = clientY - (rect.top  + rect.height / 2);
+      const k = newScale / scale;
+      tx = tx - cx * (k - 1);
+      ty = ty - cy * (k - 1);
+      scale = newScale;
+      clampPan();
+      applyTransform();
+      if (scale > 1) lbimg.classList.add('zoomed'); else lbimg.classList.remove('zoomed');
+    }
 
-// Click to toggle zoom (zoom into click point / reset)
-lbimg.addEventListener('click', (e) => {
-  if (scale === 1) {
-    zoomAt(e.clientX, e.clientY, 2.5); // initial zoom factor
-  } else {
-    resetZoom();
-  }
-});
+    // Click to toggle zoom (zoom into click point / reset)
+    lbimg.addEventListener('click', (e) => {
+      if (scale === 1) {
+        zoomAt(e.clientX, e.clientY, 2.5); // initial zoom factor
+      } else {
+        resetZoom();
+      }
+    });
 
-// Wheel / trackpad pinch to zoom (centered at pointer)
-lbimg.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  const step = e.deltaY < 0 ? 1.1 : 0.9;
-  const next = Math.max(1, Math.min(5, scale * step));
-  if (next !== scale) zoomAt(e.clientX, e.clientY, next);
-}, { passive: false });
+    // Wheel / trackpad pinch to zoom (centered at pointer)
+    lbimg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const step = e.deltaY < 0 ? 1.1 : 0.9;
+      const next = Math.max(1, Math.min(5, scale * step));
+      if (next !== scale) zoomAt(e.clientX, e.clientY, next);
+    }, { passive: false });
 
-// Drag to pan when zoomed
-lbimg.addEventListener('pointerdown', (e) => {
-  if (scale <= 1) return;       // only pan when zoomed
-  dragging = true;
-  activePointerId = e.pointerId;
-  lbimg.setPointerCapture(activePointerId);
-  startX = e.clientX;
-  startY = e.clientY;
-});
+    // Drag to pan when zoomed
+    lbimg.addEventListener('pointerdown', (e) => {
+      if (scale <= 1) return;       // only pan when zoomed
+      dragging = true;
+      activePointerId = e.pointerId;
+      lbimg.setPointerCapture(activePointerId);
+      startX = e.clientX;
+      startY = e.clientY;
+    });
 
-lbimg.addEventListener('pointermove', (e) => {
-  if (!dragging || e.pointerId !== activePointerId) return;
-  const dx = e.clientX - startX;
-  const dy = e.clientY - startY;
-  startX = e.clientX;
-  startY = e.clientY;
-  tx += dx;
-  ty += dy;
-  clampPan();
-  applyTransform();
-});
+    lbimg.addEventListener('pointermove', (e) => {
+      if (!dragging || e.pointerId !== activePointerId) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      startX = e.clientX;
+      startY = e.clientY;
+      tx += dx;
+      ty += dy;
+      clampPan();
+      applyTransform();
+    });
 
-function endPan(e){
-  if (e.pointerId !== activePointerId) return;
-  dragging = false;
-  activePointerId = null;
-}
+    function endPan(e){
+      if (e.pointerId !== activePointerId) return;
+      dragging = false;
+      activePointerId = null;
+    }
 
-lbimg.addEventListener('pointerup', endPan);
-lbimg.addEventListener('pointercancel', endPan);
-lbimg.addEventListener('lostpointercapture', () => { dragging = false; activePointerId = null; });
+    lbimg.addEventListener('pointerup', endPan);
+    lbimg.addEventListener('pointercancel', endPan);
+    lbimg.addEventListener('lostpointercapture', () => { dragging = false; activePointerId = null; });
 
-// Reset transform whenever a new image loads or lightbox closes
-lbimg.addEventListener('load', resetZoom);
-
+    // Reset transform whenever a new image loads or lightbox closes
+    lbimg.addEventListener('load', resetZoom);
 
     // Fisher–Yates shuffle (except first image to preserve LCP)
     function shuffleExceptFirst(container) {
