@@ -18,6 +18,9 @@
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png">
 
+  <!-- Preload pinned/LCP image -->
+  <link rel="preload" as="image" href="/images/Farm_00018.jpeg" imagesrcset="/images/Farm_00018.jpeg 1200w" imagesizes="(min-width: 600px) 50vw, 100vw">
+
   <!-- Preconnect + GA4 (same Measurement ID as main site) -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
@@ -35,18 +38,25 @@
     :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
     .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
 
-    html, body { height:100%; }
+    html, body { min-height:100%; }
     body {
       margin:0; padding:20px; background:var(--bg); color:var(--fg);
       font-family: Arial, Helvetica, sans-serif;
       transition: background 1.5s ease, color 1.5s ease;
     }
+    /* prevent background scroll when lightbox is open */
+    body.noscroll { overflow: hidden; }
 
     header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
     header h1 { font-size:18px; margin:0; letter-spacing:.3px; font-weight:600; opacity:.9; }
     header small { opacity:.6; font-size:12px; }
 
-    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
+    .gallery {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:15px;
+      margin-bottom:48px; /* adds breathing room before footer */
+    }
     .gallery img {
       width:100%; height:auto; display:block; border-radius:8px;
       box-shadow:0 4px 12px rgba(0,0,0,.5); cursor:pointer;
@@ -69,7 +79,10 @@
     .close { position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; background:transparent; border:0; line-height:1; padding:0; -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; }
     .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
 
-    footer { text-align:center; margin:36px 0 6px; opacity:.8; font-size:13px; }
+    /* guaranteed spacer class */
+    .below-gallery-spacer { height:48px; }
+
+    footer { text-align:center; margin:60px 0 20px !important; opacity:.8; font-size:13px; }
     footer button { background:none; border:1px solid var(--muted); color:var(--fg); font-size:.9em; padding:.4em .6em; border-radius:5px; cursor:pointer; }
 
     .notice { display:flex; gap:8px; align-items:center; font-size:12px; opacity:.65; }
@@ -80,48 +93,48 @@
 </head>
 <body>
   <header>
-  <div>
-    <h1>Art Circle Farm <span class="tag">private</span></h1>
-    <div class="notice">Unlisted catalog. Share URL only with trusted viewers.</div>
-  </div>
-  <div style="display:flex; gap:10px; align-items:center;">
-    <a href="https://jmsn.art" style="color:inherit; text-decoration:underline; font-size:14px;">↩︎ jmsn.art</a>
-    <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
-  </div>
-</header>
-
+    <div>
+      <h1>Art Circle Farm <span class="tag">private</span></h1>
+      <div class="notice">Unlisted catalog. Share URL only with trusted viewers.</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <a href="https://jmsn.art" style="color:inherit; text-decoration:underline; font-size:14px;">↩︎ jmsn.art</a>
+      <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+    </div>
+  </header>
 
   <div class="gallery" id="gallery">
     <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
-    <img src="/images/Farm_00001.jpeg" alt="Farm 1 by Jameson McShane" width="1200" height="1500" decoding="async">
-    <img src="/images/Farm_00002.jpeg" alt="Farm 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <!-- <img src="/images/Farm_00003.jpeg" alt="Farm 3 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
-    <img src="/images/Farm_00004.jpeg" alt="Farm 4 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00005.jpeg" alt="Farm 5 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00006.jpeg" alt="Farm 6 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00007.jpeg" alt="Farm 7 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <!-- <img src="/images/Farm_00008.jpeg" alt="Farm 8 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
-    <img src="/images/Farm_00009.jpeg" alt="Farm 9 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00010.jpeg" alt="Farm 10 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00011.jpeg" alt="Farm 11 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00012.jpeg" alt="Farm 12 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00013.jpeg" alt="Farm 13 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00014.jpeg" alt="Farm 14 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00015.jpeg" alt="Farm 15 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00016.jpeg" alt="Farm 16 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00017.jpeg" alt="Farm 17 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00018.jpeg" alt="Farm 18 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00019.jpeg" alt="Farm 19 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00020.jpeg" alt="Farm 20 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00021.jpeg" alt="Farm 21 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00022.jpeg" alt="Farm 22 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00023.jpeg" alt="Farm 23 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00024.jpeg" alt="Farm 24 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00025.jpeg" alt="Farm 25 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  <img src="/images/Farm_00026.jpeg" alt="Farm 26 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-</div>
+    <img src="/images/Farm_00001.jpeg" alt="Glass Dome Water Collector by Jameson McShane" width="1200" height="1500" decoding="async">
+    <img src="/images/Farm_00002.jpeg" alt="Spiral Staircase to Greenhouse by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00003.jpeg" alt="Wood Storage Duplicate by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
+    <img src="/images/Farm_00004.jpeg" alt="Wood Storage by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00005.jpeg" alt="Art Circle Yurt by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00006.jpeg" alt="Circular Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00007.jpeg" alt="Vertical Urinal by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00008.jpeg" alt="Duplicate Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
+    <img src="/images/Farm_00009.jpeg" alt="Tech Specs by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00010.jpeg" alt="Dining Room Table with Art Circles by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00011.jpeg" alt="Library (optional) by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00012.jpeg" alt="House at Dusk by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00013.jpeg" alt="Third Floor Silo Bedroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00014.jpeg" alt="Living Area with Art Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00015.jpeg" alt="Blueprint Title Page by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00016.jpeg" alt="Diagram 1 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00017.jpeg" alt="Diagram 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00018.jpeg" alt="Art Circle House by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <img src="/images/Farm_00019.jpeg" alt="Cutout with Second Floor Inaccuracy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00019.jpeg">
+    <img src="/images/Farm_00020.jpeg" alt="House in Evening by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00020.jpeg">
+    <img src="/images/Farm_00021.jpeg" alt="Aerial View with Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00021.jpeg">
+    <img src="/images/Farm_00022.jpeg" alt="Nighttime Blueprint by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00022.jpeg">
+    <img src="/images/Farm_00023.jpeg" alt="Second Floor Silo Bathroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00023.jpeg">
+    <img src="/images/Farm_00024.jpeg" alt="Single Family Diagram without Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00024.jpeg">
+    <!-- <img src="/images/Farm_00025.jpeg" alt="Materials Used by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00025.jpeg"> -->
+    <img src="/images/Farm_00026.jpeg" alt="Art Circle Fire Ring by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00026.jpeg">
+  </div> <!-- closes .gallery -->
 
-  </div>
+  <!-- guaranteed gap before the footer -->
+  <div class="below-gallery-spacer" aria-hidden="true"></div>
 
   <!-- Lightbox -->
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
@@ -133,10 +146,10 @@
   </div>
 
   <footer>
-  © 2025 Jameson McShane — Art Circle Farm (private) · 
-  <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a>
-</footer>
-
+    © 2025 Jameson McShane — Art Circle Farm (private) ·
+    <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a> ·
+    <a href="/about_farm.html" style="color:inherit; text-decoration:underline;">About</a>
+  </footer>
 
   <script>
     // Theme toggle (same behavior as main site)
@@ -156,8 +169,29 @@
       });
     })();
 
+    // ---- ALT TITLES you can edit (only 19–26 shown) ----
+    const ALT_TITLES = {
+      "Farm_00019.jpeg": "", // e.g., "Art Circle Farm — Two Silos at Dusk"
+      "Farm_00020.jpeg": "",
+      "Farm_00021.jpeg": "",
+      "Farm_00022.jpeg": "",
+      "Farm_00023.jpeg": "",
+      "Farm_00024.jpeg": "",
+      "Farm_00025.jpeg": "",
+      "Farm_00026.jpeg": ""
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
       const gallery = document.getElementById('gallery');
+
+      // Apply any custom alt titles (19–26) before shuffling
+      Array.from(gallery.querySelectorAll('img[data-filename]')).forEach(img => {
+        const file = img.getAttribute('data-filename');
+        const custom = ALT_TITLES[file];
+        if (custom && custom.trim()) {
+          img.alt = custom.trim();
+        }
+      });
 
       // Fisher–Yates shuffle but keep Farm_00018.jpeg first
       function shuffleExceptFirst(container) {
