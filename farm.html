@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +31,7 @@
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-FQPZNDPCCF');
+    // Helper to safely emit GA events
     function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
   </script>
 
@@ -42,6 +45,7 @@
       font-family: Arial, Helvetica, sans-serif;
       transition: background 1.5s ease, color 1.5s ease;
     }
+    /* prevent background scroll when lightbox is open */
     body.noscroll { overflow: hidden; }
 
     header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
@@ -52,7 +56,7 @@
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
       gap:15px;
-      margin-bottom:48px;
+      margin-bottom:48px; /* adds breathing room before footer */
     }
     .gallery img {
       width:100%; height:auto; display:block; border-radius:8px;
@@ -68,17 +72,15 @@
       .gallery img:focus-visible { transform: scale(1.04); outline:2px solid #888; outline-offset:2px; }
     }
 
+    /* Lightbox */
     .lb { position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .75s ease; }
     .lb.open { opacity:1; pointer-events:auto; }
-    .lb img { display:block; width:auto; height:auto; max-width:92vw; max-height:85vh; object-fit:contain; opacity:0; transition:opacity 1.5s ease .12s; }
+    .lb img { display:block; max-width:92%; max-height:80vh; opacity:0; transition:opacity 1.5s ease .12s; }
     .lb.open img { opacity:1; }
-    #lbimg { will-change: transform; cursor: zoom-in; touch-action: none; }
-    #lbimg.zoomed { cursor: grab; }
-    #lbimg.zoomed:active { cursor: grabbing; }
-
     .close { position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; background:transparent; border:0; line-height:1; padding:0; -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; }
     .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
 
+    /* guaranteed spacer class */
     .below-gallery-spacer { height:48px; }
 
     footer { text-align:center; margin:60px 0 20px !important; opacity:.8; font-size:13px; }
@@ -103,14 +105,15 @@
   </header>
 
   <div class="gallery" id="gallery">
+    <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
     <img src="/images/Farm_00001.jpeg" alt="Glass Dome Water Collector by Jameson McShane" width="1200" height="1500" decoding="async">
     <img src="/images/Farm_00002.jpeg" alt="Spiral Staircase to Greenhouse by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00003.jpeg" alt="Wood Storage Duplicate by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00003.jpeg" alt="Wood Storage Duplicate by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
     <img src="/images/Farm_00004.jpeg" alt="Wood Storage by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00005.jpeg" alt="Art Circle Yurt by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00006.jpeg" alt="Circular Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00007.jpeg" alt="Vertical Urinal by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00008.jpeg" alt="Duplicate Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
+    <!-- <img src="/images/Farm_00008.jpeg" alt="Duplicate Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
     <img src="/images/Farm_00009.jpeg" alt="Tech Specs by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00010.jpeg" alt="Dining Room Table with Art Circles by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00011.jpeg" alt="Library (optional) by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
@@ -121,18 +124,20 @@
     <img src="/images/Farm_00016.jpeg" alt="Diagram 1 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00017.jpeg" alt="Diagram 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
     <img src="/images/Farm_00018.jpeg" alt="Art Circle House by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00019.jpeg" alt="Cutout with Second Floor Inaccuracy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00020.jpeg" alt="House in Evening by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00021.jpeg" alt="Aerial View with Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00022.jpeg" alt="Nighttime Blueprint by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00023.jpeg" alt="Second Floor Silo Bathroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00024.jpeg" alt="Single Family Diagram without Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00025.jpeg" alt="Materials Used by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00026.jpeg" alt="Art Circle Fire Ring by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  </div>
+    <img src="/images/Farm_00019.jpeg" alt="Cutout with Second Floor Inaccuracy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00019.jpeg">
+    <img src="/images/Farm_00020.jpeg" alt="House in Evening by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00020.jpeg">
+    <img src="/images/Farm_00021.jpeg" alt="Aerial View with Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00021.jpeg">
+    <img src="/images/Farm_00022.jpeg" alt="Nighttime Blueprint by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00022.jpeg">
+    <img src="/images/Farm_00023.jpeg" alt="Second Floor Silo Bathroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00023.jpeg">
+    <img src="/images/Farm_00024.jpeg" alt="Single Family Diagram without Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00024.jpeg">
+    <!-- <img src="/images/Farm_00025.jpeg" alt="Materials Used by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00025.jpeg"> -->
+    <img src="/images/Farm_00026.jpeg" alt="Art Circle Fire Ring by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" data-filename="Farm_00026.jpeg">
+  </div> <!-- closes .gallery -->
 
+  <!-- guaranteed gap before the footer -->
   <div class="below-gallery-spacer" aria-hidden="true"></div>
 
+  <!-- Lightbox -->
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
     <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close">&times;</button>
     <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
@@ -148,43 +153,172 @@
   </footer>
 
   <script>
+    // Theme toggle (same behavior as main site)
     (function initTheme(){
-      const btn=document.getElementById('toggleTheme');
-      const saved=localStorage.getItem('theme');
-      const preferLight=window.matchMedia('(prefers-color-scheme: light)').matches;
+      const btn = document.getElementById('toggleTheme');
+      const saved = localStorage.getItem('theme');
+      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
       function apply(mode){
-        if(mode==='light'){ document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+        if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
         else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
       }
       apply(saved ? saved : (preferLight ? 'light' : 'dark'));
-      btn.addEventListener('click',()=>{
-        const isLight=document.body.classList.toggle('light-mode');
-        btn.setAttribute('aria-pressed',String(isLight));
-        localStorage.setItem('theme',isLight?'light':'dark');
+      btn.addEventListener('click', ()=>{
+        const isLight = document.body.classList.toggle('light-mode');
+        btn.setAttribute('aria-pressed', String(isLight));
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
       });
     })();
 
-    document.addEventListener('DOMContentLoaded',()=>{
-      const gallery=document.getElementById('gallery');
-      const lb=document.getElementById('lb');
-      const lbimg=document.getElementById('lbimg');
-      const closeBtn=document.getElementById('lightboxClose');
-      const lbTitle=document.getElementById('lb-title');
+    // ---- ALT TITLES you can edit (only 19–26 shown) ----
+    const ALT_TITLES = {
+      "Farm_00019.jpeg": "", // e.g., "Art Circle Farm — Two Silos at Dusk"
+      "Farm_00020.jpeg": "",
+      "Farm_00021.jpeg": "",
+      "Farm_00022.jpeg": "",
+      "Farm_00023.jpeg": "",
+      "Farm_00024.jpeg": "",
+      "Farm_00025.jpeg": "",
+      "Farm_00026.jpeg": ""
+    };
 
-      let scale=1,tx=0,ty=0,drag=false,sx=0,sy=0,activePointerId=null;
-      function applyTransform(){ lbimg.style.transform=`translate3d(${tx}px, ${ty}px, 0) scale(${scale})`; }
-      function resetZoom(){ scale=1; tx=0; ty=0; lbimg.classList.remove('zoomed'); applyTransform(); }
-      function clampPan(){ const rect=lbimg.getBoundingClientRect(); const maxX=((rect.width*scale)-rect.width)/2; const maxY=((rect.height*scale)-rect.height)/2; if(maxX>0) tx=Math.max(-maxX,Math.min(maxX,tx)); else tx=0; if(maxY>0) ty=Math.max(-maxY,Math.min(maxY,ty)); else ty=0; }
-      function zoomAt(x,y,newScale){ const rect=lbimg.getBoundingClientRect(); const cx=x-(rect.left+rect.width/2); const cy=y-(rect.top+rect.height/2); const k=newScale/scale; tx-=cx*(k-1); ty-=cy*(k-1); scale=newScale; clampPan(); applyTransform(); if(scale>1) lbimg.classList.add('zoomed'); else lbimg.classList.remove('zoomed'); }
+    document.addEventListener('DOMContentLoaded', () => {
+      const gallery = document.getElementById('gallery');
 
-      lbimg.addEventListener('click',e=>{ if(scale===1) zoomAt(e.clientX,e.clientY,2.5); else resetZoom(); });
-      lbimg.addEventListener('wheel',e=>{ e.preventDefault(); const step=e.deltaY<0?1.1:0.9; const next=Math.max(1,Math.min(5,scale*step)); if(next!==scale) zoomAt(e.clientX,e.clientY,next); },{passive:false});
-      lbimg.addEventListener('pointerdown',e=>{ if(scale<=1)return; drag=true; activePointerId=e.pointerId; sx=e.clientX; sy=e.clientY; lbimg.setPointerCapture(activePointerId); });
-      lbimg.addEventListener('pointermove',e=>{ if(!drag||e.pointerId!==activePointerId)return; tx+=e.clientX-sx; ty+=e.clientY-sy; sx=e.clientX; sy=e.clientY; clampPan(); applyTransform(); });
-      lbimg.addEventListener('pointerup',e=>{ if(e.pointerId!==activePointerId)return; drag=false; activePointerId=null; });
-      lbimg.addEventListener('lostpointercapture',()=>{ drag=false; activePointerId=null; });
-      lbimg.addEventListener('load', resetZoom);
+      // Apply any custom alt titles (19–26) before shuffling
+      Array.from(gallery.querySelectorAll('img[data-filename]')).forEach(img => {
+        const file = img.getAttribute('data-filename');
+        const custom = ALT_TITLES[file];
+        if (custom && custom.trim()) {
+          img.alt = custom.trim();
+        }
+      });
 
-      gallery.querySelectorAll('img').forEach(img=>{
-        img.addEventListener('click',()=>{
-          lb.classList.add('open
+      // Fisher–Yates shuffle but keep Farm_00018.jpeg first
+      function shuffleExceptFirst(container) {
+        const all = Array.from(container.querySelectorAll('img'));
+        if (all.length <= 1) return;
+
+        // Find the intended first image (Farm_00018.jpeg)
+        const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
+        const rest = all.filter(img => img !== first);
+
+        // Shuffle the rest
+        for (let i = rest.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [rest[i], rest[j]] = [rest[j], rest[i]];
+        }
+
+        // Rebuild with Farm_00018 first (if found)
+        if (first) container.replaceChildren(first, ...rest);
+        else container.replaceChildren(...rest);
+      }
+
+      // Shuffle now
+      shuffleExceptFirst(gallery);
+
+      // PRIORITIZE the pinned first image for LCP + make it visible immediately
+      const firstImg = gallery.querySelector('img');
+      if (firstImg) {
+        // Highest network priority
+        firstImg.setAttribute('fetchpriority', 'high');
+        firstImg.removeAttribute('loading'); // ensure eager load if browser respects it
+        // Immediate fade-in (skip waiting for 'load' to add class)
+        firstImg.classList.add('lazy-loaded');
+      }
+
+      // Build a live ordered list after shuffle (for navigation)
+      let ordered = Array.from(gallery.querySelectorAll('img'));
+
+      // Lightbox elements
+      const lb = document.getElementById('lb');
+      const lbimg = document.getElementById('lbimg');
+      const closeBtn = document.getElementById('lightboxClose');
+      const lbTitle = document.getElementById('lb-title');
+
+      // Progressive fade-in on load for the rest
+      ordered.forEach(img => {
+        if (img !== firstImg) {
+          if (img.complete) img.classList.add('lazy-loaded');
+          else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
+        }
+        img.tabIndex = 0;
+        img.setAttribute('role','button');
+        img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
+      });
+
+      let currentIndex = 0;
+      let openedAt = 0;
+      let lastFocus = null;
+      let currentTitle = '';
+      let currentSrc = '';
+
+      function openLightboxByIndex(index){
+        ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
+        currentIndex = (index + ordered.length) % ordered.length;
+        const img = ordered[currentIndex];
+        currentTitle = img.alt || 'untitled';
+        currentSrc = img.dataset.full || img.src;
+
+        lbimg.src = currentSrc;
+        lbimg.alt = currentTitle;
+        lb.classList.add('open');
+        lb.removeAttribute('aria-hidden');
+        document.body.classList.add('noscroll');
+        lastFocus = document.activeElement;
+        setTimeout(()=> closeBtn.focus(), 50);
+        lbTitle.textContent = currentTitle;
+        openedAt = Date.now();
+
+        // GA4: mirror main gallery events
+        sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+        sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+      }
+
+      function openLightboxByEl(el){
+        ordered = Array.from(gallery.querySelectorAll('img'));
+        const idx = ordered.indexOf(el);
+        openLightboxByIndex(idx >= 0 ? idx : 0);
+      }
+
+      function closeLightbox(){
+        const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt)/1000)) : 0;
+        lb.classList.remove('open');
+        lb.setAttribute('aria-hidden','true');
+        document.body.classList.remove('noscroll');
+        if (lastFocus) lastFocus.focus();
+
+        // GA4: close event with dwell time
+        if (openedAt) {
+          sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
+        }
+        openedAt = 0; currentTitle = ''; currentSrc = '';
+      }
+
+      function showNext(delta){
+        openLightboxByIndex(currentIndex + delta);
+      }
+
+      // Click / keyboard hooks
+      ordered.forEach((img) => {
+        img.addEventListener('click', () => openLightboxByEl(img));
+        img.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightboxByEl(img); }
+        });
+      });
+
+      // Close interactions
+      closeBtn.addEventListener('click', closeLightbox);
+      document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
+
+      // Global key handling
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') showNext(+1);
+        if (e.key === 'ArrowLeft') showNext(-1);
+      });
+    });
+  </script>
+</body>
+</html>
