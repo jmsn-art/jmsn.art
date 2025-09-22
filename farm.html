@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,81 +75,10 @@
     /* Lightbox */
     .lb { position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .75s ease; }
     .lb.open { opacity:1; pointer-events:auto; }
-    
-    /* Zoom container */
-    .zoom-container {
-      position: relative;
-      width: 92%;
-      height: 80vh;
-      overflow: hidden;
-      cursor: grab;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .zoom-container:active { cursor: grabbing; }
-    .zoom-container.zoomed { cursor: grab; }
-    
-    .zoom-container img { 
-      display: block; 
-      max-width: 100%; 
-      max-height: 100%; 
-      opacity: 0; 
-      transition: opacity 1.5s ease .12s, transform 0.3s ease;
-      transform-origin: center center;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-    .lb.open .zoom-container img { opacity: 1; }
-    
-    .close { position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; background:transparent; border:0; line-height:1; padding:0; -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; z-index:10000; }
+    .lb img { display:block; max-width:92%; max-height:80vh; opacity:0; transition:opacity 1.5s ease .12s; }
+    .lb.open img { opacity:1; }
+    .close { position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; background:transparent; border:0; line-height:1; padding:0; -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; }
     .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
-
-    /* Zoom controls */
-    .zoom-controls {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      background: rgba(0,0,0,0.7);
-      padding: 8px 12px;
-      border-radius: 25px;
-      z-index: 10000;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .lb.open .zoom-controls { opacity: 1; }
-    
-    .zoom-btn {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: white;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: background 0.2s ease;
-    }
-    .zoom-btn:hover { background: rgba(255,255,255,0.1); }
-    .zoom-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-    .zoom-info {
-      position: fixed;
-      top: 60px;
-      right: 24px;
-      color: rgba(255,255,255,0.7);
-      font-size: 12px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 10000;
-    }
-    .lb.open .zoom-info { opacity: 1; }
 
     /* guaranteed spacer class */
     .below-gallery-spacer { height:48px; }
@@ -158,15 +89,7 @@
     .notice { display:flex; gap:8px; align-items:center; font-size:12px; opacity:.65; }
     .tag { display:inline-block; border:1px solid var(--muted); color:var(--fg); padding:.1em .45em; border-radius:999px; font-size:11px; letter-spacing:.2px; }
 
-    @media (prefers-reduced-motion: reduce) { 
-      .gallery img, .lb, .lb img, .zoom-container img { transition:none !important; animation:none !important; } 
-    }
-
-    @media (max-width: 600px) {
-      .zoom-container { width: 95%; height: 70vh; }
-      .zoom-controls { bottom: 15px; }
-      .close { top: 10px; right: 15px; font-size: 32px; }
-    }
+    @media (prefers-reduced-motion: reduce) { .gallery img, .lb, .lb img { transition:none !important; animation:none !important; } }
   </style>
 </head>
 <body>
@@ -217,23 +140,9 @@
   <!-- Lightbox -->
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
     <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close">&times;</button>
-    
-    <div class="zoom-info">
-      <div>Scroll to zoom • Drag to pan</div>
-      <div id="zoom-level">100%</div>
-    </div>
-    
     <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
-      <div class="zoom-container" id="zoomContainer">
-        <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
-      </div>
+      <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
       <div id="lb-title" style="margin-top:12px; color:#fff; background:rgba(0,0,0,.7); padding:6px 12px; font-size:14px; border-radius:4px; white-space:normal; text-align:center;"></div>
-    </div>
-    
-    <div class="zoom-controls">
-      <button id="zoomOut" class="zoom-btn" type="button" aria-label="Zoom out" title="Zoom out">-</button>
-      <button id="zoomReset" class="zoom-btn" type="button" aria-label="Reset zoom" title="Fit to screen" style="width: auto; padding: 0 12px; font-size: 12px;">FIT</button>
-      <button id="zoomIn" class="zoom-btn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
     </div>
   </div>
 
@@ -326,21 +235,6 @@
       const lbimg = document.getElementById('lbimg');
       const closeBtn = document.getElementById('lightboxClose');
       const lbTitle = document.getElementById('lb-title');
-      const zoomContainer = document.getElementById('zoomContainer');
-      const zoomInBtn = document.getElementById('zoomIn');
-      const zoomOutBtn = document.getElementById('zoomOut');
-      const zoomResetBtn = document.getElementById('zoomReset');
-      const zoomLevelDisplay = document.getElementById('zoom-level');
-
-      // Zoom state
-      let currentZoom = 1;
-      let translateX = 0;
-      let translateY = 0;
-      let isDragging = false;
-      let dragStartX = 0;
-      let dragStartY = 0;
-      let dragStartTranslateX = 0;
-      let dragStartTranslateY = 0;
 
       // Progressive fade-in on load for the rest
       ordered.forEach(img => {
@@ -359,67 +253,6 @@
       let currentTitle = '';
       let currentSrc = '';
 
-      function updateZoomDisplay() {
-        const percentage = Math.round(currentZoom * 100);
-        zoomLevelDisplay.textContent = `${percentage}%`;
-        zoomOutBtn.disabled = currentZoom <= 0.25;
-        zoomInBtn.disabled = currentZoom >= 5;
-      }
-
-      function applyTransform() {
-        lbimg.style.transform = `scale(${currentZoom}) translate(${translateX}px, ${translateY}px)`;
-        zoomContainer.classList.toggle('zoomed', currentZoom > 1);
-      }
-
-      function resetZoom() {
-        currentZoom = 1;
-        translateX = 0;
-        translateY = 0;
-        applyTransform();
-        updateZoomDisplay();
-      }
-
-      function zoomIn() {
-        currentZoom = Math.min(5, currentZoom * 1.4);
-        applyTransform();
-        updateZoomDisplay();
-      }
-
-      function zoomOut() {
-        currentZoom = Math.max(0.25, currentZoom / 1.4);
-        
-        // Reset translation if zoomed out to fit
-        if (currentZoom <= 1) {
-          translateX = 0;
-          translateY = 0;
-        }
-        
-        applyTransform();
-        updateZoomDisplay();
-      }
-
-      function constrainPan() {
-        if (currentZoom <= 1) {
-          translateX = 0;
-          translateY = 0;
-          return;
-        }
-
-        const containerRect = zoomContainer.getBoundingClientRect();
-        const imgRect = lbimg.getBoundingClientRect();
-        
-        // Calculate the scaled image dimensions
-        const scaledWidth = imgRect.width * currentZoom;
-        const scaledHeight = imgRect.height * currentZoom;
-        
-        // Calculate max translation to keep image edges within container
-        const maxTranslateX = Math.max(0, (scaledWidth - containerRect.width) / (2 * currentZoom));
-        const maxTranslateY = Math.max(0, (scaledHeight - containerRect.height) / (2 * currentZoom));
-        
-        translateX = Math.max(-maxTranslateX, Math.min(maxTranslateX, translateX));
-        translateY = Math.max(-maxTranslateY, Math.min(maxTranslateY, translateY));
-      }
-
       function openLightboxByIndex(index){
         ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
         currentIndex = (index + ordered.length) % ordered.length;
@@ -436,9 +269,6 @@
         setTimeout(()=> closeBtn.focus(), 50);
         lbTitle.textContent = currentTitle;
         openedAt = Date.now();
-
-        // Reset zoom state
-        resetZoom();
 
         // GA4: mirror main gallery events
         sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
@@ -463,122 +293,11 @@
           sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
         }
         openedAt = 0; currentTitle = ''; currentSrc = '';
-        resetZoom();
       }
 
       function showNext(delta){
         openLightboxByIndex(currentIndex + delta);
       }
-
-      // Zoom event listeners
-      zoomInBtn.addEventListener('click', zoomIn);
-      zoomOutBtn.addEventListener('click', zoomOut);
-      zoomResetBtn.addEventListener('click', resetZoom);
-
-      // Mouse wheel zoom
-      zoomContainer.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        
-        if (e.deltaY < 0) {
-          zoomIn();
-        } else {
-          zoomOut();
-        }
-      });
-
-      // Touch zoom (pinch)
-      let initialDistance = 0;
-      let initialZoom = 1;
-
-      zoomContainer.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 2) {
-          const touch1 = e.touches[0];
-          const touch2 = e.touches[1];
-          initialDistance = Math.hypot(
-            touch2.clientX - touch1.clientX,
-            touch2.clientY - touch1.clientY
-          );
-          initialZoom = currentZoom;
-          e.preventDefault();
-        }
-      });
-
-      zoomContainer.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 2) {
-          const touch1 = e.touches[0];
-          const touch2 = e.touches[1];
-          const distance = Math.hypot(
-            touch2.clientX - touch1.clientX,
-            touch2.clientY - touch1.clientY
-          );
-          
-          const scale = distance / initialDistance;
-          currentZoom = Math.max(0.25, Math.min(5, initialZoom * scale));
-          
-          applyTransform();
-          updateZoomDisplay();
-          e.preventDefault();
-        }
-      });
-
-      // Pan functionality (mouse)
-      zoomContainer.addEventListener('mousedown', (e) => {
-        if (currentZoom > 1) {
-          isDragging = true;
-          dragStartX = e.clientX;
-          dragStartY = e.clientY;
-          dragStartTranslateX = translateX;
-          dragStartTranslateY = translateY;
-          e.preventDefault();
-        }
-      });
-
-      document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-          const deltaX = (e.clientX - dragStartX) / currentZoom;
-          const deltaY = (e.clientY - dragStartY) / currentZoom;
-          
-          translateX = dragStartTranslateX + deltaX;
-          translateY = dragStartTranslateY + deltaY;
-          
-          constrainPan();
-          applyTransform();
-          e.preventDefault();
-        }
-      });
-
-      document.addEventListener('mouseup', () => {
-        isDragging = false;
-      });
-
-      // Pan functionality (touch)
-      let touchStartX = 0;
-      let touchStartY = 0;
-      let touchStartTranslateX = 0;
-      let touchStartTranslateY = 0;
-
-      zoomContainer.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1 && currentZoom > 1) {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-          touchStartTranslateX = translateX;
-          touchStartTranslateY = translateY;
-        }
-      });
-
-      zoomContainer.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 1 && currentZoom > 1) {
-          const deltaX = (e.touches[0].clientX - touchStartX) / currentZoom;
-          const deltaY = (e.touches[0].clientY - touchStartY) / currentZoom;
-          
-          translateX = touchStartTranslateX + deltaX;
-          translateY = touchStartTranslateY + deltaY;
-          
-          constrainPan();
-          applyTransform();
-          e.preventDefault();
-        }
-      });
 
       // Click / keyboard hooks
       ordered.forEach((img) => {
@@ -590,9 +309,7 @@
 
       // Close interactions
       closeBtn.addEventListener('click', closeLightbox);
-      document.getElementById('lb').addEventListener('click', e => { 
-        if (e.target.id === 'lb') closeLightbox(); 
-      });
+      document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
 
       // Global key handling
       document.addEventListener('keydown', (e) => {
@@ -600,13 +317,7 @@
         if (e.key === 'Escape') closeLightbox();
         if (e.key === 'ArrowRight') showNext(+1);
         if (e.key === 'ArrowLeft') showNext(-1);
-        if (e.key === '+' || e.key === '=') { e.preventDefault(); zoomIn(); }
-        if (e.key === '-') { e.preventDefault(); zoomOut(); }
-        if (e.key === '0') { e.preventDefault(); resetZoom(); }
       });
-
-      // Initialize zoom display
-      updateZoomDisplay();
     });
   </script>
 </body>
