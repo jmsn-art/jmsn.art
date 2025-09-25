@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Broken Circle Fields — jmsn.art</title>
+
+  <!-- Indexable by default (you can flip to noindex if you keep it secret) -->
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://jmsn.art/fields.html" />
+
+  <!-- Identity -->
+  <link rel="me" href="https://jmsn.eth.limo" />
+  <meta name="color-scheme" content="dark light" />
+
+  <!-- Favicon (optional; reuse site icons) -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <!-- Page styles: mirrors the clean, grid-first vibe of your index; all squares -->
+  <style>
+    :root {
+      --bg: #0b0b0c;
+      --fg: #eaeaea;
+      --muted: #9aa0a6;
+      --card: #121214;
+      --accent: #f5c518; /* subtle highlight for hover outline */
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg:#fafafa; --fg:#0b0b0c; --muted:#5f6368; --card:#ffffff; }
+    }
+    [data-theme="light"] { --bg:#fafafa; --fg:#0b0b0c; --muted:#5f6368; --card:#ffffff; }
+    [data-theme="dark"] { --bg:#0b0b0c; --fg:#eaeaea; --muted:#9aa0a6; --card:#121214; }
+
+    html, body { height: 100%; }
+    body {
+      margin: 0; font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg); color: var(--fg);
+    }
+
+    header {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(8px);
+      background: color-mix(in hsl, var(--bg) 85%, transparent);
+      border-bottom: 1px solid color-mix(in hsl, var(--fg) 10%, transparent);
+    }
+    .wrap { max-width: 1400px; margin: 0 auto; padding: 16px; }
+    .row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+    .brand { font-weight: 700; letter-spacing: 0.2px; }
+    .spacer { flex:1; }
+    .pill { border:1px solid color-mix(in hsl, var(--fg) 15%, transparent); border-radius: 999px; padding:6px 10px; color: var(--muted); }
+    .btn { cursor:pointer; border:1px solid color-mix(in hsl, var(--fg) 20%, transparent); border-radius: 10px; padding:8px 12px; background:var(--card); color:var(--fg); }
+
+    main { padding: 18px 16px 64px; }
+
+    /* Responsive square grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .item {
+      position: relative;
+      background: var(--card);
+      border-radius: 14px;
+      overflow: clip;
+      outline: 1px solid color-mix(in hsl, var(--fg) 10%, transparent);
+      transition: outline-color .2s ease, transform .2s ease;
+      aspect-ratio: 1 / 1; /* stay perfectly square */
+      display:flex; align-items:center; justify-content:center;
+    }
+    .item:hover { outline-color: var(--accent); transform: translateY(-2px); }
+
+    .item img {
+      width: 100%; height: 100%; object-fit: cover; display:block;
+      filter: saturate(1.02) contrast(1.02);
+      transform: translateZ(0); /* paint optimization */
+    }
+
+    /* Subtle caption (optional; hidden by default) */
+    .cap { position:absolute; left:10px; bottom:10px; font-size:12px; color:var(--muted); backdrop-filter: blur(4px); padding:2px 6px; border-radius:6px; background: color-mix(in hsl, var(--bg) 50%, transparent); display:none; }
+    .item:hover .cap { display:block; }
+
+    footer { opacity:.8; }
+
+    /* Small screens nicety */
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+    }
+  </style>
+
+  <!-- GA4 (correct ID per your note) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCCF', { anonymize_ip: true });
+  </script>
+
+  <!-- JSON-LD: minimal WebPage node; your site-level WebSite/Person live on index -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "https://jmsn.art/fields.html#page",
+    "name": "Broken Circle Fields — jmsn.art",
+    "url": "https://jmsn.art/fields.html",
+    "inLanguage": "en-US",
+    "isPartOf": { "@id": "https://jmsn.art/#website" },
+    "about": { "@type": "Thing", "name": "Broken Circle Fields", "description": "A growing series of dense, square compositions made of broken art circles in various palettes." }
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="wrap row">
+      <div class="brand">jmsn.art</div>
+      <span class="pill">Broken Circle Fields</span>
+      <div class="spacer"></div>
+      <button id="themeBtn" class="btn" aria-label="Toggle color theme">Toggle</button>
+      <a class="btn" href="/" aria-label="Back to home">Home</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid" id="grid">
+      <!-- 🔽 Replace these filenames with your exported images. Keep them square. -->
+      <!-- You can paste as many <figure class="item"> blocks as you want; order shuffles on load. -->
+
+      <figure class="item"><img src="/images/fields/field-001.jpg" alt="Broken art circle field — black on white" loading="lazy" width="1200" height="1200"><figcaption class="cap">#001</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-002.jpg" alt="Broken art circle field — black on white, denser" loading="lazy" width="1200" height="1200"><figcaption class="cap">#002</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-003.jpg" alt="Broken art circle field — celadon on red" loading="lazy" width="1200" height="1200"><figcaption class="cap">#003</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-004.jpg" alt="Broken art circle field — pink on green" loading="lazy" width="1200" height="1200"><figcaption class="cap">#004</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-005.jpg" alt="Broken art circle field — sunflower on midnight blue" loading="lazy" width="1200" height="1200"><figcaption class="cap">#005</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-006.jpg" alt="Broken art circle field — red on celadon" loading="lazy" width="1200" height="1200"><figcaption class="cap">#006</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-007.jpg" alt="Broken art circle field — green on pink" loading="lazy" width="1200" height="1200"><figcaption class="cap">#007</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-008.jpg" alt="Broken art circle field — ultra-dense black on white" loading="lazy" width="1200" height="1200"><figcaption class="cap">#008</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-009.jpg" alt="Broken art circle field — scattered red on celadon" loading="lazy" width="1200" height="1200"><figcaption class="cap">#009</figcaption></figure>
+      <figure class="item"><img src="/images/fields/field-010.jpg" alt="Broken art circle field — scattered green on pink" loading="lazy" width="1200" height="1200"><figcaption class="cap">#010</figcaption></figure>
+
+      <!-- Copy/paste more blocks as you produce more squares. -->
+    </div>
+  </main>
+
+  <footer class="wrap" style="padding-bottom:56px">
+    <small style="color:var(--muted)">© <span id="yr"></span> Jameson McShane — The Art Circle Project.</small>
+  </footer>
+
+  <script>
+    // Year stamp
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Theme toggle (mirrors your site’s light/dark)
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeBtn');
+    const saved = localStorage.getItem('theme');
+    if (saved) root.setAttribute('data-theme', saved);
+    themeBtn.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // Shuffle the grid items on load (like your index vibe)
+    const grid = document.getElementById('grid');
+    const cards = Array.from(grid.children);
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      grid.appendChild(cards[j]);
+      cards.splice(j, 1);
+    }
+
+    // Optional: track clicks on images in GA4
+    grid.addEventListener('click', (e) => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      const label = img.getAttribute('alt') || img.src.split('/').pop();
+      if (window.gtag) {
+        gtag('event', 'image_click', {
+          event_category: 'fields_gallery',
+          event_label: label
+        });
+      }
+    });
+  </script>
+</body>
+</html>
