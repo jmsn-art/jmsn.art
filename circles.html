@@ -5,25 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Art Circles — jmsn.art</title>
 
-  <!-- Indexable by default (you can flip to noindex if you keep it secret) -->
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://jmsn.art/circles.html" />
-
-  <!-- Identity -->
   <link rel="me" href="https://jmsn.eth.limo" />
   <meta name="color-scheme" content="dark light" />
-
-  <!-- Favicon (optional; reuse site icons) -->
   <link rel="icon" type="image/png" href="/favicon.png" />
 
-  <!-- Page styles: mirrors the clean, grid-first vibe of your index; all squares -->
   <style>
     :root {
       --bg: #0b0b0c;
       --fg: #eaeaea;
       --muted: #9aa0a6;
       --card: #121214;
-      --accent: #f5c518; /* subtle highlight for hover outline */
+      --accent: #f5c518;
     }
     @media (prefers-color-scheme: light) {
       :root { --bg:#fafafa; --fg:#0b0b0c; --muted:#5f6368; --card:#ffffff; }
@@ -33,8 +27,10 @@
 
     html, body { height: 100%; }
     body {
-      margin: 0; font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg); color: var(--fg);
+      transition: background-color 1.5s ease, color 1.5s ease;
     }
 
     header {
@@ -45,27 +41,36 @@
     }
     .wrap { max-width: 1400px; margin: 0 auto; padding: 16px; }
     .row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-    .brand { font-weight: 700; letter-spacing: 0.2px; }
+    .brand { font-weight: 700; letter-spacing: 0.2px; font-size: 18px; }
     .spacer { flex:1; }
-    .pill { border:1px solid color-mix(in hsl, var(--fg) 15%, transparent); border-radius: 999px; padding:6px 10px; color: var(--muted); }
-    .btn { cursor:pointer; border:1px solid color-mix(in hsl, var(--fg) 20%, transparent); border-radius: 10px; padding:8px 12px; background:var(--card); color:var(--fg); }
+    .pill { border:1px solid color-mix(in hsl, var(--fg) 15%, transparent); border-radius: 999px; padding:8px 14px; color: var(--muted); font-size: 14px; }
+    .btn {
+      cursor:pointer;
+      border:1px solid color-mix(in hsl, var(--fg) 20%, transparent);
+      border-radius: 12px;
+      padding:10px 16px;
+      font-size: 16px;
+      background:var(--card);
+      color:var(--fg);
+      transition: background-color .2s ease, color .2s ease;
+    }
 
     main { padding: 18px 16px 64px; }
 
-    /* Responsive square grid */
+    /* Responsive square grid — larger tiles, tighter spacing */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 10px;
     }
     .item {
       position: relative;
       background: var(--card);
-      border-radius: 14px;
-      overflow: clip;
+      border-radius: 12px;
+      overflow: hidden;
       outline: 1px solid color-mix(in hsl, var(--fg) 10%, transparent);
       transition: outline-color .2s ease, transform .2s ease;
-      aspect-ratio: 1 / 1; /* stay perfectly square */
+      aspect-ratio: 1 / 1;
       display:flex; align-items:center; justify-content:center;
     }
     .item:hover { outline-color: var(--accent); transform: translateY(-2px); }
@@ -73,42 +78,25 @@
     .item img {
       width: 100%; height: 100%; object-fit: cover; display:block;
       filter: saturate(1.02) contrast(1.02);
-      transform: translateZ(0); /* paint optimization */
+      transform: translateZ(0);
     }
 
-    /* Subtle caption (optional; hidden by default) */
-    .cap { position:absolute; left:10px; bottom:10px; font-size:12px; color:var(--muted); backdrop-filter: blur(4px); padding:2px 6px; border-radius:6px; background: color-mix(in hsl, var(--bg) 50%, transparent); display:none; }
+    .cap {
+      position:absolute; left:10px; bottom:10px;
+      font-size:12px; color:var(--muted);
+      backdrop-filter: blur(4px);
+      padding:2px 6px; border-radius:6px;
+      background: color-mix(in hsl, var(--bg) 50%, transparent);
+      display:none;
+    }
     .item:hover .cap { display:block; }
 
     footer { opacity:.8; }
 
-    /* Small screens nicety */
     @media (max-width: 480px) {
-      .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
     }
   </style>
-
-  <!-- GA4 (correct ID per your note) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
-    gtag('config', 'G-FQPZNDPCCF', { anonymize_ip: true });
-  </script>
-
-  <!-- JSON-LD: minimal WebPage node; your site-level WebSite/Person live on index -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "@id": "https://jmsn.art/circles.html#page",
-    "name": "Art Circles — jmsn.art",
-    "url": "https://jmsn.art/circles.html",
-    "inLanguage": "en-US",
-    "isPartOf": { "@id": "https://jmsn.art/#website" },
-    "about": { "@type": "Thing", "name": "Art Circles", "description": "A growing series of dense, square compositions made of broken art circles in various palettes." }
-  }
-  </script>
 </head>
 <body>
   <header>
@@ -116,42 +104,38 @@
       <div class="brand">jmsn.art</div>
       <span class="pill">Art Circles</span>
       <div class="spacer"></div>
-      <button id="themeBtn" class="btn" aria-label="Toggle color theme">Toggle</button>
+      <button id="themeBtn" class="btn" aria-label="Toggle color theme"></button>
       <a class="btn" href="/" aria-label="Back to home">Home</a>
     </div>
   </header>
 
   <main class="wrap">
     <div class="grid" id="grid">
-      <!-- 🔽 Replace these filenames with your exported images. Keep them square. -->
-      <!-- You can paste as many <figure class="item"> blocks as you want; order shuffles on load. -->
-
+      <!-- 24 circle images -->
       <figure class="item"><img src="/images/circles_00001.jpeg" alt="Art circle #001" loading="lazy" width="1200" height="1200"><figcaption class="cap">#001</figcaption></figure>
-<figure class="item"><img src="/images/circles_00002.jpeg" alt="Art circle #002" loading="lazy" width="1200" height="1200"><figcaption class="cap">#002</figcaption></figure>
-<figure class="item"><img src="/images/circles_00003.jpeg" alt="Art circle #003" loading="lazy" width="1200" height="1200"><figcaption class="cap">#003</figcaption></figure>
-<figure class="item"><img src="/images/circles_00004.jpeg" alt="Art circle #004" loading="lazy" width="1200" height="1200"><figcaption class="cap">#004</figcaption></figure>
-<figure class="item"><img src="/images/circles_00005.jpeg" alt="Art circle #005" loading="lazy" width="1200" height="1200"><figcaption class="cap">#005</figcaption></figure>
-<figure class="item"><img src="/images/circles_00006.jpeg" alt="Art circle #006" loading="lazy" width="1200" height="1200"><figcaption class="cap">#006</figcaption></figure>
-<figure class="item"><img src="/images/circles_00007.jpeg" alt="Art circle #007" loading="lazy" width="1200" height="1200"><figcaption class="cap">#007</figcaption></figure>
-<figure class="item"><img src="/images/circles_00008.jpeg" alt="Art circle #008" loading="lazy" width="1200" height="1200"><figcaption class="cap">#008</figcaption></figure>
-<figure class="item"><img src="/images/circles_00009.jpeg" alt="Art circle #009" loading="lazy" width="1200" height="1200"><figcaption class="cap">#009</figcaption></figure>
-<figure class="item"><img src="/images/circles_00010.jpeg" alt="Art circle #010" loading="lazy" width="1200" height="1200"><figcaption class="cap">#010</figcaption></figure>
-<figure class="item"><img src="/images/circles_00011.jpeg" alt="Art circle #011" loading="lazy" width="1200" height="1200"><figcaption class="cap">#011</figcaption></figure>
-<figure class="item"><img src="/images/circles_00012.jpeg" alt="Art circle #012" loading="lazy" width="1200" height="1200"><figcaption class="cap">#012</figcaption></figure>
-<figure class="item"><img src="/images/circles_00013.jpeg" alt="Art circle #013" loading="lazy" width="1200" height="1200"><figcaption class="cap">#013</figcaption></figure>
-<figure class="item"><img src="/images/circles_00014.jpeg" alt="Art circle #014" loading="lazy" width="1200" height="1200"><figcaption class="cap">#014</figcaption></figure>
-<figure class="item"><img src="/images/circles_00015.jpeg" alt="Art circle #015" loading="lazy" width="1200" height="1200"><figcaption class="cap">#015</figcaption></figure>
-<figure class="item"><img src="/images/circles_00016.jpeg" alt="Art circle #016" loading="lazy" width="1200" height="1200"><figcaption class="cap">#016</figcaption></figure>
-<figure class="item"><img src="/images/circles_00017.jpeg" alt="Art circle #017" loading="lazy" width="1200" height="1200"><figcaption class="cap">#017</figcaption></figure>
-<figure class="item"><img src="/images/circles_00018.jpeg" alt="Art circle #018" loading="lazy" width="1200" height="1200"><figcaption class="cap">#018</figcaption></figure>
-<figure class="item"><img src="/images/circles_00019.jpeg" alt="Art circle #019" loading="lazy" width="1200" height="1200"><figcaption class="cap">#019</figcaption></figure>
-<figure class="item"><img src="/images/circles_00020.jpeg" alt="Art circle #020" loading="lazy" width="1200" height="1200"><figcaption class="cap">#020</figcaption></figure>
-<figure class="item"><img src="/images/circles_00021.jpeg" alt="Art circle #021" loading="lazy" width="1200" height="1200"><figcaption class="cap">#021</figcaption></figure>
-<figure class="item"><img src="/images/circles_00022.jpeg" alt="Art circle #022" loading="lazy" width="1200" height="1200"><figcaption class="cap">#022</figcaption></figure>
-<figure class="item"><img src="/images/circles_00023.jpeg" alt="Art circle #023" loading="lazy" width="1200" height="1200"><figcaption class="cap">#023</figcaption></figure>
-<figure class="item"><img src="/images/circles_00024.jpeg" alt="Art circle #024" loading="lazy" width="1200" height="1200"><figcaption class="cap">#024</figcaption></figure>
-
-      <!-- Copy/paste more blocks as you produce more squares. -->
+      <figure class="item"><img src="/images/circles_00002.jpeg" alt="Art circle #002" loading="lazy" width="1200" height="1200"><figcaption class="cap">#002</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00003.jpeg" alt="Art circle #003" loading="lazy" width="1200" height="1200"><figcaption class="cap">#003</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00004.jpeg" alt="Art circle #004" loading="lazy" width="1200" height="1200"><figcaption class="cap">#004</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00005.jpeg" alt="Art circle #005" loading="lazy" width="1200" height="1200"><figcaption class="cap">#005</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00006.jpeg" alt="Art circle #006" loading="lazy" width="1200" height="1200"><figcaption class="cap">#006</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00007.jpeg" alt="Art circle #007" loading="lazy" width="1200" height="1200"><figcaption class="cap">#007</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00008.jpeg" alt="Art circle #008" loading="lazy" width="1200" height="1200"><figcaption class="cap">#008</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00009.jpeg" alt="Art circle #009" loading="lazy" width="1200" height="1200"><figcaption class="cap">#009</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00010.jpeg" alt="Art circle #010" loading="lazy" width="1200" height="1200"><figcaption class="cap">#010</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00011.jpeg" alt="Art circle #011" loading="lazy" width="1200" height="1200"><figcaption class="cap">#011</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00012.jpeg" alt="Art circle #012" loading="lazy" width="1200" height="1200"><figcaption class="cap">#012</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00013.jpeg" alt="Art circle #013" loading="lazy" width="1200" height="1200"><figcaption class="cap">#013</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00014.jpeg" alt="Art circle #014" loading="lazy" width="1200" height="1200"><figcaption class="cap">#014</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00015.jpeg" alt="Art circle #015" loading="lazy" width="1200" height="1200"><figcaption class="cap">#015</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00016.jpeg" alt="Art circle #016" loading="lazy" width="1200" height="1200"><figcaption class="cap">#016</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00017.jpeg" alt="Art circle #017" loading="lazy" width="1200" height="1200"><figcaption class="cap">#017</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00018.jpeg" alt="Art circle #018" loading="lazy" width="1200" height="1200"><figcaption class="cap">#018</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00019.jpeg" alt="Art circle #019" loading="lazy" width="1200" height="1200"><figcaption class="cap">#019</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00020.jpeg" alt="Art circle #020" loading="lazy" width="1200" height="1200"><figcaption class="cap">#020</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00021.jpeg" alt="Art circle #021" loading="lazy" width="1200" height="1200"><figcaption class="cap">#021</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00022.jpeg" alt="Art circle #022" loading="lazy" width="1200" height="1200"><figcaption class="cap">#022</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00023.jpeg" alt="Art circle #023" loading="lazy" width="1200" height="1200"><figcaption class="cap">#023</figcaption></figure>
+      <figure class="item"><img src="/images/circles_00024.jpeg" alt="Art circle #024" loading="lazy" width="1200" height="1200"><figcaption class="cap">#024</figcaption></figure>
     </div>
   </main>
 
@@ -163,18 +147,26 @@
     // Year stamp
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // Theme toggle (mirrors your site’s light/dark)
+    // Theme toggle 🌞 / 🌙
     const root = document.documentElement;
     const themeBtn = document.getElementById('themeBtn');
     const saved = localStorage.getItem('theme');
     if (saved) root.setAttribute('data-theme', saved);
+
+    function updateEmoji() {
+      const theme = root.getAttribute('data-theme') || 'dark';
+      themeBtn.textContent = theme === 'light' ? '🌙' : '🌞';
+    }
+
+    updateEmoji();
     themeBtn.addEventListener('click', () => {
       const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
       root.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
+      updateEmoji();
     });
 
-    // Shuffle the grid items on load (like your index vibe)
+    // Shuffle the grid items on load
     const grid = document.getElementById('grid');
     const cards = Array.from(grid.children);
     for (let i = cards.length - 1; i > 0; i--) {
@@ -182,19 +174,6 @@
       grid.appendChild(cards[j]);
       cards.splice(j, 1);
     }
-
-    // Optional: track clicks on images in GA4
-    grid.addEventListener('click', (e) => {
-      const img = e.target.closest('img');
-      if (!img) return;
-      const label = img.getAttribute('alt') || img.src.split('/').pop();
-      if (window.gtag) {
-        gtag('event', 'image_click', {
-          event_category: 'fields_gallery',
-          event_label: label
-        });
-      }
-    });
   </script>
 </body>
 </html>
