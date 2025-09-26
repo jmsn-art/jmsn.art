@@ -177,7 +177,7 @@
 
   <noscript><p style="color:#ccc;text-align:center">Lightbox requires JavaScript. Images still viewable below.</p></noscript>
 
-  <script>
+ <script>
   function sendGA(eventName, params){ try{ if(typeof gtag==='function'){ gtag('event', eventName, params||{}); } }catch(e){} }
 
   // Theme
@@ -198,7 +198,7 @@
     });
   })();
 
-  // Gallery + Lightbox (same behaviors as main page)
+  // Gallery + Lightbox + Fisher–Yates shuffle
   document.addEventListener('DOMContentLoaded', () => {
     const gallery = document.getElementById('gallery');
     const lb = document.getElementById('lb');
@@ -206,8 +206,25 @@
     const closeBtn = document.getElementById('lightboxClose');
     const lbTitle = document.getElementById('lb-title');
 
-    // Fade-in on load
+    // Fisher–Yates shuffle (keeps first image in place for LCP)
+    function shuffleExceptFirst(container){
+      const imgs = Array.from(container.querySelectorAll('img'));
+      if (imgs.length <= 2) return;
+      const first = imgs.shift();
+      for (let i = imgs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [imgs[i], imgs[j]] = [imgs[j], imgs[i]];
+      }
+      container.replaceChildren(first, ...imgs);
+    }
+
+    // Shuffle before wiring listeners so indexes match the visual order
+    shuffleExceptFirst(gallery);
+
+    // Re-query after shuffle
     const items = gallery.querySelectorAll('img');
+
+    // Fade-in on load + a11y
     items.forEach(img=>{
       if(img.complete) img.classList.add('lazy-loaded');
       img.addEventListener('load', ()=> img.classList.add('lazy-loaded'));
@@ -280,15 +297,16 @@
       img.addEventListener('click', ()=> openLightbox(idx));
       img.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openLightbox(idx); } });
     });
-    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-    document.getElementById('lb').addEventListener('click', e=>{ if(e.target.id==='lb') closeLightbox(); });
+    closeBtn.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', e=>{ if(e.target===lb) closeLightbox(); });
     document.addEventListener('keydown', e=>{
-      if(!document.getElementById('lb').classList.contains('open')) return;
+      if(!lb.classList.contains('open')) return;
       if(e.key==='Escape') closeLightbox();
       if(e.key==='ArrowRight') openLightbox((current+1)%items.length);
       if(e.key==='ArrowLeft')  openLightbox((current-1+items.length)%items.length);
     });
   });
-  </script>
+</script>
+
 </body>
 </html>
