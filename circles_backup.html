@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Art Circles — jmsn.art</title>
+
+  <!-- Indexable (flip to noindex if you want it hidden) -->
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://jmsn.art/circles.html" />
+
+  <!-- Identity -->
+  <link rel="me" href="https://jmsn.eth.limo">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Art Circles — jmsn.art">
+  <meta property="og:description" content="A grid of square Art Circle studies by Jameson McShane.">
+  <meta property="og:image" content="https://jmsn.art/images/circles_00001.jpeg">
+  <meta property="og:url" content="https://jmsn.art/circles.html">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Art Circles — jmsn.art">
+  <meta name="twitter:description" content="A grid of square Art Circle studies by Jameson McShane.">
+  <meta name="twitter:image" content="https://jmsn.art/images/circles_00001.jpeg">
+
+  <!-- Preload first image to improve LCP -->
+  <link rel="preload" as="image" href="/images/circles_00001.jpeg" imagesrcset="/images/circles_00001.jpeg 1200w" imagesizes="(max-width: 600px) 94vw, 400px" fetchpriority="high">
+
+  <!-- GA4 (kept the same ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    const gaDebug = new URLSearchParams(location.search).has('ga_debug');
+    gtag('config', 'G-FQPZNDPCCF', { 'debug_mode': gaDebug });
+  </script>
+
+  <style>
+  :root { --bg:#111; --fg:#fff; --muted:#ccc; --accent:#fff; color-scheme: dark light; }
+  .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
+
+  body{
+    margin:0; padding:20px; background:var(--bg); color:var(--fg);
+    font-family:Arial,Helvetica,sans-serif;
+    transition: background 1.5s ease, color 1.5s ease;
+  }
+
+  /* Tighter, square grid (closer to the main page feel) */
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:8px;
+  }
+  @media (min-width:1100px){ .gallery{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; } }
+
+  .gallery img{
+    width:100%; height:auto; display:block; border-radius:6px;
+    box-shadow:0 4px 12px rgba(0,0,0,.45); cursor:pointer;
+    opacity:0; transition: transform .75s ease, opacity 1.5s ease-in-out;
+    transform-origin:center center; will-change:transform;
+    aspect-ratio:1 / 1; object-fit:cover;
+    -webkit-tap-highlight-color:transparent;
+    content-visibility:auto; contain-intrinsic-size: 1200px 1200px;
+  }
+  .gallery img.lazy-loaded { opacity:1; }
+
+  @media (hover:hover) and (pointer:fine){
+    .gallery img:hover{ transform:scale(1.04); }
+    .gallery img:focus-visible{ transform:scale(1.04); outline:2px solid #888; outline-offset:2px; }
+  }
+
+  /* Lightbox */
+  .lb{
+    position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999;
+    align-items:center; justify-content:center; display:flex;
+    opacity:0; pointer-events:none; transition:opacity .75s ease;
+  }
+  .lb.open{ opacity:1; pointer-events:auto; }
+  .lb img{
+    display:block; width:auto; height:auto; max-width:90vw; max-height:85vh; object-fit:contain;
+    opacity:0; transition:opacity 1.5s ease .12s;
+  }
+  .lb.open img{ opacity:1; }
+
+  #lbimg{ will-change:transform; cursor:zoom-in; touch-action:none; }
+  #lbimg.zoomed{ cursor:grab; }
+  #lbimg.zoomed:active{ cursor:grabbing; }
+
+  .close{
+    position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer;
+    appearance:none; background:transparent; border:0; line-height:1; padding:0;
+  }
+  .close:focus-visible{ outline:2px solid #888; outline-offset:4px; border-radius:4px; }
+
+  #lb-title{
+    margin-top:12px; color:#fff; background:rgba(0,0,0,.7); padding:6px 12px; font-size:14px;
+    border-radius:4px; text-align:center; opacity:0; transition:opacity .75s ease; pointer-events:none;
+  }
+
+  footer{ text-align:center; margin:36px 0 10px; opacity:.85; font-size:14px; }
+  footer button{
+    background:none; border:1px solid var(--muted); color:var(--fg);
+    font-size:.95em; padding:.45em .65em; border-radius:5px; cursor:pointer;
+    transition: color 1.5s ease, border-color 1.5s ease, background 1.5s ease;
+  }
+  footer a{ color:var(--fg); text-decoration:underline; transition: color 1.5s ease; }
+  footer a:hover{ color:var(--accent); }
+
+  @media (prefers-reduced-motion: reduce){
+    .gallery img, .lb, .lb img{ transition:none !important; animation:none !important; }
+  }
+  </style>
+</head>
+<body>
+
+  <h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+    Art Circles – Square Studies by Jameson McShane
+  </h1>
+
+  <div class="gallery" id="gallery" role="list" aria-label="Art Circles Grid">
+    <!-- First image eager for LCP -->
+    <img src="/images/circles_00001.jpeg"
+         alt="circles_00001.jpeg"
+         decoding="async" fetchpriority="high"
+         width="1200" height="1200"
+         sizes="(max-width: 600px) 94vw, 400px"
+         role="listitem" style="content-visibility:auto;">
+
+    <!-- Remaining 2–24: lazy -->
+    <img src="/images/circles_00002.jpeg" alt="circles_00002.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00003.jpeg" alt="circles_00003.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00004.jpeg" alt="circles_00004.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00005.jpeg" alt="circles_00005.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00006.jpeg" alt="circles_00006.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00007.jpeg" alt="circles_00007.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00008.jpeg" alt="circles_00008.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00009.jpeg" alt="circles_00009.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00010.jpeg" alt="circles_00010.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00011.jpeg" alt="circles_00011.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00012.jpeg" alt="circles_00012.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00013.jpeg" alt="circles_00013.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00014.jpeg" alt="circles_00014.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00015.jpeg" alt="circles_00015.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00016.jpeg" alt="circles_00016.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00017.jpeg" alt="circles_00017.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00018.jpeg" alt="circles_00018.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00019.jpeg" alt="circles_00019.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00020.jpeg" alt="circles_00020.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00021.jpeg" alt="circles_00021.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00022.jpeg" alt="circles_00022.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00023.jpeg" alt="circles_00023.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00024.jpeg" alt="circles_00024.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-label="Artwork viewer" aria-hidden="true">
+    <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close lightbox">&times;</button>
+    <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
+      <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title" width="1200" height="1200">
+      <div id="lb-title" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Jameson McShane ·
+    <a href="/index.html" style="margin-right:10px">Home</a>
+    <a href="/about.html" style="margin-right:10px">About</a>
+    <a href="/contact.html">Contact</a>
+    <br><br>
+    <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false" aria-controls="gallery">☀️ / 🌙</button>
+  </footer>
+
+  <noscript><p style="color:#ccc;text-align:center">Lightbox requires JavaScript. Images still viewable below.</p></noscript>
+
+  <script>
+  function sendGA(eventName, params){ try{ if(typeof gtag==='function'){ gtag('event', eventName, params||{}); } }catch(e){} }
+
+  // Theme
+  (function initTheme(){
+    const btn = document.getElementById('toggleTheme');
+    const saved = localStorage.getItem('theme');
+    const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    function apply(mode){
+      if(mode==='light'){ document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+      else{ document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+    }
+    apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+    btn.addEventListener('click', ()=>{
+      const isLight = document.body.classList.toggle('light-mode');
+      btn.setAttribute('aria-pressed', String(isLight));
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      sendGA('theme_toggle', { mode: isLight ? 'light' : 'dark' });
+    });
+  })();
+
+  // Gallery + Lightbox (same behaviors as main page)
+  document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('gallery');
+    const lb = document.getElementById('lb');
+    const lbimg = document.getElementById('lbimg');
+    const closeBtn = document.getElementById('lightboxClose');
+    const lbTitle = document.getElementById('lb-title');
+
+    // Fade-in on load
+    const items = gallery.querySelectorAll('img');
+    items.forEach(img=>{
+      if(img.complete) img.classList.add('lazy-loaded');
+      img.addEventListener('load', ()=> img.classList.add('lazy-loaded'));
+      img.tabIndex = 0;
+      img.setAttribute('role','button');
+      img.setAttribute('aria-label',(img.alt||'Artwork') + ' — open');
+    });
+
+    // Zoom/pan state
+    let scale=1, tx=0, ty=0, dragging=false, startX=0, startY=0, activePointerId=null;
+    function applyTransform(){ lbimg.style.transform = `translate3d(${tx}px,${ty}px,0) scale(${scale})`; }
+    function resetZoom(){ scale=1; tx=0; ty=0; lbimg.classList.remove('zoomed'); applyTransform(); }
+    function clampPan(){
+      const r = lbimg.getBoundingClientRect();
+      const maxX = ((r.width*scale)-r.width)/2, maxY=((r.height*scale)-r.height)/2;
+      tx = maxX>0 ? Math.max(-maxX,Math.min(maxX,tx)) : 0;
+      ty = maxY>0 ? Math.max(-maxY,Math.min(maxY,ty)) : 0;
+    }
+    function zoomAt(cx, cy, newScale){
+      const r = lbimg.getBoundingClientRect();
+      const x = cx - (r.left + r.width/2), y = cy - (r.top + r.height/2);
+      const k = newScale/scale;
+      tx = tx - x*(k-1); ty = ty - y*(k-1);
+      scale = newScale; clampPan(); applyTransform();
+      if(scale>1) lbimg.classList.add('zoomed'); else lbimg.classList.remove('zoomed');
+    }
+    lbimg.addEventListener('click', e => { scale===1 ? zoomAt(e.clientX,e.clientY,2.5) : resetZoom(); });
+    lbimg.addEventListener('wheel', e => {
+      e.preventDefault(); const step = e.deltaY<0 ? 1.1 : 0.9;
+      const next = Math.max(1, Math.min(5, scale*step));
+      if(next!==scale) zoomAt(e.clientX,e.clientY,next);
+    }, {passive:false});
+    lbimg.addEventListener('pointerdown', e => {
+      if(scale<=1) return; dragging=true; activePointerId=e.pointerId; lbimg.setPointerCapture(activePointerId);
+      startX=e.clientX; startY=e.clientY;
+    });
+    function endPan(e){ if(e.pointerId!==activePointerId) return; dragging=false; activePointerId=null; }
+    lbimg.addEventListener('pointermove', e => {
+      if(!dragging || e.pointerId!==activePointerId) return;
+      const dx=e.clientX-startX, dy=e.clientY-startY; startX=e.clientX; startY=e.clientY; tx+=dx; ty+=dy; clampPan(); applyTransform();
+    });
+    lbimg.addEventListener('pointerup', endPan);
+    lbimg.addEventListener('pointercancel', endPan);
+    lbimg.addEventListener('lostpointercapture', ()=>{ dragging=false; activePointerId=null; });
+    lbimg.addEventListener('load', resetZoom);
+
+    let lastFocus=null, current=0, openedAt=0, currentTitle='', currentSrc='';
+    function bestSrc(el){ return el.dataset.full || el.src; }
+
+    function openLightbox(idx){
+      const img = items[idx]; current=idx;
+      currentTitle = img.alt || 'untitled'; currentSrc = bestSrc(img);
+      lbimg.src = currentSrc; lbimg.alt = currentTitle;
+      lb.classList.add('open'); lb.removeAttribute('aria-hidden'); document.body.classList.add('noscroll');
+      lastFocus = document.activeElement; setTimeout(()=> closeBtn.focus(), 50);
+      lbTitle.textContent = currentTitle; lbTitle.style.opacity='1'; setTimeout(()=> lbTitle.style.opacity='0', 7000);
+      openedAt = Date.now();
+      sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+      sendGA('view_item', { items:[{ item_name: currentTitle, item_id: currentSrc }] });
+    }
+    function closeLightbox(){
+      const dwell = openedAt ? Math.max(0, Math.round((Date.now()-openedAt)/1000)) : 0;
+      if(openedAt){ sendGA('art_close', { artwork_title: currentTitle||'unknown', artwork_src: currentSrc||'unknown', dwell_time_seconds:dwell }); }
+      openedAt=0; currentTitle=''; currentSrc='';
+      resetZoom();
+      lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); document.body.classList.remove('noscroll');
+      if(lastFocus) lastFocus.focus();
+    }
+    items.forEach((img, idx)=>{
+      img.addEventListener('click', ()=> openLightbox(idx));
+      img.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openLightbox(idx); } });
+    });
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    document.getElementById('lb').addEventListener('click', e=>{ if(e.target.id==='lb') closeLightbox(); });
+    document.addEventListener('keydown', e=>{
+      if(!document.getElementById('lb').classList.contains('open')) return;
+      if(e.key==='Escape') closeLightbox();
+      if(e.key==='ArrowRight') openLightbox((current+1)%items.length);
+      if(e.key==='ArrowLeft')  openLightbox((current-1+items.length)%items.length);
+    });
+  });
+  </script>
+</body>
+</html>
