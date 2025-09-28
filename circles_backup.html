@@ -110,6 +110,8 @@
     transition: color 1.5s ease, border-color 1.5s ease, background 1.5s ease;
   }
   footer a{ color:var(--fg); text-decoration:underline; transition: color 1.5s ease; }
+    .noscroll { overflow: hidden; }
+
   footer a:hover{ color:var(--accent); }
 
   @media (prefers-reduced-motion: reduce){
@@ -122,6 +124,10 @@
   <h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
     Art Circles – Square Studies by Jameson McShane
   </h1>
+
+  <header style="text-align:center; margin:18px 0; font-size:1.1em; opacity:.85;">
+  Art Circle studies - refresh the page to shuffle the gallery
+</header>
 
   <div class="gallery" id="gallery" role="list" aria-label="Art Circles Grid">
     <!-- First image eager for LCP -->
@@ -140,22 +146,60 @@
     <img src="/images/circles_00006.jpeg" alt="circles_00006.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00007.jpeg" alt="circles_00007.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00008.jpeg" alt="circles_00008.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-    <img src="/images/circles_00009.jpeg" alt="circles_00009.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00009.jpeg" alt="circles_00009.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
     <img src="/images/circles_00010.jpeg" alt="circles_00010.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00011.jpeg" alt="circles_00011.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00012.jpeg" alt="circles_00012.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00013.jpeg" alt="circles_00013.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00014.jpeg" alt="circles_00014.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00015.jpeg" alt="circles_00015.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-    <img src="/images/circles_00016.jpeg" alt="circles_00016.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00016.jpeg" alt="circles_00016.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
     <img src="/images/circles_00017.jpeg" alt="circles_00017.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00018.jpeg" alt="circles_00018.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00019.jpeg" alt="circles_00019.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00020.jpeg" alt="circles_00020.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-    <img src="/images/circles_00021.jpeg" alt="circles_00021.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-    <img src="/images/circles_00022.jpeg" alt="circles_00022.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-    <img src="/images/circles_00023.jpeg" alt="circles_00023.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00021.jpeg" alt="circles_00021.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <!-- <img src="/images/circles_00022.jpeg" alt="circles_00022.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <!-- <img src="/images/circles_00023.jpeg" alt="circles_00023.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
     <img src="/images/circles_00024.jpeg" alt="circles_00024.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00025.jpeg" alt="circles_00025.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00026.jpeg" alt="circles_00026.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <!-- <img src="/images/circles_00027.jpeg" alt="circles_00027.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <img src="/images/circles_00028.jpeg" alt="circles_00028.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00029.jpeg" alt="circles_00029.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <!-- <img src="/images/circles_00030.jpeg" alt="circles_00030.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <img src="/images/circles_00031.jpeg" alt="circles_00031.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00032.jpeg" alt="circles_00032.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00033.jpeg" alt="circles_00033.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00034.jpeg" alt="circles_00034.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00035.jpeg" alt="circles_00035.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <!-- <img src="/images/circles_00036.jpeg" alt="circles_00036.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <img src="/images/circles_00037.jpeg" alt="circles_00037.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00038.jpeg" alt="circles_00038.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00039.jpeg" alt="circles_00039.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00040.jpeg" alt="circles_00040.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <img src="/images/circles_00041.jpeg" alt="circles_00041.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00042.jpeg" alt="circles_00042.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00043.jpeg" alt="circles_00043.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00044.jpeg" alt="circles_00044.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00045.jpeg" alt="circles_00045.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00046.jpeg" alt="circles_00046.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00047.jpeg" alt="circles_00047.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00048.jpeg" alt="circles_00048.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <!-- <img src="/images/circles_00049.jpeg" alt="circles_00049.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <img src="/images/circles_00050.jpeg" alt="circles_00050.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00051.jpeg" alt="circles_00051.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00052.jpeg" alt="circles_00052.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00053.jpeg" alt="circles_00053.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00054.jpeg" alt="circles_00054.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00055.jpeg" alt="circles_00055.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00056.jpeg" alt="circles_00056.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00057.jpeg" alt="circles_00057.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00058.jpeg" alt="circles_00058.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00059.jpeg" alt="circles_00059.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+
+
+
   </div>
 
   <!-- Lightbox -->
