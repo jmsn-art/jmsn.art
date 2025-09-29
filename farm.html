@@ -83,6 +83,11 @@
       max-width:92vw; max-height:80vh; object-fit:contain;
       opacity:0; transition:opacity .4s ease, filter .4s ease, transform .4s ease;
     }
+    /* Slow the full-res fade-in (tweak duration to taste) */
+#lbimg {
+  transition: opacity 2s ease-in-out, filter .4s ease, transform .4s ease;
+}
+
     /* Preview (low-res grid image) starts visible & slightly blurred */
     #lbprev { opacity:1; filter:blur(6px); transform:scale(1.02); }
     /* Full-res fades in on top when ready */
