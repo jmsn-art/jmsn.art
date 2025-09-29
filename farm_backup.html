@@ -187,224 +187,293 @@
     <a href="/about_farm.html" style="color:inherit; text-decoration:underline;">About</a>
   </footer>
 
-  <script>
-    // Theme toggle (same behavior as main site)
-    (function initTheme(){
-      const btn = document.getElementById('toggleTheme');
-      const saved = localStorage.getItem('theme');
-      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-      function apply(mode){
-        if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
-        else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
-      }
-      apply(saved ? saved : (preferLight ? 'light' : 'dark'));
-      btn.addEventListener('click', ()=>{
-        const isLight = document.body.classList.toggle('light-mode');
-        btn.setAttribute('aria-pressed', String(isLight));
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      });
-    })();
+<script>
+  // Theme toggle (same behavior as main site)
+  (function initTheme(){
+    const btn = document.getElementById('toggleTheme');
+    const saved = localStorage.getItem('theme');
+    const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    function apply(mode){
+      if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+      else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+    }
+    apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+    btn.addEventListener('click', ()=>{
+      const isLight = document.body.classList.toggle('light-mode');
+      btn.setAttribute('aria-pressed', String(isLight));
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  })();
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const gallery = document.getElementById('gallery');
+  document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('gallery');
 
-      // Fisher–Yates shuffle but keep Farm_00018.jpeg first
-      function shuffleExceptFirst(container) {
-        const all = Array.from(container.querySelectorAll('img'));
-        if (all.length <= 1) return;
+    // Fisher–Yates shuffle but keep Farm_00018.jpeg first
+    function shuffleExceptFirst(container) {
+      const all = Array.from(container.querySelectorAll('img'));
+      if (all.length <= 1) return;
 
-        // Find the intended first image (Farm_00018.jpeg)
-        const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
-        const rest = all.filter(img => img !== first);
+      // Find the intended first image (Farm_00018.jpeg)
+      const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
+      const rest = all.filter(img => img !== first);
 
-        // Shuffle the rest
-        for (let i = rest.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [rest[i], rest[j]] = [rest[j], rest[i]];
-        }
-
-        // Rebuild with Farm_00018 first (if found)
-        if (first) container.replaceChildren(first, ...rest);
-        else container.replaceChildren(...rest);
+      // Shuffle the rest
+      for (let i = rest.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rest[i], rest[j]] = [rest[j], rest[i]];
       }
 
-      // Shuffle now
-      shuffleExceptFirst(gallery);
+      // Rebuild with Farm_00018 first (if found)
+      if (first) container.replaceChildren(first, ...rest);
+      else container.replaceChildren(...rest);
+    }
 
-      // PRIORITIZE the pinned first image for LCP + make it visible immediately
-      const firstImg = gallery.querySelector('img');
-      if (firstImg) {
-        firstImg.setAttribute('fetchpriority', 'high');
-        firstImg.removeAttribute('loading'); // eager load if browser respects it
-        firstImg.classList.add('lazy-loaded'); // immediate fade-in
+    // Shuffle now
+    shuffleExceptFirst(gallery);
+
+    // PRIORITIZE the pinned first image for LCP + make it visible immediately
+    const firstImg = gallery.querySelector('img');
+    if (firstImg) {
+      firstImg.setAttribute('fetchpriority', 'high');
+      firstImg.removeAttribute('loading'); // eager load if browser respects it
+      firstImg.classList.add('lazy-loaded'); // immediate fade-in
+    }
+
+    // Build a live ordered list after shuffle (for navigation)
+    let ordered = Array.from(gallery.querySelectorAll('img'));
+
+    // Lightbox elements
+    const lb = document.getElementById('lb');
+    const lbprev = document.getElementById('lbprev');
+    const lbimgEl = document.getElementById('lbimg');
+    const closeBtn = document.getElementById('lightboxClose');
+    const lbTitle = document.getElementById('lb-title');
+    const frame = document.querySelector('.lb-frame');
+
+    // Progressive fade-in on load for the rest
+    ordered.forEach(img => {
+      if (img !== firstImg) {
+        if (img.complete) img.classList.add('lazy-loaded');
+        else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
       }
+      img.tabIndex = 0;
+      img.setAttribute('role','button');
+      img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
+    });
 
-      // Build a live ordered list after shuffle (for navigation)
-      let ordered = Array.from(gallery.querySelectorAll('img'));
+    let currentIndex = 0;
+    let openedAt = 0;
+    let lastFocus = null;
+    let currentTitle = '';
+    let currentSrc = '';
 
-      // Lightbox elements
-      const lb = document.getElementById('lb');
-      const lbprev = document.getElementById('lbprev');
-      const lbimgEl = document.getElementById('lbimg');
-      const closeBtn = document.getElementById('lightboxClose');
-      const lbTitle = document.getElementById('lb-title');
+    // --- Simple caches for faster next/prev loads ---
+    const urlCache = new Map(); // key: grid img src -> resolved full URL
+    const imgCache = new Map(); // key: full URL -> Image object (preloaded)
 
-      // Progressive fade-in on load for the rest
-      ordered.forEach(img => {
-        if (img !== firstImg) {
-          if (img.complete) img.classList.add('lazy-loaded');
-          else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
-        }
-        img.tabIndex = 0;
-        img.setAttribute('role','button');
-        img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
-      });
+    // --- Build candidate URLs for full-res ---
+    // Prefers /images/full/<name>.png, then .jpeg/.jpg, then same folder .png, then fallback to grid src.
+    function deriveFullCandidates(img) {
+      const list = [];
+      if (img.dataset.full) list.push(img.dataset.full); // explicit override
 
-      let currentIndex = 0;
-      let openedAt = 0;
-      let lastFocus = null;
-      let currentTitle = '';
-      let currentSrc = '';
+      const url = new URL(img.src, location.href);
+      const dir = url.pathname.slice(0, url.pathname.lastIndexOf('/') + 1); // e.g. /images/
+      const file = url.pathname.slice(url.pathname.lastIndexOf('/') + 1);   // e.g. Farm_00018.jpeg
+      const base = file.replace(/\.(jpe?g|png|webp|avif)$/i, '');           // Farm_00018
 
-      // --- Build candidate URLs for full-res ---
-      // Prefers /images/full/<name>.png, then .jpeg/.jpg, then same folder .png, then fallback to grid src.
-      function deriveFullCandidates(img) {
-        const list = [];
-        if (img.dataset.full) list.push(img.dataset.full); // explicit override
+      list.push(`${dir}full/${base}.png`);
+      list.push(`${dir}full/${base}.jpeg`);
+      list.push(`${dir}full/${base}.jpg`);
+      list.push(`${dir}${base}.png`);
+      list.push(img.src);
 
-        const url = new URL(img.src, location.href);
-        const dir = url.pathname.slice(0, url.pathname.lastIndexOf('/') + 1); // e.g. /images/
-        const file = url.pathname.slice(url.pathname.lastIndexOf('/') + 1);   // e.g. Farm_00018.jpeg
-        const base = file.replace(/\.(jpe?g|png|webp|avif)$/i, '');           // Farm_00018
+      return [...new Set(list)];
+    }
 
-        list.push(`${dir}full/${base}.png`);
-        list.push(`${dir}full/${base}.jpeg`);
-        list.push(`${dir}full/${base}.jpg`);
-        list.push(`${dir}${base}.png`);
-        list.push(img.src);
-
-        return [...new Set(list)];
+    // --- Resolve first loadable URL; uses urlCache if available ---
+    function findFirstLoadableURL(candidates, cacheKey) {
+      if (cacheKey && urlCache.has(cacheKey)) {
+        return Promise.resolve(urlCache.get(cacheKey));
       }
-
-      // --- Resolve first loadable URL without touching the DOM image yet ---
-      function findFirstLoadableURL(candidates) {
-        return new Promise((resolve) => {
-          let i = 0;
-          const tryNext = () => {
-            const candidate = candidates[i++];
-            if (!candidate) return resolve(null);
-            const test = new Image();
-            test.onload = () => resolve(candidate);
-            test.onerror = tryNext;
-            test.src = candidate;
+      return new Promise((resolve) => {
+        let i = 0;
+        const tryNext = () => {
+          const candidate = candidates[i++];
+          if (!candidate) {
+            if (cacheKey) urlCache.set(cacheKey, null);
+            return resolve(null);
+          }
+          // If already preloaded, accept immediately
+          if (imgCache.has(candidate)) {
+            if (cacheKey) urlCache.set(cacheKey, candidate);
+            return resolve(candidate);
+          }
+          const test = new Image();
+          test.onload = () => {
+            if (cacheKey) urlCache.set(cacheKey, candidate);
+            imgCache.set(candidate, test);
+            resolve(candidate);
           };
-          tryNext();
-        });
-      }
+          test.onerror = tryNext;
+          test.src = candidate;
+        };
+        tryNext();
+      });
+    }
 
-      function openLightboxByIndex(index){
-        ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
-        currentIndex = (index + ordered.length) % ordered.length;
-        const img = ordered[currentIndex];
+    function normalizeIndex(idx) {
+      ordered = Array.from(gallery.querySelectorAll('img'));
+      const len = ordered.length;
+      return ((idx % len) + len) % len;
+    }
 
-        currentTitle = img.alt || 'untitled';
-        lbTitle.textContent = currentTitle;
-
-        // Reset classes
-        lbprev.classList.remove('out');
-        lbimgEl.classList.remove('ready');
-
-        // Show lightbox immediately (fast UI)
-        lb.classList.add('open');
-        lb.removeAttribute('aria-hidden');
-        document.body.classList.add('noscroll');
-        lastFocus = document.activeElement;
-        setTimeout(()=> closeBtn.focus(), 50);
-
-        lbprev.alt = currentTitle;
-        lbimgEl.alt = currentTitle;
-
-        // Start with the grid version as blurred preview
-        lbprev.src = img.src;
-
-        // Resolve and load full-res, then crossfade
-        const candidates = deriveFullCandidates(img);
-        findFirstLoadableURL(candidates).then((chosenUrl) => {
-          const finalUrl = chosenUrl || img.src;
-          currentSrc = finalUrl;
-
-          // Clear stale srcset/sizes to avoid DPR surprises
-          lbimgEl.removeAttribute('srcset');
-          lbimgEl.removeAttribute('sizes');
-
-          const onFullLoad = () => {
-            lbimgEl.classList.add('ready'); // full-res visible
-            lbprev.classList.add('out');    // preview fades away
-
-            // GA after full-res chosen
-            sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-            sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
-
-            lbimgEl.removeEventListener('load', onFullLoad);
-          };
-
-          lbimgEl.addEventListener('load', onFullLoad);
-          lbimgEl.src = finalUrl;
-        });
-
-        openedAt = Date.now();
-      }
-
-      function openLightboxByEl(el){
-        ordered = Array.from(gallery.querySelectorAll('img'));
-        const idx = ordered.indexOf(el);
-        openLightboxByIndex(idx >= 0 ? idx : 0);
-      }
-
-      function closeLightbox(){
-        const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt)/1000)) : 0;
-        lb.classList.remove('open');
-        lb.setAttribute('aria-hidden','true');
-        document.body.classList.remove('noscroll');
-        if (lastFocus) lastFocus.focus();
-
-        // GA4: close event with dwell time
-        if (openedAt) {
-          sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
-        }
-
-        // Reset layers for next open
-        lbprev.classList.remove('out');
-        lbprev.removeAttribute('src');
-        lbimgEl.classList.remove('ready');
-
-        openedAt = 0; currentTitle = ''; currentSrc = '';
-      }
-
-      function showNext(delta){
-        openLightboxByIndex(currentIndex + delta);
-      }
-
-      // Click / keyboard hooks
-      ordered.forEach((img) => {
-        img.addEventListener('click', () => openLightboxByEl(img));
-        img.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightboxByEl(img); }
+    function preloadNeighbors(idx) {
+      ordered = Array.from(gallery.querySelectorAll('img'));
+      const nextIdx = normalizeIndex(idx + 1);
+      const prevIdx = normalizeIndex(idx - 1);
+      [nextIdx, prevIdx].forEach(i => {
+        const neighbor = ordered[i];
+        if (!neighbor) return;
+        const key = neighbor.src;
+        const candidates = deriveFullCandidates(neighbor);
+        findFirstLoadableURL(candidates, key).then((url) => {
+          if (url && !imgCache.has(url)) {
+            const im = new Image();
+            im.src = url;
+            imgCache.set(url, im);
+          }
         });
       });
+    }
 
-      // Close interactions
-      closeBtn.addEventListener('click', closeLightbox);
-      document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
+    function openLightboxByIndex(index){
+      ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
+      currentIndex = normalizeIndex(index);
+      const img = ordered[currentIndex];
 
-      // Global key handling
-      document.addEventListener('keydown', (e) => {
-        if (!lb.classList.contains('open')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowRight') showNext(+1);
-        if (e.key === 'ArrowLeft') showNext(-1);
+      currentTitle = img.alt || 'untitled';
+      lbTitle.textContent = currentTitle;
+
+      // Reset classes
+      lbprev.classList.remove('out');
+      lbimgEl.classList.remove('ready');
+
+      // Show lightbox immediately (fast UI)
+      lb.classList.add('open');
+      lb.removeAttribute('aria-hidden');
+      document.body.classList.add('noscroll');
+      lastFocus = document.activeElement;
+      setTimeout(()=> closeBtn.focus(), 50);
+
+      lbprev.alt = currentTitle;
+      lbimgEl.alt = currentTitle;
+
+      // Start with the grid version as blurred preview
+      lbprev.src = img.src;
+
+      // Resolve and load full-res, then crossfade
+      const candidates = deriveFullCandidates(img);
+      findFirstLoadableURL(candidates, img.src).then((chosenUrl) => {
+        const finalUrl = chosenUrl || img.src;
+        currentSrc = finalUrl;
+
+        // Clear stale srcset/sizes to avoid DPR surprises
+        lbimgEl.removeAttribute('srcset');
+        lbimgEl.removeAttribute('sizes');
+
+        const onFullLoad = () => {
+          lbimgEl.classList.add('ready'); // full-res visible
+          lbprev.classList.add('out');    // preview fades away
+
+          // GA after full-res chosen
+          sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+          sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+
+          lbimgEl.removeEventListener('load', onFullLoad);
+
+          // Preload neighbors for instant flips
+          preloadNeighbors(currentIndex);
+        };
+
+        // If already in cache and decoded, we still want the transition
+        lbimgEl.addEventListener('load', onFullLoad);
+        lbimgEl.src = finalUrl;
+      });
+
+      openedAt = Date.now();
+    }
+
+    function openLightboxByEl(el){
+      ordered = Array.from(gallery.querySelectorAll('img'));
+      const idx = ordered.indexOf(el);
+      openLightboxByIndex(idx >= 0 ? idx : 0);
+    }
+
+    function closeLightbox(){
+      const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt)/1000)) : 0;
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden','true');
+      document.body.classList.remove('noscroll');
+      if (lastFocus) lastFocus.focus();
+
+      // GA4: close event with dwell time
+      if (openedAt) {
+        sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
+      }
+
+      // Reset layers for next open
+      lbprev.classList.remove('out');
+      lbprev.removeAttribute('src');
+      lbimgEl.classList.remove('ready');
+
+      openedAt = 0; currentTitle = ''; currentSrc = '';
+    }
+
+    function showNext(delta){
+      openLightboxByIndex(currentIndex + delta);
+    }
+
+    // Click / keyboard hooks
+    ordered.forEach((img) => {
+      img.addEventListener('click', () => openLightboxByEl(img));
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightboxByEl(img); }
       });
     });
-  </script>
+
+    // Close interactions
+    closeBtn.addEventListener('click', closeLightbox);
+    document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
+
+    // Global key handling
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNext(+1);
+      if (e.key === 'ArrowLeft') showNext(-1);
+    });
+
+    // --- Swipe gestures on the lightbox frame ---
+    let startX = 0, startY = 0, startT = 0;
+    const SWIPE_DIST = 40;   // px
+    frame.addEventListener('touchstart', (e) => {
+      const t = e.changedTouches[0];
+      startX = t.clientX; startY = t.clientY; startT = performance.now();
+    }, { passive: true });
+
+    frame.addEventListener('touchend', (e) => {
+      if (!lb.classList.contains('open')) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = Math.abs(t.clientY - startY);
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > SWIPE_DIST) {
+        // Left swipe -> next, Right swipe -> prev
+        showNext(dx < 0 ? +1 : -1);
+      }
+    }, { passive: true });
+  });
+</script>
+
 </body>
 </html>
