@@ -166,173 +166,150 @@
     <a href="/about_farm.html" style="color:inherit; text-decoration:underline;">About</a>
   </footer>
 
-  <script>
-    // Theme toggle (same behavior as main site)
-    (function initTheme(){
-      const btn = document.getElementById('toggleTheme');
-      const saved = localStorage.getItem('theme');
-      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-      function apply(mode){
-        if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
-        else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
-      }
-      apply(saved ? saved : (preferLight ? 'light' : 'dark'));
-      btn.addEventListener('click', ()=>{
-        const isLight = document.body.classList.toggle('light-mode');
-        btn.setAttribute('aria-pressed', String(isLight));
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      });
-    })();
+<script>
+  // Theme toggle (same behavior as main site)
+  (function initTheme(){
+    const btn = document.getElementById('toggleTheme');
+    const saved = localStorage.getItem('theme');
+    const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    function apply(mode){
+      if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+      else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+    }
+    apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+    btn.addEventListener('click', ()=>{
+      const isLight = document.body.classList.toggle('light-mode');
+      btn.setAttribute('aria-pressed', String(isLight));
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  })();
 
-    // ---- ALT TITLES you can edit (only 19–26 shown) ----
-    const ALT_TITLES = {
-      "Farm_00019.jpeg": "", // e.g., "Art Circle Farm — Two Silos at Dusk"
-      "Farm_00020.jpeg": "",
-      "Farm_00021.jpeg": "",
-      "Farm_00022.jpeg": "",
-      "Farm_00023.jpeg": "",
-      "Farm_00024.jpeg": "",
-      "Farm_00025.jpeg": "",
-      "Farm_00026.jpeg": ""
-    };
+  document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('gallery');
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const gallery = document.getElementById('gallery');
+    // Fisher–Yates shuffle but keep Farm_00018.jpeg first
+    function shuffleExceptFirst(container) {
+      const all = Array.from(container.querySelectorAll('img'));
+      if (all.length <= 1) return;
 
-      // Apply any custom alt titles (19–26) before shuffling
-      Array.from(gallery.querySelectorAll('img[data-filename]')).forEach(img => {
-        const file = img.getAttribute('data-filename');
-        const custom = ALT_TITLES[file];
-        if (custom && custom.trim()) {
-          img.alt = custom.trim();
-        }
-      });
+      // Find the intended first image (Farm_00018.jpeg)
+      const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
+      const rest = all.filter(img => img !== first);
 
-      // Fisher–Yates shuffle but keep Farm_00018.jpeg first
-      function shuffleExceptFirst(container) {
-        const all = Array.from(container.querySelectorAll('img'));
-        if (all.length <= 1) return;
-
-        // Find the intended first image (Farm_00018.jpeg)
-        const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
-        const rest = all.filter(img => img !== first);
-
-        // Shuffle the rest
-        for (let i = rest.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [rest[i], rest[j]] = [rest[j], rest[i]];
-        }
-
-        // Rebuild with Farm_00018 first (if found)
-        if (first) container.replaceChildren(first, ...rest);
-        else container.replaceChildren(...rest);
+      // Shuffle the rest
+      for (let i = rest.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rest[i], rest[j]] = [rest[j], rest[i]];
       }
 
-      // Shuffle now
-      shuffleExceptFirst(gallery);
+      // Rebuild with Farm_00018 first (if found)
+      if (first) container.replaceChildren(first, ...rest);
+      else container.replaceChildren(...rest);
+    }
 
-      // PRIORITIZE the pinned first image for LCP + make it visible immediately
-      const firstImg = gallery.querySelector('img');
-      if (firstImg) {
-        // Highest network priority
-        firstImg.setAttribute('fetchpriority', 'high');
-        firstImg.removeAttribute('loading'); // ensure eager load if browser respects it
-        // Immediate fade-in (skip waiting for 'load' to add class)
-        firstImg.classList.add('lazy-loaded');
+    // Shuffle now
+    shuffleExceptFirst(gallery);
+
+    // PRIORITIZE the pinned first image for LCP + make it visible immediately
+    const firstImg = gallery.querySelector('img');
+    if (firstImg) {
+      firstImg.setAttribute('fetchpriority', 'high');
+      firstImg.removeAttribute('loading'); // eager load if browser respects it
+      firstImg.classList.add('lazy-loaded'); // immediate fade-in
+    }
+
+    // Build a live ordered list after shuffle (for navigation)
+    let ordered = Array.from(gallery.querySelectorAll('img'));
+
+    // Lightbox elements
+    const lb = document.getElementById('lb');
+    const lbimg = document.getElementById('lbimg');
+    const closeBtn = document.getElementById('lightboxClose');
+    const lbTitle = document.getElementById('lb-title');
+
+    // Progressive fade-in on load for the rest
+    ordered.forEach(img => {
+      if (img !== firstImg) {
+        if (img.complete) img.classList.add('lazy-loaded');
+        else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
       }
+      img.tabIndex = 0;
+      img.setAttribute('role','button');
+      img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
+    });
 
-      // Build a live ordered list after shuffle (for navigation)
-      let ordered = Array.from(gallery.querySelectorAll('img'));
+    let currentIndex = 0;
+    let openedAt = 0;
+    let lastFocus = null;
+    let currentTitle = '';
+    let currentSrc = '';
 
-      // Lightbox elements
-      const lb = document.getElementById('lb');
-      const lbimg = document.getElementById('lbimg');
-      const closeBtn = document.getElementById('lightboxClose');
-      const lbTitle = document.getElementById('lb-title');
+    function openLightboxByIndex(index){
+      ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
+      currentIndex = (index + ordered.length) % ordered.length;
+      const img = ordered[currentIndex];
+      currentTitle = img.alt || 'untitled';
+      currentSrc = img.dataset.full || img.src;
 
-      // Progressive fade-in on load for the rest
-      ordered.forEach(img => {
-        if (img !== firstImg) {
-          if (img.complete) img.classList.add('lazy-loaded');
-          else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
-        }
-        img.tabIndex = 0;
-        img.setAttribute('role','button');
-        img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
-      });
+      lbimg.src = currentSrc;
+      lbimg.alt = currentTitle;
+      lb.classList.add('open');
+      lb.removeAttribute('aria-hidden');
+      document.body.classList.add('noscroll');
+      lastFocus = document.activeElement;
+      setTimeout(()=> closeBtn.focus(), 50);
+      lbTitle.textContent = currentTitle;
+      openedAt = Date.now();
 
-      let currentIndex = 0;
-      let openedAt = 0;
-      let lastFocus = null;
-      let currentTitle = '';
-      let currentSrc = '';
+      // GA4: mirror main gallery events
+      sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+      sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+    }
 
-      function openLightboxByIndex(index){
-        ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
-        currentIndex = (index + ordered.length) % ordered.length;
-        const img = ordered[currentIndex];
-        currentTitle = img.alt || 'untitled';
-        currentSrc = img.dataset.full || img.src;
+    function openLightboxByEl(el){
+      ordered = Array.from(gallery.querySelectorAll('img'));
+      const idx = ordered.indexOf(el);
+      openLightboxByIndex(idx >= 0 ? idx : 0);
+    }
 
-        lbimg.src = currentSrc;
-        lbimg.alt = currentTitle;
-        lb.classList.add('open');
-        lb.removeAttribute('aria-hidden');
-        document.body.classList.add('noscroll');
-        lastFocus = document.activeElement;
-        setTimeout(()=> closeBtn.focus(), 50);
-        lbTitle.textContent = currentTitle;
-        openedAt = Date.now();
+    function closeLightbox(){
+      const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt)/1000)) : 0;
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden','true');
+      document.body.classList.remove('noscroll');
+      if (lastFocus) lastFocus.focus();
 
-        // GA4: mirror main gallery events
-        sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-        sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+      // GA4: close event with dwell time
+      if (openedAt) {
+        sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
       }
+      openedAt = 0; currentTitle = ''; currentSrc = '';
+    }
 
-      function openLightboxByEl(el){
-        ordered = Array.from(gallery.querySelectorAll('img'));
-        const idx = ordered.indexOf(el);
-        openLightboxByIndex(idx >= 0 ? idx : 0);
-      }
+    function showNext(delta){
+      openLightboxByIndex(currentIndex + delta);
+    }
 
-      function closeLightbox(){
-        const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt)/1000)) : 0;
-        lb.classList.remove('open');
-        lb.setAttribute('aria-hidden','true');
-        document.body.classList.remove('noscroll');
-        if (lastFocus) lastFocus.focus();
-
-        // GA4: close event with dwell time
-        if (openedAt) {
-          sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
-        }
-        openedAt = 0; currentTitle = ''; currentSrc = '';
-      }
-
-      function showNext(delta){
-        openLightboxByIndex(currentIndex + delta);
-      }
-
-      // Click / keyboard hooks
-      ordered.forEach((img) => {
-        img.addEventListener('click', () => openLightboxByEl(img));
-        img.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightboxByEl(img); }
-        });
-      });
-
-      // Close interactions
-      closeBtn.addEventListener('click', closeLightbox);
-      document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
-
-      // Global key handling
-      document.addEventListener('keydown', (e) => {
-        if (!lb.classList.contains('open')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowRight') showNext(+1);
-        if (e.key === 'ArrowLeft') showNext(-1);
+    // Click / keyboard hooks
+    ordered.forEach((img) => {
+      img.addEventListener('click', () => openLightboxByEl(img));
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightboxByEl(img); }
       });
     });
-  </script>
+
+    // Close interactions
+    closeBtn.addEventListener('click', closeLightbox);
+    document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
+
+    // Global key handling
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNext(+1);
+      if (e.key === 'ArrowLeft') showNext(-1);
+    });
+  });
+</script>
 </body>
 </html>
