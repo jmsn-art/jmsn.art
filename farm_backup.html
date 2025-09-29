@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,10 +74,27 @@
     /* Lightbox */
     .lb { position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .75s ease; }
     .lb.open { opacity:1; pointer-events:auto; }
-    .lb img { display:block; max-width:92%; max-height:80vh; opacity:0; transition:opacity 1.5s ease .12s; }
-    .lb.open img { opacity:1; }
     .close { position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; background:transparent; border:0; line-height:1; padding:0; -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; }
     .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
+
+    /* Stacked images to avoid layout shifts + crossfade */
+    .lb .lb-frame { position:relative; width:92vw; height:80vh; }
+    .lb .lb-frame img {
+      position:absolute; inset:0; margin:auto;
+      max-width:92vw; max-height:80vh; object-fit:contain;
+      opacity:0; transition:opacity .4s ease, filter .4s ease, transform .4s ease;
+    }
+    /* Slow the full-res fade-in (tweak duration to taste) */
+#lbimg {
+  transition: opacity 2s ease-in-out, filter .9s ease, transform .9s ease;
+}
+
+    /* Preview (low-res grid image) starts visible & slightly blurred */
+    #lbprev { opacity:1; filter:blur(6px); transform:scale(1.02); }
+    /* Full-res fades in on top when ready */
+    #lbimg.ready { opacity:1; }
+    /* Fade preview away after full-res appears */
+    #lbprev.out { opacity:0; filter:blur(0); transform:scale(1); }
 
     /* guaranteed spacer class */
     .below-gallery-spacer { height:48px; }
@@ -155,7 +173,10 @@
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
     <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close">&times;</button>
     <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
-      <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
+      <div class="lb-frame">
+        <img id="lbprev" alt="" aria-hidden="true">
+        <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
+      </div>
       <div id="lb-title" style="margin-top:12px; color:#fff; background:rgba(0,0,0,.7); padding:6px 12px; font-size:14px; border-radius:4px; white-space:normal; text-align:center;"></div>
     </div>
   </div>
@@ -223,7 +244,8 @@
 
       // Lightbox elements
       const lb = document.getElementById('lb');
-      const lbimg = document.getElementById('lbimg');
+      const lbprev = document.getElementById('lbprev');
+      const lbimgEl = document.getElementById('lbimg');
       const closeBtn = document.getElementById('lightboxClose');
       const lbTitle = document.getElementById('lb-title');
 
@@ -244,53 +266,38 @@
       let currentTitle = '';
       let currentSrc = '';
 
-      // --- Helper: build a list of candidate full-size URLs for an <img> ---
+      // --- Build candidate URLs for full-res ---
+      // Prefers /images/full/<name>.png, then .jpeg/.jpg, then same folder .png, then fallback to grid src.
       function deriveFullCandidates(img) {
         const list = [];
-        if (img.dataset.full) list.push(img.dataset.full); // explicit override, if present
+        if (img.dataset.full) list.push(img.dataset.full); // explicit override
 
-        // Parse current src to reuse dir & basename
         const url = new URL(img.src, location.href);
         const dir = url.pathname.slice(0, url.pathname.lastIndexOf('/') + 1); // e.g. /images/
         const file = url.pathname.slice(url.pathname.lastIndexOf('/') + 1);   // e.g. Farm_00018.jpeg
         const base = file.replace(/\.(jpe?g|png|webp|avif)$/i, '');           // Farm_00018
 
-        // Prefer /images/full/<name>.png then .jpeg/.jpg
         list.push(`${dir}full/${base}.png`);
         list.push(`${dir}full/${base}.jpeg`);
         list.push(`${dir}full/${base}.jpg`);
-
-        // Same folder as grid image but .png
         list.push(`${dir}${base}.png`);
-
-        // Fallback to original src
         list.push(img.src);
 
-        // Deduplicate while preserving order
         return [...new Set(list)];
       }
 
-      // --- Helper: try candidates until one loads, then set lbimg.src ---
-      function loadFullImage(img, targetEl) {
+      // --- Resolve first loadable URL without touching the DOM image yet ---
+      function findFirstLoadableURL(candidates) {
         return new Promise((resolve) => {
-          const candidates = deriveFullCandidates(img);
           let i = 0;
-
           const tryNext = () => {
             const candidate = candidates[i++];
-            if (!candidate) { targetEl.src = img.src; return resolve(img.src); }
-
+            if (!candidate) return resolve(null);
             const test = new Image();
-            test.onload = () => { targetEl.src = candidate; resolve(candidate); };
-            test.onerror = () => tryNext();
+            test.onload = () => resolve(candidate);
+            test.onerror = tryNext;
             test.src = candidate;
           };
-
-          // Start with the grid version for instant feedback, then swap when full loads
-          targetEl.src = img.src;
-          targetEl.removeAttribute('srcset');
-          targetEl.removeAttribute('sizes');
-
           tryNext();
         });
       }
@@ -299,24 +306,53 @@
         ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
         currentIndex = (index + ordered.length) % ordered.length;
         const img = ordered[currentIndex];
-        currentTitle = img.alt || 'untitled';
 
-        // Open lightbox immediately (fast UI)
+        currentTitle = img.alt || 'untitled';
+        lbTitle.textContent = currentTitle;
+
+        // Reset classes
+        lbprev.classList.remove('out');
+        lbimgEl.classList.remove('ready');
+
+        // Show lightbox immediately (fast UI)
         lb.classList.add('open');
         lb.removeAttribute('aria-hidden');
         document.body.classList.add('noscroll');
         lastFocus = document.activeElement;
         setTimeout(()=> closeBtn.focus(), 50);
-        lbTitle.textContent = currentTitle;
-        lbimg.alt = currentTitle;
-        openedAt = Date.now();
 
-        // Load hi-res (preferring .png) and then fire GA with the chosen URL
-        loadFullImage(img, lbimg).then((chosenUrl) => {
-          currentSrc = chosenUrl;
-          sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-          sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+        lbprev.alt = currentTitle;
+        lbimgEl.alt = currentTitle;
+
+        // Start with the grid version as blurred preview
+        lbprev.src = img.src;
+
+        // Resolve and load full-res, then crossfade
+        const candidates = deriveFullCandidates(img);
+        findFirstLoadableURL(candidates).then((chosenUrl) => {
+          const finalUrl = chosenUrl || img.src;
+          currentSrc = finalUrl;
+
+          // Clear stale srcset/sizes to avoid DPR surprises
+          lbimgEl.removeAttribute('srcset');
+          lbimgEl.removeAttribute('sizes');
+
+          const onFullLoad = () => {
+            lbimgEl.classList.add('ready'); // full-res visible
+            lbprev.classList.add('out');    // preview fades away
+
+            // GA after full-res chosen
+            sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
+            sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+
+            lbimgEl.removeEventListener('load', onFullLoad);
+          };
+
+          lbimgEl.addEventListener('load', onFullLoad);
+          lbimgEl.src = finalUrl;
         });
+
+        openedAt = Date.now();
       }
 
       function openLightboxByEl(el){
@@ -336,6 +372,12 @@
         if (openedAt) {
           sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
         }
+
+        // Reset layers for next open
+        lbprev.classList.remove('out');
+        lbprev.removeAttribute('src');
+        lbimgEl.classList.remove('ready');
+
         openedAt = 0; currentTitle = ''; currentSrc = '';
       }
 
