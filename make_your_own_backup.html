@@ -20,6 +20,31 @@
             padding: 20px;
         }
 
+        /* Top bar with return button */
+        .topbar{
+            max-width: 1400px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .cta-btn{
+            display:inline-block;
+            padding:.55em .9em;
+            border-radius:8px;
+            border:1px solid #333;
+            color:#fff;
+            background:transparent;
+            text-decoration:none;
+            font-weight:600;
+            letter-spacing:.3px;
+            transition:background .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease;
+        }
+        .cta-btn:hover{
+            background:rgba(255,255,255,.08);
+            box-shadow:0 4px 14px rgba(0,0,0,.25);
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -199,6 +224,12 @@
     </style>
 </head>
 <body>
+
+    <!-- Return button -->
+    <div class="topbar">
+        <a href="/" class="cta-btn" aria-label="Return to jmsn.art">← Return to jmsn.art</a>
+    </div>
+
     <div class="container">
         <h1>Create Your Art Circle</h1>
         
@@ -308,11 +339,6 @@
             const canvasWidth = 1000;
             const canvasHeight = 1000;
             
-            // Calculate circle properties
-            const circumference = 2 * Math.PI;
-            const gapLength = (gap / 360) * circumference;
-            const arcLength = circumference - gapLength;
-
             // Create grid of circles
             const cols = Math.ceil(Math.sqrt(count * (canvasWidth / canvasHeight)));
             const rows = Math.ceil(count / cols);
