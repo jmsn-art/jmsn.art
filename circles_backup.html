@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -117,6 +115,27 @@
   @media (prefers-reduced-motion: reduce){
     .gallery img, .lb, .lb img{ transition:none !important; animation:none !important; }
   }
+
+  /* --- Make Your Own button styles --- */
+  .cta-btn{
+    display:inline-block;
+    padding:.55em .9em;
+    border-radius:8px;
+    border:1px solid var(--muted);
+    color:var(--fg);
+    background:transparent;
+    text-decoration:none;
+    font-weight:600;
+    letter-spacing:.3px;
+    transition:background .25s ease, color 1.5s ease, border-color 1.5s ease, box-shadow .25s ease;
+  }
+  .cta-btn:hover{
+    background:rgba(255,255,255,.08);
+    box-shadow:0 4px 14px rgba(0,0,0,.25);
+  }
+  .light-mode .cta-btn:hover{
+    background:rgba(0,0,0,.06);
+  }
   </style>
 </head>
 <body>
@@ -126,8 +145,16 @@
   </h1>
 
   <header style="text-align:center; margin:18px 0; font-size:1.1em; opacity:.85;">
-  Art Circle studies - refresh the page to shuffle the gallery
+  Art Circle Studies - refresh the page to shuffle the gallery
 </header>
+
+  <!-- Make Your Own button -->
+  <div style="text-align:center; margin:10px 0 22px;">
+    <a href="/make_your_own.html" class="cta-btn" id="makeYourOwnBtn"
+       aria-label="Open the Make Your Own Art Circle tool">
+       Make Your Own Art Circle Study (best on desktop)
+    </a>
+  </div>
 
   <div class="gallery" id="gallery" role="list" aria-label="Art Circles Grid">
     <!-- First image eager for LCP -->
@@ -190,15 +217,42 @@
     <img src="/images/circles_00050.jpeg" alt="circles_00050.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00051.jpeg" alt="circles_00051.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00052.jpeg" alt="circles_00052.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-    <img src="/images/circles_00053.jpeg" alt="circles_00053.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00053.jpeg" alt="circles_00053.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
     <img src="/images/circles_00054.jpeg" alt="circles_00054.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00055.jpeg" alt="circles_00055.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00056.jpeg" alt="circles_00056.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00057.jpeg" alt="circles_00057.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00058.jpeg" alt="circles_00058.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00059.jpeg" alt="circles_00059.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-
-
+    <img src="/images/circles_00060.jpeg" alt="circles_00060.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00061.jpeg" alt="circles_00061.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00062.jpeg" alt="circles_00062.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00063.jpeg" alt="circles_00063.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00064.jpeg" alt="circles_00064.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00065.jpeg" alt="circles_00065.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00066.jpeg" alt="circles_00066.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00067.jpeg" alt="circles_00067.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00068.jpeg" alt="circles_00068.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00069.jpeg" alt="circles_00069.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00070.jpeg" alt="circles_00070.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00071.jpeg" alt="circles_00071.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00072.jpeg" alt="circles_00072.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00073.jpeg" alt="circles_00073.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00074.jpeg" alt="circles_00074.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00075.jpeg" alt="circles_00075.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00076.jpeg" alt="circles_00076.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00077.jpeg" alt="circles_00077.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00078.jpeg" alt="circles_00078.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <!-- <img src="/images/circles_00079.jpeg" alt="circles_00079.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <img src="/images/circles_00080.jpeg" alt="circles_00080.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00081.jpeg" alt="circles_00081.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00082.jpeg" alt="circles_00082.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00083.jpeg" alt="circles_00083.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00084.jpeg" alt="circles_00084.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00085.jpeg" alt="circles_00085.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00086.jpeg" alt="circles_00086.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00087.jpeg" alt="circles_00087.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
+    <img src="/images/circles_00088.jpeg" alt="circles_00088.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
 
   </div>
 
@@ -350,6 +404,14 @@
       if(e.key==='ArrowRight') openLightbox((current+1)%items.length);
       if(e.key==='ArrowLeft')  openLightbox((current-1+items.length)%items.length);
     });
+
+    // GA4: track Make Your Own button clicks (optional but recommended)
+    const makeBtn = document.getElementById('makeYourOwnBtn');
+    if(makeBtn){
+      makeBtn.addEventListener('click', () => {
+        sendGA('cta_click', { cta_name: 'make_your_own', location: 'circles_header' });
+      });
+    }
   });
 </script>
 
