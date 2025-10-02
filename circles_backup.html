@@ -313,6 +313,15 @@
     const closeBtn = document.getElementById('lightboxClose');
     const lbTitle = document.getElementById('lb-title');
 
+    // GA4: track Make Your Own button clicks
+const makeBtn = document.getElementById('makeYourOwnBtn');
+if (makeBtn) {
+  makeBtn.addEventListener('click', () => {
+    sendGA('cta_click', { cta_name: 'make_your_own', location: 'circles_header' });
+  });
+}
+
+
     // Fisher–Yates shuffle (keeps first image in place for LCP)
     function shuffleExceptFirst(container){
       const imgs = Array.from(container.querySelectorAll('img'));
