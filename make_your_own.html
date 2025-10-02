@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +25,7 @@
             margin: 0 auto 16px;
             display: flex;
             align-items: center;
+            gap: 10px;
             justify-content: flex-start;
         }
         .cta-btn{
@@ -226,9 +225,10 @@
 </head>
 <body>
 
-    <!-- Return button -->
+    <!-- Return buttons -->
     <div class="topbar">
         <a href="/" class="cta-btn" aria-label="Return to jmsn.art">← Return to jmsn.art</a>
+        <a href="/circles.html" class="cta-btn" aria-label="Back to circles">← Back to circles</a>
     </div>
 
     <div class="container">
@@ -262,7 +262,7 @@
 
             <div class="control-group">
                 <label>Background Color</label>
-                <input type="color" id="bgColor" value="#0a0a0a">
+                <input type="color" id="bgColor" value="#ff0000">
             </div>
 
             <div class="control-group">
@@ -400,12 +400,15 @@
             updateCircle();
         }
 
+        function randomHex(){ return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'); }
+
         function randomize() {
             gapSize.value = Math.floor(Math.random() * 85) + 5;
             gapPosition.value = Math.floor(Math.random() * 360);
             circleSize.value = Math.floor(Math.random() * 400) + 100;
             strokeThickness.value = Math.floor(Math.random() * 28) + 2;
-            circleColor.value = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            circleColor.value = randomHex();            /* random circle color */
+            bgColor.value = randomHex();               /* random background color */
             glowIntensity.value = Math.floor(Math.random() * 50);
             circleCount.value = Math.floor(Math.random() * 999) + 1;
             updateCircle();
@@ -416,8 +419,8 @@
             gapPosition.value = 0;
             circleSize.value = 300;
             strokeThickness.value = 8;
-            circleColor.value = '#ffffff';
-            bgColor.value = '#000000';
+            circleColor.value = '#00ffff';   /* cyan default */
+            bgColor.value = '#ff0000';       /* red default */
             glowIntensity.value = 20;
             circleCount.value = 1;
             updateCircle();
@@ -481,7 +484,10 @@
         glowIntensity.addEventListener('input', updateCircle);
         circleCount.addEventListener('input', updateCircle);
 
-        // Initialize
+        // Initialize: start with Zen preset, then override to cyan/red
+        applyPreset('zen');
+        circleColor.value = '#00ffff';
+        bgColor.value = '#ff0000';
         updateCircle();
     </script>
 </body>
