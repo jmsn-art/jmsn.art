@@ -17,6 +17,7 @@
       color: #fff;
       min-height: 100vh;
       padding: 20px;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     /* Top bar with return button */
@@ -27,6 +28,7 @@
       align-items: center;
       gap: 10px;
       justify-content: flex-start;
+      flex-wrap: wrap;
     }
     .cta-btn{
       display:inline-block;
@@ -39,6 +41,7 @@
       font-weight:600;
       letter-spacing:.3px;
       transition:background .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease;
+      cursor: pointer;
     }
     .cta-btn:hover{
       background:rgba(255,255,255,.08);
@@ -69,6 +72,7 @@
       border: 1px solid #333;
       position: sticky;
       top: 20px;
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
 
     .control-group {
@@ -82,6 +86,7 @@
       color: #999;
       text-transform: uppercase;
       letter-spacing: 1px;
+      transition: color 0.3s ease;
     }
 
     input[type="range"] {
@@ -91,6 +96,7 @@
       border-radius: 3px;
       outline: none;
       -webkit-appearance: none;
+      transition: background 0.3s ease;
     }
 
     input[type="range"]::-webkit-slider-thumb {
@@ -102,6 +108,7 @@
       cursor: pointer;
       border-radius: 50%;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
     }
 
     input[type="range"]::-moz-range-thumb {
@@ -112,6 +119,7 @@
       border-radius: 50%;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
       border: none;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
     }
 
     input[type="color"] {
@@ -126,6 +134,7 @@
     input[type="color"]::-webkit-color-swatch {
       border-radius: 10px;
       border: 2px solid #333;
+      transition: border-color 0.3s ease;
     }
 
     .value-display {
@@ -133,6 +142,7 @@
       float: right;
       color: #fff;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
 
     .button-group {
@@ -168,6 +178,7 @@
       background: #222;
       color: #fff;
       border: 1px solid #333;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
     .btn-secondary:hover {
@@ -181,6 +192,7 @@
       min-height: 600px;
       border: 1px solid #222;
       overflow: hidden;
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
 
     #artCanvas {
@@ -220,6 +232,92 @@
         position: static;
       }
     }
+
+    /* =========================
+       LIGHT THEME
+       ========================= */
+    body.light-theme {
+      background: #f7f7f8;
+      color: #111;
+    }
+
+    body.light-theme h1 {
+      color: #111;
+    }
+
+    body.light-theme .controls {
+      background: #ffffff;
+      border-color: #cccccc;
+    }
+
+    body.light-theme .canvas-area {
+      background: #f7f7f8;
+      border-color: #cccccc;
+    }
+
+    body.light-theme .cta-btn {
+      color: #111;
+      border-color: #cccccc;
+    }
+
+    body.light-theme .cta-btn:hover {
+      background: rgba(0,0,0,.05);
+    }
+
+    body.light-theme label {
+      color: #666;
+    }
+
+    body.light-theme .value-display {
+      color: #111;
+    }
+
+    body.light-theme input[type="range"] {
+      background: #d0d0d0;
+    }
+
+    body.light-theme input[type="range"]::-webkit-slider-thumb {
+      background: #333;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    body.light-theme input[type="range"]::-moz-range-thumb {
+      background: #333;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    body.light-theme input[type="color"]::-webkit-color-swatch {
+      border-color: #cccccc;
+    }
+
+    body.light-theme .btn-primary {
+      background: #111;
+      color: #fff;
+    }
+
+    body.light-theme .btn-primary:hover {
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    body.light-theme .btn-secondary {
+      background: #e0e0e0;
+      color: #111;
+      border-color: #cccccc;
+    }
+
+    body.light-theme .btn-secondary:hover {
+      background: #d0d0d0;
+    }
+
+    body.light-theme .preset-btn {
+      background: #e0e0e0;
+      color: #111;
+      border-color: #cccccc;
+    }
+
+    body.light-theme .preset-btn:hover {
+      background: #d0d0d0;
+    }
   </style>
 
   <!-- GA4 -->
@@ -233,10 +331,11 @@
 </head>
 <body>
 
-  <!-- Return buttons -->
+  <!-- Return buttons + Theme toggle -->
   <div class="topbar">
     <a href="/" class="cta-btn" aria-label="Return to jmsn.art">← Return to jmsn.art</a>
     <a href="/circles.html" class="cta-btn" aria-label="Back to circles">← Back to circles</a>
+    <button id="themeToggle" class="cta-btn" type="button" aria-label="Toggle theme">🌓 Theme</button>
   </div>
 
   <div class="container">
@@ -450,7 +549,6 @@
     // Build a self-contained SVG (includes background + glow filter)
     function buildStandaloneSVG() {
       const W = 1000, H = 1000;
-      const color = circleColor.value;
       const bg = bgColor.value;
       const glow = parseFloat(glowIntensity.value);
 
@@ -565,13 +663,30 @@
       });
     });
 
+    // ---- THEME TOGGLE ----
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    // Check for saved theme preference or default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      body.classList.add('light-theme');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('light-theme');
+      const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
+      localStorage.setItem('theme', currentTheme);
+      track('theme_toggle', { theme: currentTheme });
+    });
+
     // Initialize: start with Zen preset, then override to cyan/red
     applyPreset('zen');
     circleColor.value = '#00ffff';
     bgColor.value = '#ff0000';
     updateCircle();
 
-    // Expose preset/random/reset for buttons
+    // Expose functions for buttons
     window.applyPreset = applyPreset;
     window.randomize = randomize;
     window.reset = reset;
