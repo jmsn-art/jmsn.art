@@ -27,6 +27,7 @@
       align-items: center;
       gap: 10px;
       justify-content: flex-start;
+      flex-wrap: wrap;
     }
     .cta-btn{
       display:inline-block;
@@ -39,6 +40,7 @@
       font-weight:600;
       letter-spacing:.3px;
       transition:background .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease;
+      cursor: pointer;
     }
     .cta-btn:hover{
       background:rgba(255,255,255,.08);
@@ -220,6 +222,42 @@
         position: static;
       }
     }
+
+    /* =========================
+       THEME VARIABLES + OVERRIDES
+       ========================= */
+    :root{
+      --bg:#000;          /* page bg */
+      --fg:#fff;          /* text */
+      --panel:#111;       /* control panel bg */
+      --border:#333;      /* borders */
+      --track:#222;       /* slider track bg */
+      --btn-sec:#222;     /* secondary/preset buttons */
+      --btn-sec-hover:#333;
+      --link:#fff;        /* link / cta text */
+    }
+    :root[data-theme="light"]{
+      --bg:#f7f7f8;
+      --fg:#111;
+      --panel:#ffffff;
+      --border:#dddddd;
+      --track:#e6e6e6;
+      --btn-sec:#f2f2f2;
+      --btn-sec-hover:#e7e7e7;
+      --link:#111;
+    }
+    /* Apply variables (override base styles above) */
+    body{ background:var(--bg); color:var(--fg); }
+    .controls{ background:var(--panel); border-color:var(--border); }
+    .canvas-area{ background:var(--bg); border-color:var(--border); }
+    .cta-btn{ color:var(--link); border-color:var(--border); }
+    .cta-btn:hover{ background:rgba(0,0,0,.02); }
+    .btn-secondary{ background:var(--btn-sec); color:var(--fg); border-color:var(--border); }
+    .btn-secondary:hover{ background:var(--btn-sec-hover); }
+    .preset-btn{ background:var(--btn-sec); color:var(--fg); border-color:var(--border); }
+    .preset-btn:hover{ background:var(--btn-sec-hover); }
+    input[type="range"]{ background:var(--track); }
+    input[type="color"]::-webkit-color-swatch{ border-color:var(--border); }
   </style>
 
   <!-- GA4 -->
@@ -233,10 +271,11 @@
 </head>
 <body>
 
-  <!-- Return buttons -->
+  <!-- Return buttons + Theme toggle -->
   <div class="topbar">
     <a href="/" class="cta-btn" aria-label="Return to jmsn.art">← Return to jmsn.art</a>
     <a href="/circles.html" class="cta-btn" aria-label="Back to circles">← Back to circles</a>
+    <button id="themeToggle" class="cta-btn" type="button" aria-label="Toggle theme">🌓 Theme</button>
   </div>
 
   <div class="container">
@@ -450,7 +489,6 @@
     // Build a self-contained SVG (includes background + glow filter)
     function buildStandaloneSVG() {
       const W = 1000, H = 1000;
-      const color = circleColor.value;
       const bg = bgColor.value;
       const glow = parseFloat(glowIntensity.value);
 
@@ -565,13 +603,39 @@
       });
     });
 
+    // ---- THEME TOGGLE ----
+    (function(){
+      const root = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+
+      const stored = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      const initial = stored || (systemPrefersLight ? 'light' : 'dark');
+      applyTheme(initial);
+
+      btn.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+        if (typeof gtag === 'function') gtag('event','theme_toggle',{ theme: next });
+      });
+
+      function applyTheme(theme){
+        if (theme === 'light'){
+          root.setAttribute('data-theme','light');
+        } else {
+          root.removeAttribute('data-theme'); // default dark
+        }
+        localStorage.setItem('theme', theme);
+      }
+    })();
+
     // Initialize: start with Zen preset, then override to cyan/red
     applyPreset('zen');
     circleColor.value = '#00ffff';
     bgColor.value = '#ff0000';
     updateCircle();
 
-    // Expose preset/random/reset for buttons
+    // Expose functions for buttons
     window.applyPreset = applyPreset;
     window.randomize = randomize;
     window.reset = reset;
