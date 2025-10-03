@@ -1,496 +1,582 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Your Own Art Circle</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Your Own Art Circle</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background: #000;
-            color: #fff;
-            min-height: 100vh;
-            padding: 20px;
-        }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-        /* Top bar with return button */
-        .topbar{
-            max-width: 1400px;
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: flex-start;
-        }
-        .cta-btn{
-            display:inline-block;
-            padding:.55em .9em;
-            border-radius:8px;
-            border:1px solid #333;
-            color:#fff;
-            background:transparent;
-            text-decoration:none;
-            font-weight:600;
-            letter-spacing:.3px;
-            transition:background .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease;
-        }
-        .cta-btn:hover{
-            background:rgba(255,255,255,.08);
-            box-shadow:0 4px 14px rgba(0,0,0,.25);
-        }
+    /* Top bar with return button */
+    .topbar{
+      max-width: 1400px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+    .cta-btn{
+      display:inline-block;
+      padding:.55em .9em;
+      border-radius:8px;
+      border:1px solid #333;
+      color:#fff;
+      background:transparent;
+      text-decoration:none;
+      font-weight:600;
+      letter-spacing:.3px;
+      transition:background .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease;
+    }
+    .cta-btn:hover{
+      background:rgba(255,255,255,.08);
+      box-shadow:0 4px 14px rgba(0,0,0,.25);
+    }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 40px;
-            align-items: start;
-        }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
 
-        h1 {
-            grid-column: 1 / -1;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: #fff;
-        }
+    h1 {
+      grid-column: 1 / -1;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
 
-        .controls {
-            background: #111;
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid #333;
-            position: sticky;
-            top: 20px;
-        }
+    .controls {
+      background: #111;
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid #333;
+      position: sticky;
+      top: 20px;
+    }
 
-        .control-group {
-            margin-bottom: 25px;
-        }
+    .control-group {
+      margin-bottom: 25px;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        input[type="range"] {
-            width: 100%;
-            height: 6px;
-            background: #222;
-            border-radius: 3px;
-            outline: none;
-            -webkit-appearance: none;
-        }
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: #222;
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+    }
 
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            background: #fff;
-            cursor: pointer;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
 
-        input[type="range"]::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            background: #fff;
-            cursor: pointer;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            border: none;
-        }
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      border: none;
+    }
 
-        input[type="color"] {
-            width: 100%;
-            height: 50px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background: none;
-        }
+    input[type="color"] {
+      width: 100%;
+      height: 50px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: none;
+    }
 
-        input[type="color"]::-webkit-color-swatch {
-            border-radius: 10px;
-            border: 2px solid #333;
-        }
+    input[type="color"]::-webkit-color-swatch {
+      border-radius: 10px;
+      border: 2px solid #333;
+    }
 
-        .value-display {
-            display: inline-block;
-            float: right;
-            color: #fff;
-            font-weight: bold;
-        }
+    .value-display {
+      display: inline-block;
+      float: right;
+      color: #fff;
+      font-weight: bold;
+    }
 
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 30px;
-        }
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 30px;
+    }
 
-        button {
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    button {
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        .btn-primary {
-            background: #fff;
-            color: #000;
-        }
+    .btn-primary {
+      background: #fff;
+      color: #000;
+    }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
-        }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
+    }
 
-        .btn-secondary {
-            background: #222;
-            color: #fff;
-            border: 1px solid #333;
-        }
+    .btn-secondary {
+      background: #222;
+      color: #fff;
+      border: 1px solid #333;
+    }
 
-        .btn-secondary:hover {
-            background: #333;
-        }
+    .btn-secondary:hover {
+      background: #333;
+    }
 
-        .canvas-area {
-            background: #000;
-            border-radius: 20px;
-            padding: 40px;
-            min-height: 600px;
-            border: 1px solid #222;
-            overflow: hidden;
-        }
+    .canvas-area {
+      background: #000;
+      border-radius: 20px;
+      padding: 40px;
+      min-height: 600px;
+      border: 1px solid #222;
+      overflow: hidden;
+    }
 
-        #artCanvas {
-            width: 100%;
-            height: 100%;
-            min-height: 500px;
-        }
+    #artCanvas {
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+    }
 
-        .preset-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
+    .preset-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 15px;
+    }
 
-        .preset-btn {
-            padding: 8px;
-            font-size: 0.8rem;
-            background: #222;
-            border: 1px solid #333;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+    .preset-btn {
+      padding: 8px;
+      font-size: 0.8rem;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-        .preset-btn:hover {
-            background: #333;
-            transform: scale(1.05);
-        }
+    .preset-btn:hover {
+      background: #333;
+      transform: scale(1.05);
+    }
 
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-            
-            .controls {
-                position: static;
-            }
-        }
-    </style>
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .controls {
+        position: static;
+      }
+    }
+  </style>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCCF');
+  </script>
 </head>
 <body>
 
-    <!-- Return buttons -->
-    <div class="topbar">
-        <a href="/" class="cta-btn" aria-label="Return to jmsn.art">← Return to jmsn.art</a>
-        <a href="/circles.html" class="cta-btn" aria-label="Back to circles">← Back to circles</a>
+  <!-- Return buttons -->
+  <div class="topbar">
+    <a href="/" class="cta-btn" aria-label="Return to jmsn.art">← Return to jmsn.art</a>
+    <a href="/circles.html" class="cta-btn" aria-label="Back to circles">← Back to circles</a>
+  </div>
+
+  <div class="container">
+    <h1>Create Your Own Art Circle Study (best on desktop)</h1>
+
+    <div class="controls">
+      <div class="control-group">
+        <label>Gap Size <span class="value-display" id="gapValue">30°</span></label>
+        <input type="range" id="gapSize" min="5" max="90" value="30" step="1">
+      </div>
+
+      <div class="control-group">
+        <label>Gap Position <span class="value-display" id="posValue">0°</span></label>
+        <input type="range" id="gapPosition" min="0" max="360" value="0" step="1">
+      </div>
+
+      <div class="control-group">
+        <label>Circle Size <span class="value-display" id="sizeValue">300px</span></label>
+        <input type="range" id="circleSize" min="100" max="500" value="300" step="10">
+      </div>
+
+      <div class="control-group">
+        <label>Stroke Thickness <span class="value-display" id="thicknessValue">8px</span></label>
+        <input type="range" id="strokeThickness" min="2" max="30" value="8" step="1">
+      </div>
+
+      <div class="control-group">
+        <label>Circle Color</label>
+        <input type="color" id="circleColor" value="#00ffff">
+      </div>
+
+      <div class="control-group">
+        <label>Background Color</label>
+        <input type="color" id="bgColor" value="#ff0000">
+      </div>
+
+      <div class="control-group">
+        <label>Glow Intensity <span class="value-display" id="glowValue">20px</span></label>
+        <input type="range" id="glowIntensity" min="0" max="50" value="20" step="1">
+      </div>
+
+      <div class="control-group">
+        <label>Number of Circles <span class="value-display" id="countValue">1</span></label>
+        <input type="range" id="circleCount" min="1" max="999" value="1" step="1">
+      </div>
+
+      <div class="control-group">
+        <label>Presets</label>
+        <div class="preset-buttons">
+          <button class="preset-btn" onclick="applyPreset('minimal')">Minimal</button>
+          <button class="preset-btn" onclick="applyPreset('neon')">Neon</button>
+          <button class="preset-btn" onclick="applyPreset('zen')">Zen</button>
+          <button class="preset-btn" onclick="applyPreset('bold')">Bold</button>
+          <button class="preset-btn" onclick="applyPreset('subtle')">Subtle</button>
+          <button class="preset-btn" onclick="applyPreset('cosmic')">Cosmic</button>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn-primary" onclick="downloadSVG()">Download SVG</button>
+        <button class="btn-primary" onclick="downloadPNG()">Download PNG</button>
+        <button class="btn-secondary" onclick="randomize()">Randomize</button>
+        <button class="btn-secondary" onclick="reset()">Reset</button>
+      </div>
     </div>
 
-    <div class="container">
-        <h1>Create Your Own Art Circle Study (best on desktop)</h1>
-        
-        <div class="controls">
-            <div class="control-group">
-                <label>Gap Size <span class="value-display" id="gapValue">30°</span></label>
-                <input type="range" id="gapSize" min="5" max="90" value="30" step="1">
-            </div>
-
-            <div class="control-group">
-                <label>Gap Position <span class="value-display" id="posValue">0°</span></label>
-                <input type="range" id="gapPosition" min="0" max="360" value="0" step="1">
-            </div>
-
-            <div class="control-group">
-                <label>Circle Size <span class="value-display" id="sizeValue">300px</span></label>
-                <input type="range" id="circleSize" min="100" max="500" value="300" step="10">
-            </div>
-
-            <div class="control-group">
-                <label>Stroke Thickness <span class="value-display" id="thicknessValue">8px</span></label>
-                <input type="range" id="strokeThickness" min="2" max="30" value="8" step="1">
-            </div>
-
-            <div class="control-group">
-                <label>Circle Color</label>
-                <input type="color" id="circleColor" value="#00ffff">
-            </div>
-
-            <div class="control-group">
-                <label>Background Color</label>
-                <input type="color" id="bgColor" value="#ff0000">
-            </div>
-
-            <div class="control-group">
-                <label>Glow Intensity <span class="value-display" id="glowValue">20px</span></label>
-                <input type="range" id="glowIntensity" min="0" max="50" value="20" step="1">
-            </div>
-
-            <div class="control-group">
-                <label>Number of Circles <span class="value-display" id="countValue">1</span></label>
-                <input type="range" id="circleCount" min="1" max="999" value="1" step="1">
-            </div>
-
-            <div class="control-group">
-                <label>Presets</label>
-                <div class="preset-buttons">
-                    <button class="preset-btn" onclick="applyPreset('minimal')">Minimal</button>
-                    <button class="preset-btn" onclick="applyPreset('neon')">Neon</button>
-                    <button class="preset-btn" onclick="applyPreset('zen')">Zen</button>
-                    <button class="preset-btn" onclick="applyPreset('bold')">Bold</button>
-                    <button class="preset-btn" onclick="applyPreset('subtle')">Subtle</button>
-                    <button class="preset-btn" onclick="applyPreset('cosmic')">Cosmic</button>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn-primary" onclick="downloadSVG()">Download SVG</button>
-                <button class="btn-primary" onclick="downloadPNG()">Download PNG</button>
-                <button class="btn-secondary" onclick="randomize()">Randomize</button>
-                <button class="btn-secondary" onclick="reset()">Reset</button>
-            </div>
-        </div>
-
-        <div class="canvas-area" id="canvasArea">
-            <svg id="artCanvas" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                <g id="circlesContainer"></g>
-            </svg>
-        </div>
+    <div class="canvas-area" id="canvasArea">
+      <svg id="artCanvas" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <g id="circlesContainer"></g>
+      </svg>
     </div>
+  </div>
 
-    <script>
-        const gapSize = document.getElementById('gapSize');
-        const gapPosition = document.getElementById('gapPosition');
-        const circleSize = document.getElementById('circleSize');
-        const strokeThickness = document.getElementById('strokeThickness');
-        const circleColor = document.getElementById('circleColor');
-        const bgColor = document.getElementById('bgColor');
-        const glowIntensity = document.getElementById('glowIntensity');
-        const circleCount = document.getElementById('circleCount');
-        const canvas = document.getElementById('artCanvas');
-        const canvasArea = document.getElementById('canvasArea');
-        const circlesContainer = document.getElementById('circlesContainer');
+  <script>
+    // Controls
+    const gapSize = document.getElementById('gapSize');
+    const gapPosition = document.getElementById('gapPosition');
+    const circleSize = document.getElementById('circleSize');
+    const strokeThickness = document.getElementById('strokeThickness');
+    const circleColor = document.getElementById('circleColor');
+    const bgColor = document.getElementById('bgColor');
+    const glowIntensity = document.getElementById('glowIntensity');
+    const circleCount = document.getElementById('circleCount');
 
-        function updateCircle() {
-            const gap = parseFloat(gapSize.value);
-            const position = parseFloat(gapPosition.value);
-            const size = parseFloat(circleSize.value);
-            const thickness = parseFloat(strokeThickness.value);
-            const color = circleColor.value;
-            const bg = bgColor.value;
-            const glow = parseFloat(glowIntensity.value);
-            const count = parseInt(circleCount.value);
+    // Canvas
+    const canvas = document.getElementById('artCanvas');
+    const canvasArea = document.getElementById('canvasArea');
+    const circlesContainer = document.getElementById('circlesContainer');
 
-            // Update display values
-            document.getElementById('gapValue').textContent = gap + '°';
-            document.getElementById('posValue').textContent = position + '°';
-            document.getElementById('sizeValue').textContent = size + 'px';
-            document.getElementById('thicknessValue').textContent = thickness + 'px';
-            document.getElementById('glowValue').textContent = glow + 'px';
-            document.getElementById('countValue').textContent = count;
+    // --- GA4 helper ---
+    function track(name, params={}) {
+      if (typeof gtag === 'function') {
+        gtag('event', name, params);
+      }
+    }
 
-            // Clear existing circles
-            circlesContainer.innerHTML = '';
+    function updateCircle() {
+      const gap = parseFloat(gapSize.value);
+      const position = parseFloat(gapPosition.value);
+      const size = parseFloat(circleSize.value);
+      const thickness = parseFloat(strokeThickness.value);
+      const color = circleColor.value;
+      const bg = bgColor.value;
+      const glow = parseFloat(glowIntensity.value);
+      const count = parseInt(circleCount.value);
 
-            // Canvas dimensions
-            const canvasWidth = 1000;
-            const canvasHeight = 1000;
-            
-            // Create grid of circles
-            const cols = Math.ceil(Math.sqrt(count * (canvasWidth / canvasHeight)));
-            const rows = Math.ceil(count / cols);
-            const spacingX = canvasWidth / cols;
-            const spacingY = canvasHeight / rows;
+      // Update display values
+      document.getElementById('gapValue').textContent = gap + '°';
+      document.getElementById('posValue').textContent = position + '°';
+      document.getElementById('sizeValue').textContent = size + 'px';
+      document.getElementById('thicknessValue').textContent = thickness + 'px';
+      document.getElementById('glowValue').textContent = glow + 'px';
+      document.getElementById('countValue').textContent = count;
 
-            let circleIndex = 0;
-            for (let row = 0; row < rows && circleIndex < count; row++) {
-                for (let col = 0; col < cols && circleIndex < count; col++) {
-                    const cx = spacingX * (col + 0.5);
-                    const cy = spacingY * (row + 0.5);
-                    const radius = Math.min(spacingX, spacingY) * 0.4 * (size / 300);
-                    
-                    const actualCircumference = 2 * Math.PI * radius;
-                    const actualGapLength = (gap / 360) * actualCircumference;
-                    const actualArcLength = actualCircumference - actualGapLength;
-                    
-                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    circle.setAttribute('cx', cx);
-                    circle.setAttribute('cy', cy);
-                    circle.setAttribute('r', radius);
-                    circle.setAttribute('fill', 'none');
-                    circle.setAttribute('stroke', color);
-                    circle.setAttribute('stroke-width', thickness);
-                    circle.setAttribute('stroke-linecap', 'round');
-                    circle.setAttribute('stroke-dasharray', `${actualArcLength} ${actualGapLength}`);
-                    circle.setAttribute('stroke-dashoffset', -position * (actualCircumference / 360));
-                    
-                    circlesContainer.appendChild(circle);
-                    circleIndex++;
-                }
-            }
+      // Clear
+      circlesContainer.innerHTML = '';
 
-            // Update colors and glow
-            canvasArea.style.background = bg;
-            canvas.style.filter = glow > 0 ? `drop-shadow(0 0 ${glow}px ${color})` : 'none';
+      // Canvas dims
+      const W = 1000, H = 1000;
+
+      // Grid
+      const cols = Math.ceil(Math.sqrt(count * (W / H)));
+      const rows = Math.ceil(count / cols);
+      const spacingX = W / cols;
+      const spacingY = H / rows;
+
+      let idx = 0;
+      for (let r = 0; r < rows && idx < count; r++) {
+        for (let c = 0; c < cols && idx < count; c++) {
+          const cx = spacingX * (c + 0.5);
+          const cy = spacingY * (r + 0.5);
+          const radius = Math.min(spacingX, spacingY) * 0.4 * (size / 300);
+
+          const C = 2 * Math.PI * radius;
+          const gapLen = (gap / 360) * C;
+          const arcLen = C - gapLen;
+
+          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('cx', cx);
+          circle.setAttribute('cy', cy);
+          circle.setAttribute('r', radius);
+          circle.setAttribute('fill', 'none');
+          circle.setAttribute('stroke', color);
+          circle.setAttribute('stroke-width', thickness);
+          circle.setAttribute('stroke-linecap', 'round');
+          circle.setAttribute('stroke-dasharray', `${arcLen} ${gapLen}`);
+          circle.setAttribute('stroke-dashoffset', -(position * (C / 360)));
+
+          circlesContainer.appendChild(circle);
+          idx++;
         }
+      }
 
-        function applyPreset(preset) {
-            const presets = {
-                minimal: { gap: 15, pos: 0, size: 250, thick: 3, color: '#ffffff', bg: '#000000', glow: 0, count: 1 },
-                neon: { gap: 45, pos: 90, size: 350, thick: 12, color: '#ffffff', bg: '#000000', glow: 40, count: 25 },
-                zen: { gap: 30, pos: 0, size: 300, thick: 6, color: '#ffffff', bg: '#000000', glow: 15, count: 100 },
-                bold: { gap: 60, pos: 180, size: 400, thick: 20, color: '#ffffff', bg: '#000000', glow: 30, count: 9 },
-                subtle: { gap: 10, pos: 45, size: 200, thick: 4, color: '#ffffff', bg: '#000000', glow: 5, count: 64 },
-                cosmic: { gap: 40, pos: 270, size: 350, thick: 10, color: '#ffffff', bg: '#000000', glow: 35, count: 144 }
-            };
+      // Visuals (live preview)
+      canvasArea.style.background = bg;
+      canvas.style.filter = glow > 0 ? `drop-shadow(0 0 ${glow}px ${color})` : 'none';
+    }
 
-            const p = presets[preset];
-            gapSize.value = p.gap;
-            gapPosition.value = p.pos;
-            circleSize.value = p.size;
-            strokeThickness.value = p.thick;
-            circleColor.value = p.color;
-            bgColor.value = p.bg;
-            glowIntensity.value = p.glow;
-            circleCount.value = p.count;
-            updateCircle();
-        }
+    function applyPreset(preset) {
+      const presets = {
+        minimal: { gap: 15, pos: 0,   size: 250, thick: 3,  color: '#ffffff', bg: '#000000', glow: 0,  count: 1   },
+        neon:    { gap: 45, pos: 90,  size: 350, thick: 12, color: '#00ffff', bg: '#000000', glow: 40, count: 25  },
+        zen:     { gap: 30, pos: 0,   size: 300, thick: 6,  color: '#ffffff', bg: '#000000', glow: 15, count: 100 },
+        bold:    { gap: 60, pos: 180, size: 400, thick: 20, color: '#ffffff', bg: '#000000', glow: 30, count: 9   },
+        subtle:  { gap: 10, pos: 45,  size: 200, thick: 4,  color: '#bbbbbb', bg: '#000000', glow: 5,  count: 64  },
+        cosmic:  { gap: 40, pos: 270, size: 350, thick: 10, color: '#a0a8ff', bg: '#05030f', glow: 35, count: 144 }
+      };
 
-        function randomHex(){ return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'); }
+      const p = presets[preset];
+      gapSize.value = p.gap;
+      gapPosition.value = p.pos;
+      circleSize.value = p.size;
+      strokeThickness.value = p.thick;
+      circleColor.value = p.color;
+      bgColor.value = p.bg;
+      glowIntensity.value = p.glow;
+      circleCount.value = p.count;
 
-        function randomize() {
-            gapSize.value = Math.floor(Math.random() * 85) + 5;
-            gapPosition.value = Math.floor(Math.random() * 360);
-            circleSize.value = Math.floor(Math.random() * 400) + 100;
-            strokeThickness.value = Math.floor(Math.random() * 28) + 2;
-            circleColor.value = randomHex();            /* random circle color */
-            bgColor.value = randomHex();               /* random background color */
-            glowIntensity.value = Math.floor(Math.random() * 50);
-            circleCount.value = Math.floor(Math.random() * 999) + 1;
-            updateCircle();
-        }
+      updateCircle();
+      track('preset_applied', { preset });
+    }
 
-        function reset() {
-            gapSize.value = 30;
-            gapPosition.value = 0;
-            circleSize.value = 300;
-            strokeThickness.value = 8;
-            circleColor.value = '#00ffff';   /* cyan default */
-            bgColor.value = '#ff0000';       /* red default */
-            glowIntensity.value = 20;
-            circleCount.value = 1;
-            updateCircle();
-        }
+    function randomHex(){ return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'); }
 
-        function downloadSVG() {
-            const svgClone = canvas.cloneNode(true);
-            svgClone.setAttribute('width', '1000');
-            svgClone.setAttribute('height', '1000');
-            const svgData = svgClone.outerHTML;
-            const blob = new Blob([svgData], { type: 'image/svg+xml' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'art-circles.svg';
-            link.click();
-            URL.revokeObjectURL(url);
-        }
+    function randomize() {
+      gapSize.value = Math.floor(Math.random() * 85) + 5;
+      gapPosition.value = Math.floor(Math.random() * 360);
+      circleSize.value = Math.floor(Math.random() * 400) + 100;
+      strokeThickness.value = Math.floor(Math.random() * 28) + 2;
+      circleColor.value = randomHex();
+      bgColor.value = randomHex();
+      glowIntensity.value = Math.floor(Math.random() * 50);
+      circleCount.value = Math.floor(Math.random() * 999) + 1;
+      updateCircle();
+      track('randomize_clicked');
+    }
 
-        function downloadPNG() {
-            const svgClone = canvas.cloneNode(true);
-            svgClone.setAttribute('width', '1000');
-            svgClone.setAttribute('height', '1000');
-            const svgData = new XMLSerializer().serializeToString(svgClone);
-            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-            const url = URL.createObjectURL(svgBlob);
-            const img = new Image();
-            
-            img.onload = function() {
-                const pngCanvas = document.createElement('canvas');
-                pngCanvas.width = 2000;
-                pngCanvas.height = 2000;
-                const ctx = pngCanvas.getContext('2d');
-                
-                ctx.fillStyle = bgColor.value;
-                ctx.fillRect(0, 0, pngCanvas.width, pngCanvas.height);
-                ctx.drawImage(img, 0, 0, pngCanvas.width, pngCanvas.height);
-                
-                pngCanvas.toBlob(function(blob) {
-                    const pngUrl = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = pngUrl;
-                    link.download = 'art-circles.png';
-                    link.click();
-                    URL.revokeObjectURL(pngUrl);
-                });
-                
-                URL.revokeObjectURL(url);
-            };
-            
-            img.src = url;
-        }
+    function reset() {
+      gapSize.value = 30;
+      gapPosition.value = 0;
+      circleSize.value = 300;
+      strokeThickness.value = 8;
+      circleColor.value = '#00ffff';
+      bgColor.value = '#ff0000';
+      glowIntensity.value = 20;
+      circleCount.value = 1;
+      updateCircle();
+      track('reset_clicked');
+    }
 
-        // Event listeners
-        gapSize.addEventListener('input', updateCircle);
-        gapPosition.addEventListener('input', updateCircle);
-        circleSize.addEventListener('input', updateCircle);
-        strokeThickness.addEventListener('input', updateCircle);
-        circleColor.addEventListener('input', updateCircle);
-        bgColor.addEventListener('input', updateCircle);
-        glowIntensity.addEventListener('input', updateCircle);
-        circleCount.addEventListener('input', updateCircle);
+    // Build a self-contained SVG (includes background + glow filter)
+    function buildStandaloneSVG() {
+      const W = 1000, H = 1000;
+      const color = circleColor.value;
+      const bg = bgColor.value;
+      const glow = parseFloat(glowIntensity.value);
 
-        // Initialize: start with Zen preset, then override to cyan/red
-        applyPreset('zen');
-        circleColor.value = '#00ffff';
-        bgColor.value = '#ff0000';
-        updateCircle();
-    </script>
+      // Clone circles content
+      const g = circlesContainer.cloneNode(true);
+
+      // Create root SVG
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('xmlns', svgNS);
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.setAttribute('width', String(W));
+      svg.setAttribute('height', String(H));
+      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+      // <defs> for glow
+      if (glow > 0) {
+        const defs = document.createElementNS(svgNS, 'defs');
+        const filter = document.createElementNS(svgNS, 'filter');
+        filter.setAttribute('id', 'glow');
+        filter.setAttribute('x', '-50%');
+        filter.setAttribute('y', '-50%');
+        filter.setAttribute('width', '200%');
+        filter.setAttribute('height', '200%');
+
+        const feGaussianBlur = document.createElementNS(svgNS, 'feGaussianBlur');
+        feGaussianBlur.setAttribute('in', 'SourceGraphic');
+        feGaussianBlur.setAttribute('stdDeviation', (glow/4).toString());
+
+        const feMerge = document.createElementNS(svgNS, 'feMerge');
+        const feMergeNode1 = document.createElementNS(svgNS, 'feMergeNode');
+        const feMergeNode2 = document.createElementNS(svgNS, 'feMergeNode');
+        feMergeNode2.setAttribute('in', 'SourceGraphic');
+
+        feMerge.appendChild(feMergeNode1);
+        feMerge.appendChild(feMergeNode2);
+        filter.appendChild(feGaussianBlur);
+        filter.appendChild(feMerge);
+        defs.appendChild(filter);
+        svg.appendChild(defs);
+      }
+
+      // Background rect INSIDE the SVG
+      const rect = document.createElementNS(svgNS, 'rect');
+      rect.setAttribute('x', '0');
+      rect.setAttribute('y', '0');
+      rect.setAttribute('width', '100%');
+      rect.setAttribute('height', '100%');
+      rect.setAttribute('fill', bg);
+      svg.appendChild(rect);
+
+      // Wrap circles in a group to apply filter
+      const wrap = document.createElementNS(svgNS, 'g');
+      if (glow > 0) wrap.setAttribute('filter', 'url(#glow)');
+      wrap.appendChild(g);
+      svg.appendChild(wrap);
+
+      return svg;
+    }
+
+    function downloadSVG() {
+      const svg = buildStandaloneSVG();
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'art-circles.svg';
+      link.click();
+      URL.revokeObjectURL(url);
+      track('download', { format: 'svg' });
+    }
+
+    function downloadPNG() {
+      const svg = buildStandaloneSVG();
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        const pngCanvas = document.createElement('canvas');
+        pngCanvas.width = 2000;  // 2x scale
+        pngCanvas.height = 2000;
+        const ctx = pngCanvas.getContext('2d');
+        // Background already baked into SVG, but fill anyway to be safe
+        ctx.fillStyle = bgColor.value;
+        ctx.fillRect(0, 0, pngCanvas.width, pngCanvas.height);
+        ctx.drawImage(img, 0, 0, pngCanvas.width, pngCanvas.height);
+
+        pngCanvas.toBlob(function(blob) {
+          const pngUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = pngUrl;
+          link.download = 'art-circles.png';
+          link.click();
+          URL.revokeObjectURL(pngUrl);
+        });
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+
+      track('download', { format: 'png' });
+    }
+
+    // Event listeners (also send lightweight GA4 events)
+    const inputControls = [gapSize, gapPosition, circleSize, strokeThickness, circleColor, bgColor, glowIntensity, circleCount];
+    inputControls.forEach(el => {
+      el.addEventListener('input', updateCircle);
+      el.addEventListener('change', () => {
+        track('control_changed', { id: el.id, value: el.value });
+      });
+    });
+
+    // Initialize: start with Zen preset, then override to cyan/red
+    applyPreset('zen');
+    circleColor.value = '#00ffff';
+    bgColor.value = '#ff0000';
+    updateCircle();
+
+    // Expose preset/random/reset for buttons
+    window.applyPreset = applyPreset;
+    window.randomize = randomize;
+    window.reset = reset;
+    window.downloadSVG = downloadSVG;
+    window.downloadPNG = downloadPNG;
+  </script>
 </body>
 </html>
