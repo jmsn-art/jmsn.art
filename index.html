@@ -17,52 +17,60 @@
   <!-- Identity -->
   <!-- Use an eth.limo gateway for ENS so crawlers can resolve -->
   <link rel="me" href="https://jmsn.eth.limo">
-  
-  <!-- JSON-LD (single consolidated graph) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://jmsn.art/#website",
-        "name": "jmsn.art – The Art Circle Project by Jameson McShane",
-        "url": "https://jmsn.art/",
-        "publisher": { "@id": "https://jmsn.art/#person" },
-        "inLanguage": "en-US",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": { "@type": "EntryPoint", "urlTemplate": "https://jmsn.art/?q={search_term_string}" },
-          "query-input": "required name=search_term_string"
-        }
-      },
-      {
-        "@type": "Person",
-        "@id": "https://jmsn.art/#person",
-        "name": "Jameson McShane",
-        "url": "https://jmsn.art/about.html",
-        "image": "https://jmsn.art/images/File%2000001.jpeg",
-        "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN.",
-        "sameAs": [
-          "https://jmsn.eth.limo",
-          "https://jmsn.art/"
-        ]
-      },
-      {
-        "@type": "CollectionPage",
-        "@id": "https://jmsn.art/#gallery",
-        "name": "The Art Circle Gallery by Jameson McShane",
-        "url": "https://jmsn.art/",
-        "isPartOf": { "@id": "https://jmsn.art/#website" },
-        "mainEntityOfPage": { "@id": "https://jmsn.art/#website" },
-        "about": { "@id": "https://jmsn.art/#person" },
-        "author": { "@id": "https://jmsn.art/#person" },
-        "primaryImageOfPage": { "@id": "https://jmsn.art/images/File%2000001.jpeg#image" },
-        "hasPart": {
-          "@type": "ItemList",
-          "itemListOrder": "https://schema.org/ItemListUnordered",
-          "numberOfItems": 35,
-          "itemListElement": [
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://jmsn.art/#website",
+      "name": "jmsn.art – The Art Circle Project by Jameson McShane",
+      "url": "https://jmsn.art/",
+      "publisher": { "@id": "https://jmsn.art/#person" },
+      "inLanguage": "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://jmsn.art/?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://jmsn.art/#person",
+      "name": "Jameson McShane",
+      "url": "https://jmsn.art/about.html",
+      "image": "https://jmsn.art/images/File%2000001.jpeg",
+      "description": "Artist exploring art circles (halos/broken circles) via digital/AI collaboration with chatJMSN.",
+      "sameAs": [
+        "https://jmsn.eth.limo",
+        "https://jmsn.art/"
+      ]
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://jmsn.art/#philosophy",
+      "name": "The Art Circle Project — philosophy line",
+      "description": "A perfect circle exists only as an idea.",
+      "inLanguage": "en",
+      "creator": { "@id": "https://jmsn.art/#person" },
+      "isPartOf": { "@id": "https://jmsn.art/#website" }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://jmsn.art/#gallery",
+      "name": "The Art Circle Gallery by Jameson McShane",
+      "url": "https://jmsn.art/",
+      "isPartOf": { "@id": "https://jmsn.art/#website" },
+      "mainEntityOfPage": { "@id": "https://jmsn.art/#website" },
+      "about": { "@id": "https://jmsn.art/#person" },
+      "author": { "@id": "https://jmsn.art/#person" },
+      "primaryImageOfPage": { "@id": "https://jmsn.art/images/File%2000001.jpeg#image" },
+      "hasPart": {
+        "@type": "ItemList",
+        "itemListOrder": "https://schema.org/ItemListUnordered",
+        "numberOfItems": 35,
+        "itemListElement": [
+
             { "@type": "ListItem", "position": 1,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000001.jpeg#image", "name": "Haloed Figure in Black and White", "contentUrl": "https://jmsn.art/images/File%2000001.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000001.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
             { "@type": "ListItem", "position": 2,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000141.jpeg#image", "name": "No Smoking?", "contentUrl": "https://jmsn.art/images/File%2000141.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000141.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
             { "@type": "ListItem", "position": 3,  "item": { "@type": "ImageObject", "@id": "https://jmsn.art/images/File%2000003.jpeg#image", "name": "Leaky Bucket with Water Spill", "contentUrl": "https://jmsn.art/images/File%2000003.jpeg", "thumbnailUrl": "https://jmsn.art/images/File%2000003.jpeg", "creator": { "@id": "https://jmsn.art/#person" }, "creditText": "© Jameson McShane", "license": "https://jmsn.art/about.html" } },
