@@ -12,6 +12,9 @@
   <!-- Identity -->
   <link rel="me" href="https://jmsn.eth.limo">
 
+  <!-- Performance preconnects -->
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+
   <!-- Open Graph / Social -->
   <meta property="og:title" content="Art Circles — jmsn.art">
   <meta property="og:description" content="A grid of square Art Circle studies by Jameson McShane.">
@@ -48,6 +51,15 @@
     transition: background 1.5s ease, color 1.5s ease;
   }
 
+  /* Screen reader only */
+  .sr-only {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
   /* Tighter, square grid (closer to the main page feel) */
   .gallery{
     display:grid;
@@ -56,6 +68,7 @@
   }
   @media (min-width:1100px){ .gallery{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; } }
 
+  /* Skeleton loader */
   .gallery img{
     width:100%; height:auto; display:block; border-radius:6px;
     box-shadow:0 4px 12px rgba(0,0,0,.45); cursor:pointer;
@@ -64,8 +77,21 @@
     aspect-ratio:1 / 1; object-fit:cover;
     -webkit-tap-highlight-color:transparent;
     content-visibility:auto; contain-intrinsic-size: 1200px 1200px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
   }
-  .gallery img.lazy-loaded { opacity:1; }
+  
+  @keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  .gallery img.lazy-loaded { 
+    opacity:1; 
+    animation: none;
+    background: none;
+  }
 
   @media (hover:hover) and (pointer:fine){
     .gallery img:hover{ transform:scale(1.04); }
@@ -84,6 +110,7 @@
     opacity:0; transition:opacity 1.5s ease .12s;
   }
   .lb.open img{ opacity:1; }
+  .lb img.loading { opacity: 0.5; }
 
   #lbimg{ will-change:transform; cursor:zoom-in; touch-action:none; }
   #lbimg.zoomed{ cursor:grab; }
@@ -100,6 +127,25 @@
     border-radius:4px; text-align:center; opacity:0; transition:opacity .75s ease; pointer-events:none;
   }
 
+  /* Touch hint tooltip */
+  .touch-hint {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.95);
+    color: #111;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .touch-hint.show { opacity: 1; }
+
   footer{ text-align:center; margin:36px 0 10px; opacity:.85; font-size:14px; }
   footer button{
     background:none; border:1px solid var(--muted); color:var(--fg);
@@ -107,7 +153,7 @@
     transition: color 1.5s ease, border-color 1.5s ease, background 1.5s ease;
   }
   footer a{ color:var(--fg); text-decoration:underline; transition: color 1.5s ease; }
-    .noscroll { overflow: hidden; }
+  .noscroll { overflow: hidden; }
 
   footer a:hover{ color:var(--accent); }
 
@@ -370,7 +416,7 @@
     <!-- <img src="/images/circles_00204.jpeg" alt="circles_00204.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
     <!-- <img src="/images/circles_00205.jpeg" alt="circles_00205.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
     <img src="/images/circles_00206.jpeg" alt="circles_00206.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-    <!-- img src="/images/circles_00207.jpeg" alt="circles_00207.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
+    <img src="/images/circles_00207.jpeg" alt="circles_00207.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <!-- <img src="/images/circles_00208.jpeg" alt="circles_00208.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
     <img src="/images/circles_00209.jpeg" alt="circles_00209.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> 
     <!-- <img src="/images/circles_00210.jpeg" alt="circles_00210.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem"> -->
@@ -451,7 +497,7 @@
     <img src="/images/circles_00285.jpeg" alt="circles_00285.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00286.jpeg" alt="circles_00286.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
     <img src="/images/circles_00287.jpeg" alt="circles_00287.jpeg" loading="lazy" decoding="async" width="1200" height="1200" role="listitem">
-    </div>
+  </div>
 
   <!-- Lightbox -->
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-label="Artwork viewer" aria-hidden="true">
@@ -461,6 +507,14 @@
       <div id="lb-title" aria-live="polite"></div>
     </div>
   </div>
+
+  <!-- Touch hint tooltip -->
+  <div class="touch-hint" id="touchHint">
+    Tap to zoom • Drag when zoomed • Use arrow keys to navigate
+  </div>
+
+  <!-- Accessibility announcer -->
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
     © 2025 Jameson McShane ·
@@ -476,10 +530,20 @@
  <script>
   function sendGA(eventName, params){ try{ if(typeof gtag==='function'){ gtag('event', eventName, params||{}); } }catch(e){} }
 
+  // Safe localStorage wrapper
+  const storage = {
+    get: (key) => {
+      try { return localStorage.getItem(key); } catch(e) { return null; }
+    },
+    set: (key, val) => {
+      try { localStorage.setItem(key, val); } catch(e) {}
+    }
+  };
+
   // Theme
   (function initTheme(){
     const btn = document.getElementById('toggleTheme');
-    const saved = localStorage.getItem('theme');
+    const saved = storage.get('theme');
     const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
     function apply(mode){
       if(mode==='light'){ document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
@@ -489,7 +553,7 @@
     btn.addEventListener('click', ()=>{
       const isLight = document.body.classList.toggle('light-mode');
       btn.setAttribute('aria-pressed', String(isLight));
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      storage.set('theme', isLight ? 'light' : 'dark');
       sendGA('theme_toggle', { mode: isLight ? 'light' : 'dark' });
     });
   })();
@@ -501,10 +565,16 @@
     const lbimg = document.getElementById('lbimg');
     const closeBtn = document.getElementById('lightboxClose');
     const lbTitle = document.getElementById('lb-title');
+    const touchHint = document.getElementById('touchHint');
+    const announcer = document.getElementById('a11yAnnouncer');
+    
+    let totalImages = 0;
+    let hasShownTouchHint = storage.get('touchHintShown') === 'true';
 
     // Fisher–Yates shuffle (keeps first image in place for LCP)
     function shuffleExceptFirst(container){
       const imgs = Array.from(container.querySelectorAll('img'));
+      totalImages = imgs.length;
       if (imgs.length <= 2) return;
       const first = imgs.shift();
       for (let i = imgs.length - 1; i > 0; i--) {
@@ -514,99 +584,254 @@
       container.replaceChildren(first, ...imgs);
     }
 
+    // Track shuffle event
+    const shuffleId = Date.now();
+    sendGA('gallery_shuffle', { shuffle_id: shuffleId });
+
     // Shuffle before wiring listeners so indexes match the visual order
     shuffleExceptFirst(gallery);
 
     // Re-query after shuffle
     const items = gallery.querySelectorAll('img');
 
+    // Enhanced Intersection Observer for progressive loading
+    const imgObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          if (!img.dataset.viewed) {
+            img.dataset.viewed = 'true';
+            imgObserver.unobserve(img);
+          }
+        }
+      });
+    }, { rootMargin: '50px' });
+
     // Fade-in on load + a11y
-    items.forEach(img=>{
+    items.forEach((img, idx)=>{
       if(img.complete) img.classList.add('lazy-loaded');
-      img.addEventListener('load', ()=> img.classList.add('lazy-loaded'));
+      img.addEventListener('load', ()=> {
+        img.classList.add('lazy-loaded');
+      });
       img.tabIndex = 0;
       img.setAttribute('role','button');
-      img.setAttribute('aria-label',(img.alt||'Artwork') + ' — open');
+      img.setAttribute('aria-label',(img.alt||'Artwork') + ' — open in viewer');
+      imgObserver.observe(img);
     });
 
     // Zoom/pan state
     let scale=1, tx=0, ty=0, dragging=false, startX=0, startY=0, activePointerId=null;
+    let lastZoomLevel = 1;
+    
     function applyTransform(){ lbimg.style.transform = `translate3d(${tx}px,${ty}px,0) scale(${scale})`; }
-    function resetZoom(){ scale=1; tx=0; ty=0; lbimg.classList.remove('zoomed'); applyTransform(); }
+    
+    function resetZoom(){ 
+      scale=1; tx=0; ty=0; 
+      lbimg.classList.remove('zoomed'); 
+      applyTransform(); 
+      lastZoomLevel = 1;
+    }
+    
     function clampPan(){
       const r = lbimg.getBoundingClientRect();
       const maxX = ((r.width*scale)-r.width)/2, maxY=((r.height*scale)-r.height)/2;
       tx = maxX>0 ? Math.max(-maxX,Math.min(maxX,tx)) : 0;
       ty = maxY>0 ? Math.max(-maxY,Math.min(maxY,ty)) : 0;
     }
+    
     function zoomAt(cx, cy, newScale){
       const r = lbimg.getBoundingClientRect();
       const x = cx - (r.left + r.width/2), y = cy - (r.top + r.height/2);
       const k = newScale/scale;
       tx = tx - x*(k-1); ty = ty - y*(k-1);
       scale = newScale; clampPan(); applyTransform();
-      if(scale>1) lbimg.classList.add('zoomed'); else lbimg.classList.remove('zoomed');
+      
+      if(scale>1) {
+        lbimg.classList.add('zoomed');
+        lbimg.setAttribute('aria-label', `Zoomed to ${Math.round(scale*100)}%`);
+      } else {
+        lbimg.classList.remove('zoomed');
+        lbimg.setAttribute('aria-label', 'Click to zoom');
+      }
+      
+      // Track zoom interactions
+      if (Math.abs(scale - lastZoomLevel) > 0.3) {
+        sendGA('image_zoom', { 
+          zoom_level: Math.round(scale*100),
+          artwork_src: currentSrc 
+        });
+        lastZoomLevel = scale;
+      }
     }
-    lbimg.addEventListener('click', e => { scale===1 ? zoomAt(e.clientX,e.clientY,2.5) : resetZoom(); });
+    
+    lbimg.addEventListener('click', e => { 
+      scale===1 ? zoomAt(e.clientX,e.clientY,2.5) : resetZoom(); 
+    });
+    
     lbimg.addEventListener('wheel', e => {
-      e.preventDefault(); const step = e.deltaY<0 ? 1.1 : 0.9;
+      e.preventDefault(); 
+      const step = e.deltaY<0 ? 1.1 : 0.9;
       const next = Math.max(1, Math.min(5, scale*step));
       if(next!==scale) zoomAt(e.clientX,e.clientY,next);
     }, {passive:false});
+    
     lbimg.addEventListener('pointerdown', e => {
-      if(scale<=1) return; dragging=true; activePointerId=e.pointerId; lbimg.setPointerCapture(activePointerId);
+      if(scale<=1) return; 
+      dragging=true; 
+      activePointerId=e.pointerId; 
+      lbimg.setPointerCapture(activePointerId);
       startX=e.clientX; startY=e.clientY;
     });
-    function endPan(e){ if(e.pointerId!==activePointerId) return; dragging=false; activePointerId=null; }
+    
+    function endPan(e){ 
+      if(e.pointerId!==activePointerId) return; 
+      dragging=false; 
+      activePointerId=null; 
+    }
+    
     lbimg.addEventListener('pointermove', e => {
       if(!dragging || e.pointerId!==activePointerId) return;
-      const dx=e.clientX-startX, dy=e.clientY-startY; startX=e.clientX; startY=e.clientY; tx+=dx; ty+=dy; clampPan(); applyTransform();
+      const dx=e.clientX-startX, dy=e.clientY-startY; 
+      startX=e.clientX; startY=e.clientY; 
+      tx+=dx; ty+=dy; 
+      clampPan(); 
+      applyTransform();
     });
+    
     lbimg.addEventListener('pointerup', endPan);
     lbimg.addEventListener('pointercancel', endPan);
     lbimg.addEventListener('lostpointercapture', ()=>{ dragging=false; activePointerId=null; });
-    lbimg.addEventListener('load', resetZoom);
+    
+    lbimg.addEventListener('load', ()=> {
+      resetZoom();
+      lbimg.classList.remove('loading');
+    });
+    
+    lbimg.addEventListener('loadstart', ()=> {
+      lbimg.classList.add('loading');
+    });
 
     let lastFocus=null, current=0, openedAt=0, currentTitle='', currentSrc='';
+    
     function bestSrc(el){ return el.dataset.full || el.src; }
 
     function openLightbox(idx){
-      const img = items[idx]; current=idx;
-      currentTitle = img.alt || 'untitled'; currentSrc = bestSrc(img);
-      lbimg.src = currentSrc; lbimg.alt = currentTitle;
-      lb.classList.add('open'); lb.removeAttribute('aria-hidden'); document.body.classList.add('noscroll');
-      lastFocus = document.activeElement; setTimeout(()=> closeBtn.focus(), 50);
-      lbTitle.textContent = currentTitle; lbTitle.style.opacity='1'; setTimeout(()=> lbTitle.style.opacity='0', 7000);
+      const img = items[idx]; 
+      current=idx;
+      currentTitle = img.alt || 'untitled'; 
+      currentSrc = bestSrc(img);
+      
+      lbimg.src = currentSrc; 
+      lbimg.alt = currentTitle;
+      lbimg.setAttribute('aria-label', 'Click to zoom');
+      
+      lb.classList.add('open'); 
+      lb.removeAttribute('aria-hidden'); 
+      document.body.classList.add('noscroll');
+      
+      lastFocus = document.activeElement; 
+      setTimeout(()=> closeBtn.focus(), 50);
+      
+      // Update title with image counter
+      const counter = `${idx + 1} of ${totalImages}`;
+      lbTitle.textContent = `${currentTitle} (${counter})`;
+      lbTitle.style.opacity='1'; 
+      setTimeout(()=> lbTitle.style.opacity='0', 7000);
+      
+      // Announce to screen readers
+      announcer.textContent = `Viewing ${currentTitle}, image ${idx + 1} of ${totalImages}. Use arrow keys to navigate.`;
+      
       openedAt = Date.now();
-      sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-      sendGA('view_item', { items:[{ item_name: currentTitle, item_id: currentSrc }] });
+      sendGA('art_view', { 
+        artwork_title: currentTitle, 
+        artwork_src: currentSrc,
+        position: idx + 1,
+        shuffle_id: shuffleId
+      });
+      sendGA('view_item', { 
+        items:[{ 
+          item_name: currentTitle, 
+          item_id: currentSrc,
+          index: idx 
+        }] 
+      });
+      
+      // Show touch hint on first lightbox open (mobile only)
+      if (!hasShownTouchHint && 'ontouchstart' in window) {
+        setTimeout(() => {
+          touchHint.classList.add('show');
+          setTimeout(() => {
+            touchHint.classList.remove('show');
+            hasShownTouchHint = true;
+            storage.set('touchHintShown', 'true');
+          }, 4000);
+        }, 500);
+      }
     }
+    
     function closeLightbox(){
       const dwell = openedAt ? Math.max(0, Math.round((Date.now()-openedAt)/1000)) : 0;
-      if(openedAt){ sendGA('art_close', { artwork_title: currentTitle||'unknown', artwork_src: currentSrc||'unknown', dwell_time_seconds:dwell }); }
+      if(openedAt){ 
+        sendGA('art_close', { 
+          artwork_title: currentTitle||'unknown', 
+          artwork_src: currentSrc||'unknown', 
+          dwell_time_seconds:dwell,
+          max_zoom: Math.round(lastZoomLevel * 100)
+        }); 
+      }
       openedAt=0; currentTitle=''; currentSrc='';
       resetZoom();
-      lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); document.body.classList.remove('noscroll');
+      lb.classList.remove('open'); 
+      lb.setAttribute('aria-hidden','true'); 
+      document.body.classList.remove('noscroll');
       if(lastFocus) lastFocus.focus();
+      announcer.textContent = '';
     }
+    
+    function navigateTo(idx) {
+      openLightbox(idx);
+      // Announce navigation to screen readers
+      setTimeout(() => {
+        announcer.textContent = `Now viewing ${items[idx].alt || 'untitled'}, image ${idx + 1} of ${totalImages}`;
+      }, 100);
+    }
+    
     items.forEach((img, idx)=>{
       img.addEventListener('click', ()=> openLightbox(idx));
-      img.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openLightbox(idx); } });
+      img.addEventListener('keydown', e=>{ 
+        if(e.key==='Enter' || e.key===' '){ 
+          e.preventDefault(); 
+          openLightbox(idx); 
+        } 
+      });
     });
+    
     closeBtn.addEventListener('click', closeLightbox);
     lb.addEventListener('click', e=>{ if(e.target===lb) closeLightbox(); });
+    
     document.addEventListener('keydown', e=>{
       if(!lb.classList.contains('open')) return;
       if(e.key==='Escape') closeLightbox();
-      if(e.key==='ArrowRight') openLightbox((current+1)%items.length);
-      if(e.key==='ArrowLeft')  openLightbox((current-1+items.length)%items.length);
+      if(e.key==='ArrowRight') {
+        const next = (current+1)%items.length;
+        navigateTo(next);
+        sendGA('keyboard_navigation', { direction: 'next', position: next + 1 });
+      }
+      if(e.key==='ArrowLeft') {
+        const prev = (current-1+items.length)%items.length;
+        navigateTo(prev);
+        sendGA('keyboard_navigation', { direction: 'prev', position: prev + 1 });
+      }
     });
 
-    // GA4: track Make Your Own button clicks (optional but recommended)
+    // Track Make Your Own button clicks
     const makeBtn = document.getElementById('makeYourOwnBtn');
     if(makeBtn){
       makeBtn.addEventListener('click', () => {
-        sendGA('cta_click', { cta_name: 'make_your_own', location: 'circles_header' });
+        sendGA('cta_click', { 
+          cta_name: 'make_your_own', 
+          location: 'circles_header' 
+        });
       });
     }
   });
