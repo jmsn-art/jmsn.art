@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <!-- Parsing-critical metas first -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>π (Negative) — jmsn.art</title>
+
+  <!-- Indexable (easter egg but SEO-ready) -->
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://jmsn.art/pi.html" />
+
+  <!-- Identity / Web3 (optional) -->
+  <link rel="me" href="https://jmsn.eth.limo">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="π (Negative) — jmsn.art" />
+  <meta property="og:description" content="A single-gap broken circle implied within the digits of π — a true photographic negative." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jmsn.art/pi.html" />
+  <meta property="og:image" content="https://jmsn.art/images/pi_negative.jpg" />
+  <meta property="og:image:alt" content="White digits of pi on black with an invisible single-gap broken circle." />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="π (Negative) — jmsn.art" />
+  <meta name="twitter:description" content="A single-gap broken circle implied within the digits of π — a true photographic negative." />
+  <meta name="twitter:image" content="https://jmsn.art/images/pi_negative.jpg" />
+
+  <!-- Favicon (optional) -->
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+
+  <!-- Preconnect for GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+  <!-- Preload main image -->
+  <link rel="preload" as="image" href="/images/pi.png" fetchpriority="high">
+
+  <!-- Theming: prefers-color-scheme + toggle -->
+  <meta name="color-scheme" content="dark light" />
+  <style>
+    :root{
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #666;
+      --accent: #0ea5e9;
+      --ring: rgba(14,165,233,.4);
+      transition: background-color 1.5s ease, color 1.5s ease;
+    }
+    html.dark{
+      --bg: #0b0b0b;
+      --fg: #e5e5e5;
+      --muted: #a3a3a3;
+      --accent: #7dd3fc;
+      --ring: rgba(125,211,252,.35);
+      transition: background-color 1.5s ease, color 1.5s ease;
+    }
+    @media (prefers-color-scheme: dark){
+      html:not(.light) { color-scheme: dark; }
+      html:not(.light) body { background-color: #0b0b0b; color: #e5e5e5; }
+    }
+
+    /* Screen reader only */
+    .sr-only {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      transition: background-color 1.5s ease, color 1.5s ease;
+    }
+    .wrap{
+      min-height:100dvh;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+    }
+    .topbar{
+      display:flex; align-items:center; gap:.75rem;
+      max-width:1100px; margin:0 auto; padding:12px 16px;
+    }
+    .spacer{flex:1}
+    .btn{cursor:pointer; -webkit-tap-highlight-color:transparent;
+      padding:.5rem .75rem; border-radius:12px; border:1px solid color-mix(in oklab, var(--fg) 15%, transparent);
+      background: color-mix(in oklab, var(--bg) 85%, var(--fg) 2%);
+      color: var(--fg); font-weight:600; letter-spacing:.2px;
+      box-shadow: 0 1px 0 color-mix(in oklab, black 12%, transparent) inset;
+      transition: background-color 1.5s ease, color 1.5s ease;
+    }
+    .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px; box-shadow:0 0 0 6px var(--ring)}
+
+    /* Share button */
+    #shareBtn {
+      display: none;
+    }
+    #shareBtn.show {
+      display: inline-block;
+    }
+
+    main{display:grid; place-items:center; padding:24px 16px;}
+    figure{margin:0; text-align:center; position: relative;}
+    
+    /* Image container for zoom */
+    .img-container {
+      position: relative;
+      display: inline-block;
+      max-width: min(92vw, 1200px);
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    img.art{
+      max-width: 100%;
+      height:auto; display:block; margin:0 auto;
+      transition: filter 1.5s ease, transform 0.3s ease;
+      cursor: pointer;
+      background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+      background-size: 200% 100%;
+      opacity: 0;
+    }
+    
+    img.art.loaded {
+      opacity: 1;
+      animation: none;
+      background: none;
+    }
+    
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    img.art:not(.loaded) {
+      animation: skeleton-loading 1.5s ease-in-out infinite;
+    }
+
+    img.art.zoomed {
+      cursor: grab;
+    }
+
+    img.art.zoomed:active {
+      cursor: grabbing;
+    }
+
+    /* Interaction hint */
+    .hint {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.75);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      animation: hintPulse 3s ease-in-out infinite;
+    }
+
+    .hint.show {
+      opacity: 1;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.9; }
+    }
+
+    figcaption{
+      max-width:1100px;
+      margin:14px auto 0;
+      color: var(--muted);
+      font-size:.95rem;
+      text-align:center;
+    }
+
+    .keyboard-hints {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
+    .keyboard-hints kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      background: color-mix(in oklab, var(--fg) 10%, transparent);
+      border: 1px solid color-mix(in oklab, var(--fg) 20%, transparent);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85em;
+    }
+
+    footer{
+      color:var(--muted);
+      font-size:.85rem;
+      padding:16px;
+      text-align:center;
+    }
+    a{ color: var(--accent); text-decoration:none; }
+    a:hover{text-decoration:underline}
+
+    @media (prefers-reduced-motion: reduce) {
+      img.art, .hint, body, html {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+
+  <!-- JSON-LD (ImageObject + WebPage) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "π (Negative) — jmsn.art",
+    "url": "https://jmsn.art/pi.html",
+    "description": "A single-gap broken circle implied within the digits of π — a true photographic negative.",
+    "primaryImageOfPage": {
+      "@type": "ImageObject",
+      "name": "π (Negative)",
+      "description": "White digits of pi on black with an invisible single-gap broken circle (no outline).",
+      "contentUrl": "https://jmsn.art/images/pi_negative.jpg",
+      "thumbnailUrl": "https://jmsn.art/images/pi_negative.jpg",
+      "encodingFormat": "image/jpeg",
+      "creator": { "@type": "Person", "name": "Jameson McShane" }
+    }
+  }
+  </script>
+
+  <!-- GA4 (G-FQPZNDPCCF) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCCF');
+  </script>
+</head>
+<body>
+  <script>
+    // Safe localStorage wrapper
+    const storage = {
+      get: (key) => {
+        try { return localStorage.getItem(key); } catch(e) { return null; }
+      },
+      set: (key, val) => {
+        try { localStorage.setItem(key, val); } catch(e) {}
+      }
+    };
+
+    (function(){
+      const saved = storage.get('jmsn.theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if(saved === 'dark' || (!saved && prefersDark)) document.documentElement.classList.add('dark');
+      if(saved === 'light') document.documentElement.classList.add('light');
+    })();
+  </script>
+
+  <div class="wrap">
+    <header class="topbar" aria-label="Top bar">
+      <a class="btn" href="/" aria-label="Back to home">← Home</a>
+      <span class="spacer"></span>
+      <button id="shareBtn" class="btn" aria-label="Share this page">Share</button>
+      <button id="themeToggle" class="btn" aria-pressed="false" aria-label="Toggle dark / light (press t)">☀︎ / 🌙</button>
+    </header>
+
+    <main>
+      <figure>
+        <div class="img-container">
+          <img 
+            id="piImage"
+            class="art"
+            src="/images/pi.png"
+            alt="Digits of pi filling a square; a centered single-gap broken circle is present but has no outline, implied only by absence. High-contrast white on black."
+            loading="eager" 
+            fetchpriority="high"
+            tabindex="0"
+            role="button"
+            aria-label="Click or press Enter/Space to toggle color inversion. Scroll to zoom." />
+          <div class="hint" id="interactionHint">Click to invert • Scroll to zoom</div>
+        </div>
+        <figcaption>
+          π (Negative) — a single-gap broken circle implied within infinite digits.
+          <div class="keyboard-hints">
+            <kbd>Click</kbd> or <kbd>Enter</kbd>/<kbd>Space</kbd> to invert • 
+            <kbd>Scroll</kbd> to zoom • 
+            <kbd>T</kbd> for theme
+          </div>
+        </figcaption>
+      </figure>
+    </main>
+
+    <footer>
+      © <span id="yr"></span> Jameson McShane — <a href="/circles.html">Art Circle Studies</a>
+    </footer>
+  </div>
+
+  <!-- Accessibility announcer -->
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    const btn = document.getElementById('themeToggle');
+    const announcer = document.getElementById('a11yAnnouncer');
+    const img = document.getElementById('piImage');
+    const hint = document.getElementById('interactionHint');
+    const shareBtn = document.getElementById('shareBtn');
+
+    // Track page metrics
+    const pageLoadTime = Date.now();
+    let inversionCount = 0;
+    let zoomCount = 0;
+    let hasInverted = false;
+
+    // Show share button if Web Share API is available
+    if (navigator.share) {
+      shareBtn.classList.add('show');
+      shareBtn.addEventListener('click', async () => {
+        try {
+          await navigator.share({
+            title: 'π (Negative) — jmsn.art',
+            text: 'A single-gap broken circle implied within the digits of π',
+            url: window.location.href
+          });
+          gtag('event', 'share', { method: 'web_share_api', content_type: 'pi_page' });
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            console.log('Share failed:', err);
+          }
+        }
+      });
+    }
+
+    // Theme toggle
+    function setTheme(mode){
+      document.documentElement.classList.remove('light','dark');
+      if(mode==='dark') document.documentElement.classList.add('dark');
+      if(mode==='light') document.documentElement.classList.add('light');
+      storage.set('jmsn.theme', mode);
+      btn.setAttribute('aria-pressed', mode==='dark');
+      announcer.textContent = `Theme switched to ${mode} mode`;
+    }
+    
+    btn.addEventListener('click', ()=>{
+      const isDark = document.documentElement.classList.contains('dark');
+      const newMode = isDark ? 'light' : 'dark';
+      setTheme(newMode);
+      gtag('event','theme_toggle',{page:'pi', mode: newMode});
+    });
+
+    // Keyboard shortcut for theme
+    addEventListener('keydown', (e)=>{ 
+      if(e.key.toLowerCase()==='t' && e.target !== img) btn.click(); 
+    });
+
+    // Image loading state
+    img.addEventListener('load', ()=>{
+      img.classList.add('loaded');
+      gtag('event','art_image_view',{label:'pi_negative', page: 'pi'});
+      
+      // Show hint briefly
+      setTimeout(() => {
+        hint.classList.add('show');
+        setTimeout(() => {
+          hint.classList.remove('show');
+        }, 4000);
+      }, 1000);
+    });
+
+    // Inversion toggle
+    let inverted = false;
+    img.style.transition = 'filter 1.5s ease, transform 0.3s ease';
+
+    function toggleInversion() {
+      inverted = !inverted;
+      inversionCount++;
+      img.style.filter = inverted ? 'invert(1)' : 'invert(0)';
+      announcer.textContent = inverted ? 'Image inverted to show negative' : 'Image restored to normal';
+      
+      gtag('event','art_image_interaction',{
+        label:'pi_negative', 
+        action: inverted ? 'invert_on' : 'invert_off',
+        inversion_count: inversionCount,
+        page: 'pi'
+      });
+
+      if (!hasInverted) {
+        hasInverted = true;
+        gtag('event', 'first_inversion', { page: 'pi' });
+      }
+    }
+
+    img.addEventListener('click', toggleInversion);
+
+    // Keyboard support for inversion
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleInversion();
+      }
+    });
+
+    // Zoom functionality with scroll
+    let scale = 1;
+    let translateX = 0, translateY = 0;
+    let isDragging = false;
+    let startX = 0, startY = 0;
+
+    function updateTransform() {
+      img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+    }
+
+    img.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      const newScale = Math.max(1, Math.min(3, scale + delta));
+      
+      if (newScale !== scale) {
+        if (scale === 1 && newScale > 1) {
+          zoomCount++;
+          gtag('event', 'image_zoom', { 
+            zoom_level: Math.round(newScale * 100),
+            zoom_count: zoomCount,
+            page: 'pi'
+          });
+        }
+        scale = newScale;
+        if (scale === 1) {
+          translateX = 0;
+          translateY = 0;
+          img.classList.remove('zoomed');
+        } else {
+          img.classList.add('zoomed');
+        }
+        updateTransform();
+        announcer.textContent = `Zoomed to ${Math.round(scale * 100)}%`;
+      }
+    }, { passive: false });
+
+    // Pan when zoomed
+    img.addEventListener('mousedown', (e) => {
+      if (scale > 1) {
+        isDragging = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+        img.style.cursor = 'grabbing';
+      }
+    });
+
+    addEventListener('mousemove', (e) => {
+      if (isDragging && scale > 1) {
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updateTransform();
+      }
+    });
+
+    addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        if (scale > 1) img.style.cursor = 'grab';
+        else img.style.cursor = 'pointer';
+      }
+    });
+
+    // Track dwell time and engagement on page unload
+    addEventListener('beforeunload', () => {
+      const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
+      gtag('event', 'page_dwell', {
+        page: 'pi',
+        dwell_seconds: dwellTime,
+        inversion_count: inversionCount,
+        zoom_count: zoomCount,
+        did_invert: hasInverted
+      });
+    });
+
+    // Track referrer to see how people discovered this page
+    if (document.referrer) {
+      const referrerUrl = new URL(document.referrer);
+      if (referrerUrl.hostname === window.location.hostname) {
+        gtag('event', 'internal_discovery', {
+          from_page: referrerUrl.pathname,
+          to_page: 'pi'
+        });
+      }
+    }
+  </script>
+</body>
+</html>
