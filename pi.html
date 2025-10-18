@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <!-- Parsing-critical metas first -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>π (Negative) — jmsn.art</title>
+
+  <!-- Indexable (easter egg but SEO-ready) -->
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://jmsn.art/pi.html" />
+
+  <!-- Identity / Web3 (optional) -->
+  <link rel="me" href="https://jmsn.eth.limo">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="π (Negative) — jmsn.art" />
+  <meta property="og:description" content="A single-gap broken circle implied within the digits of π — a true photographic negative." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jmsn.art/pi.html" />
+  <meta property="og:image" content="https://jmsn.art/images/pi_negative.jpg" />
+  <meta property="og:image:alt" content="White digits of pi on black with an invisible single-gap broken circle." />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="π (Negative) — jmsn.art" />
+  <meta name="twitter:description" content="A single-gap broken circle implied within the digits of π — a true photographic negative." />
+  <meta name="twitter:image" content="https://jmsn.art/images/pi_negative.jpg" />
+
+  <!-- Favicon (optional) -->
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+
+  <!-- Theming: prefers-color-scheme + toggle -->
+  <meta name="color-scheme" content="dark light" />
+  <style>
+    :root{
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #666;
+      --accent: #0ea5e9; /* sky-500 */
+      --ring: rgba(14,165,233,.4);
+    }
+    /* Dark theme variables get applied via .dark on <html> */
+    html.dark{
+      --bg: #0b0b0b;
+      --fg: #e5e5e5;
+      --muted: #a3a3a3;
+      --accent: #7dd3fc; /* sky-300 */
+      --ring: rgba(125,211,252,.35);
+    }
+    /* Respect system preference on first load */
+    @media (prefers-color-scheme: dark){
+      html:not(.light) { color-scheme: dark; }
+      html:not(.light) body { background-color: #0b0b0b; color: #e5e5e5; }
+    }
+
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    .wrap{
+      min-height:100dvh;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+    }
+    .topbar{
+      display:flex; align-items:center; gap:.75rem;
+      max-width:1100px; margin:0 auto; padding:12px 16px;
+    }
+    .spacer{flex:1}
+    .btn{cursor:pointer; -webkit-tap-highlight-color:transparent;
+      padding:.5rem .75rem; border-radius:12px; border:1px solid color-mix(in oklab, var(--fg) 15%, transparent);
+      background: color-mix(in oklab, var(--bg) 85%, var(--fg) 2%);
+      color: var(--fg); font-weight:600; letter-spacing:.2px;
+      box-shadow: 0 1px 0 color-mix(in oklab, black 12%, transparent) inset;
+    }
+    .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px; box-shadow:0 0 0 6px var(--ring)}
+
+    main{
+      display:grid; place-items:center; padding:24px 16px;
+    }
+    figure{ margin:0; }
+    img.art{
+      max-width:min(92vw, 1200px);
+      height:auto; display:block; border-radius:16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    figcaption{ max-width:1100px; margin:14px auto 0; color: var(--muted); font-size:.95rem; }
+
+    footer{ color:var(--muted); font-size:.85rem; padding:16px; text-align:center; }
+    a{ color: var(--accent); text-decoration:none; }
+    a:hover{text-decoration:underline}
+  </style>
+
+  <!-- JSON-LD (ImageObject + WebPage) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "π (Negative) — jmsn.art",
+    "url": "https://jmsn.art/pi.html",
+    "description": "A single-gap broken circle implied within the digits of π — a true photographic negative.",
+    "primaryImageOfPage": {
+      "@type": "ImageObject",
+      "name": "π (Negative)",
+      "description": "White digits of pi on black with an invisible single-gap broken circle (no outline).",
+      "contentUrl": "https://jmsn.art/images/pi_negative.jpg",
+      "thumbnailUrl": "https://jmsn.art/images/pi_negative.jpg",
+      "encodingFormat": "image/jpeg",
+      "creator": { "@type": "Person", "name": "Jameson McShane" }
+    }
+  }
+  </script>
+
+  <!-- GA4 (G-FQPZNDPCCF) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCCF');
+  </script>
+</head>
+<body>
+  <script>
+    // Theme init: read/save preference and respect system
+    (function(){
+      const saved = localStorage.getItem('jmsn.theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if(saved === 'dark' || (!saved && prefersDark)) document.documentElement.classList.add('dark');
+      if(saved === 'light') document.documentElement.classList.add('light');
+    })();
+  </script>
+
+  <div class="wrap">
+    <header class="topbar" aria-label="Top bar">
+      <a class="btn" href="/" aria-label="Back to home">← Home</a>
+      <span class="spacer"></span>
+      <button id="themeToggle" class="btn" aria-pressed="false" aria-label="Toggle dark / light (t)">☀︎ / 🌙</button>
+    </header>
+
+    <main>
+      <figure>
+        <!-- Replace src with your final asset path/filename -->
+        <img 
+          id="piImage"
+          class="art"
+          src="/images/pi_negative.jpg"
+          alt="Digits of pi filling a square; a centered single-gap broken circle is present but has no outline, implied only by absence. High-contrast white on black."
+          loading="eager" fetchpriority="high" />
+        <figcaption>π (Negative) — a single-gap broken circle implied within infinite digits. Click image to toggle inversion.</figcaption>
+      </figure>
+    </main>
+
+    <footer>
+      © <span id="yr"></span> Jameson McShane — <a href="/circles.html">Art Circle Studies</a>
+    </footer>
+  </div>
+
+  <script>
+    // Year stamp
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Theme toggle button + keyboard shortcut ("t")
+    const btn = document.getElementById('themeToggle');
+    function setTheme(mode){
+      document.documentElement.classList.remove('light','dark');
+      if(mode==='dark') document.documentElement.classList.add('dark');
+      if(mode==='light') document.documentElement.classList.add('light');
+      localStorage.setItem('jmsn.theme', mode);
+      btn.setAttribute('aria-pressed', mode==='dark');
+    }
+    btn.addEventListener('click', ()=>{
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+      gtag('event','theme_toggle',{page:'pi.html',mode:isDark?'light':'dark'});
+    });
+    addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='t') btn.click(); });
+
+    // Optional: click to invert the image (client-side CSS filter)
+    const img = document.getElementById('piImage');
+    let inverted = false;
+    img.style.transition = 'filter .18s ease-out';
+    img.addEventListener('click', ()=>{
+      inverted = !inverted;
+      img.style.filter = inverted ? 'invert(1)' : 'invert(0)';
+      gtag('event','art_image_interaction',{label:'pi_negative', action: inverted?'invert_on':'invert_off'});
+    });
+
+    // Fire a view event when the image loads
+    img.addEventListener('load', ()=>{
+      gtag('event','art_image_view',{label:'pi_negative'});
+    });
+  </script>
+</body>
+</html>
