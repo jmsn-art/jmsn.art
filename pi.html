@@ -183,7 +183,7 @@
     // Optional: click to invert the image (client-side CSS filter)
     const img = document.getElementById('piImage');
     let inverted = false;
-    img.style.transition = 'filter .18s ease-out';
+    img.style.transition = 'filter 1.5s ease-out';
     img.addEventListener('click', ()=>{
       inverted = !inverted;
       img.style.filter = inverted ? 'invert(1)' : 'invert(0)';
