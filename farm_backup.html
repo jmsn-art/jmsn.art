@@ -38,6 +38,15 @@
     :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
     .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
 
+    /* Screen reader only */
+    .sr-only {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
     html, body { min-height:100%; }
     body {
       margin:0; padding:20px; background:var(--bg); color:var(--fg);
@@ -55,7 +64,7 @@
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
       gap:15px;
-      margin-bottom:48px; /* adds breathing room before footer */
+      margin-bottom:48px;
     }
     .gallery img {
       width:100%; height:auto; display:block; border-radius:8px;
@@ -63,8 +72,21 @@
       opacity:0; transition: transform .75s ease, opacity 1.5s ease-in-out;
       transform-origin:center center; will-change:transform;
       aspect-ratio: 4 / 5; object-fit: cover; -webkit-tap-highlight-color: transparent;
+      background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s ease-in-out infinite;
     }
-    .gallery img.lazy-loaded { opacity:1; }
+    
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    .gallery img.lazy-loaded { 
+      opacity:1;
+      animation: none;
+      background: none;
+    }
 
     @media (hover:hover) and (pointer:fine) {
       .gallery img:hover { transform: scale(1.04); }
@@ -72,9 +94,17 @@
     }
 
     /* Lightbox */
-    .lb { position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .75s ease; }
+    .lb { 
+      position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; 
+      display:flex; align-items:center; justify-content:center; 
+      opacity:0; pointer-events:none; transition:opacity .75s ease; 
+    }
     .lb.open { opacity:1; pointer-events:auto; }
-    .close { position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; background:transparent; border:0; line-height:1; padding:0; -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; }
+    .close { 
+      position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; 
+      background:transparent; border:0; line-height:1; padding:0; 
+      -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; 
+    }
     .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
 
     /* Stacked images to avoid layout shifts + crossfade */
@@ -83,11 +113,15 @@
       position:absolute; inset:0; margin:auto;
       max-width:92vw; max-height:80vh; object-fit:contain;
       opacity:0; transition:opacity .4s ease, filter .4s ease, transform .4s ease;
+      will-change: transform;
+      cursor: zoom-in;
+      touch-action: none;
     }
-    /* Slow the full-res fade-in (tweak duration to taste) */
-#lbimg {
-  transition: opacity 2s ease-in-out, filter .9s ease, transform .9s ease;
-}
+    
+    /* Optimized crossfade timing */
+    #lbimg {
+      transition: opacity 1.4s ease-in-out, filter .9s ease, transform .9s ease;
+    }
 
     /* Preview (low-res grid image) starts visible & slightly blurred */
     #lbprev { opacity:1; filter:blur(6px); transform:scale(1.02); }
@@ -95,17 +129,61 @@
     #lbimg.ready { opacity:1; }
     /* Fade preview away after full-res appears */
     #lbprev.out { opacity:0; filter:blur(0); transform:scale(1); }
+    
+    /* Zoom states */
+    #lbimg.zoomed { cursor: grab; }
+    #lbimg.zoomed:active { cursor: grabbing; }
+
+    #lb-title {
+      margin-top:12px; color:#fff; background:rgba(0,0,0,.7); 
+      padding:6px 12px; font-size:14px; border-radius:4px; 
+      white-space:normal; text-align:center;
+      opacity:0; transition: opacity .75s ease; pointer-events:none;
+    }
+
+    /* Touch hint tooltip */
+    .touch-hint {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.95);
+      color: #111;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 10000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .touch-hint.show { opacity: 1; }
 
     /* guaranteed spacer class */
     .below-gallery-spacer { height:48px; }
 
-    footer { text-align:center; margin:60px 0 20px !important; opacity:.8; font-size:13px; }
-    footer button { background:none; border:1px solid var(--muted); color:var(--fg); font-size:.9em; padding:.4em .6em; border-radius:5px; cursor:pointer; }
+    footer { 
+      text-align:center; margin:60px 0 20px !important; 
+      opacity:.8; font-size:13px; 
+    }
+    footer button { 
+      background:none; border:1px solid var(--muted); color:var(--fg); 
+      font-size:.9em; padding:.4em .6em; border-radius:5px; cursor:pointer; 
+    }
 
     .notice { display:flex; gap:8px; align-items:center; font-size:12px; opacity:.65; }
-    .tag { display:inline-block; border:1px solid var(--muted); color:var(--fg); padding:.1em .45em; border-radius:999px; font-size:11px; letter-spacing:.2px; }
+    .tag { 
+      display:inline-block; border:1px solid var(--muted); color:var(--fg); 
+      padding:.1em .45em; border-radius:999px; font-size:11px; letter-spacing:.2px; 
+    }
 
-    @media (prefers-reduced-motion: reduce) { .gallery img, .lb, .lb img { transition:none !important; animation:none !important; } }
+    @media (prefers-reduced-motion: reduce) { 
+      .gallery img, .lb, .lb img { 
+        transition:none !important; 
+        animation:none !important; 
+      } 
+    }
   </style>
 </head>
 <body>
@@ -120,51 +198,44 @@
     </div>
   </header>
 
-  <div class="gallery" id="gallery">
+  <div class="gallery" id="gallery" role="list" aria-label="Art Circle Farm Gallery">
     <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
-    <img src="/images/Farm_00001.jpeg" alt="Glass Dome Water Collector by Jameson McShane" width="1200" height="1500" decoding="async">
-    <img src="/images/Farm_00002.jpeg" alt="Spiral Staircase to Greenhouse by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <!-- <img src="/images/Farm_00003.jpeg" alt="Wood Storage Duplicate by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
-    <img src="/images/Farm_00004.jpeg" alt="Wood Storage by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00005.jpeg" alt="Art Circle Yurt by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00006.jpeg" alt="Circular Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00007.jpeg" alt="Vertical Urinal by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <!-- <img src="/images/Farm_00008.jpeg" alt="Duplicate Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
-    <img src="/images/Farm_00009.jpeg" alt="Tech Specs by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00010.jpeg" alt="Dining Room Table with Art Circles by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00011.jpeg" alt="Library (optional) by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00012.jpeg" alt="House at Dusk by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00013.jpeg" alt="Third Floor Silo Bedroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00014.jpeg" alt="Living Area with Art Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00015.jpeg" alt="Blueprint Title Page by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00016.jpeg" alt="Diagram 1 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00017.jpeg" alt="Diagram 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00018.jpeg" alt="Art Circle House by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00019.jpeg" alt="Cutout with Second Floor Inaccuracy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00020.jpeg" alt="House in Evening by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00021.jpeg" alt="Aerial View with Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00022.jpeg" alt="Nighttime Blueprint by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00023.jpeg" alt="Second Floor Silo Bathroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00024.jpeg" alt="Single Family Diagram without Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <!-- <img src="/images/Farm_00025.jpeg" alt="Materials Used by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
-    <img src="/images/Farm_00026.jpeg" alt="Art Circle Fire Ring by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-
-    <!-- New set 27–40 -->
-    <img src="/images/Farm_00027.jpeg" alt="Silo View by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <!-- <img src="/images/Farm_00028.jpeg" alt="Rural Farmhouse and Silo Sketch by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
-    <img src="/images/Farm_00029.jpeg" alt="Two Story Farmhouse with Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <!-- <img src="/images/Farm_00030.jpeg" alt="Urban Farmhouse at Twilight by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500"> -->
-    <img src="/images/Farm_00031.jpeg" alt="Circular Chicken Coop in Farm Landscape by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00032.jpeg" alt="Rural Farmstead with Crops and Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00033.jpeg" alt="Tilapia Farming and Composting Process by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00034.jpeg" alt="Minimalist Cylindrical Home Design by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00035.jpeg" alt="Sustainable Tower and Earthy Home Design by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00036.jpeg" alt="Architectural Layout: House and Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00037.jpeg" alt="Twilight Over a Rural Farmstead by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00038.jpeg" alt="Greenhouse Serenity with Avocado Plant by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00039.jpeg" alt="Mudroom with Illuminated Archway by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-    <img src="/images/Farm_00040.jpeg" alt="Sustainable Living: Solar and Geothermal Integration by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500">
-  </div> <!-- closes .gallery -->
+    <img src="/images/Farm_00001.jpeg" alt="Glass Dome Water Collector by Jameson McShane" width="1200" height="1500" decoding="async" role="listitem">
+    <img src="/images/Farm_00002.jpeg" alt="Spiral Staircase to Greenhouse by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00004.jpeg" alt="Wood Storage by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00005.jpeg" alt="Art Circle Yurt by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00006.jpeg" alt="Circular Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00007.jpeg" alt="Vertical Urinal by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00009.jpeg" alt="Tech Specs by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00010.jpeg" alt="Dining Room Table with Art Circles by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00011.jpeg" alt="Library (optional) by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00012.jpeg" alt="House at Dusk by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00013.jpeg" alt="Third Floor Silo Bedroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00014.jpeg" alt="Living Area with Art Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00015.jpeg" alt="Blueprint Title Page by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00016.jpeg" alt="Diagram 1 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00017.jpeg" alt="Diagram 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00018.jpeg" alt="Art Circle House by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00019.jpeg" alt="Cutout with Second Floor Inaccuracy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00020.jpeg" alt="House in Evening by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00021.jpeg" alt="Aerial View with Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00022.jpeg" alt="Nighttime Blueprint by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00023.jpeg" alt="Second Floor Silo Bathroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00024.jpeg" alt="Single Family Diagram without Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00026.jpeg" alt="Art Circle Fire Ring by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00027.jpeg" alt="Silo View by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00029.jpeg" alt="Two Story Farmhouse with Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00031.jpeg" alt="Circular Chicken Coop in Farm Landscape by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00032.jpeg" alt="Rural Farmstead with Crops and Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00033.jpeg" alt="Tilapia Farming and Composting Process by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00034.jpeg" alt="Minimalist Cylindrical Home Design by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00035.jpeg" alt="Sustainable Tower and Earthy Home Design by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00036.jpeg" alt="Architectural Layout: House and Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00037.jpeg" alt="Twilight Over a Rural Farmstead by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00038.jpeg" alt="Greenhouse Serenity with Avocado Plant by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00039.jpeg" alt="Mudroom with Illuminated Archway by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00040.jpeg" alt="Sustainable Living: Solar and Geothermal Integration by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+  </div>
 
   <!-- guaranteed gap before the footer -->
   <div class="below-gallery-spacer" aria-hidden="true"></div>
@@ -177,9 +248,17 @@
         <img id="lbprev" alt="" aria-hidden="true">
         <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
       </div>
-      <div id="lb-title" style="margin-top:12px; color:#fff; background:rgba(0,0,0,.7); padding:6px 12px; font-size:14px; border-radius:4px; white-space:normal; text-align:center;"></div>
+      <div id="lb-title" aria-live="polite"></div>
     </div>
   </div>
+
+  <!-- Touch hint tooltip -->
+  <div class="touch-hint" id="touchHint">
+    Tap to zoom • Swipe or use arrow keys to navigate
+  </div>
+
+  <!-- Accessibility announcer -->
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
     © 2025 Jameson McShane — Art Circle Farm (private) ·
@@ -188,10 +267,20 @@
   </footer>
 
 <script>
+  // Safe localStorage wrapper
+  const storage = {
+    get: (key) => {
+      try { return localStorage.getItem(key); } catch(e) { return null; }
+    },
+    set: (key, val) => {
+      try { localStorage.setItem(key, val); } catch(e) {}
+    }
+  };
+
   // Theme toggle (same behavior as main site)
   (function initTheme(){
     const btn = document.getElementById('toggleTheme');
-    const saved = localStorage.getItem('theme');
+    const saved = storage.get('theme');
     const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
     function apply(mode){
       if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
@@ -201,16 +290,23 @@
     btn.addEventListener('click', ()=>{
       const isLight = document.body.classList.toggle('light-mode');
       btn.setAttribute('aria-pressed', String(isLight));
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      storage.set('theme', isLight ? 'light' : 'dark');
+      sendGA('theme_toggle', { mode: isLight ? 'light' : 'dark', page: 'farm' });
     });
   })();
 
   document.addEventListener('DOMContentLoaded', () => {
     const gallery = document.getElementById('gallery');
+    const touchHint = document.getElementById('touchHint');
+    const announcer = document.getElementById('a11yAnnouncer');
+    
+    let totalImages = 0;
+    let hasShownTouchHint = storage.get('touchHintShown') === 'true';
 
     // Fisher–Yates shuffle but keep Farm_00018.jpeg first
     function shuffleExceptFirst(container) {
       const all = Array.from(container.querySelectorAll('img'));
+      totalImages = all.length;
       if (all.length <= 1) return;
 
       // Find the intended first image (Farm_00018.jpeg)
@@ -228,6 +324,10 @@
       else container.replaceChildren(...rest);
     }
 
+    // Track shuffle event
+    const shuffleId = Date.now();
+    sendGA('gallery_shuffle', { shuffle_id: shuffleId, page: 'farm' });
+
     // Shuffle now
     shuffleExceptFirst(gallery);
 
@@ -235,12 +335,25 @@
     const firstImg = gallery.querySelector('img');
     if (firstImg) {
       firstImg.setAttribute('fetchpriority', 'high');
-      firstImg.removeAttribute('loading'); // eager load if browser respects it
-      firstImg.classList.add('lazy-loaded'); // immediate fade-in
+      firstImg.removeAttribute('loading');
+      firstImg.classList.add('lazy-loaded');
     }
 
     // Build a live ordered list after shuffle (for navigation)
     let ordered = Array.from(gallery.querySelectorAll('img'));
+
+    // Enhanced Intersection Observer
+    const imgObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          if (!img.dataset.viewed) {
+            img.dataset.viewed = 'true';
+            imgObserver.unobserve(img);
+          }
+        }
+      });
+    }, { rootMargin: '50px' });
 
     // Lightbox elements
     const lb = document.getElementById('lb');
@@ -251,15 +364,119 @@
     const frame = document.querySelector('.lb-frame');
 
     // Progressive fade-in on load for the rest
-    ordered.forEach(img => {
+    ordered.forEach((img, idx) => {
       if (img !== firstImg) {
         if (img.complete) img.classList.add('lazy-loaded');
         else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
       }
       img.tabIndex = 0;
       img.setAttribute('role','button');
-      img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open');
+      img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open in viewer');
+      imgObserver.observe(img);
     });
+
+    // Zoom/pan state
+    let scale = 1, tx = 0, ty = 0;
+    let dragging = false, startDragX = 0, startDragY = 0, activePointerId = null;
+    let lastZoomLevel = 1;
+
+    function applyTransform() {
+      lbimgEl.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+    }
+
+    function resetZoom() {
+      scale = 1; tx = 0; ty = 0;
+      lbimgEl.classList.remove('zoomed');
+      applyTransform();
+      lastZoomLevel = 1;
+    }
+
+    function clampPan() {
+      const rect = lbimgEl.getBoundingClientRect();
+      const maxX = ((rect.width * scale) - rect.width) / 2;
+      const maxY = ((rect.height * scale) - rect.height) / 2;
+      tx = maxX > 0 ? Math.max(-maxX, Math.min(maxX, tx)) : 0;
+      ty = maxY > 0 ? Math.max(-maxY, Math.min(maxY, ty)) : 0;
+    }
+
+    function zoomAt(clientX, clientY, newScale) {
+      const rect = lbimgEl.getBoundingClientRect();
+      const cx = clientX - (rect.left + rect.width / 2);
+      const cy = clientY - (rect.top + rect.height / 2);
+      const k = newScale / scale;
+      tx = tx - cx * (k - 1);
+      ty = ty - cy * (k - 1);
+      scale = newScale;
+      clampPan();
+      applyTransform();
+
+      if (scale > 1) {
+        lbimgEl.classList.add('zoomed');
+        lbimgEl.setAttribute('aria-label', `Zoomed to ${Math.round(scale*100)}%`);
+      } else {
+        lbimgEl.classList.remove('zoomed');
+        lbimgEl.setAttribute('aria-label', 'Click to zoom');
+      }
+
+      // Track zoom interactions
+      if (Math.abs(scale - lastZoomLevel) > 0.3) {
+        sendGA('image_zoom', { 
+          zoom_level: Math.round(scale*100),
+          artwork_src: currentSrc,
+          page: 'farm'
+        });
+        lastZoomLevel = scale;
+      }
+    }
+
+    // Click to toggle zoom
+    lbimgEl.addEventListener('click', (e) => {
+      if (scale === 1) {
+        zoomAt(e.clientX, e.clientY, 2.5);
+      } else {
+        resetZoom();
+      }
+    });
+
+    // Wheel to zoom
+    lbimgEl.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const step = e.deltaY < 0 ? 1.1 : 0.9;
+      const next = Math.max(1, Math.min(5, scale * step));
+      if (next !== scale) zoomAt(e.clientX, e.clientY, next);
+    }, { passive: false });
+
+    // Drag to pan when zoomed
+    lbimgEl.addEventListener('pointerdown', (e) => {
+      if (scale <= 1) return;
+      dragging = true;
+      activePointerId = e.pointerId;
+      lbimgEl.setPointerCapture(activePointerId);
+      startDragX = e.clientX;
+      startDragY = e.clientY;
+    });
+
+    lbimgEl.addEventListener('pointermove', (e) => {
+      if (!dragging || e.pointerId !== activePointerId) return;
+      const dx = e.clientX - startDragX;
+      const dy = e.clientY - startDragY;
+      startDragX = e.clientX;
+      startDragY = e.clientY;
+      tx += dx;
+      ty += dy;
+      clampPan();
+      applyTransform();
+    });
+
+    function endPan(e) {
+      if (e.pointerId !== activePointerId) return;
+      dragging = false;
+      activePointerId = null;
+    }
+
+    lbimgEl.addEventListener('pointerup', endPan);
+    lbimgEl.addEventListener('pointercancel', endPan);
+    lbimgEl.addEventListener('lostpointercapture', () => { dragging = false; activePointerId = null; });
 
     let currentIndex = 0;
     let openedAt = 0;
@@ -268,19 +485,18 @@
     let currentSrc = '';
 
     // --- Simple caches for faster next/prev loads ---
-    const urlCache = new Map(); // key: grid img src -> resolved full URL
-    const imgCache = new Map(); // key: full URL -> Image object (preloaded)
+    const urlCache = new Map();
+    const imgCache = new Map();
 
     // --- Build candidate URLs for full-res ---
-    // Prefers /images/full/<name>.png, then .jpeg/.jpg, then same folder .png, then fallback to grid src.
     function deriveFullCandidates(img) {
       const list = [];
-      if (img.dataset.full) list.push(img.dataset.full); // explicit override
+      if (img.dataset.full) list.push(img.dataset.full);
 
       const url = new URL(img.src, location.href);
-      const dir = url.pathname.slice(0, url.pathname.lastIndexOf('/') + 1); // e.g. /images/
-      const file = url.pathname.slice(url.pathname.lastIndexOf('/') + 1);   // e.g. Farm_00018.jpeg
-      const base = file.replace(/\.(jpe?g|png|webp|avif)$/i, '');           // Farm_00018
+      const dir = url.pathname.slice(0, url.pathname.lastIndexOf('/') + 1);
+      const file = url.pathname.slice(url.pathname.lastIndexOf('/') + 1);
+      const base = file.replace(/\.(jpe?g|png|webp|avif)$/i, '');
 
       list.push(`${dir}full/${base}.png`);
       list.push(`${dir}full/${base}.jpeg`);
@@ -304,7 +520,6 @@
             if (cacheKey) urlCache.set(cacheKey, null);
             return resolve(null);
           }
-          // If already preloaded, accept immediately
           if (imgCache.has(candidate)) {
             if (cacheKey) urlCache.set(cacheKey, candidate);
             return resolve(candidate);
@@ -348,16 +563,22 @@
     }
 
     function openLightboxByIndex(index){
-      ordered = Array.from(gallery.querySelectorAll('img')); // ensure current order
+      ordered = Array.from(gallery.querySelectorAll('img'));
       currentIndex = normalizeIndex(index);
       const img = ordered[currentIndex];
 
       currentTitle = img.alt || 'untitled';
-      lbTitle.textContent = currentTitle;
+      
+      // Update title with image counter
+      const counter = `${currentIndex + 1} of ${totalImages}`;
+      lbTitle.textContent = `${currentTitle} (${counter})`;
+      lbTitle.style.opacity = '1';
+      setTimeout(() => { lbTitle.style.opacity = '0'; }, 7000);
 
       // Reset classes
       lbprev.classList.remove('out');
       lbimgEl.classList.remove('ready');
+      resetZoom();
 
       // Show lightbox immediately (fast UI)
       lb.classList.add('open');
@@ -368,6 +589,10 @@
 
       lbprev.alt = currentTitle;
       lbimgEl.alt = currentTitle;
+      lbimgEl.setAttribute('aria-label', 'Click to zoom');
+
+      // Announce to screen readers
+      announcer.textContent = `Viewing ${currentTitle}, image ${currentIndex + 1} of ${totalImages}. Use arrow keys to navigate.`;
 
       // Start with the grid version as blurred preview
       lbprev.src = img.src;
@@ -383,12 +608,24 @@
         lbimgEl.removeAttribute('sizes');
 
         const onFullLoad = () => {
-          lbimgEl.classList.add('ready'); // full-res visible
-          lbprev.classList.add('out');    // preview fades away
+          lbimgEl.classList.add('ready');
+          lbprev.classList.add('out');
 
           // GA after full-res chosen
-          sendGA('art_view', { artwork_title: currentTitle, artwork_src: currentSrc });
-          sendGA('view_item', { items: [{ item_name: currentTitle, item_id: currentSrc }] });
+          sendGA('art_view', { 
+            artwork_title: currentTitle, 
+            artwork_src: currentSrc,
+            position: currentIndex + 1,
+            shuffle_id: shuffleId,
+            page: 'farm'
+          });
+          sendGA('view_item', { 
+            items: [{ 
+              item_name: currentTitle, 
+              item_id: currentSrc,
+              index: currentIndex
+            }] 
+          });
 
           lbimgEl.removeEventListener('load', onFullLoad);
 
@@ -396,12 +633,23 @@
           preloadNeighbors(currentIndex);
         };
 
-        // If already in cache and decoded, we still want the transition
         lbimgEl.addEventListener('load', onFullLoad);
         lbimgEl.src = finalUrl;
       });
 
       openedAt = Date.now();
+      
+      // Show touch hint on first lightbox open (mobile only)
+      if (!hasShownTouchHint && 'ontouchstart' in window) {
+        setTimeout(() => {
+          touchHint.classList.add('show');
+          setTimeout(() => {
+            touchHint.classList.remove('show');
+            hasShownTouchHint = true;
+            storage.set('touchHintShown', 'true');
+          }, 4000);
+        }, 500);
+      }
     }
 
     function openLightboxByEl(el){
@@ -419,7 +667,13 @@
 
       // GA4: close event with dwell time
       if (openedAt) {
-        sendGA('art_close', { artwork_title: currentTitle || 'unknown', artwork_src: currentSrc || 'unknown', dwell_time_seconds: dwell });
+        sendGA('art_close', { 
+          artwork_title: currentTitle || 'unknown', 
+          artwork_src: currentSrc || 'unknown', 
+          dwell_time_seconds: dwell,
+          max_zoom: Math.round(lastZoomLevel * 100),
+          page: 'farm'
+        });
       }
 
       // Reset layers for next open
@@ -428,10 +682,21 @@
       lbimgEl.classList.remove('ready');
 
       openedAt = 0; currentTitle = ''; currentSrc = '';
+      announcer.textContent = '';
+    }
+
+    function navigateTo(idx) {
+      openLightboxByIndex(idx);
+      // Announce navigation to screen readers
+      setTimeout(() => {
+        const img = ordered[normalizeIndex(idx)];
+        announcer.textContent = `Now viewing ${img.alt || 'untitled'}, image ${normalizeIndex(idx) + 1} of ${totalImages}`;
+      }, 100);
     }
 
     function showNext(delta){
-      openLightboxByIndex(currentIndex + delta);
+      const newIdx = currentIndex + delta;
+      navigateTo(newIdx);
     }
 
     // Click / keyboard hooks
@@ -450,26 +715,40 @@
     document.addEventListener('keydown', (e) => {
       if (!lb.classList.contains('open')) return;
       if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') showNext(+1);
-      if (e.key === 'ArrowLeft') showNext(-1);
+      if (e.key === 'ArrowRight') {
+        showNext(+1);
+        sendGA('keyboard_navigation', { direction: 'next', position: normalizeIndex(currentIndex) + 1, page: 'farm' });
+      }
+      if (e.key === 'ArrowLeft') {
+        showNext(-1);
+        sendGA('keyboard_navigation', { direction: 'prev', position: normalizeIndex(currentIndex) + 1, page: 'farm' });
+      }
     });
 
     // --- Swipe gestures on the lightbox frame ---
     let startX = 0, startY = 0, startT = 0;
-    const SWIPE_DIST = 40;   // px
+    const SWIPE_DIST = 40;
+    
     frame.addEventListener('touchstart', (e) => {
+      // Don't interfere with zoom/pan
+      if (scale > 1) return;
       const t = e.changedTouches[0];
       startX = t.clientX; startY = t.clientY; startT = performance.now();
     }, { passive: true });
 
     frame.addEventListener('touchend', (e) => {
-      if (!lb.classList.contains('open')) return;
+      if (!lb.classList.contains('open') || scale > 1) return;
       const t = e.changedTouches[0];
       const dx = t.clientX - startX;
       const dy = Math.abs(t.clientY - startY);
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > SWIPE_DIST) {
-        // Left swipe -> next, Right swipe -> prev
+        const direction = dx < 0 ? 'left' : 'right';
         showNext(dx < 0 ? +1 : -1);
+        sendGA('swipe_navigation', { 
+          direction: direction, 
+          position: normalizeIndex(currentIndex) + 1,
+          page: 'farm'
+        });
       }
     }, { passive: true });
   });
