@@ -58,7 +58,8 @@
         "isPartOf": { "@id": "https://jmsn.art/#website" },
         "about": { "@id": "https://jmsn.art/#person" },
         "inLanguage": "en-US",
-        "mainEntity": { "@id": "https://jmsn.art/#person" }
+        "mainEntity": { "@id": "https://jmsn.art/#person" },
+        "dateModified": "2025-01-19"
       },
       {
         "@type": "BreadcrumbList",
@@ -73,34 +74,160 @@
 
   <!-- Preconnect for GA -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-FQPZNDPCCF');
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date()); 
+    gtag('config', 'G-FQPZNDPCCF');
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
   </script>
 
   <style>
-    :root { --bg:#111; --fg:#fff; --muted:#ddd; --link:#bbb; --max:860px; color-scheme: dark light; }
-    .light-mode { --bg:#fefefe; --fg:#111; --muted:#333; --link:#333; color-scheme: dark light; }
+    :root { 
+      --bg:#111; 
+      --fg:#fff; 
+      --muted:#ddd; 
+      --link:#bbb; 
+      --divider:#333;
+      --max:860px; 
+      color-scheme: dark light; 
+    }
+    .light-mode { 
+      --bg:#fefefe; 
+      --fg:#111; 
+      --muted:#333; 
+      --link:#333; 
+      --divider:#ddd;
+      color-scheme: dark light; 
+    }
+    
     * { box-sizing: border-box; }
-    body { margin:0; padding:40px 20px; background:var(--bg); color:var(--muted);
-           font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-           transition: background 1.2s ease, color 1.2s ease; }
+    
+    body { 
+      margin:0; 
+      padding:40px 20px; 
+      background:var(--bg); 
+      color:var(--muted);
+      font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      transition: background 1.2s ease, color 1.2s ease; 
+    }
+    
+    /* Skip to content link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--bg);
+      color: var(--fg);
+      padding: 8px;
+      text-decoration: none;
+      border: 2px solid var(--fg);
+      z-index: 100;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    
     .wrap { max-width: var(--max); margin: 0 auto; }
-    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:24px; }
-    .brand a { color:var(--fg); text-decoration:none; font-weight:600; letter-spacing:.2px; }
-    #toggleTheme { background:none; border:1px solid #444; color:var(--fg); padding:.35em .55em; border-radius:6px; cursor:pointer; }
+    
+    header { 
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      gap:12px; 
+      margin-bottom:32px; 
+    }
+    
+    .brand a { 
+      color:var(--fg); 
+      text-decoration:none; 
+      font-weight:600; 
+      letter-spacing:.2px;
+      transition: opacity 0.3s ease;
+    }
+    .brand a:hover {
+      opacity: 0.7;
+    }
+    
+    #toggleTheme { 
+      background:none; 
+      border:1px solid var(--divider); 
+      color:var(--fg); 
+      padding:.35em .55em; 
+      border-radius:6px; 
+      cursor:pointer;
+      transition: background 0.3s ease, border-color 1.2s ease;
+    }
+    #toggleTheme:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    #toggleTheme:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 2px;
+    }
 
-    h1, h2 { color: var(--fg); margin: 0 0 14px; line-height: 1.25; }
-    h1 { text-align:center; margin-bottom: 24px; }
-    p { margin: 0 0 18px; }
-    em, i { color: inherit; font-style: italic; }
-    a { color: var(--link); text-decoration: underline; }
-    .divider { height:1px; background:#222; margin:28px 0; }
-    footer { text-align:center; margin-top:36px; font-size:14px; opacity:.9; }
-    .small { font-size:.95rem; }
+    h1, h2 { 
+      color: var(--fg); 
+      margin: 0 0 16px; 
+      line-height: 1.3; 
+    }
+    h1 { 
+      text-align:center; 
+      margin-bottom: 32px;
+      font-size: 2.2rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 32px;
+    }
+    
+    p { 
+      margin: 0 0 20px; 
+    }
+    
+    em, i { 
+      color: inherit; 
+      font-style: italic; 
+    }
+    
+    a { 
+      color: var(--link); 
+      text-decoration: underline;
+      transition: opacity 0.3s ease;
+    }
+    a:hover {
+      opacity: 0.7;
+    }
+    a:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    
+    .divider { 
+      height:1px; 
+      background: var(--divider); 
+      margin:36px 0;
+      transition: background-color 1.2s ease;
+    }
+    
+    footer { 
+      text-align:center; 
+      margin-top:48px; 
+      font-size:14px; 
+      opacity:.9; 
+    }
+    footer p {
+      margin: 8px 0;
+    }
+    
+    .small { 
+      font-size:.9rem; 
+    }
 
     /* π easter egg link */
     .pi-link {
@@ -109,126 +236,272 @@
       opacity:.65;
       transition:opacity .6s ease;
     }
-    .pi-link:hover { opacity:1; }
+    .pi-link:hover { 
+      opacity:1; 
+    }
+    
+    /* Secret catalog link */
+    .secret-link {
+      text-decoration:none; 
+      font-size:1.5rem; 
+      opacity:.5;
+      transition: opacity .6s ease, transform .3s ease;
+      display: inline-block;
+    }
+    .secret-link:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
 
-    @media (prefers-reduced-motion: reduce) {
-      * { transition:none !important; animation:none !important; }
+    /* Last updated timestamp */
+    .last-updated {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      opacity: 0.6;
+      margin-top: 24px;
     }
-    :where(body, body *) {
-      transition-property: color, background-color, border-color, box-shadow, fill, stroke;
-      transition-duration: 1.5s;
-      transition-timing-function: ease;
-    }
-    img, video, canvas { transition: none !important; }
-    .divider { background-color: #222; }
 
     /* Visually hidden but screen-reader readable */
     .sr-only {
       position: absolute !important;
       width: 1px; height: 1px;
       padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0, 0, 1px, 1px);
+      overflow: hidden; clip: rect(0, 0, 0, 0);
       white-space: nowrap; border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition:none !important; animation:none !important; }
+    }
+    
+    :where(body, body *) {
+      transition-property: color, background-color, border-color, box-shadow, fill, stroke, opacity;
+      transition-duration: 1.2s;
+      transition-timing-function: ease;
+    }
+    
+    img, video, canvas { transition: none !important; }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 24px 16px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
     }
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <div class="wrap">
     <header>
       <div class="brand"><a href="/">← jmsn.art</a></div>
       <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
     </header>
 
-    <h1>About</h1>
+    <main id="main-content">
+      <h1>About</h1>
 
-    <!-- Intro / Manifesto -->
-    <p>
-      Art has always absorbed new tools — from brushes to cameras to code. At <strong>jmsn.art</strong>,
-      <strong>Jameson McShane</strong> works in dialogue with <strong>chatJMSN</strong>, an artificial intelligence,
-      to explore how creativity expands when human imagination meets algorithmic chance. Each piece is not only an image,
-      but a record of collaboration between artist and machine.
-    </p>
+      <!-- Intro / Manifesto -->
+      <p>
+        Art has always absorbed new tools — from brushes to cameras to code. At <strong>jmsn.art</strong>,
+        <strong>Jameson McShane</strong> works in dialogue with <strong>chatJMSN</strong>, an artificial intelligence,
+        to explore how creativity expands when human imagination meets algorithmic chance. Each piece is not only an image,
+        but a record of collaboration between artist and machine.
+      </p>
 
-    <h2>The Art Circle</h2>
-    <p>
-      At the heart of this work is the <em>art circle</em> — a recurring symbol that appears as halo, broken ring, or
-      glowing form. These circles are not perfection but presence: reminders of continuity, fracture, and the spaces
-      left open for interpretation.
-    </p>
-    <p>
-      By reimagining the circle in different contexts, the work explores sanctity, absence, and the tension between
-      wholeness and incompleteness. The art circle is both motif and philosophy — a way of seeing the world as incomplete
-      but radiant.
-    </p>
+      <h2>The Art Circle</h2>
+      <p>
+        At the heart of this work is the <em>art circle</em> — a recurring symbol that appears as halo, broken ring, or
+        glowing form. These circles are not perfection but presence: reminders of continuity, fracture, and the spaces
+        left open for interpretation.
+      </p>
+      <p>
+        By reimagining the circle in different contexts, the work explores sanctity, absence, and the tension between
+        wholeness and incompleteness. The art circle is both motif and philosophy — a way of seeing the world as incomplete
+        but radiant.
+      </p>
 
-    <div class="divider"></div>
+      <div class="divider"></div>
 
-    <!-- Curatorial Statement -->
-    <h2>The Art Circle Project</h2>
-    <p>
-      Halos, broken circles, and sanctified figures recur across this work as both <em>symbol</em> and <em>structure</em>.
-      In this ongoing series, the circle becomes a vessel: of divinity, of rupture, of play.
-    </p>
-    <p>
-      Rendered with a stark minimalism and surreal wit, these images position the <em>sacred within the ordinary</em> —
-      a dog at rest, a leaking bucket, a suburban field, even the machinery of war. Each composition invites viewers to
-      consider how icons are made, dismantled, and reimagined in a contemporary world marked by technology, humor, and unease.
-    </p>
-    <p>
-      The project moves fluidly between the <em>monumental</em> and the <em>intimate</em>, between images that could hang as
-      ancient altarpieces and those that wink with pop absurdity. What binds them is the circle: a timeless, universal form,
-      fractured and reassembled here as both question and answer.
-    </p>
+      <!-- Curatorial Statement -->
+      <h2>The Art Circle Project</h2>
+      <p>
+        Halos, broken circles, and sanctified figures recur across this work as both <em>symbol</em> and <em>structure</em>.
+        In this ongoing series, the circle becomes a vessel: of divinity, of rupture, of play.
+      </p>
+      <p>
+        Rendered with a stark minimalism and surreal wit, these images position the <em>sacred within the ordinary</em> —
+        a dog at rest, a leaking bucket, a suburban field, even the machinery of war. Each composition invites viewers to
+        consider how icons are made, dismantled, and reimagined in a contemporary world marked by technology, humor, and unease.
+      </p>
+      <p>
+        The project moves fluidly between the <em>monumental</em> and the <em>intimate</em>, between images that could hang as
+        ancient altarpieces and those that wink with pop absurdity. What binds them is the circle: a timeless, universal form,
+        fractured and reassembled here as both question and answer.
+      </p>
 
-    <div class="divider"></div>
+      <div class="divider"></div>
 
-    <!-- Secret catalog link -->
-    <p style="text-align:center; margin:24px 0 6px;">
-      <a href="/farm.html"
-         title="Private catalog"
-         rel="nofollow noopener"
-         style="text-decoration:none; font-size:1.2rem; opacity:.6;">
-        🕳️
-        <span class="sr-only">Private catalog</span>
-      </a>
-    </p>
+      <!-- Secret catalog link -->
+      <p style="text-align:center; margin:32px 0 8px;">
+        <a href="/farm.html"
+           class="secret-link"
+           title="Private catalog"
+           rel="nofollow noopener"
+           id="farmLink">
+          🕳️
+          <span class="sr-only">Private catalog</span>
+        </a>
+      </p>
+
+      <div class="last-updated">
+        Last updated: January 2025
+      </div>
+    </main>
 
     <!-- Footer -->
     <footer>
       <p>
-        <a href="/">← Back to Gallery</a> · 
-        <a href="/contact.html">Contact</a> · 
-        <a href="/license.html">Licensing</a> · 
-        <a href="/pi.html" class="pi-link" title="π (Negative) — Easter Egg" rel="nofollow noopener">π</a>
+        <a href="/" id="homeLink">← Back to Gallery</a> · 
+        <a href="/contact.html" id="contactLink">Contact</a> · 
+        <a href="/license.html" id="licenseLink">Licensing</a> · 
+        <a href="/pi.html" class="pi-link" title="π (Negative) — Easter Egg" rel="nofollow noopener" id="piLink">π</a>
       </p>
       <p class="small">
-        Contact: <a href="mailto:contact@jmsn.art">contact@jmsn.art</a> · 
-        ENS: <a href="https://app.ens.domains/jmsn.eth" rel="me">jmsn.eth</a>
+        Contact: <a href="mailto:contact@jmsn.art" id="emailLink">contact@jmsn.art</a> · 
+        ENS: <a href="https://app.ens.domains/jmsn.eth" rel="me" id="ensLink">jmsn.eth</a>
       </p>
       <p class="small">© <span id="y"></span> Jameson McShane</p>
     </footer>
   </div>
 
+  <!-- Accessibility announcer -->
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
+
   <script>
     // Year stamp
     document.getElementById('y').textContent = new Date().getFullYear();
 
+    // Safe localStorage wrapper
+    const storage = {
+      get: (key) => {
+        try { return localStorage.getItem(key); } catch(e) { return null; }
+      },
+      set: (key, val) => {
+        try { localStorage.setItem(key, val); } catch(e) {}
+      }
+    };
+
+    const announcer = document.getElementById('a11yAnnouncer');
+
+    // Track page metrics
+    const pageLoadTime = Date.now();
+    let maxScrollDepth = 0;
+
     // Theme toggle (match index.html behavior)
     (function initTheme(){
       const btn = document.getElementById('toggleTheme');
-      const saved = localStorage.getItem('theme');
+      const saved = storage.get('theme');
       const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      
       function apply(mode){
-        if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
-        else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+        if (mode === 'light') { 
+          document.body.classList.add('light-mode'); 
+          btn.setAttribute('aria-pressed','true'); 
+        } else { 
+          document.body.classList.remove('light-mode'); 
+          btn.setAttribute('aria-pressed','false'); 
+        }
       }
+      
       apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+      
       btn.addEventListener('click', ()=>{
         const isLight = document.body.classList.toggle('light-mode');
+        const mode = isLight ? 'light' : 'dark';
         btn.setAttribute('aria-pressed', String(isLight));
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        storage.set('theme', mode);
+        announcer.textContent = `Theme switched to ${mode} mode`;
+        sendGA('theme_toggle', { mode: mode, page: 'about' });
       });
     })();
+
+    // Track scroll depth
+    function updateScrollDepth() {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const scrollPercent = Math.round((scrollTop + windowHeight) / documentHeight * 100);
+      
+      if (scrollPercent > maxScrollDepth) {
+        maxScrollDepth = scrollPercent;
+      }
+    }
+
+    window.addEventListener('scroll', updateScrollDepth, { passive: true });
+
+    // Track outbound/internal link clicks
+    document.getElementById('homeLink').addEventListener('click', () => {
+      sendGA('navigation_click', { link: 'home', from_page: 'about' });
+    });
+
+    document.getElementById('contactLink').addEventListener('click', () => {
+      sendGA('navigation_click', { link: 'contact', from_page: 'about' });
+    });
+
+    document.getElementById('licenseLink').addEventListener('click', () => {
+      sendGA('navigation_click', { link: 'license', from_page: 'about' });
+    });
+
+    document.getElementById('piLink').addEventListener('click', () => {
+      sendGA('easter_egg_click', { egg: 'pi', from_page: 'about' });
+    });
+
+    document.getElementById('farmLink').addEventListener('click', () => {
+      sendGA('easter_egg_click', { egg: 'farm', from_page: 'about' });
+    });
+
+    document.getElementById('emailLink').addEventListener('click', () => {
+      sendGA('contact_click', { method: 'email', from_page: 'about' });
+    });
+
+    document.getElementById('ensLink').addEventListener('click', () => {
+      sendGA('external_link_click', { link: 'ens', from_page: 'about' });
+    });
+
+    // Track referrer source
+    if (document.referrer) {
+      const referrerUrl = new URL(document.referrer);
+      if (referrerUrl.hostname === window.location.hostname) {
+        sendGA('internal_navigation', {
+          from_page: referrerUrl.pathname,
+          to_page: 'about'
+        });
+      }
+    }
+
+    // Track dwell time and engagement on page unload
+    window.addEventListener('beforeunload', () => {
+      const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
+      sendGA('page_engagement', {
+        page: 'about',
+        dwell_seconds: dwellTime,
+        max_scroll_depth: maxScrollDepth
+      });
+    });
+
+    // Track page view
+    sendGA('page_view', { 
+      page: 'about',
+      page_title: document.title 
+    });
   </script>
 </body>
 </html>
