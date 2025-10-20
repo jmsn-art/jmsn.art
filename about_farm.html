@@ -27,11 +27,13 @@
     :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
     .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
 
-    html, body { min-height:100%; margin:0; }
+    html, body { height:100%; margin:0; }
     body {
       display:flex;
-      align-items:center;
-      justify-content:center;
+      align-items:center;           /* vertical centering */
+      justify-content:center;       /* horizontal centering */
+      min-height:100vh;             /* ensure full viewport height */
+      min-height:100svh;            /* mobile-safe viewport units */
       background:var(--bg);
       color:var(--fg);
       font-family: Arial, Helvetica, sans-serif;
