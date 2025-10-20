@@ -68,21 +68,56 @@
 
   <!-- GA -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-FQPZNDPCCF');
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date()); 
+    gtag('config', 'G-FQPZNDPCCF');
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
   </script>
 
   <style>
     :root{--bg:#111;--fg:#fff;--muted:#ccc;--accent:#fff;--err:#ff6b6b;--ok:#4caf50;color-scheme: dark light}
     .light-mode{--bg:#fefefe;--fg:#111;--muted:#444;--accent:#444;color-scheme: dark light}
+    
+    /* Screen reader only */
+    .sr-only {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; 
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap; 
+      border: 0;
+    }
+    
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--bg);
+      color: var(--fg);
+      padding: 8px;
+      text-decoration: none;
+      border: 2px solid var(--fg);
+      z-index: 100;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;display:flex;min-height:100vh;transition:background 1.2s ease,color 1.2s ease}
     .wrap{max-width:720px;margin:auto;padding:32px 20px;width:100%}
     header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-    .brand a{color:var(--fg);text-decoration:none}
-    #toggleTheme{background:none;border:1px solid #444;color:var(--fg);padding:.35em .55em;border-radius:6px;cursor:pointer}
+    .brand a{color:var(--fg);text-decoration:none;transition: opacity 0.3s ease;}
+    .brand a:hover{opacity: 0.7;}
+    #toggleTheme{background:none;border:1px solid #444;color:var(--fg);padding:.35em .55em;border-radius:6px;cursor:pointer;transition: background 0.3s ease, border-color 1.2s ease;}
+    #toggleTheme:hover{background: rgba(255,255,255,0.05);}
+    #toggleTheme:focus-visible{outline: 2px solid var(--fg); outline-offset: 2px;}
     h1{margin:0 0 6px;font-size:28px;letter-spacing:.3px}
     p.sub{margin:0 0 16px;color:var(--muted)}
     form{display:grid;gap:14px}
@@ -95,134 +130,216 @@
     @media (max-width: 560px){.row{grid-template-columns:1fr}}
     .err-msg{display:none;font-size:12px;color:var(--err);margin-top:6px;opacity:0;transition:opacity .3s ease}
     .err-msg.show{display:block;opacity:1}
+    
+    .char-counter {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
     button{padding:12px 16px;border:0;border-radius:12px;background:var(--accent);color:#000;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:background .3s ease, transform .2s ease}
     button:hover{transform:translateY(-1px)}
-    button:disabled{opacity:.6;cursor:not-allowed}
+    button:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+    button.secondary{background:transparent;border:1px solid var(--muted);color:var(--fg);box-shadow:none;}
+    button.secondary:hover{background:rgba(255,255,255,0.05);}
+    
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      font-size: 14px;
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--fg);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.05);
+      transform: none;
+    }
+    .copy-btn.copied {
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+    
     .note{font-size:12px;color:var(--muted)}
-    .ok{display:none;margin-top:10px;font-size:14px}
+    .ok{display:none;margin-top:10px;font-size:14px;padding:12px;background:rgba(76,175,80,0.1);border:1px solid var(--ok);border-radius:8px;}
     footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
-    a{color:var(--fg)}
+    a{color:var(--fg);transition: opacity 0.3s ease;}
+    a:hover{opacity: 0.7;}
+    a:focus-visible{outline: 2px solid var(--fg); outline-offset: 2px; border-radius: 2px;}
+    
     @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
-    /* --- Fix form readability in light mode --- */
-.light-mode input,
-.light-mode textarea {
-  background: #fff;
-  color: #111;
-  border-color: #ddd;
-}
+    
+    /* Light mode fixes */
+    .light-mode input,
+    .light-mode textarea {
+      background: #fff;
+      color: #111;
+      border-color: #ddd;
+    }
 
-input, textarea { caret-color: currentColor; }
+    input, textarea { caret-color: currentColor; }
 
-.light-mode input::placeholder,
-.light-mode textarea::placeholder { color: #777; }
+    .light-mode input::placeholder,
+    .light-mode textarea::placeholder { color: #777; }
 
-.light-mode input.err,
-.light-mode textarea.err {
-  border-color: var(--err);
-  box-shadow: 0 0 6px rgba(255,107,107,.35);
-}
+    .light-mode input.err,
+    .light-mode textarea.err {
+      border-color: var(--err);
+      box-shadow: 0 0 6px rgba(255,107,107,.35);
+    }
 
-.light-mode input.ok-field,
-.light-mode textarea.ok-field {
-  border-color: var(--ok);
-  box-shadow: 0 0 6px rgba(76,175,80,.3);
-}
-/* --- End patch --- */
-    /* Smooth unified transitions on Contact page */
-:where(body, body *, input, textarea, button) {
-  transition-property: color, background-color, border-color, box-shadow, fill, stroke;
-  transition-duration: 1.5s;
-  transition-timing-function: ease;
-}
+    .light-mode input.ok-field,
+    .light-mode textarea.ok-field {
+      border-color: var(--ok);
+      box-shadow: 0 0 6px rgba(76,175,80,.3);
+    }
+    
+    /* Smooth unified transitions */
+    :where(body, body *, input, textarea, button) {
+      transition-property: color, background-color, border-color, box-shadow, fill, stroke, opacity;
+      transition-duration: 1.2s;
+      transition-timing-function: ease;
+    }
 
-/* Prevent heavy repaint flickers */
-img, video, canvas { transition: none !important; }
+    img, video, canvas { transition: none !important; }
 
-/* Inputs & textarea: smooth background and text color */
-input, textarea {
-  transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, box-shadow 1.5s ease;
-  caret-color: currentColor;
-}
+    input, textarea {
+      transition: background-color 1.2s ease, color 1.2s ease, border-color 1.2s ease, box-shadow 1.2s ease;
+      caret-color: currentColor;
+    }
 
-/* Button */
-button {
-  transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, box-shadow 1.5s ease;
-}
+    button {
+      transition: background-color 1.2s ease, color 1.2s ease, border-color 1.2s ease, box-shadow 1.2s ease, transform 0.2s ease;
+    }
 
-/* Error/OK states also animate smoothly */
-input.err, textarea.err {
-  border-color: var(--err);
-  box-shadow: 0 0 6px rgba(255, 107, 107, 0.35);
-}
+    input.err, textarea.err {
+      border-color: var(--err);
+      box-shadow: 0 0 6px rgba(255, 107, 107, 0.35);
+    }
 
-input.ok-field, textarea.ok-field {
-  border-color: var(--ok);
-  box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
-}
-</style>
+    input.ok-field, textarea.ok-field {
+      border-color: var(--ok);
+      box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+    }
+  </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to contact form</a>
+  
   <div class="wrap">
     <header>
       <div class="brand"><a href="/">← jmsn.art</a></div>
       <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
     </header>
 
-    <h1>Contact</h1>
-    <p class="sub">Send me a note — your email app will open with everything filled in. No information is stored on this site.</p>
+    <main id="main-content">
+      <h1>Contact</h1>
+      <p class="sub">Send me a note — your email app will open with everything filled in. No information is stored on this site.</p>
 
-    <form id="contactForm" novalidate>
-      <div class="row">
-        <label for="name">
-          <span>Your Name</span>
-          <input type="text" id="name" name="name" placeholder="Jane Doe" autocomplete="name" inputmode="text" aria-describedby="err-name">
-          <div class="err-msg" id="err-name">Please add your name.</div>
+      <form id="contactForm" novalidate>
+        <div class="row">
+          <label for="name">
+            <span>Your Name</span>
+            <input type="text" id="name" name="name" placeholder="e.g., Jane Doe" autocomplete="name" inputmode="text" aria-describedby="err-name">
+            <div class="err-msg" id="err-name" role="alert">Please add your name.</div>
+          </label>
+          <label for="email">
+            <span>Your Email</span>
+            <input type="email" id="email" name="email" placeholder="e.g., jane@example.com" autocomplete="email" inputmode="email" aria-describedby="err-email">
+            <div class="err-msg" id="err-email" role="alert">Please enter a valid email.</div>
+          </label>
+        </div>
+        <label for="subject">
+          <span>Subject (optional)</span>
+          <input type="text" id="subject" name="subject" placeholder="e.g., Commission inquiry" autocomplete="off" aria-describedby="err-subject">
+          <div class="err-msg" id="err-subject" role="alert"></div>
         </label>
-        <label for="email">
-          <span>Your Email</span>
-          <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" inputmode="email" aria-describedby="err-email">
-          <div class="err-msg" id="err-email">Please enter a valid email.</div>
+        <label for="message">
+          <span>Message</span>
+          <textarea id="message" name="message" placeholder="Tell me about your project, question, or just say hello..." aria-describedby="err-message char-count"></textarea>
+          <div class="char-counter" id="char-count" aria-live="polite">0 characters</div>
+          <div class="err-msg" id="err-message" role="alert">Please add a message.</div>
         </label>
-      </div>
-      <label for="subject">
-        <span>Subject (optional)</span>
-        <input type="text" id="subject" name="subject" placeholder="Hello from jmsn.art" autocomplete="off" aria-describedby="err-subject">
-        <div class="err-msg" id="err-subject"></div>
-      </label>
-      <label for="message">
-        <span>Message</span>
-        <textarea id="message" name="message" placeholder="Write your message here..." aria-describedby="err-message"></textarea>
-        <div class="err-msg" id="err-message">Please add a message.</div>
-      </label>
-      <button type="submit" id="sendBtn">Send</button>
-      <div class="note">Heads up: this uses your device’s email app (no data stored on the site).</div>
-      <div class="ok" id="okMsg">
-        Opening your email app… if nothing happens, you can email me at
-        <a id="safeEmail" href="#">(click to reveal)</a>.
-        <noscript>
-          <br>Or email <a href="mailto:contact@jmsn.art">contact@jmsn.art</a>.
-        </noscript>
-      </div>
-    </form>
+        <div class="btn-group">
+          <button type="submit" id="sendBtn">Send Message</button>
+          <button type="button" id="resetBtn" class="secondary">Clear Form</button>
+        </div>
+        <div class="note">This opens your device's email app (no data stored on the site).</div>
+        <div class="ok" id="okMsg" role="status">
+          ✓ Opening your email app… 
+          <br><br>
+          If nothing happens: <button type="button" class="copy-btn" id="copyEmailBtn">📋 Copy Email Address</button>
+          <br><br>
+          Or email directly: <a id="safeEmail" href="#"></a>
+          <noscript>
+            <br>Email: <a href="mailto:contact@jmsn.art">contact@jmsn.art</a>
+          </noscript>
+        </div>
+      </form>
+    </main>
 
     <footer>© <span id="y"></span> Jameson McShane · <a href="/">Back to gallery</a></footer>
   </div>
 
+  <!-- Accessibility announcer -->
+  <div class="sr-only" id="a11yAnnouncer" aria-live="assertive" aria-atomic="true"></div>
+
 <script>
-  // Theme toggle (match other pages)
+  // Safe localStorage wrapper
+  const storage = {
+    get: (key) => {
+      try { return localStorage.getItem(key); } catch(e) { return null; }
+    },
+    set: (key, val) => {
+      try { localStorage.setItem(key, val); } catch(e) {}
+    }
+  };
+
+  const announcer = document.getElementById('a11yAnnouncer');
+
+  // Track page metrics
+  const pageLoadTime = Date.now();
+  const fieldInteractions = {};
+  const validationErrors = {};
+
+  // Theme toggle
   (function initTheme(){
     const btn = document.getElementById('toggleTheme');
-    const saved = localStorage.getItem('theme');
+    const saved = storage.get('theme');
     const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    
     function apply(mode){
-      if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
-      else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+      if (mode === 'light') { 
+        document.body.classList.add('light-mode'); 
+        btn.setAttribute('aria-pressed','true'); 
+      } else { 
+        document.body.classList.remove('light-mode'); 
+        btn.setAttribute('aria-pressed','false'); 
+      }
     }
+    
     apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+    
     btn.addEventListener('click', ()=>{
       const isLight = document.body.classList.toggle('light-mode');
+      const mode = isLight ? 'light' : 'dark';
       btn.setAttribute('aria-pressed', String(isLight));
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      storage.set('theme', mode);
+      announcer.textContent = `Theme switched to ${mode} mode`;
+      sendGA('theme_toggle', { mode: mode, page: 'contact' });
     });
   })();
 
@@ -230,21 +347,23 @@ input.ok-field, textarea.ok-field {
   document.getElementById('y').textContent = new Date().getFullYear();
 
   (function(){
-    console.log('contact inline-errors live v6');
-
     const f = document.getElementById('contactForm');
     const okBox = document.getElementById('okMsg');
     const btn = document.getElementById('sendBtn');
+    const resetBtn = document.getElementById('resetBtn');
     const safeEmail = document.getElementById('safeEmail');
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const charCount = document.getElementById('char-count');
 
-    // Build email dynamically (keeps it out of raw HTML)
-    const parts = ['contact','@','jmsn','.','art'];
-    const addr = parts.join('');
+    // Build email dynamically (better obfuscation)
+    const parts = [99,111,110,116,97,99,116,64,106,109,115,110,46,97,114,116];
+    const addr = String.fromCharCode(...parts);
     safeEmail.textContent = addr;
     safeEmail.href = 'mailto:' + addr;
 
-    // helpers
+    // Helpers
     const $ = id => document.getElementById(id);
+    
     const setErr = (inputEl, errEl, msg) => {
       if (msg) {
         inputEl.classList.add('err');
@@ -252,12 +371,18 @@ input.ok-field, textarea.ok-field {
         inputEl.setAttribute('aria-invalid','true');
         errEl.textContent = msg;
         errEl.classList.add('show');
+        announcer.textContent = `Error: ${msg}`;
+        
+        // Track validation error
+        const fieldName = inputEl.id;
+        validationErrors[fieldName] = (validationErrors[fieldName] || 0) + 1;
       } else {
         inputEl.classList.remove('err');
         inputEl.removeAttribute('aria-invalid');
         errEl.classList.remove('show');
       }
     };
+    
     const setOk = (inputEl) => {
       inputEl.classList.remove('err');
       inputEl.classList.add('ok-field');
@@ -272,25 +397,123 @@ input.ok-field, textarea.ok-field {
       const message = $('message').value.trim();
 
       let valid = true;
-      if (!name){ setErr($('name'), $('err-name'), 'Please add your name.'); valid = false; } 
-      else { setErr($('name'), $('err-name'), ''); setOk($('name')); }
+      let firstError = null;
+      
+      if (!name){ 
+        setErr($('name'), $('err-name'), 'Please add your name.'); 
+        valid = false;
+        if (!firstError) firstError = $('name');
+      } else { 
+        setErr($('name'), $('err-name'), ''); 
+        setOk($('name')); 
+      }
 
-      if (!email){ setErr($('email'), $('err-email'), 'Please enter your email.'); valid = false; }
-      else if (!valEmail(email)){ setErr($('email'), $('err-email'), 'Please enter a valid email.'); valid = false; }
-      else { setErr($('email'), $('err-email'), ''); setOk($('email')); }
+      if (!email){ 
+        setErr($('email'), $('err-email'), 'Please enter your email.'); 
+        valid = false;
+        if (!firstError) firstError = $('email');
+      } else if (!valEmail(email)){ 
+        setErr($('email'), $('err-email'), 'Please enter a valid email.'); 
+        valid = false;
+        if (!firstError) firstError = $('email');
+      } else { 
+        setErr($('email'), $('err-email'), ''); 
+        setOk($('email')); 
+      }
 
-      if (!message){ setErr($('message'), $('err-message'), 'Please add a message.'); valid = false; }
-      else { setErr($('message'), $('err-message'), ''); setOk($('message')); }
+      if (!message){ 
+        setErr($('message'), $('err-message'), 'Please add a message.'); 
+        valid = false;
+        if (!firstError) firstError = $('message');
+      } else { 
+        setErr($('message'), $('err-message'), ''); 
+        setOk($('message')); 
+      }
+
+      // Focus first error
+      if (!valid && firstError) {
+        firstError.focus();
+      } else if (valid) {
+        announcer.textContent = 'Form is valid and ready to submit';
+      }
 
       return valid;
     }
 
-    // live validation on typing
-    ['name','email','message'].forEach(id=>{ $(id).addEventListener('input', validate); });
+    // Character counter
+    $('message').addEventListener('input', (e) => {
+      const length = e.target.value.length;
+      charCount.textContent = `${length} character${length !== 1 ? 's' : ''}`;
+    });
 
+    // Track field interactions
+    ['name', 'email', 'subject', 'message'].forEach(id => {
+      const field = $(id);
+      
+      field.addEventListener('focus', () => {
+        if (!fieldInteractions[id]) {
+          fieldInteractions[id] = { focused: true, completed: false };
+          sendGA('form_field_focus', { field: id, page: 'contact' });
+        }
+      });
+      
+      field.addEventListener('blur', () => {
+        if (field.value.trim()) {
+          fieldInteractions[id].completed = true;
+        }
+      });
+      
+      field.addEventListener('input', validate);
+    });
+
+    // Copy email button
+    copyEmailBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(addr);
+        copyEmailBtn.textContent = '✓ Copied!';
+        copyEmailBtn.classList.add('copied');
+        announcer.textContent = 'Email address copied to clipboard';
+        sendGA('email_copy', { method: 'clipboard', page: 'contact' });
+        
+        setTimeout(() => {
+          copyEmailBtn.textContent = '📋 Copy Email Address';
+          copyEmailBtn.classList.remove('copied');
+        }, 2000);
+      } catch (err) {
+        copyEmailBtn.textContent = '✗ Failed';
+        setTimeout(() => {
+          copyEmailBtn.textContent = '📋 Copy Email Address';
+        }, 2000);
+      }
+    });
+
+    // Reset form
+    resetBtn.addEventListener('click', () => {
+      f.reset();
+      ['name', 'email', 'subject', 'message'].forEach(id => {
+        const field = $(id);
+        const errEl = $('err-' + id);
+        field.classList.remove('err', 'ok-field');
+        field.removeAttribute('aria-invalid');
+        errEl.classList.remove('show');
+      });
+      charCount.textContent = '0 characters';
+      okBox.style.display = 'none';
+      announcer.textContent = 'Form cleared';
+      sendGA('form_reset', { page: 'contact' });
+    });
+
+    // Form submission
     f.addEventListener('submit', function(e){
       e.preventDefault();
-      if (!validate()) return;
+      
+      if (!validate()) {
+        sendGA('form_validation_failed', { 
+          page: 'contact',
+          errors: Object.keys(validationErrors)
+        });
+        return;
+      }
 
       btn.disabled = true;
 
@@ -302,16 +525,54 @@ input.ok-field, textarea.ok-field {
       const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
       const mailto = `mailto:${addr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-      // Show hint and launch the user's email client
+      // Show success message
       okBox.style.display = 'block';
+      announcer.textContent = 'Opening your email application';
       window.location.href = mailto;
 
-      // Analytics events (optional)
-      if (typeof gtag === 'function') {
-        gtag('event','contact_attempt', { method: 'mailto' });
-      }
+      // Track successful submission
+      sendGA('contact_form_submit', { 
+        method: 'mailto',
+        page: 'contact',
+        has_subject: !!$('subject').value.trim(),
+        message_length: message.length
+      });
 
-      setTimeout(()=>{ btn.disabled = false; }, 2500);
+      // Track completion rate
+      const completionRate = Object.values(fieldInteractions).filter(f => f.completed).length / 4;
+      sendGA('form_completion_rate', {
+        page: 'contact',
+        rate: Math.round(completionRate * 100)
+      });
+
+      setTimeout(()=> { btn.disabled = false; }, 2500);
+    });
+
+    // Track referrer source
+    if (document.referrer) {
+      const referrerUrl = new URL(document.referrer);
+      if (referrerUrl.hostname === window.location.hostname) {
+        sendGA('internal_navigation', {
+          from_page: referrerUrl.pathname,
+          to_page: 'contact'
+        });
+      }
+    }
+
+    // Track dwell time and abandonment on page unload
+    window.addEventListener('beforeunload', () => {
+      const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
+      const abandonedFields = Object.keys(fieldInteractions).filter(
+        id => fieldInteractions[id].focused && !fieldInteractions[id].completed
+      );
+      
+      sendGA('page_engagement', {
+        page: 'contact',
+        dwell_seconds: dwellTime,
+        fields_interacted: Object.keys(fieldInteractions).length,
+        abandoned_fields: abandonedFields,
+        validation_errors: validationErrors
+      });
     });
   })();
 </script>
