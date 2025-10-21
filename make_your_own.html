@@ -835,3 +835,234 @@
       if (navigator.share) {
         navigator.share({
           title: 'My Art Circle Creation',
+          text: 'Check out my art circle design!',
+          url: url
+        }).then(() => {
+          track('share_config', { method: 'web_share' });
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          announcer.textContent = 'Share link copied to clipboard';
+          track('share_config', { method: 'clipboard' });
+          alert('Share link copied to clipboard!');
+        }).catch(() => {
+          alert('Failed to copy share link');
+        });
+      }
+    }
+
+    // Build standalone SVG
+    function buildStandaloneSVG() {
+      const W = 1000, H = 1000;
+      const state = getState();
+
+      const g = circlesContainer.cloneNode(true);
+
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('xmlns', svgNS);
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.setAttribute('width', String(W));
+      svg.setAttribute('height', String(H));
+      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+      if (state.glow > 0) {
+        const defs = document.createElementNS(svgNS, 'defs');
+        const filter = document.createElementNS(svgNS, 'filter');
+        filter.setAttribute('id', 'glow');
+        filter.setAttribute('x', '-50%');
+        filter.setAttribute('y', '-50%');
+        filter.setAttribute('width', '200%');
+        filter.setAttribute('height', '200%');
+
+        const feGaussianBlur = document.createElementNS(svgNS, 'feGaussianBlur');
+        feGaussianBlur.setAttribute('in', 'SourceGraphic');
+        feGaussianBlur.setAttribute('stdDeviation', (state.glow/4).toString());
+
+        const feMerge = document.createElementNS(svgNS, 'feMerge');
+        const feMergeNode1 = document.createElementNS(svgNS, 'feMergeNode');
+        const feMergeNode2 = document.createElementNS(svgNS, 'feMergeNode');
+        feMergeNode2.setAttribute('in', 'SourceGraphic');
+
+        feMerge.appendChild(feMergeNode1);
+        feMerge.appendChild(feMergeNode2);
+        filter.appendChild(feGaussianBlur);
+        filter.appendChild(feMerge);
+        defs.appendChild(filter);
+        svg.appendChild(defs);
+      }
+
+      const rect = document.createElementNS(svgNS, 'rect');
+      rect.setAttribute('x', '0');
+      rect.setAttribute('y', '0');
+      rect.setAttribute('width', '100%');
+      rect.setAttribute('height', '100%');
+      rect.setAttribute('fill', state.bg);
+      svg.appendChild(rect);
+
+      const wrap = document.createElementNS(svgNS, 'g');
+      if (state.glow > 0) wrap.setAttribute('filter', 'url(#glow)');
+      wrap.appendChild(g);
+      svg.appendChild(wrap);
+
+      return svg;
+    }
+
+    function downloadSVG() {
+      const svg = buildStandaloneSVG();
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'art-circles.svg';
+      link.click();
+      URL.revokeObjectURL(url);
+      announcer.textContent = 'SVG downloaded';
+      downloadCount++;
+      track('download', { format: 'svg', download_count: downloadCount });
+    }
+
+    function downloadPNG() {
+      const svg = buildStandaloneSVG();
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        const pngCanvas = document.createElement('canvas');
+        pngCanvas.width = 2000;
+        pngCanvas.height = 2000;
+        const ctx = pngCanvas.getContext('2d');
+        ctx.fillStyle = bgColor.value;
+        ctx.fillRect(0, 0, pngCanvas.width, pngCanvas.height);
+        ctx.drawImage(img, 0, 0, pngCanvas.width, pngCanvas.height);
+
+        pngCanvas.toBlob(function(blob) {
+          const pngUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = pngUrl;
+          link.download = 'art-circles.png';
+          link.click();
+          URL.revokeObjectURL(pngUrl);
+        });
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+
+      announcer.textContent = 'PNG downloaded';
+      downloadCount++;
+      track('download', { format: 'png', download_count: downloadCount });
+    }
+
+    // Event listeners
+    const inputControls = [gapSize, gapPosition, circleSize, strokeThickness, circleColor, bgColor, glowIntensity, circleCount];
+    inputControls.forEach(el => {
+      el.addEventListener('input', () => updateCircle(true));
+      el.addEventListener('change', () => {
+        controlInteractions[el.id] = (controlInteractions[el.id] || 0) + 1;
+        track('control_changed', { id: el.id, value: el.value });
+      });
+      // Announce value changes for screen readers
+      el.addEventListener('input', () => {
+        const label = el.previousElementSibling?.textContent || el.id;
+        const valueEl = document.getElementById(el.id.replace(/[A-Z]/g, m => 'Value'));
+        if (valueEl) {
+          announcer.textContent = `${label.split(' ')[0]}: ${valueEl.textContent}`;
+        }
+      });
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    const savedTheme = storage.get('theme') || 'dark';
+    if (savedTheme === 'light') {
+      body.classList.add('light-theme');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('light-theme');
+      const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
+      storage.set('theme', currentTheme);
+      announcer.textContent = `Switched to ${currentTheme} theme`;
+      track('theme_toggle', { theme: currentTheme, page: 'art_circle_tool' });
+    });
+
+    // History buttons
+    document.getElementById('undoBtn').addEventListener('click', undo);
+    document.getElementById('redoBtn').addEventListener('click', redo);
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        undo();
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+        e.preventDefault();
+        redo();
+      }
+    });
+
+    // Load from URL parameters
+    function loadFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('gap')) {
+        const state = {
+          gap: parseFloat(params.get('gap')) || 30,
+          pos: parseFloat(params.get('pos')) || 0,
+          size: parseFloat(params.get('size')) || 300,
+          thick: parseFloat(params.get('thick')) || 8,
+          color: '#' + (params.get('color') || '00ffff'),
+          bg: '#' + (params.get('bg') || 'ff0000'),
+          glow: parseFloat(params.get('glow')) || 20,
+          count: parseInt(params.get('count')) || 1
+        };
+        setState(state);
+        track('loaded_from_url');
+      } else {
+        // Initialize default
+        applyPreset('zen');
+        circleColor.value = '#00ffff';
+        bgColor.value = '#ff0000';
+        updateCircle(true);
+      }
+    }
+
+    // Track session end
+    window.addEventListener('beforeunload', () => {
+      const sessionTime = Math.round((Date.now() - sessionStart) / 1000);
+      track('session_end', {
+        page: 'art_circle_tool',
+        duration_seconds: sessionTime,
+        control_interactions: controlInteractions,
+        download_count: downloadCount,
+        history_length: history.length
+      });
+    });
+
+    // Initialize
+    loadFromURL();
+
+    // Expose functions
+    window.applyPreset = applyPreset;
+    window.randomize = randomize;
+    window.reset = reset;
+    window.downloadSVG = downloadSVG;
+    window.downloadPNG = downloadPNG;
+    window.saveConfig = saveConfig;
+    window.loadConfig = loadConfig;
+    window.copyConfig = copyConfig;
+    window.shareConfig = shareConfig;
+
+    // Track page view
+    track('page_view', { 
+      page: 'art_circle_tool',
+      page_title: document.title 
+    });
+  </script>
+</body>
+</html>
