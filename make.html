@@ -3,150 +3,288 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Make an Art Circle – jmsn.art</title>
+  <title>Make a Halo – jmsn.art</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
   <!-- Canonical -->
-  <link rel="canonical" href="https://jmsn.art/make.html">
+  <link rel="canonical" href="https://jmsn.art/make-halo.html">
 
   <!-- SEO -->
-  <meta name="description" content="Create your own minimal Art Circle: adjust radius, broken gap, glow, colors, and download a PNG.">
+  <meta name="description" content="Upload an image and place a minimalist Art Circle halo. Auto-place with on-device face detection when supported. Download as PNG.">
   <meta name="author" content="Jameson McShane">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Make an Art Circle – jmsn.art">
-  <meta property="og:description" content="Interactive canvas to design minimal Art Circles with a broken halo.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://jmsn.art/make.html">
+  <!-- Preconnect for GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-  <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCGF"></script>
+  <!-- GA4 (Fixed ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments)}
     gtag('js', new Date());
-    gtag('config', 'G-FQPZNDPCGF');
+    gtag('config', 'G-FQPZNDPCCF');
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
   </script>
 
   <style>
-    :root{
-      --bg:#111; --fg:#fff; --muted:#9a9a9a; --panel:#181818; --line:#2a2a2a;
+    :root{ 
+      --bg:#111; --fg:#fff; --muted:#9a9a9a; 
+      --panel:#181818; --line:#2a2a2a; 
+      transition: background 1.5s ease, color 1.5s ease;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    .light-mode {
+      --bg:#f7f7f8; --fg:#111; --muted:#666;
+      --panel:#ffffff; --line:#ddd;
+    }
+
+    /* Screen reader only */
+    .sr-only {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; 
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap; 
+      border: 0;
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--bg);
+      color: var(--fg);
+      padding: 8px;
+      text-decoration: none;
+      border: 2px solid var(--fg);
+      z-index: 100;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
+    *{ box-sizing:border-box }
+    html,body{ height:100%; transition: background 1.5s ease, color 1.5s ease; }
     body{
       margin:0; background:var(--bg); color:var(--fg);
       font-family:Arial,Helvetica,sans-serif; line-height:1.35;
       display:flex; flex-direction:column;
     }
     header,footer{
-      padding:14px 18px; opacity:.9;
+      padding:14px 18px; opacity:.95;
       display:flex; align-items:center; justify-content:space-between;
+      flex-wrap: wrap; gap: 10px;
     }
-    header a, footer a{color:var(--fg); text-decoration:underline}
-    .wrap{
-      display:grid; grid-template-columns:1fr; gap:14px; padding:14px;
+    header a, footer a{ 
+      color:var(--fg); 
+      text-decoration:underline;
+      transition: opacity 0.3s ease;
     }
-    .canvas-wrap{
-      background:#0d0d0d; border:1px solid var(--line); border-radius:10px;
+    header a:hover, footer a:hover { opacity: 0.7; }
+    header a:focus-visible, footer a:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .theme-btn {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--fg);
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s ease, border-color 1.5s ease;
+    }
+    .theme-btn:hover {
+      background: var(--line);
+    }
+    .theme-btn:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 2px;
+    }
+
+    .wrap{ display:grid; grid-template-columns:1fr; gap:14px; padding:14px; }
+    .stage{
+      background:#0d0d0d; border:1px solid var(--line); border-radius:12px;
       display:flex; align-items:center; justify-content:center; min-height:50vh;
+      position:relative; overflow:hidden;
+      transition: background 1.5s ease, border-color 1.5s ease;
     }
-    canvas{max-width:100%; height:auto; background:transparent}
+    .light-mode .stage {
+      background: #f0f0f0;
+    }
+
+    canvas{ 
+      max-width:100%; height:auto; background:transparent; touch-action:none;
+      cursor: grab;
+    }
+    canvas.dragging {
+      cursor: grabbing;
+    }
+
     .controls{
       background:var(--panel); border:1px solid var(--line); border-radius:12px;
       padding:12px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;
+      transition: background 1.5s ease, border-color 1.5s ease;
     }
-    .grp{display:flex; flex-direction:column; gap:6px}
-    .grp label{font-size:.9rem; color:var(--muted)}
-    .row{display:flex; gap:8px; align-items:center}
-    input[type="range"]{width:100%}
+    .grp{ display:flex; flex-direction:column; gap:6px }
+    .grp label{ font-size:.9rem; color:var(--muted); transition: color 1.5s ease; }
+    .row{ display:flex; gap:8px; align-items:center }
+    
+    input[type="range"]{ width:100% }
+    input[type="range"]:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 2px;
+    }
+    
+    input[type="file"]{ display:block }
+    input[type="color"]:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 2px;
+    }
+
     button{
-      background:#1b1b1b; color:#fff; border:1px solid var(--line);
+      background:var(--panel); color:var(--fg); border:1px solid var(--line);
       padding:10px 12px; border-radius:999px; cursor:pointer;
+      transition: background 0.3s ease, border-color 1.5s ease, color 1.5s ease;
     }
-    button:hover{border-color:#777}
-    .inline{display:flex; gap:10px; flex-wrap:wrap}
-    .hint{font-size:.85rem; color:var(--muted)}
+    button:hover{ border-color:#777; background: var(--line); }
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    button:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 2px;
+    }
+
+    .inline{ display:flex; gap:10px; flex-wrap:wrap }
+    .hint{ font-size:.85rem; color:var(--muted); transition: color 1.5s ease; }
+    .badge{
+      font-size:.8rem; padding:3px 8px; border-radius:999px; border:1px solid var(--line);
+      background:var(--panel); color:#c0ffc0;
+      transition: background 1.5s ease, border-color 1.5s ease;
+    }
+    .warn{ color:#ffcc88 }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      margin-left: 5px;
+      cursor: help;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .tooltip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--panel);
+      color: var(--fg);
+      padding: 8px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      font-size: 0.75rem;
+      z-index: 10;
+      border: 1px solid var(--line);
+    }
+
     @media (min-width: 980px){
-      .wrap{grid-template-columns:1fr 360px}
-      .controls{grid-template-columns:1fr}
+      .wrap{ grid-template-columns:1fr 360px }
+      .controls{ grid-template-columns:1fr }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
     }
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to controls</a>
+
   <header>
-    <div>Make an Art Circle</div>
+    <div>Make a Halo</div>
     <nav class="inline">
       <a href="/">Gallery</a>
+      <a href="/make_your_own.html">Make an Art Circle</a>
       <a href="/about.html">About</a>
       <a href="/contact.html">Contact</a>
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌓 Theme</button>
     </nav>
   </header>
 
   <main class="wrap">
-    <section class="canvas-wrap">
-      <!-- High-res drawing surface; scaled for crisp export -->
-      <canvas id="art" width="1600" height="1600" aria-label="Art Circle canvas"></canvas>
+    <section class="stage">
+      <canvas id="c" width="1600" height="1600" aria-label="Halo editor canvas"></canvas>
     </section>
 
-    <aside class="controls" aria-label="Art Circle controls">
+    <aside class="controls" id="main-content" aria-label="Halo controls">
       <div class="grp">
-        <label for="bg">Background</label>
-        <div class="row">
-          <input type="color" id="bg" value="#111111" />
-          <span class="hint">Page background</span>
+        <label for="file">Upload Image</label>
+        <input id="file" type="file" accept="image/*" aria-describedby="file-hint">
+        <div class="hint" id="file-hint">Drag to move halo · Wheel/pinch to scale · ←/→ rotate · Ctrl+Z undo</div>
+      </div>
+
+      <!-- History controls -->
+      <div class="grp">
+        <label>History</label>
+        <div class="inline">
+          <button id="undoBtn" disabled aria-label="Undo last change">↶ Undo</button>
+          <button id="redoBtn" disabled aria-label="Redo last change">↷ Redo</button>
         </div>
       </div>
 
       <div class="grp">
-        <label for="stroke">Circle Stroke Color</label>
-        <div class="row">
-          <input type="color" id="stroke" value="#d4af37" />
-          <span class="hint">Gold by default</span>
+        <label>Halo Controls <span class="tooltip" data-tip="Adjust halo appearance">ⓘ</span></label>
+        <div class="row"><input type="range" id="radius" min="60" max="800" value="260" aria-label="Halo radius"><span class="hint">Radius</span></div>
+        <div class="row"><input type="range" id="strokeW" min="2" max="60" value="10" aria-label="Stroke width"><span class="hint">Stroke</span></div>
+        <div class="row"><input type="range" id="gap" min="0" max="180" value="35" aria-label="Gap size in degrees"><span class="hint">Gap (°)</span></div>
+        <div class="row"><input type="range" id="rot" min="0" max="359" value="0" aria-label="Rotation in degrees"><span class="hint">Rotate (°)</span></div>
+      </div>
+
+      <div class="grp">
+        <label>Colors & Glow <span class="tooltip" data-tip="Customize halo appearance">ⓘ</span></label>
+        <div class="row"><input type="color" id="stroke" value="#d4af37" aria-label="Halo color"><span class="hint">Halo color</span></div>
+        <div class="row"><input type="color" id="shadow" value="#d4af37" aria-label="Glow color"><span class="hint">Glow color</span></div>
+        <div class="row"><input type="range" id="glow" min="0" max="80" value="24" aria-label="Glow intensity"><span class="hint">Glow</span></div>
+        <div class="row"><input type="color" id="bg" value="#111111" aria-label="Background color"><span class="hint">Background</span></div>
+      </div>
+
+      <div class="grp">
+        <label>Placement <span class="tooltip" data-tip="Auto-detect faces or place manually">ⓘ</span></label>
+        <div class="inline">
+          <button id="auto">Auto-place Halo</button>
+          <span id="autoState" class="badge" hidden>FaceDetector on-device</span>
         </div>
-      </div>
-
-      <div class="grp">
-        <label for="fill">Glow / Fill Color</label>
-        <div class="row">
-          <input type="color" id="fill" value="#d4af37" />
-          <span class="hint">Used for glow + optional fill</span>
-        </div>
-      </div>
-
-      <div class="grp">
-        <label>Radii</label>
-        <div class="row"><input type="range" id="outerR" min="200" max="750" value="520"><span class="hint">Outer radius</span></div>
-        <div class="row"><input type="range" id="innerR" min="0" max="400" value="0"><span class="hint">Inner radius (0 = ring)</span></div>
-      </div>
-
-      <div class="grp">
-        <label>Stroke & Glow</label>
-        <div class="row"><input type="range" id="strokeW" min="1" max="80" value="12"><span class="hint">Stroke width</span></div>
-        <div class="row"><input type="range" id="glow" min="0" max="80" value="28"><span class="hint">Glow strength</span></div>
-      </div>
-
-      <div class="grp">
-        <label>Broken Gap & Rotation</label>
-        <div class="row"><input type="range" id="gap" min="0" max="180" value="40"><span class="hint">Gap (degrees)</span></div>
-        <div class="row"><input type="range" id="rot" min="0" max="359" value="0"><span class="hint">Rotate (°)</span></div>
-      </div>
-
-      <div class="grp">
-        <label>Texture Speckle</label>
-        <div class="row"><input type="range" id="speckle" min="0" max="2000" value="250"><span class="hint">0 = off</span></div>
+        <div class="hint">Auto uses your browser's FaceDetector (on-device). If unsupported, place manually.</div>
       </div>
 
       <div class="grp">
         <label>Actions</label>
         <div class="inline">
-          <button id="random">Randomize (R)</button>
           <button id="download">Download PNG (D)</button>
-          <button id="clear">Reset</button>
+          <button id="share">📤 Share</button>
+          <button id="save">💾 Save</button>
+          <button id="load">📂 Load</button>
+          <button id="reset">↺ Reset</button>
         </div>
-        <div class="hint">Tips: ←/→ rotate, R randomize, D download</div>
+      </div>
+
+      <div class="grp">
+        <label>Status</label>
+        <div class="hint" id="status" role="status" aria-live="polite">Load a photo to begin.</div>
       </div>
     </aside>
   </main>
@@ -155,156 +293,488 @@
     © 2025 Jameson McShane · <a href="/">jmsn.art</a>
   </footer>
 
+  <!-- Accessibility announcer -->
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
+
   <script>
-    const $ = id => document.getElementById(id);
-    const cfg = {
-      bg:   $('bg'), stroke: $('stroke'), fill: $('fill'),
-      outerR:$('outerR'), innerR:$('innerR'), strokeW:$('strokeW'),
-      glow: $('glow'), gap: $('gap'), rot: $('rot'), speckle:$('speckle'),
-      random:$('random'), download:$('download'), clear:$('clear'),
-      canvas:$('art')
+    // Safe localStorage wrapper
+    const storage = {
+      get: (key) => {
+        try { return localStorage.getItem(key); } catch(e) { return null; }
+      },
+      set: (key, val) => {
+        try { localStorage.setItem(key, val); } catch(e) {}
+      }
     };
-    const ctx = cfg.canvas.getContext('2d');
 
-    function hsla(h,s,l,a=1){ return `hsla(${h} ${s}% ${l}% / ${a})`; }
+    // Elements
+    const $ = id => document.getElementById(id);
+    const cv = $('c');
+    const cx = cv.getContext('2d');
+    const announcer = $('a11yAnnouncer');
+    const el = {
+      file:$('file'), radius:$('radius'), strokeW:$('strokeW'), gap:$('gap'),
+      rot:$('rot'), stroke:$('stroke'), shadow:$('shadow'), glow:$('glow'),
+      bg:$('bg'), auto:$('auto'), autoState:$('autoState'), download:$('download'),
+      reset:$('reset'), status:$('status'), share:$('share'), save:$('save'), load:$('load'),
+      undoBtn:$('undoBtn'), redoBtn:$('redoBtn')
+    };
 
-    function resizeToDisplay() {
-      // Fit canvas to container CSS size while keeping internal 1600x1600 resolution
-      const box = cfg.canvas.parentElement.getBoundingClientRect();
-      const side = Math.min(box.width, box.height || box.width);
-      cfg.canvas.style.width = side + 'px';
-      cfg.canvas.style.height = side + 'px';
+    // State
+    const state = {
+      img:null, imgW:0, imgH:0,
+      scale:1,
+      halo:{ x:800, y:700, r: +el.radius.value, rot:+el.rot.value },
+      dragging:false, dragOffX:0, dragOffY:0
+    };
+
+    // History for undo/redo
+    let history = [];
+    let historyIndex = -1;
+    const MAX_HISTORY = 30;
+
+    // Metrics
+    const sessionStart = Date.now();
+    let controlInteractions = {};
+    let autoPlaceAttempts = 0;
+    let autoPlaceSuccesses = 0;
+    let downloadCount = 0;
+    let uploadedImageSize = null;
+
+    // Helpers
+    function clamp(v,a,b){ return Math.max(a, Math.min(b,v)); }
+    function radians(deg){ return (deg * Math.PI)/180; }
+
+    function getHaloState() {
+      return {
+        x: state.halo.x,
+        y: state.halo.y,
+        r: state.halo.r,
+        rot: state.halo.rot,
+        strokeW: +el.strokeW.value,
+        gap: +el.gap.value,
+        stroke: el.stroke.value,
+        shadow: el.shadow.value,
+        glow: +el.glow.value,
+        bg: el.bg.value
+      };
     }
-    window.addEventListener('resize', resizeToDisplay);
 
-    function clear() {
-      ctx.save();
-      ctx.fillStyle = cfg.bg.value;
-      ctx.fillRect(0,0,cfg.canvas.width,cfg.canvas.height);
-      ctx.restore();
+    function setHaloState(s, addToHistory = true) {
+      state.halo.x = s.x;
+      state.halo.y = s.y;
+      state.halo.r = s.r;
+      state.halo.rot = s.rot;
+      el.radius.value = s.r;
+      el.strokeW.value = s.strokeW;
+      el.gap.value = s.gap;
+      el.rot.value = s.rot;
+      el.stroke.value = s.stroke;
+      el.shadow.value = s.shadow;
+      el.glow.value = s.glow;
+      el.bg.value = s.bg;
+      draw(addToHistory);
     }
 
-    function drawSpeckle(amount) {
-      if (amount <= 0) return;
-      const w = cfg.canvas.width, h = cfg.canvas.height;
-      ctx.save();
-      ctx.globalAlpha = 0.08;
-      ctx.fillStyle = '#000';
-      for (let i=0;i<amount;i++){
-        const x = Math.random()*w, y=Math.random()*h;
-        const r = Math.random()*1.4;
-        ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    function saveToHistory() {
+      const s = getHaloState();
+      history = history.slice(0, historyIndex + 1);
+      history.push(s);
+      if (history.length > MAX_HISTORY) {
+        history.shift();
+      } else {
+        historyIndex++;
       }
-      ctx.restore();
+      updateHistoryButtons();
     }
 
-    function draw() {
-      clear();
-      const cx = cfg.canvas.width/2, cy = cfg.canvas.height/2;
-
-      const outerR = +cfg.outerR.value;
-      const innerR = +cfg.innerR.value; // 0 for ring
-      const strokeW = +cfg.strokeW.value;
-      const glow = +cfg.glow.value;
-      const gapDeg = +cfg.gap.value;
-      const rotDeg = +cfg.rot.value;
-
-      const start = ((rotDeg + gapDeg/2) * Math.PI)/180;
-      const end   = ((rotDeg + 360 - gapDeg/2) * Math.PI)/180;
-
-      // Outer ring (with gap)
-      ctx.save();
-      ctx.translate(cx, cy);
-
-      // Glow
-      ctx.shadowColor = cfg.fill.value;
-      ctx.shadowBlur = glow;
-
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = cfg.stroke.value;
-      ctx.lineWidth = strokeW;
-
-      ctx.beginPath();
-      ctx.arc(0,0,outerR, start, end, false);
-      ctx.stroke();
-
-      // Optional filled disk if innerR > 0
-      if (innerR > 0) {
-        ctx.shadowBlur = glow * 0.6;
-        ctx.fillStyle = cfg.fill.value;
-        ctx.beginPath();
-        ctx.arc(0,0,innerR,0,Math.PI*2);
-        ctx.fill();
+    function undo() {
+      if (historyIndex > 0) {
+        historyIndex--;
+        setHaloState(history[historyIndex], false);
+        announcer.textContent = 'Undid last change';
+        sendGA('undo_clicked', { page: 'make_halo' });
       }
-      ctx.restore();
-
-      drawSpeckle(+cfg.speckle.value);
     }
 
-    function randomize() {
-      // Dark background hues near black
-      const darks = ['#0f0f10','#101112','#0e0e0e','#111111'];
-      cfg.bg.value = darks[(Math.random()*darks.length)|0];
-
-      // Gold/amber/white strokes, occasionally icy
-      const palette = ['#d4af37','#f5e6a7','#ffffff','#f1c27d','#c9b037','#e6d8ad','#c0c0c0','#9ad7ff'];
-      const stroke = palette[(Math.random()*palette.length)|0];
-      cfg.stroke.value = stroke;
-      cfg.fill.value = stroke;
-
-      cfg.outerR.value = 420 + Math.floor(Math.random()*240);
-      cfg.innerR.value = (Math.random() < 0.25) ? 0 : 80 + Math.floor(Math.random()*200);
-      cfg.strokeW.value = 6 + Math.floor(Math.random()*36);
-      cfg.glow.value = 10 + Math.floor(Math.random()*60);
-      cfg.gap.value = Math.floor(Math.random()*140); // 0-140 deg gap
-      cfg.rot.value = Math.floor(Math.random()*360);
-      cfg.speckle.value = (Math.random()<0.5) ? Math.floor(Math.random()*800) : 0;
-
-      draw();
+    function redo() {
+      if (historyIndex < history.length - 1) {
+        historyIndex++;
+        setHaloState(history[historyIndex], false);
+        announcer.textContent = 'Redid change';
+        sendGA('redo_clicked', { page: 'make_halo' });
+      }
     }
 
-    function downloadPNG() {
-      // Create a temporary canvas without CSS scaling for crisp export
-      const link = document.createElement('a');
-      link.download = `art-circle-${Date.now()}.png`;
-      link.href = cfg.canvas.toDataURL('image/png');
-      link.click();
+    function updateHistoryButtons() {
+      el.undoBtn.disabled = historyIndex <= 0;
+      el.redoBtn.disabled = historyIndex >= history.length - 1;
     }
 
-    function resetAll() {
-      cfg.bg.value = '#111111';
-      cfg.stroke.value = '#d4af37';
-      cfg.fill.value = '#d4af37';
-      cfg.outerR.value = 520;
-      cfg.innerR.value = 0;
-      cfg.strokeW.value = 12;
-      cfg.glow.value = 28;
-      cfg.gap.value = 40;
-      cfg.rot.value = 0;
-      cfg.speckle.value = 250;
-      draw();
+    // Fit the uploaded image into the canvas
+    function draw(addToHistory = true) {
+      cx.fillStyle = el.bg.value;
+      cx.fillRect(0,0,cv.width,cv.height);
+
+      if (state.img) {
+        const cw = cv.width, ch = cv.height;
+        const iw = state.imgW, ih = state.imgH;
+        const s = Math.min(cw/iw, ch/ih);
+        state.scale = s;
+        const dx = (cw - iw*s)/2;
+        const dy = (ch - ih*s)/2;
+        cx.save();
+        cx.imageSmoothingQuality = 'high';
+        cx.drawImage(state.img, 0,0, iw,ih, dx,dy, iw*s, ih*s);
+        cx.restore();
+      }
+
+      drawHalo();
+
+      if (addToHistory) {
+        saveToHistory();
+      }
     }
 
-    // Bind controls
-    ['bg','stroke','fill','outerR','innerR','strokeW','glow','gap','rot','speckle']
-      .forEach(id => $(id).addEventListener('input', draw));
+    function drawHalo(){
+      const {x,y,r,rot} = state.halo;
+      const strokeW = +el.strokeW.value;
+      const gap = +el.gap.value;
 
-    cfg.random.addEventListener('click', randomize);
-    cfg.download.addEventListener('click', downloadPNG);
-    cfg.clear.addEventListener('click', resetAll);
+      cx.save();
+      cx.translate(x,y);
+      cx.rotate(radians(rot));
 
-    // Keys: R randomize, D download, arrows rotate
-    window.addEventListener('keydown', (e) => {
-      if (e.key==='r' || e.key==='R') { randomize(); }
-      if (e.key==='d' || e.key==='D') { downloadPNG(); }
-      if (e.key==='ArrowLeft')  { cfg.rot.value = (+cfg.rot.value + 357) % 360; draw(); }
-      if (e.key==='ArrowRight') { cfg.rot.value = (+cfg.rot.value + 3) % 360; draw(); }
+      cx.shadowColor = el.shadow.value;
+      cx.shadowBlur  = +el.glow.value;
+
+      cx.lineCap = 'round';
+      cx.strokeStyle = el.stroke.value;
+      cx.lineWidth = strokeW;
+
+      const start = radians(gap/2);
+      const end   = radians(360 - gap/2);
+
+      cx.beginPath();
+      cx.arc(0,0, r, start, end, false);
+      cx.stroke();
+
+      cx.restore();
+    }
+
+    // Upload handler
+    el.file.addEventListener('change', e => {
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+      
+      uploadedImageSize = { width: 0, height: 0, size: f.size };
+      
+      const img = new Image();
+      img.onload = () => {
+        state.img = img;
+        state.imgW = img.naturalWidth;
+        state.imgH = img.naturalHeight;
+
+        uploadedImageSize.width = state.imgW;
+        uploadedImageSize.height = state.imgH;
+
+        state.halo.x = cv.width/2;
+        state.halo.y = cv.height/2 - 200;
+
+        el.status.textContent = `Loaded ${f.name} (${state.imgW}×${state.imgH})`;
+        announcer.textContent = `Image loaded: ${f.name}`;
+        draw(true);
+
+        sendGA('image_uploaded', {
+          page: 'make_halo',
+          width: state.imgW,
+          height: state.imgH,
+          aspect_ratio: (state.imgW / state.imgH).toFixed(2),
+          file_size_kb: Math.round(f.size / 1024)
+        });
+      };
+      img.src = URL.createObjectURL(f);
     });
 
-    // Init
-    resizeToDisplay();
-    resetAll();
-    window.addEventListener('resize', draw);
+    // Drag to move halo
+    cv.addEventListener('pointerdown', (e) => {
+      const rect = cv.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (cv.width/rect.width);
+      const y = (e.clientY - rect.top)  * (cv.height/rect.height);
+      const dx = x - state.halo.x, dy = y - state.halo.y;
+      const dist = Math.hypot(dx,dy);
+      if (Math.abs(dist - state.halo.r) < 40 || dist < state.halo.r * 0.8) {
+        state.dragging = true;
+        state.dragOffX = dx; state.dragOffY = dy;
+        cv.setPointerCapture(e.pointerId);
+        cv.classList.add('dragging');
+      }
+    });
+
+    cv.addEventListener('pointermove', (e) => {
+      if (!state.dragging) return;
+      const rect = cv.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (cv.width/rect.width);
+      const y = (e.clientY - rect.top)  * (cv.height/rect.height);
+      state.halo.x = clamp(x - state.dragOffX, 0, cv.width);
+      state.halo.y = clamp(y - state.dragOffY, 0, cv.height);
+      draw(true);
+    });
+
+    cv.addEventListener('pointerup', (e) => {
+      if (state.dragging) {
+        sendGA('halo_dragged', { page: 'make_halo' });
+      }
+      state.dragging = false;
+      cv.releasePointerCapture(e.pointerId);
+      cv.classList.remove('dragging');
+    });
+
+    // Wheel / pinch to scale halo
+    cv.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = Math.sign(e.deltaY);
+      state.halo.r = clamp(state.halo.r * (1 - 0.06*delta), 40, 800);
+      el.radius.value = Math.round(state.halo.r);
+      draw(true);
+      sendGA('halo_scaled', { page: 'make_halo', method: 'wheel' });
+    }, {passive:false});
+
+    // Controls
+    ['radius','strokeW','gap','rot','stroke','shadow','glow','bg'].forEach(id=>{
+      $(id).addEventListener('input', ()=>{
+        if (id === 'radius') state.halo.r = +el.radius.value;
+        if (id === 'rot')    state.halo.rot = +el.rot.value;
+        draw(true);
+      });
+      $(id).addEventListener('change', () => {
+        controlInteractions[id] = (controlInteractions[id] || 0) + 1;
+        sendGA('control_changed', { control: id, page: 'make_halo' });
+      });
+    });
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e)=>{
+      if (e.key === 'ArrowLeft')  { 
+        state.halo.rot = (state.halo.rot + 357) % 360; 
+        el.rot.value = state.halo.rot; 
+        draw(true); 
+      }
+      if (e.key === 'ArrowRight') { 
+        state.halo.rot = (state.halo.rot +   3) % 360; 
+        el.rot.value = state.halo.rot; 
+        draw(true); 
+      }
+      if (e.key === 'd' || e.key === 'D') downloadPNG();
+      
+      // Undo/Redo
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        undo();
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+        e.preventDefault();
+        redo();
+      }
+    });
+
+    // Auto place with FaceDetector
+    async function autoPlace() {
+      autoPlaceAttempts++;
+      
+      if (!('FaceDetector' in window)) {
+        el.status.innerHTML = 'Auto-place not supported in this browser. <span class="warn">Place manually.</span>';
+        announcer.textContent = 'Auto-place not supported in this browser';
+        sendGA('auto_place_failed', { page: 'make_halo', reason: 'not_supported' });
+        return;
+      }
+      
+      if (!state.img) {
+        el.status.textContent = 'Please upload an image first.';
+        announcer.textContent = 'Please upload an image first';
+        return;
+      }
+
+      try {
+        el.status.textContent = 'Detecting faces...';
+        const det = new FaceDetector({ fastMode:true, maxDetectedFaces:1 });
+        const bitmap = await createImageBitmap(cv);
+        const faces = await det.detect(bitmap);
+        
+        if (!faces.length) {
+          el.status.textContent = 'No face detected. Try manual placement.';
+          announcer.textContent = 'No face detected';
+          sendGA('auto_place_failed', { page: 'make_halo', reason: 'no_face' });
+          return;
+        }
+        
+        const f = faces[0].boundingBox;
+        const cxFace = f.x + f.width/2;
+        const cyFace = f.y + f.height/2;
+        state.halo.x = cxFace;
+        state.halo.y = cyFace - f.height*0.7;
+        state.halo.r = Math.max(f.width, f.height) * 0.6;
+        el.radius.value = Math.round(state.halo.r);
+        draw(true);
+        
+        el.status.textContent = 'Auto-placed halo using on-device face detection.';
+        announcer.textContent = 'Halo automatically placed on detected face';
+        autoPlaceSuccesses++;
+        
+        sendGA('auto_place_success', { 
+          page: 'make_halo',
+          face_width: Math.round(f.width),
+          face_height: Math.round(f.height)
+        });
+      } catch (err) {
+        console.error(err);
+        el.status.textContent = 'Face detection error. Place manually.';
+        announcer.textContent = 'Face detection error';
+        sendGA('auto_place_failed', { page: 'make_halo', reason: 'error' });
+      }
+    }
+
+    // Export
+    function downloadPNG(){
+      const a = document.createElement('a');
+      a.download = `halo-${Date.now()}.png`;
+      a.href = cv.toDataURL('image/png');
+      a.click();
+      announcer.textContent = 'Halo image downloaded';
+      downloadCount++;
+      sendGA('download', { page: 'make_halo', format: 'png', count: downloadCount });
+    }
+
+    // Share
+    function shareImage() {
+      cv.toBlob(async (blob) => {
+        const file = new File([blob], 'halo.png', { type: 'image/png' });
+        
+        if (navigator.share && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'My Halo Creation',
+              text: 'Check out my art circle halo!'
+            });
+            sendGA('share', { page: 'make_halo', method: 'web_share' });
+          } catch(err) {
+            if (err.name !== 'AbortError') {
+              console.error('Share failed:', err);
+            }
+          }
+        } else {
+          // Fallback: download
+          downloadPNG();
+          announcer.textContent = 'Sharing not supported. Image downloaded instead.';
+        }
+      });
+    }
+
+    // Save/Load
+    function saveConfig() {
+      const config = getHaloState();
+      storage.set('halo_config', JSON.stringify(config));
+      el.status.textContent = 'Configuration saved';
+      announcer.textContent = 'Halo configuration saved';
+      sendGA('save_config', { page: 'make_halo' });
+    }
+
+    function loadConfig() {
+      const saved = storage.get('halo_config');
+      if (saved) {
+        try {
+          const config = JSON.parse(saved);
+          setHaloState(config, true);
+          el.status.textContent = 'Configuration loaded';
+          announcer.textContent = 'Halo configuration loaded';
+          sendGA('load_config', { page: 'make_halo' });
+        } catch(e) {
+          el.status.textContent = 'Failed to load configuration';
+        }
+      } else {
+        el.status.textContent = 'No saved configuration found';
+        announcer.textContent = 'No saved configuration found';
+      }
+    }
+
+    // Reset
+    function resetAll(){
+      state.halo = { x:800, y:700, r:260, rot:0 };
+      el.radius.value = 260; el.strokeW.value = 10; el.gap.value = 35; el.rot.value = 0;
+      el.stroke.value = '#d4af37'; el.shadow.value = '#d4af37'; el.glow.value = 24; el.bg.value = '#111111';
+      draw(true);
+      el.status.textContent = 'Reset to default settings';
+      announcer.textContent = 'Halo reset to defaults';
+      sendGA('reset', { page: 'make_halo' });
+    }
+
+    // Event listeners
+    el.auto.addEventListener('click', autoPlace);
+    el.download.addEventListener('click', downloadPNG);
+    el.share.addEventListener('click', shareImage);
+    el.save.addEventListener('click', saveConfig);
+    el.load.addEventListener('click', loadConfig);
+    el.reset.addEventListener('click', resetAll);
+    el.undoBtn.addEventListener('click', undo);
+    el.redoBtn.addEventListener('click', redo);
+
+    // Theme toggle
+    const themeToggle = $('themeToggle');
+    const body = document.body;
+    
+    const savedTheme = storage.get('theme') || 'dark';
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      const currentTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
+      storage.set('theme', currentTheme);
+      announcer.textContent = `Switched to ${currentTheme} theme`;
+      sendGA('theme_toggle', { theme: currentTheme, page: 'make_halo' });
+    });
+
+    // Show whether FaceDetector is available
+    if ('FaceDetector' in window) {
+      el.autoState.hidden = false;
+      el.autoState.textContent = 'On-device face detection available';
+    } else {
+      el.autoState.hidden = false;
+      el.autoState.textContent = 'Auto-place not available';
+      el.autoState.style.color = '#ffdf9a';
+      el.autoState.style.borderColor = '#5a3';
+    }
+
+    // Track session end
+    window.addEventListener('beforeunload', () => {
+      const sessionTime = Math.round((Date.now() - sessionStart) / 1000);
+      sendGA('session_end', {
+        page: 'make_halo',
+        duration_seconds: sessionTime,
+        control_interactions: controlInteractions,
+        download_count: downloadCount,
+        auto_place_attempts: autoPlaceAttempts,
+        auto_place_successes: autoPlaceSuccesses,
+        auto_place_success_rate: autoPlaceAttempts > 0 ? (autoPlaceSuccesses / autoPlaceAttempts * 100).toFixed(0) : 0,
+        uploaded_image: uploadedImageSize ? {
+          width: uploadedImageSize.width,
+          height: uploadedImageSize.height,
+          size_kb: Math.round(uploadedImageSize.size / 1024)
+        } : null
+      });
+    });
+
+    // Track page view
+    sendGA('page_view', { 
+      page: 'make_halo',
+      page_title: document.title,
+      face_detection_available: 'FaceDetector' in window
+    });
+
+    // Initial paint
+    draw(true);
   </script>
 </body>
 </html>
