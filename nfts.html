@@ -1,64 +1,188 @@
-<!-- Art Circle Project NFT Collection Embed (Adaptive to Light/Dark) -->
-<section id="nfts" style="padding: 2rem 0; text-align: center;">
-  <h2 style="margin-bottom: 1rem;">The Art Circle Project — 2025 NFTs</h2>
-
-  <!-- Light mode embed -->
-  <iframe 
-    id="zora-light"
-    src="https://zora.co/collections/0xYourContractAddress?view=grid&theme=light"
-    width="100%"
-    height="800"
-    frameborder="0"
-    style="border-radius:12px;border:1px solid #ccc;display:block;background:#fff;">
-  </iframe>
-
-  <!-- Dark mode embed -->
-  <iframe 
-    id="zora-dark"
-    src="https://zora.co/collections/0xYourContractAddress?view=grid&theme=dark"
-    width="100%"
-    height="800"
-    frameborder="0"
-    style="border-radius:12px;border:1px solid #333;display:none;background:#111;">
-  </iframe>
-
-  <p style="margin-top:1rem;font-size:0.9rem;">
-    Minted on <a href="https://zora.co" target="_blank" rel="noopener" style="color:#9fe2bf;">Zora</a> · Powered by Base
-  </p>
+<!-- Art Circle Project NFT Collection Embed (Enhanced) -->
+<section id="nfts" style="padding: 2rem 0; text-align: center; position: relative;">
+  <h2 style="margin-bottom: 1rem; font-size: 1.8rem; font-weight: 600;">The Art Circle Project — 2025 NFTs</h2>
+  
+  <div style="position: relative; width: 100%; max-width: 1200px; margin: 0 auto;">
+    <!-- Loading State -->
+    <div id="nft-loading" style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+    ">
+      <div style="
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(159, 226, 191, 0.2);
+        border-top-color: #9fe2bf;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      "></div>
+      <p style="color: #999; font-size: 0.9rem;">Loading collection...</p>
+    </div>
+    
+    <!-- Light mode embed -->
+    <iframe 
+      id="manifold-light"
+      src="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG?theme=light"
+      width="100%"
+      height="800"
+      frameborder="0"
+      loading="lazy"
+      title="Art Circle Project NFT Collection - Light Mode"
+      style="
+        border-radius: 12px;
+        border: 1px solid #ccc;
+        display: block;
+        background: #fff;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      ">
+    </iframe>
+    
+    <!-- Dark mode embed -->
+    <iframe 
+      id="manifold-dark"
+      src="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG?theme=dark"
+      width="100%"
+      height="800"
+      frameborder="0"
+      loading="lazy"
+      title="Art Circle Project NFT Collection - Dark Mode"
+      style="
+        border-radius: 12px;
+        border: 1px solid #333;
+        display: none;
+        background: #111;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      ">
+    </iframe>
+  </div>
+  
+  <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: center;">
+    <p style="font-size: 0.9rem; color: #999; margin: 0;">
+      Minted on <a href="https://manifold.xyz" target="_blank" rel="noopener" style="color: #9fe2bf; text-decoration: none; font-weight: 500; transition: color 0.2s;">Manifold</a> · Powered by Base
+    </p>
+    <a 
+      href="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG" 
+      target="_blank" 
+      rel="noopener"
+      style="
+        display: inline-block;
+        padding: 0.5rem 1.2rem;
+        background: linear-gradient(135deg, #9fe2bf, #7bc9a0);
+        color: #111;
+        text-decoration: none;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(159, 226, 191, 0.3);
+      "
+      onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(159, 226, 191, 0.4)';"
+      onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(159, 226, 191, 0.3)';"
+    >
+      View Full Collection →
+    </a>
+  </div>
 </section>
+
+<style>
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    #nfts h2 {
+      font-size: 1.4rem;
+    }
+    #manifold-light,
+    #manifold-dark {
+      height: 600px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    #nfts {
+      padding: 1.5rem 1rem;
+    }
+    #nfts h2 {
+      font-size: 1.2rem;
+    }
+    #manifold-light,
+    #manifold-dark {
+      height: 500px;
+      border-radius: 8px;
+    }
+  }
+</style>
 
 <script>
   (function () {
-    const lightFrame = document.getElementById('zora-light');
-    const darkFrame  = document.getElementById('zora-dark');
-
+    const lightFrame = document.getElementById('manifold-light');
+    const darkFrame = document.getElementById('manifold-dark');
+    const loadingDiv = document.getElementById('nft-loading');
+    let hasLoaded = false;
+    
     function show(mode) {
       const dark = (mode === 'dark');
-      lightFrame.style.display = dark ? 'none'  : 'block';
-      darkFrame.style.display  = dark ? 'block' : 'none';
+      const activeFrame = dark ? darkFrame : lightFrame;
+      const inactiveFrame = dark ? lightFrame : darkFrame;
+      
+      // Show active frame
+      activeFrame.style.display = 'block';
+      inactiveFrame.style.display = 'none';
+      
+      // If already loaded, show immediately
+      if (hasLoaded) {
+        activeFrame.style.opacity = '1';
+      }
     }
-
+    
     function detectTheme() {
       // 1) Check data-theme on <html> or <body>
       const htmlTheme = document.documentElement.getAttribute('data-theme');
       const bodyTheme = document.body.getAttribute('data-theme');
       if (htmlTheme === 'dark' || bodyTheme === 'dark') return 'dark';
       if (htmlTheme === 'light' || bodyTheme === 'light') return 'light';
-
       // 2) Fallback to system preference
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-
+    
+    // Handle iframe load events
+    function handleLoad() {
+      hasLoaded = true;
+      loadingDiv.style.display = 'none';
+      const currentTheme = detectTheme();
+      const activeFrame = currentTheme === 'dark' ? darkFrame : lightFrame;
+      activeFrame.style.opacity = '1';
+    }
+    
+    lightFrame.addEventListener('load', handleLoad);
+    darkFrame.addEventListener('load', handleLoad);
+    
+    // Fallback: hide loading after 5 seconds even if load event doesn't fire
+    setTimeout(() => {
+      if (!hasLoaded) {
+        handleLoad();
+      }
+    }, 5000);
+    
     // Initial render
     show(detectTheme());
-
-    // 3) Listen for system preference changes (fallback)
+    
+    // Listen for system preference changes
     try {
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
       mq.addEventListener('change', () => show(detectTheme()));
     } catch (e) {}
-
-    // 4) If your site fires a CustomEvent('themechange', { detail: { theme: 'dark'|'light' } })
+    
+    // Listen for custom theme change events
     window.addEventListener('themechange', (e) => {
       if (e && e.detail && (e.detail.theme === 'dark' || e.detail.theme === 'light')) {
         show(e.detail.theme);
@@ -66,13 +190,13 @@
         show(detectTheme());
       }
     });
-
-    // 5) If your toggle sets data-theme, observe it and switch automatically
+    
+    // Observe data-theme attribute changes
     const observer = new MutationObserver(() => show(detectTheme()));
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
-
-    // Optional: if your toggle is a button with id="theme-toggle", hook it:
+    
+    // Hook into theme toggle button if it exists
     const btn = document.getElementById('theme-toggle');
     if (btn) btn.addEventListener('click', () => setTimeout(() => show(detectTheme()), 0));
   })();
