@@ -5,55 +5,386 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>404 – jmsn.art</title>
   <style>
-    body {
-      margin:0;
-      background:#111;
-      color:#fff;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      font-family:Arial,Helvetica,sans-serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+    
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 215, 0, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float linear infinite;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .circle-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+    }
+    
     .circle {
-      width:180px;
-      height:180px;
-      border:8px solid gold;
-      border-radius:50%;
-      position:relative;
+      width: 180px;
+      height: 180px;
+      border: 8px solid gold;
+      border-radius: 50%;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      transition: all 0.3s ease;
       animation: spin 40s linear infinite;
     }
-    .circle::after {
-      content:"";
-      position:absolute;
-      top:-8px; 
-      left:50%;
-      width:50%; 
-      height:16px;
-      background:#111;
-      transform:translateX(-50%);
+    
+    .circle.hover {
+      animation: spinFast 2s linear infinite;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+      transform: scale(1.1);
     }
+    
+    .circle::after {
+      content: "";
+      position: absolute;
+      top: -8px; 
+      left: 50%;
+      width: 50%; 
+      height: 16px;
+      background: #0a0a0a;
+      transform: translateX(-50%);
+    }
+    
+    .circle-fragments {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    
+    .fragment {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: gold;
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    
+    .circle.hover ~ .circle-fragments .fragment {
+      opacity: 0.6;
+    }
+    
+    .fragment:nth-child(1) { top: -10px; left: 50%; animation: fragmentFloat1 3s ease-in-out infinite; }
+    .fragment:nth-child(2) { top: 50%; right: -10px; animation: fragmentFloat2 3s ease-in-out infinite 0.5s; }
+    .fragment:nth-child(3) { bottom: -10px; left: 50%; animation: fragmentFloat3 3s ease-in-out infinite 1s; }
+    .fragment:nth-child(4) { top: 50%; left: -10px; animation: fragmentFloat4 3s ease-in-out infinite 1.5s; }
+    
+    @keyframes fragmentFloat1 {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, -10px); }
+    }
+    
+    @keyframes fragmentFloat2 {
+      0%, 100% { transform: translate(0, -50%); }
+      50% { transform: translate(10px, -50%); }
+    }
+    
+    @keyframes fragmentFloat3 {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, 10px); }
+    }
+    
+    @keyframes fragmentFloat4 {
+      0%, 100% { transform: translate(0, -50%); }
+      50% { transform: translate(-10px, -50%); }
+    }
+    
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
-    h1 {
-      margin-top:30px;
-      font-size:24px;
-      letter-spacing:1px;
+    
+    @keyframes spinFast {
+      from { transform: rotate(0deg) scale(1.1); }
+      to { transform: rotate(360deg) scale(1.1); }
     }
-    a {
-      margin-top:10px;
-      color:#fff;
-      text-decoration:underline;
-      opacity:.8;
+    
+    .error-code {
+      font-size: 72px;
+      font-weight: bold;
+      margin-top: 40px;
+      background: linear-gradient(45deg, gold, #ffd700, #ffed4e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 8px;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes glowPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    h1 {
+      margin-top: 20px;
+      font-size: 24px;
+      letter-spacing: 2px;
+      font-weight: 300;
+    }
+    
+    .message {
+      margin-top: 15px;
+      font-size: 16px;
+      opacity: 0.8;
+      font-style: italic;
+      max-width: 400px;
+      line-height: 1.6;
+    }
+    
+    .search-box {
+      margin-top: 30px;
+      position: relative;
+    }
+    
+    .search-box input {
+      width: 320px;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 25px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    
+    .search-box input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .search-box input:focus {
+      border-color: gold;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .links {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .links a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      background: rgba(255, 215, 0, 0.05);
+    }
+    
+    .links a:hover {
+      background: rgba(255, 215, 0, 0.2);
+      border-color: gold;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+    
+    .countdown {
+      margin-top: 30px;
+      font-size: 13px;
+      opacity: 0.6;
+      font-style: italic;
+    }
+    
+    .countdown.hidden {
+      display: none;
+    }
+    
+    @media (max-width: 640px) {
+      .error-code {
+        font-size: 56px;
+      }
+      
+      .search-box input {
+        width: 280px;
+      }
+      
+      .links {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="circle"></div>
-  <h1>Page Not Found</h1>
-  <a href="/">Return to Gallery</a>
+  <div class="particles" id="particles"></div>
+  
+  <div class="content">
+    <div class="circle-container">
+      <div class="circle" id="circle"></div>
+      <div class="circle-fragments">
+        <div class="fragment"></div>
+        <div class="fragment"></div>
+        <div class="fragment"></div>
+        <div class="fragment"></div>
+      </div>
+    </div>
+    
+    <div class="error-code">404</div>
+    <h1>This Masterpiece Doesn't Exist</h1>
+    <p class="message">Lost in the gallery? This artwork hasn't been created yet, or perhaps it's hiding in a different dimension.</p>
+    
+    <div class="search-box">
+      <input type="text" placeholder="Search for art..." id="searchInput" aria-label="Search for artwork">
+    </div>
+    
+    <div class="links">
+      <a href="/">Return to Gallery</a>
+      <a href="/featured">Featured Works</a>
+      <a href="/collections">Collections</a>
+    </div>
+    
+    <div class="countdown" id="countdown">Returning to gallery in <span id="timer">10</span> seconds...</div>
+  </div>
+
+  <script>
+    // Particle system
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 30;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const size = Math.random() * 4 + 2;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+      particle.style.animationDelay = Math.random() * 5 + 's';
+      particlesContainer.appendChild(particle);
+    }
+    
+    // Circle hover effect
+    const circle = document.getElementById('circle');
+    const circleContainer = circle.parentElement;
+    
+    circleContainer.addEventListener('mouseenter', () => {
+      circle.classList.add('hover');
+    });
+    
+    circleContainer.addEventListener('mouseleave', () => {
+      circle.classList.remove('hover');
+    });
+    
+    // Parallax effect
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      circleContainer.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && searchInput.value.trim()) {
+        window.location.href = `/?search=${encodeURIComponent(searchInput.value)}`;
+      }
+    });
+    
+    // Countdown timer
+    let timeLeft = 10;
+    const countdownEl = document.getElementById('countdown');
+    const timerEl = document.getElementById('timer');
+    let countdownActive = true;
+    
+    const countdownInterval = setInterval(() => {
+      if (!countdownActive) return;
+      
+      timeLeft--;
+      timerEl.textContent = timeLeft;
+      
+      if (timeLeft <= 0) {
+        clearInterval(countdownInterval);
+        window.location.href = '/';
+      }
+    }, 1000);
+    
+    // Pause countdown on interaction
+    const pauseCountdown = () => {
+      countdownActive = false;
+      countdownEl.classList.add('hidden');
+    };
+    
+    searchInput.addEventListener('focus', pauseCountdown);
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('mouseenter', pauseCountdown);
+    });
+    circleContainer.addEventListener('mouseenter', pauseCountdown);
+  </script>
 </body>
 </html>
