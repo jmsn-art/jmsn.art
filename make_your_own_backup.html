@@ -4,6 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Your Own Art Circle</title>
+  
+  <!-- Preconnect for GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCCF');
+  </script>
+  
   <style>
     * {
       margin: 0;
@@ -20,7 +34,34 @@
       transition: background 1.5s ease, color 1.5s ease;
     }
 
-    /* Top bar with return button */
+    /* Screen reader only */
+    .sr-only {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; 
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap; 
+      border: 0;
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      border: 2px solid #fff;
+      z-index: 100;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Top bar */
     .topbar{
       max-width: 1400px;
       margin: 0 auto 16px;
@@ -40,12 +81,16 @@
       text-decoration:none;
       font-weight:600;
       letter-spacing:.3px;
-      transition:background 1.5s ease, box-shadow 1.5s ease, color 1.5s ease, border-color 1.5s ease;
+      transition:background 0.3s ease, box-shadow 0.3s ease, color 1.5s ease, border-color 1.5s ease;
       cursor: pointer;
     }
     .cta-btn:hover{
       background:rgba(255,255,255,.08);
       box-shadow:0 4px 14px rgba(0,0,0,.25);
+    }
+    .cta-btn:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
     }
 
     .container {
@@ -74,10 +119,13 @@
       position: sticky;
       top: 20px;
       transition: background 1.5s ease, border-color 1.5s ease;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .control-group {
       margin-bottom: 25px;
+      position: relative;
     }
 
     label {
@@ -88,6 +136,31 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       transition: color 1.5s ease;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      margin-left: 5px;
+      cursor: help;
+      color: #666;
+      font-size: 0.8rem;
+    }
+    .tooltip:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      font-size: 0.75rem;
+      z-index: 10;
+      border: 1px solid #444;
     }
 
     input[type="range"] {
@@ -123,6 +196,11 @@
       transition: background 1.5s ease, box-shadow 1.5s ease;
     }
 
+    input[type="range"]:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
     input[type="color"] {
       width: 100%;
       height: 50px;
@@ -136,6 +214,11 @@
       border-radius: 10px;
       border: 2px solid #333;
       transition: border-color 1.5s ease;
+    }
+
+    input[type="color"]:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
     }
 
     .value-display {
@@ -160,9 +243,14 @@
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: all 1.5s ease;
+      transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 1px;
+    }
+
+    button:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
     }
 
     .btn-primary {
@@ -179,7 +267,6 @@
       background: #222;
       color: #fff;
       border: 1px solid #333;
-      transition: background 1.5s ease, color 1.5s ease, border-color 1.5s ease;
     }
 
     .btn-secondary:hover {
@@ -217,12 +304,45 @@
       border-radius: 5px;
       color: #fff;
       cursor: pointer;
-      transition: all 1.5s ease;
+      transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, transform 0.3s ease;
     }
 
     .preset-btn:hover {
       background: #333;
       transform: scale(1.05);
+    }
+
+    .preset-btn:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
+    /* History buttons */
+    .history-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .history-btn {
+      flex: 1;
+      padding: 10px;
+      background: #222;
+      border: 1px solid #333;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease, opacity 0.3s ease;
+    }
+
+    .history-btn:hover:not(:disabled) {
+      background: #333;
+    }
+
+    .history-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
     }
 
     @media (max-width: 1024px) {
@@ -231,12 +351,14 @@
       }
       .controls {
         position: static;
+        max-height: none;
+      }
+      h1 {
+        font-size: 1.8rem;
       }
     }
 
-    /* =========================
-       LIGHT THEME
-       ========================= */
+    /* Light theme */
     body.light-theme {
       background: #f7f7f8;
       color: #111;
@@ -265,6 +387,10 @@
       background: rgba(0,0,0,.05);
     }
 
+    body.light-theme .cta-btn:focus-visible {
+      outline-color: #111;
+    }
+
     body.light-theme label {
       color: #666;
     }
@@ -287,8 +413,16 @@
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     }
 
+    body.light-theme input[type="range"]:focus-visible {
+      outline-color: #111;
+    }
+
     body.light-theme input[type="color"]::-webkit-color-swatch {
       border-color: #cccccc;
+    }
+
+    body.light-theme input[type="color"]:focus-visible {
+      outline-color: #111;
     }
 
     body.light-theme .btn-primary {
@@ -310,27 +444,44 @@
       background: #d0d0d0;
     }
 
-    body.light-theme .preset-btn {
+    body.light-theme .preset-btn,
+    body.light-theme .history-btn {
       background: #e0e0e0;
       color: #111;
       border-color: #cccccc;
     }
 
-    body.light-theme .preset-btn:hover {
+    body.light-theme .preset-btn:hover,
+    body.light-theme .history-btn:hover:not(:disabled) {
       background: #d0d0d0;
     }
-  </style>
 
-  <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-FQPZNDPCCF');
-  </script>
+    body.light-theme button:focus-visible {
+      outline-color: #111;
+    }
+
+    body.light-theme .skip-link {
+      background: #fff;
+      color: #111;
+      border-color: #111;
+    }
+
+    body.light-theme .tooltip:hover::after {
+      background: #fff;
+      color: #111;
+      border-color: #ccc;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to controls</a>
 
   <!-- Return buttons + Theme toggle -->
   <div class="topbar">
@@ -340,66 +491,76 @@
   </div>
 
   <div class="container">
-    <h1>Create Your Own Art Circle Study (best on desktop)</h1>
+    <h1>Create Your Own Art Circle Study</h1>
 
-    <div class="controls">
-      <div class="control-group">
-        <label>Gap Size <span class="value-display" id="gapValue">30°</span></label>
-        <input type="range" id="gapSize" min="5" max="90" value="30" step="1">
+    <div class="controls" id="main-content">
+      <!-- History controls -->
+      <div class="history-group">
+        <button class="history-btn" id="undoBtn" disabled aria-label="Undo last change">↶ Undo</button>
+        <button class="history-btn" id="redoBtn" disabled aria-label="Redo last change">↷ Redo</button>
       </div>
 
       <div class="control-group">
-        <label>Gap Position <span class="value-display" id="posValue">0°</span></label>
-        <input type="range" id="gapPosition" min="0" max="360" value="0" step="1">
+        <label>Gap Size <span class="tooltip" data-tip="Size of the break in the circle">ⓘ</span> <span class="value-display" id="gapValue">30°</span></label>
+        <input type="range" id="gapSize" min="5" max="90" value="30" step="1" aria-label="Gap size in degrees">
       </div>
 
       <div class="control-group">
-        <label>Circle Size <span class="value-display" id="sizeValue">300px</span></label>
-        <input type="range" id="circleSize" min="100" max="500" value="300" step="10">
+        <label>Gap Position <span class="tooltip" data-tip="Where the gap starts (rotation)">ⓘ</span> <span class="value-display" id="posValue">0°</span></label>
+        <input type="range" id="gapPosition" min="0" max="360" value="0" step="1" aria-label="Gap position in degrees">
       </div>
 
       <div class="control-group">
-        <label>Stroke Thickness <span class="value-display" id="thicknessValue">8px</span></label>
-        <input type="range" id="strokeThickness" min="2" max="30" value="8" step="1">
+        <label>Circle Size <span class="tooltip" data-tip="Diameter of each circle">ⓘ</span> <span class="value-display" id="sizeValue">300px</span></label>
+        <input type="range" id="circleSize" min="100" max="500" value="300" step="10" aria-label="Circle size in pixels">
+      </div>
+
+      <div class="control-group">
+        <label>Stroke Thickness <span class="tooltip" data-tip="Width of the circle line">ⓘ</span> <span class="value-display" id="thicknessValue">8px</span></label>
+        <input type="range" id="strokeThickness" min="2" max="30" value="8" step="1" aria-label="Stroke thickness in pixels">
       </div>
 
       <div class="control-group">
         <label>Circle Color</label>
-        <input type="color" id="circleColor" value="#00ffff">
+        <input type="color" id="circleColor" value="#00ffff" aria-label="Circle color picker">
       </div>
 
       <div class="control-group">
         <label>Background Color</label>
-        <input type="color" id="bgColor" value="#ff0000">
+        <input type="color" id="bgColor" value="#ff0000" aria-label="Background color picker">
       </div>
 
       <div class="control-group">
-        <label>Glow Intensity <span class="value-display" id="glowValue">20px</span></label>
-        <input type="range" id="glowIntensity" min="0" max="50" value="20" step="1">
+        <label>Glow Intensity <span class="tooltip" data-tip="Amount of glow/shadow effect">ⓘ</span> <span class="value-display" id="glowValue">20px</span></label>
+        <input type="range" id="glowIntensity" min="0" max="50" value="20" step="1" aria-label="Glow intensity in pixels">
       </div>
 
       <div class="control-group">
-        <label>Number of Circles <span class="value-display" id="countValue">1</span></label>
-        <input type="range" id="circleCount" min="1" max="999" value="1" step="1">
+        <label>Number of Circles <span class="tooltip" data-tip="Grid of multiple circles">ⓘ</span> <span class="value-display" id="countValue">1</span></label>
+        <input type="range" id="circleCount" min="1" max="999" value="1" step="1" aria-label="Number of circles">
       </div>
 
       <div class="control-group">
         <label>Presets</label>
         <div class="preset-buttons">
-          <button class="preset-btn" onclick="applyPreset('minimal')">Minimal</button>
-          <button class="preset-btn" onclick="applyPreset('neon')">Neon</button>
-          <button class="preset-btn" onclick="applyPreset('zen')">Zen</button>
-          <button class="preset-btn" onclick="applyPreset('bold')">Bold</button>
-          <button class="preset-btn" onclick="applyPreset('subtle')">Subtle</button>
-          <button class="preset-btn" onclick="applyPreset('cosmic')">Cosmic</button>
+          <button class="preset-btn" onclick="applyPreset('minimal')" aria-label="Apply minimal preset">Minimal</button>
+          <button class="preset-btn" onclick="applyPreset('neon')" aria-label="Apply neon preset">Neon</button>
+          <button class="preset-btn" onclick="applyPreset('zen')" aria-label="Apply zen preset">Zen</button>
+          <button class="preset-btn" onclick="applyPreset('bold')" aria-label="Apply bold preset">Bold</button>
+          <button class="preset-btn" onclick="applyPreset('subtle')" aria-label="Apply subtle preset">Subtle</button>
+          <button class="preset-btn" onclick="applyPreset('cosmic')" aria-label="Apply cosmic preset">Cosmic</button>
         </div>
       </div>
 
       <div class="button-group">
         <button class="btn-primary" onclick="downloadSVG()">Download SVG</button>
         <button class="btn-primary" onclick="downloadPNG()">Download PNG</button>
-        <button class="btn-secondary" onclick="randomize()">Randomize</button>
-        <button class="btn-secondary" onclick="reset()">Reset</button>
+        <button class="btn-secondary" onclick="shareConfig()">📤 Share</button>
+        <button class="btn-secondary" onclick="copyConfig()">📋 Copy Settings</button>
+        <button class="btn-secondary" onclick="saveConfig()">💾 Save</button>
+        <button class="btn-secondary" onclick="loadConfig()">📂 Load</button>
+        <button class="btn-secondary" onclick="randomize()">🎲 Randomize</button>
+        <button class="btn-secondary" onclick="reset()">↺ Reset</button>
       </div>
     </div>
 
@@ -410,7 +571,27 @@
     </div>
   </div>
 
+  <!-- Accessibility announcer -->
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
+
   <script>
+    // Safe localStorage wrapper
+    const storage = {
+      get: (key) => {
+        try { return localStorage.getItem(key); } catch(e) { return null; }
+      },
+      set: (key, val) => {
+        try { localStorage.setItem(key, val); } catch(e) {}
+      }
+    };
+
+    // GA4 helper
+    function track(name, params={}) {
+      if (typeof gtag === 'function') {
+        gtag('event', name, params);
+      }
+    }
+
     // Controls
     const gapSize = document.getElementById('gapSize');
     const gapPosition = document.getElementById('gapPosition');
@@ -425,31 +606,89 @@
     const canvas = document.getElementById('artCanvas');
     const canvasArea = document.getElementById('canvasArea');
     const circlesContainer = document.getElementById('circlesContainer');
+    const announcer = document.getElementById('a11yAnnouncer');
 
-    // --- GA4 helper ---
-    function track(name, params={}) {
-      if (typeof gtag === 'function') {
-        gtag('event', name, params);
+    // History for undo/redo
+    let history = [];
+    let historyIndex = -1;
+    const MAX_HISTORY = 50;
+
+    // Metrics
+    const sessionStart = Date.now();
+    let controlInteractions = {};
+    let downloadCount = 0;
+
+    function getState() {
+      return {
+        gap: parseFloat(gapSize.value),
+        pos: parseFloat(gapPosition.value),
+        size: parseFloat(circleSize.value),
+        thick: parseFloat(strokeThickness.value),
+        color: circleColor.value,
+        bg: bgColor.value,
+        glow: parseFloat(glowIntensity.value),
+        count: parseInt(circleCount.value)
+      };
+    }
+
+    function setState(state, addToHistory = true) {
+      gapSize.value = state.gap;
+      gapPosition.value = state.pos;
+      circleSize.value = state.size;
+      strokeThickness.value = state.thick;
+      circleColor.value = state.color;
+      bgColor.value = state.bg;
+      glowIntensity.value = state.glow;
+      circleCount.value = state.count;
+      updateCircle(addToHistory);
+    }
+
+    function saveToHistory() {
+      const state = getState();
+      // Remove any future states if we're not at the end
+      history = history.slice(0, historyIndex + 1);
+      history.push(state);
+      if (history.length > MAX_HISTORY) {
+        history.shift();
+      } else {
+        historyIndex++;
+      }
+      updateHistoryButtons();
+    }
+
+    function undo() {
+      if (historyIndex > 0) {
+        historyIndex--;
+        setState(history[historyIndex], false);
+        announcer.textContent = 'Undid last change';
+        track('undo_clicked');
       }
     }
 
-    function updateCircle() {
-      const gap = parseFloat(gapSize.value);
-      const position = parseFloat(gapPosition.value);
-      const size = parseFloat(circleSize.value);
-      const thickness = parseFloat(strokeThickness.value);
-      const color = circleColor.value;
-      const bg = bgColor.value;
-      const glow = parseFloat(glowIntensity.value);
-      const count = parseInt(circleCount.value);
+    function redo() {
+      if (historyIndex < history.length - 1) {
+        historyIndex++;
+        setState(history[historyIndex], false);
+        announcer.textContent = 'Redid change';
+        track('redo_clicked');
+      }
+    }
+
+    function updateHistoryButtons() {
+      document.getElementById('undoBtn').disabled = historyIndex <= 0;
+      document.getElementById('redoBtn').disabled = historyIndex >= history.length - 1;
+    }
+
+    function updateCircle(addToHistory = true) {
+      const state = getState();
 
       // Update display values
-      document.getElementById('gapValue').textContent = gap + '°';
-      document.getElementById('posValue').textContent = position + '°';
-      document.getElementById('sizeValue').textContent = size + 'px';
-      document.getElementById('thicknessValue').textContent = thickness + 'px';
-      document.getElementById('glowValue').textContent = glow + 'px';
-      document.getElementById('countValue').textContent = count;
+      document.getElementById('gapValue').textContent = state.gap + '°';
+      document.getElementById('posValue').textContent = state.pos + '°';
+      document.getElementById('sizeValue').textContent = state.size + 'px';
+      document.getElementById('thicknessValue').textContent = state.thick + 'px';
+      document.getElementById('glowValue').textContent = state.glow + 'px';
+      document.getElementById('countValue').textContent = state.count;
 
       // Clear
       circlesContainer.innerHTML = '';
@@ -458,20 +697,20 @@
       const W = 1000, H = 1000;
 
       // Grid
-      const cols = Math.ceil(Math.sqrt(count * (W / H)));
-      const rows = Math.ceil(count / cols);
+      const cols = Math.ceil(Math.sqrt(state.count * (W / H)));
+      const rows = Math.ceil(state.count / cols);
       const spacingX = W / cols;
       const spacingY = H / rows;
 
       let idx = 0;
-      for (let r = 0; r < rows && idx < count; r++) {
-        for (let c = 0; c < cols && idx < count; c++) {
+      for (let r = 0; r < rows && idx < state.count; r++) {
+        for (let c = 0; c < cols && idx < state.count; c++) {
           const cx = spacingX * (c + 0.5);
           const cy = spacingY * (r + 0.5);
-          const radius = Math.min(spacingX, spacingY) * 0.4 * (size / 300);
+          const radius = Math.min(spacingX, spacingY) * 0.4 * (state.size / 300);
 
           const C = 2 * Math.PI * radius;
-          const gapLen = (gap / 360) * C;
+          const gapLen = (state.gap / 360) * C;
           const arcLen = C - gapLen;
 
           const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -479,20 +718,24 @@
           circle.setAttribute('cy', cy);
           circle.setAttribute('r', radius);
           circle.setAttribute('fill', 'none');
-          circle.setAttribute('stroke', color);
-          circle.setAttribute('stroke-width', thickness);
+          circle.setAttribute('stroke', state.color);
+          circle.setAttribute('stroke-width', state.thick);
           circle.setAttribute('stroke-linecap', 'round');
           circle.setAttribute('stroke-dasharray', `${arcLen} ${gapLen}`);
-          circle.setAttribute('stroke-dashoffset', -(position * (C / 360)));
+          circle.setAttribute('stroke-dashoffset', -(state.pos * (C / 360)));
 
           circlesContainer.appendChild(circle);
           idx++;
         }
       }
 
-      // Visuals (live preview)
-      canvasArea.style.background = bg;
-      canvas.style.filter = glow > 0 ? `drop-shadow(0 0 ${glow}px ${color})` : 'none';
+      // Visuals
+      canvasArea.style.background = state.bg;
+      canvas.style.filter = state.glow > 0 ? `drop-shadow(0 0 ${state.glow}px ${state.color})` : 'none';
+
+      if (addToHistory) {
+        saveToHistory();
+      }
     }
 
     function applyPreset(preset) {
@@ -505,58 +748,115 @@
         cosmic:  { gap: 40, pos: 270, size: 350, thick: 10, color: '#a0a8ff', bg: '#05030f', glow: 35, count: 144 }
       };
 
-      const p = presets[preset];
-      gapSize.value = p.gap;
-      gapPosition.value = p.pos;
-      circleSize.value = p.size;
-      strokeThickness.value = p.thick;
-      circleColor.value = p.color;
-      bgColor.value = p.bg;
-      glowIntensity.value = p.glow;
-      circleCount.value = p.count;
-
-      updateCircle();
+      setState(presets[preset]);
+      announcer.textContent = `Applied ${preset} preset`;
       track('preset_applied', { preset });
     }
 
     function randomHex(){ return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'); }
 
     function randomize() {
-      gapSize.value = Math.floor(Math.random() * 85) + 5;
-      gapPosition.value = Math.floor(Math.random() * 360);
-      circleSize.value = Math.floor(Math.random() * 400) + 100;
-      strokeThickness.value = Math.floor(Math.random() * 28) + 2;
-      circleColor.value = randomHex();
-      bgColor.value = randomHex();
-      glowIntensity.value = Math.floor(Math.random() * 50);
-      circleCount.value = Math.floor(Math.random() * 999) + 1;
-      updateCircle();
+      const state = {
+        gap: Math.floor(Math.random() * 85) + 5,
+        pos: Math.floor(Math.random() * 360),
+        size: Math.floor(Math.random() * 400) + 100,
+        thick: Math.floor(Math.random() * 28) + 2,
+        color: randomHex(),
+        bg: randomHex(),
+        glow: Math.floor(Math.random() * 50),
+        count: Math.floor(Math.random() * 999) + 1
+      };
+      setState(state);
+      announcer.textContent = 'Randomized all settings';
       track('randomize_clicked');
     }
 
     function reset() {
-      gapSize.value = 30;
-      gapPosition.value = 0;
-      circleSize.value = 300;
-      strokeThickness.value = 8;
-      circleColor.value = '#00ffff';
-      bgColor.value = '#ff0000';
-      glowIntensity.value = 20;
-      circleCount.value = 1;
-      updateCircle();
+      const state = {
+        gap: 30, pos: 0, size: 300, thick: 8,
+        color: '#00ffff', bg: '#ff0000', glow: 20, count: 1
+      };
+      setState(state);
+      announcer.textContent = 'Reset to default settings';
       track('reset_clicked');
     }
 
-    // Build a self-contained SVG (includes background + glow filter)
+    function saveConfig() {
+      const state = getState();
+      storage.set('saved_art_circle', JSON.stringify(state));
+      announcer.textContent = 'Configuration saved';
+      track('save_config');
+      alert('Configuration saved!');
+    }
+
+    function loadConfig() {
+      const saved = storage.get('saved_art_circle');
+      if (saved) {
+        try {
+          const state = JSON.parse(saved);
+          setState(state);
+          announcer.textContent = 'Configuration loaded';
+          track('load_config');
+        } catch(e) {
+          alert('Failed to load configuration');
+        }
+      } else {
+        alert('No saved configuration found');
+      }
+    }
+
+    function copyConfig() {
+      const state = getState();
+      const json = JSON.stringify(state, null, 2);
+      navigator.clipboard.writeText(json).then(() => {
+        announcer.textContent = 'Settings copied to clipboard';
+        track('copy_config');
+        alert('Settings copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy settings');
+      });
+    }
+
+    function shareConfig() {
+      const state = getState();
+      const params = new URLSearchParams({
+        gap: state.gap,
+        pos: state.pos,
+        size: state.size,
+        thick: state.thick,
+        color: state.color.replace('#', ''),
+        bg: state.bg.replace('#', ''),
+        glow: state.glow,
+        count: state.count
+      });
+      const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+      
+      if (navigator.share) {
+        navigator.share({
+          title: 'My Art Circle Creation',
+          text: 'Check out my art circle design!',
+          url: url
+        }).then(() => {
+          track('share_config', { method: 'web_share' });
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          announcer.textContent = 'Share link copied to clipboard';
+          track('share_config', { method: 'clipboard' });
+          alert('Share link copied to clipboard!');
+        }).catch(() => {
+          alert('Failed to copy share link');
+        });
+      }
+    }
+
+    // Build standalone SVG
     function buildStandaloneSVG() {
       const W = 1000, H = 1000;
-      const bg = bgColor.value;
-      const glow = parseFloat(glowIntensity.value);
+      const state = getState();
 
-      // Clone circles content
       const g = circlesContainer.cloneNode(true);
 
-      // Create root SVG
       const svgNS = 'http://www.w3.org/2000/svg';
       const svg = document.createElementNS(svgNS, 'svg');
       svg.setAttribute('xmlns', svgNS);
@@ -565,8 +865,7 @@
       svg.setAttribute('height', String(H));
       svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
-      // <defs> for glow
-      if (glow > 0) {
+      if (state.glow > 0) {
         const defs = document.createElementNS(svgNS, 'defs');
         const filter = document.createElementNS(svgNS, 'filter');
         filter.setAttribute('id', 'glow');
@@ -577,7 +876,7 @@
 
         const feGaussianBlur = document.createElementNS(svgNS, 'feGaussianBlur');
         feGaussianBlur.setAttribute('in', 'SourceGraphic');
-        feGaussianBlur.setAttribute('stdDeviation', (glow/4).toString());
+        feGaussianBlur.setAttribute('stdDeviation', (state.glow/4).toString());
 
         const feMerge = document.createElementNS(svgNS, 'feMerge');
         const feMergeNode1 = document.createElementNS(svgNS, 'feMergeNode');
@@ -592,18 +891,16 @@
         svg.appendChild(defs);
       }
 
-      // Background rect INSIDE the SVG
       const rect = document.createElementNS(svgNS, 'rect');
       rect.setAttribute('x', '0');
       rect.setAttribute('y', '0');
       rect.setAttribute('width', '100%');
       rect.setAttribute('height', '100%');
-      rect.setAttribute('fill', bg);
+      rect.setAttribute('fill', state.bg);
       svg.appendChild(rect);
 
-      // Wrap circles in a group to apply filter
       const wrap = document.createElementNS(svgNS, 'g');
-      if (glow > 0) wrap.setAttribute('filter', 'url(#glow)');
+      if (state.glow > 0) wrap.setAttribute('filter', 'url(#glow)');
       wrap.appendChild(g);
       svg.appendChild(wrap);
 
@@ -620,7 +917,9 @@
       link.download = 'art-circles.svg';
       link.click();
       URL.revokeObjectURL(url);
-      track('download', { format: 'svg' });
+      announcer.textContent = 'SVG downloaded';
+      downloadCount++;
+      track('download', { format: 'svg', download_count: downloadCount });
     }
 
     function downloadPNG() {
@@ -632,10 +931,9 @@
       const img = new Image();
       img.onload = function() {
         const pngCanvas = document.createElement('canvas');
-        pngCanvas.width = 2000;  // 2x scale
+        pngCanvas.width = 2000;
         pngCanvas.height = 2000;
         const ctx = pngCanvas.getContext('2d');
-        // Background already baked into SVG, but fill anyway to be safe
         ctx.fillStyle = bgColor.value;
         ctx.fillRect(0, 0, pngCanvas.width, pngCanvas.height);
         ctx.drawImage(img, 0, 0, pngCanvas.width, pngCanvas.height);
@@ -652,24 +950,34 @@
       };
       img.src = url;
 
-      track('download', { format: 'png' });
+      announcer.textContent = 'PNG downloaded';
+      downloadCount++;
+      track('download', { format: 'png', download_count: downloadCount });
     }
 
-    // Event listeners (also send lightweight GA4 events)
+    // Event listeners
     const inputControls = [gapSize, gapPosition, circleSize, strokeThickness, circleColor, bgColor, glowIntensity, circleCount];
     inputControls.forEach(el => {
-      el.addEventListener('input', updateCircle);
+      el.addEventListener('input', () => updateCircle(true));
       el.addEventListener('change', () => {
+        controlInteractions[el.id] = (controlInteractions[el.id] || 0) + 1;
         track('control_changed', { id: el.id, value: el.value });
+      });
+      // Announce value changes for screen readers
+      el.addEventListener('input', () => {
+        const label = el.previousElementSibling?.textContent || el.id;
+        const valueEl = document.getElementById(el.id.replace(/[A-Z]/g, m => 'Value'));
+        if (valueEl) {
+          announcer.textContent = `${label.split(' ')[0]}: ${valueEl.textContent}`;
+        }
       });
     });
 
-    // ---- THEME TOGGLE ----
+    // Theme toggle
     const themeToggle = document.getElementById('themeToggle');
     const body = document.body;
     
-    // Check for saved theme preference or default to dark
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = storage.get('theme') || 'dark';
     if (savedTheme === 'light') {
       body.classList.add('light-theme');
     }
@@ -677,22 +985,83 @@
     themeToggle.addEventListener('click', () => {
       body.classList.toggle('light-theme');
       const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
-      localStorage.setItem('theme', currentTheme);
-      track('theme_toggle', { theme: currentTheme });
+      storage.set('theme', currentTheme);
+      announcer.textContent = `Switched to ${currentTheme} theme`;
+      track('theme_toggle', { theme: currentTheme, page: 'art_circle_tool' });
     });
 
-    // Initialize: start with Zen preset, then override to cyan/red
-    applyPreset('zen');
-    circleColor.value = '#00ffff';
-    bgColor.value = '#ff0000';
-    updateCircle();
+    // History buttons
+    document.getElementById('undoBtn').addEventListener('click', undo);
+    document.getElementById('redoBtn').addEventListener('click', redo);
 
-    // Expose functions for buttons
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        undo();
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+        e.preventDefault();
+        redo();
+      }
+    });
+
+    // Load from URL parameters
+    function loadFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('gap')) {
+        const state = {
+          gap: parseFloat(params.get('gap')) || 30,
+          pos: parseFloat(params.get('pos')) || 0,
+          size: parseFloat(params.get('size')) || 300,
+          thick: parseFloat(params.get('thick')) || 8,
+          color: '#' + (params.get('color') || '00ffff'),
+          bg: '#' + (params.get('bg') || 'ff0000'),
+          glow: parseFloat(params.get('glow')) || 20,
+          count: parseInt(params.get('count')) || 1
+        };
+        setState(state);
+        track('loaded_from_url');
+      } else {
+        // Initialize default
+        applyPreset('zen');
+        circleColor.value = '#00ffff';
+        bgColor.value = '#ff0000';
+        updateCircle(true);
+      }
+    }
+
+    // Track session end
+    window.addEventListener('beforeunload', () => {
+      const sessionTime = Math.round((Date.now() - sessionStart) / 1000);
+      track('session_end', {
+        page: 'art_circle_tool',
+        duration_seconds: sessionTime,
+        control_interactions: controlInteractions,
+        download_count: downloadCount,
+        history_length: history.length
+      });
+    });
+
+    // Initialize
+    loadFromURL();
+
+    // Expose functions
     window.applyPreset = applyPreset;
     window.randomize = randomize;
     window.reset = reset;
     window.downloadSVG = downloadSVG;
     window.downloadPNG = downloadPNG;
+    window.saveConfig = saveConfig;
+    window.loadConfig = loadConfig;
+    window.copyConfig = copyConfig;
+    window.shareConfig = shareConfig;
+
+    // Track page view
+    track('page_view', { 
+      page: 'art_circle_tool',
+      page_title: document.title 
+    });
   </script>
 </body>
 </html>
