@@ -3,23 +3,32 @@
   
   <url>
     <loc>https://jmsn.art/</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-
+  
   <url>
     <loc>https://jmsn.art/about.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
-
+  
   <url>
     <loc>https://jmsn.art/contact.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
-
+  
+  <url>
+    <loc>https://jmsn.art/about_farm.html</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Art Circle Farm catalog is intentionally excluded due to noindex meta tags -->
+  
 </urlset>
