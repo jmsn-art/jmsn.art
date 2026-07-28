@@ -34,170 +34,184 @@
   </script>
 
   <style>
-    :root { --bg:#111; --fg:#fff; --muted:#aaa; --accent:#fff; color-scheme: dark light; }
-    .light-mode { --bg:#fefefe; --fg:#111; --muted:#444; --accent:#111; color-scheme: dark light; }
+    :root{
+      --bg:#0a0d09;--fg:#eef0e7;--muted:#9da394;--accent:#c6b66a;
+      --earth:#7d6848;--line:rgba(238,240,231,.13);--max:1680px;
+      --pad:clamp(18px,3.2vw,56px);color-scheme:dark light;
+    }
+    .light-mode{
+      --bg:#ece9dd;--fg:#171a14;--muted:#62675d;--accent:#7f6a20;
+      --earth:#735d3f;--line:rgba(23,26,20,.15);color-scheme:light;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;background:var(--bg);color:var(--fg);font-family:Arial,Helvetica,sans-serif;
+      -webkit-font-smoothing:antialiased;transition:background 1s ease,color 1s ease
+    }
+    body.noscroll{overflow:hidden}
+    a{color:inherit}
+    ::selection{background:var(--accent);color:#111}
+    .sr-only{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 
-    /* Screen reader only */
-    .sr-only {
-      position: absolute;
-      left: -10000px;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
+    /* deliberately distinct from the public site */
+    .farm-head{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      min-height:92px;display:grid;grid-template-columns:1fr auto;align-items:center;
+      gap:24px;border-bottom:1px solid var(--line)
     }
-
-    html, body { min-height:100%; }
-    body {
-      margin:0; padding:20px; background:var(--bg); color:var(--fg);
-      font-family: Arial, Helvetica, sans-serif;
-      transition: background 1.5s ease, color 1.5s ease;
+    .farm-id{text-decoration:none}
+    .farm-id strong{
+      display:block;font-family:Georgia,"Times New Roman",serif;font-size:clamp(20px,2vw,30px);
+      font-weight:400;letter-spacing:-.03em
     }
-    /* prevent background scroll when lightbox is open */
-    body.noscroll { overflow: hidden; }
-
-    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
-    header h1 { font-size:18px; margin:0; letter-spacing:.3px; font-weight:600; opacity:.9; }
-    header small { opacity:.6; font-size:12px; }
-
-    .gallery {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:15px;
-      margin-bottom:48px;
-    }
-    .gallery img {
-      width:100%; height:auto; display:block; border-radius:8px;
-      box-shadow:0 4px 12px rgba(0,0,0,.5); cursor:pointer;
-      opacity:0; transition: transform .75s ease, opacity 1.5s ease-in-out;
-      transform-origin:center center; will-change:transform;
-      aspect-ratio: 4 / 5; object-fit: cover; -webkit-tap-highlight-color: transparent;
-      background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
-      background-size: 200% 100%;
-      animation: skeleton-loading 1.5s ease-in-out infinite;
-    }
-    
-    @keyframes skeleton-loading {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-    
-    .gallery img.lazy-loaded { 
-      opacity:1;
-      animation: none;
-      background: none;
+    .farm-id small{display:block;margin-top:5px;color:var(--muted);font-size:9px;letter-spacing:.18em;text-transform:uppercase}
+    .head-actions{display:flex;align-items:center;gap:18px}
+    .head-actions a{font-size:10px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+    #toggleTheme{
+      background:none;border:1px solid var(--line);color:var(--fg);padding:.55em .75em;cursor:pointer
     }
 
-    @media (hover:hover) and (pointer:fine) {
-      .gallery img:hover { transform: scale(1.04); }
-      .gallery img:focus-visible { transform: scale(1.04); outline:2px solid #888; outline-offset:2px; }
+    .farm-hero{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      min-height:min(690px,calc(100vh - 92px));padding:clamp(75px,10vw,150px) 0 clamp(60px,8vw,110px);
+      display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
+      gap:clamp(40px,8vw,140px);align-items:end;border-bottom:1px solid var(--line)
     }
+    .private-mark{margin:0 0 20px;color:var(--accent);font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+    .farm-hero h1{
+      margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(64px,10vw,168px);
+      font-weight:400;line-height:.82;letter-spacing:-.075em
+    }
+    .farm-hero h1 em{color:var(--accent);font-weight:400}
+    .farm-side{max-width:520px}
+    .farm-side p{
+      margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(22px,2.1vw,36px);
+      line-height:1.22;letter-spacing:-.025em
+    }
+    .farm-side small{display:block;margin-top:25px;color:var(--muted);font-size:11px;line-height:1.7;letter-spacing:.04em}
 
-    /* Lightbox */
-    .lb { 
-      position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; 
-      display:flex; align-items:center; justify-content:center; 
-      opacity:0; pointer-events:none; transition:opacity .75s ease; 
+    .catalog-head{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      padding:clamp(50px,7vw,95px) 0 26px;display:flex;justify-content:space-between;align-items:end;
+      gap:30px
     }
-    .lb.open { opacity:1; pointer-events:auto; }
-    .close { 
-      position:fixed; top:14px; right:24px; font-size:40px; color:#fff; cursor:pointer; 
-      background:transparent; border:0; line-height:1; padding:0; 
-      -webkit-appearance:none; appearance:none; -webkit-tap-highlight-color: transparent; 
+    .catalog-head h2{
+      margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(34px,4.6vw,70px);
+      font-weight:400;letter-spacing:-.05em
     }
-    .close:focus-visible { outline:2px solid #888; outline-offset:4px; border-radius:4px; }
+    .catalog-head p{margin:0 0 7px;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}
 
-    /* Stacked images to avoid layout shifts + crossfade */
-    .lb .lb-frame { position:relative; width:92vw; height:80vh; }
-    .lb .lb-frame img {
-      position:absolute; inset:0; margin:auto;
-      max-width:92vw; max-height:80vh; object-fit:contain;
-      opacity:0; transition:opacity .4s ease, filter .4s ease, transform .4s ease;
-      will-change: transform;
-      cursor: zoom-in;
-      touch-action: none;
+    .gallery{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(7px,1vw,15px);
+      grid-auto-flow:dense;margin-bottom:48px
     }
-    
-    /* Optimized crossfade timing */
-    #lbimg {
-      transition: opacity 1.4s ease-in-out, filter .9s ease, transform .9s ease;
+    .gallery img{
+      width:100%;height:auto;display:block;border-radius:0;box-shadow:none;cursor:pointer;
+      opacity:0;transition:transform .8s cubic-bezier(.2,.7,.2,1),opacity 1.2s ease;
+      transform-origin:center;will-change:transform;aspect-ratio:4/5;object-fit:cover;
+      -webkit-tap-highlight-color:transparent;
+      background:linear-gradient(90deg,rgba(255,255,255,.025) 25%,rgba(255,255,255,.07) 50%,rgba(255,255,255,.025) 75%);
+      background-size:200% 100%;animation:skeleton-loading 1.5s ease-in-out infinite;
+      content-visibility:auto;contain-intrinsic-size:1200px 1500px
     }
-
-    /* Preview (low-res grid image) starts visible & slightly blurred */
-    #lbprev { opacity:1; filter:blur(6px); transform:scale(1.02); }
-    /* Full-res fades in on top when ready */
-    #lbimg.ready { opacity:1; }
-    /* Fade preview away after full-res appears */
-    #lbprev.out { opacity:0; filter:blur(0); transform:scale(1); }
-    
-    /* Zoom states */
-    #lbimg.zoomed { cursor: grab; }
-    #lbimg.zoomed:active { cursor: grabbing; }
-
-    #lb-title {
-      margin-top:12px; color:#fff; background:rgba(0,0,0,.7); 
-      padding:6px 12px; font-size:14px; border-radius:4px; 
-      white-space:normal; text-align:center;
-      opacity:0; transition: opacity .75s ease; pointer-events:none;
+    .gallery img.lazy-loaded{opacity:1;animation:none;background:none}
+    .gallery img:nth-child(1),.gallery img:nth-child(12),.gallery img:nth-child(23){
+      grid-column:span 2;grid-row:span 2
     }
-
-    /* Touch hint tooltip */
-    .touch-hint {
-      position: fixed;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.95);
-      color: #111;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 14px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 10000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    @media(hover:hover) and (pointer:fine){
+      .gallery img:hover{transform:scale(.985)}
+      .gallery img:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
     }
-    .touch-hint.show { opacity: 1; }
+    @keyframes skeleton-loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-    /* guaranteed spacer class */
-    .below-gallery-spacer { height:48px; }
-
-    footer { 
-      text-align:center; margin:60px 0 20px !important; 
-      opacity:.8; font-size:13px; 
+    .lb{
+      position:fixed;inset:0;background:rgba(3,5,3,.96);z-index:9999;display:flex;
+      align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .65s ease
     }
-    footer button { 
-      background:none; border:1px solid var(--muted); color:var(--fg); 
-      font-size:.9em; padding:.4em .6em; border-radius:5px; cursor:pointer; 
+    .lb.open{opacity:1;pointer-events:auto}
+    .close{
+      position:fixed;top:14px;right:24px;font-size:40px;color:#fff;cursor:pointer;
+      background:transparent;border:0;line-height:1;padding:0;appearance:none
     }
-
-    .notice { display:flex; gap:8px; align-items:center; font-size:12px; opacity:.65; }
-    .tag { 
-      display:inline-block; border:1px solid var(--muted); color:var(--fg); 
-      padding:.1em .45em; border-radius:999px; font-size:11px; letter-spacing:.2px; 
+    .close:focus-visible{outline:2px solid #aaa;outline-offset:4px}
+    .lb .lb-frame{position:relative;width:92vw;height:80vh}
+    .lb .lb-frame img{
+      position:absolute;inset:0;margin:auto;max-width:92vw;max-height:80vh;object-fit:contain;
+      opacity:0;transition:opacity .4s ease,filter .4s ease,transform .4s ease;
+      will-change:transform;cursor:zoom-in;touch-action:none
     }
+    #lbimg{transition:opacity 1.4s ease-in-out,filter .9s ease,transform .9s ease}
+    #lbprev{opacity:1;filter:blur(6px);transform:scale(1.02)}
+    #lbimg.ready{opacity:1}
+    #lbprev.out{opacity:0;filter:blur(0);transform:scale(1)}
+    #lbimg.zoomed{cursor:grab}#lbimg.zoomed:active{cursor:grabbing}
+    #lb-title{
+      margin-top:12px;color:#fff;background:rgba(0,0,0,.7);padding:6px 12px;
+      font-family:Georgia,"Times New Roman",serif;font-size:14px;white-space:normal;text-align:center;
+      opacity:0;transition:opacity .75s ease;pointer-events:none
+    }
+    .touch-hint{
+      position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+      background:rgba(255,255,255,.95);color:#111;padding:12px 20px;font-size:13px;
+      opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:10000
+    }
+    .touch-hint.show{opacity:1}
+    .below-gallery-spacer{height:48px}
 
-    @media (prefers-reduced-motion: reduce) { 
-      .gallery img, .lb, .lb img { 
-        transition:none !important; 
-        animation:none !important; 
-      } 
+    footer{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:clamp(70px,9vw,130px) auto 0!important;
+      padding:38px 0 28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;
+      gap:30px;flex-wrap:wrap;color:var(--muted);font-size:10px;letter-spacing:.06em
+    }
+    footer a{color:var(--fg);text-decoration:none}
+
+    @media(max-width:1000px){
+      .farm-hero{grid-template-columns:1fr;min-height:auto}
+      .gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+    @media(max-width:700px){
+      .farm-head{grid-template-columns:1fr;padding:22px 0}.head-actions{justify-content:space-between}
+      .farm-hero h1{font-size:clamp(64px,22vw,112px)}
+      .catalog-head{align-items:flex-start;flex-direction:column}
+      .gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+      .gallery img:nth-child(1),.gallery img:nth-child(12),.gallery img:nth-child(23){grid-column:span 2;grid-row:span 2}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .gallery img,.lb,.lb img{transition:none!important;animation:none!important}
     }
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>Art Circle Farm <span class="tag">private</span></h1>
-      <div class="notice">Unlisted catalog. Share URL only with trusted viewers.</div>
-    </div>
-    <div style="display:flex; gap:10px; align-items:center;">
-      <a href="https://jmsn.art" style="color:inherit; text-decoration:underline; font-size:14px;">↩︎ jmsn.art</a>
+  <header class="farm-head">
+    <a class="farm-id" href="/farm.html" aria-label="Art Circle Farm secret catalog">
+      <strong>Art Circle Farm</strong>
+      <small>Private study archive</small>
+    </a>
+    <div class="head-actions">
+      <a href="https://jmsn.art">↩ jmsn.art</a>
       <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
     </div>
   </header>
 
-  <div class="gallery" id="gallery" role="list" aria-label="Art Circle Farm Gallery">
+  <section class="farm-hero" aria-labelledby="farm-title">
+    <div>
+      <p class="private-mark">Unlisted · private catalog</p>
+      <h1 id="farm-title">Art Circle<br><em>Farm.</em></h1>
+    </div>
+    <div class="farm-side">
+      <p>An architectural fiction of circles, silos, water, cultivation, shelter, and rural self-sufficiency.</p>
+      <small>This page is intentionally unlisted. Share the URL only with trusted viewers.</small>
+    </div>
+  </section>
+
+  <section class="catalog-head" aria-hidden="true">
+    <h2>Field studies</h2>
+    <p>35 images · Farm_00018 pinned first</p>
+  </section>
+
+<div class="gallery" id="gallery" role="list" aria-label="Art Circle Farm Gallery">
     <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
     <img src="/images/Farm_00001.jpeg" alt="Glass Dome Water Collector by Jameson McShane" width="1200" height="1500" decoding="async" role="listitem">
     <img src="/images/Farm_00002.jpeg" alt="Spiral Staircase to Greenhouse by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
@@ -260,9 +274,8 @@
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
-    © 2026 Jameson McShane — Art Circle Farm (private) ·
-    <a href="https://jmsn.art" style="color:inherit; text-decoration:underline;">Return to jmsn.art</a> ·
-    <a href="/about_farm.html" style="color:inherit; text-decoration:underline;">About</a>
+    <span>© 2026 Jameson McShane — Art Circle Farm · private</span>
+    <span><a href="https://jmsn.art">Return to jmsn.art</a> · <a href="/about_farm.html">About the Farm</a></span>
   </footer>
 
 <script>
