@@ -552,7 +552,7 @@
       <a href="#gallery">Gallery</a>
       <a href="/about.html">About</a>
       <a href="/contact.html">Contact</a>
-      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a>
+      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" id="navPrintsLink">Prints ↗</a>
     </nav>
   </header>
 
@@ -568,7 +568,7 @@
     </div>
   </section>
 
-  <section class="gallery-head" aria-hidden="true">
+  <section class="gallery-head">
     <h3>Selected works</h3>
     <p>35 works · order reshuffles on each visit</p>
   </section>
@@ -627,7 +627,7 @@
   </div>
 
   <!-- Touch hint tooltip -->
-  <div class="touch-hint" id="touchHint">Tap to zoom · Drag when zoomed · Arrow keys to navigate</div>
+  <div class="touch-hint" id="touchHint">Tap to zoom · Drag when zoomed · Arrow keys or swipe to navigate</div>
 
   <!-- Accessibility announcer -->
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
@@ -680,6 +680,23 @@
       sendGA('theme_toggle', { mode: isLight ? 'light' : 'dark' });
     });
   })();
+
+  // ── CTA click tracking ──
+  document.addEventListener('DOMContentLoaded', () => {
+    const shopBtn = document.getElementById('shopBtn');
+    const navPrintsLink = document.getElementById('navPrintsLink');
+
+    if (shopBtn) {
+      shopBtn.addEventListener('click', () => {
+        sendGA('shop_click', { link_location: 'floating_cta', destination: 'jmsnart.store' });
+      });
+    }
+    if (navPrintsLink) {
+      navPrintsLink.addEventListener('click', () => {
+        sendGA('shop_click', { link_location: 'nav', destination: 'jmsnart.store' });
+      });
+    }
+  });
 
   // ── Gallery + Lightbox ──
   document.addEventListener('DOMContentLoaded', () => {
@@ -746,28 +763,56 @@
       if (next !== scale) zoomAt(e.clientX, e.clientY, next);
     }, { passive: false });
 
+    // ── Pointer drag (pan when zoomed, swipe navigation when not) ──
+    let swipeStartX = 0, swipeStartY = 0, swipeActive = false;
+    const SWIPE_THRESHOLD = 50;
+
     lbimg.addEventListener('pointerdown', e => {
-      if (scale <= 1) return;
-      dragging = true;
       activePointerId = e.pointerId;
       lbimg.setPointerCapture(e.pointerId);
       startX = e.clientX; startY = e.clientY;
+      if (scale > 1) {
+        dragging = true;
+      } else {
+        swipeActive = true;
+        swipeStartX = e.clientX;
+        swipeStartY = e.clientY;
+      }
     });
 
     lbimg.addEventListener('pointermove', e => {
-      if (!dragging || e.pointerId !== activePointerId) return;
-      tx += e.clientX - startX; ty += e.clientY - startY;
-      startX = e.clientX; startY = e.clientY;
-      clampPan(); applyTransform();
+      if (e.pointerId !== activePointerId) return;
+      if (dragging) {
+        tx += e.clientX - startX; ty += e.clientY - startY;
+        startX = e.clientX; startY = e.clientY;
+        clampPan(); applyTransform();
+      }
     });
 
     function endPan(e) {
       if (e.pointerId !== activePointerId) return;
-      dragging = false; activePointerId = null;
+
+      if (swipeActive && scale === 1) {
+        const dx = e.clientX - swipeStartX;
+        const dy = e.clientY - swipeStartY;
+        if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+          if (dx < 0) {
+            const n = (current + 1) % totalImages;
+            showAt(n);
+            sendGA('swipe_navigation', { direction: 'next', position: n + 1, page: 'main' });
+          } else {
+            const p = (current - 1 + totalImages) % totalImages;
+            showAt(p);
+            sendGA('swipe_navigation', { direction: 'prev', position: p + 1, page: 'main' });
+          }
+        }
+      }
+
+      dragging = false; swipeActive = false; activePointerId = null;
     }
     lbimg.addEventListener('pointerup',          endPan);
     lbimg.addEventListener('pointercancel',      endPan);
-    lbimg.addEventListener('lostpointercapture', () => { dragging = false; activePointerId = null; });
+    lbimg.addEventListener('lostpointercapture', () => { dragging = false; swipeActive = false; activePointerId = null; });
 
     lbimg.addEventListener('load',      () => { resetZoom(); lbimg.classList.remove('loading'); });
     lbimg.addEventListener('loadstart', () => lbimg.classList.add('loading'));
@@ -790,10 +835,17 @@
 
     const items = Array.from(gallery.querySelectorAll('img'));
 
+    function bestSrc(el) { return el.src; }
+
     const imgObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.dataset.viewed) {
           entry.target.dataset.viewed = 'true';
+          sendGA('art_impression', {
+            artwork_title: entry.target.alt || 'untitled',
+            artwork_src: bestSrc(entry.target),
+            page: 'main'
+          });
           imgObserver.unobserve(entry.target);
         }
       });
@@ -809,8 +861,6 @@
     });
 
     let lastFocus = null, current = 0, openedAt = 0, currentTitle = '', currentSrc = '';
-
-    function bestSrc(el) { return el.dataset.full || el.src; }
 
     function openLightbox(index) {
       const img = items[index];
@@ -832,7 +882,7 @@
       lbTitle.style.opacity = '1';
       setTimeout(() => { lbTitle.style.opacity = '0'; }, 7000);
 
-      announcer.textContent = `Viewing ${currentTitle}, image ${index + 1} of ${totalImages}. Use arrow keys to navigate.`;
+      announcer.textContent = `Viewing ${currentTitle}, image ${index + 1} of ${totalImages}. Use arrow keys or swipe to navigate.`;
 
       openedAt = Date.now();
       sendGA('art_view',   { artwork_title: currentTitle, artwork_src: currentSrc, position: index + 1, page: 'main' });
