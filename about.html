@@ -249,7 +249,6 @@
       <article class="chapter">
         <div class="chapter-number">03 · The project</div>
         <div class="chapter-copy">
-          <h2>The sacred within the ordinary</h2>
           <p>Halos, broken circles, and sanctified figures recur across this work as both <em>symbol</em> and <em>structure</em>. In this ongoing series, the circle becomes a vessel: of divinity, of rupture, of play.</p>
           <p>Rendered with a stark minimalism and surreal wit, these images position the <em>sacred within the ordinary</em> — a dog at rest, a leaking bucket, a suburban field, even the machinery of war. Each composition invites viewers to consider how icons are made, dismantled, and reimagined in a contemporary world marked by technology, humor, and unease.</p>
           <p>The project moves fluidly between the <em>monumental</em> and the <em>intimate</em>, between images that could hang as ancient altarpieces and those that wink with pop absurdity. What binds them is the circle: a timeless, universal form, fractured and reassembled here as both question and answer.</p>
@@ -298,6 +297,7 @@
     // Track page metrics
     const pageLoadTime = Date.now();
     let maxScrollDepth = 0;
+    let engagementSent = false;
 
     // Theme toggle (match index.html behavior)
     (function initTheme(){
@@ -341,55 +341,50 @@
 
     window.addEventListener('scroll', updateScrollDepth, { passive: true });
 
-    // Track outbound/internal link clicks
-    document.getElementById('homeLink').addEventListener('click', () => {
-      sendGA('navigation_click', { link: 'home', from_page: 'about' });
-    });
+    // Helper: only attach a listener if the element actually exists
+    function onClick(id, handler) {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('click', handler);
+    }
 
-    document.getElementById('contactLink').addEventListener('click', () => {
-      sendGA('navigation_click', { link: 'contact', from_page: 'about' });
-    });
-
-    document.getElementById('licenseLink').addEventListener('click', () => {
-      sendGA('navigation_click', { link: 'license', from_page: 'about' });
-    });
-
-    document.getElementById('piLink').addEventListener('click', () => {
-      sendGA('easter_egg_click', { egg: 'pi', from_page: 'about' });
-    });
-
-    document.getElementById('farmLink').addEventListener('click', () => {
-      sendGA('easter_egg_click', { egg: 'farm', from_page: 'about' });
-    });
-
-    document.getElementById('emailLink').addEventListener('click', () => {
-      sendGA('contact_click', { method: 'email', from_page: 'about' });
-    });
-
-    document.getElementById('ensLink').addEventListener('click', () => {
-      sendGA('external_link_click', { link: 'ens', from_page: 'about' });
-    });
+    // Track internal navigation clicks
+    onClick('homeLink', () => sendGA('navigation_click', { link: 'home', from_page: 'about' }));
+    onClick('contactLink', () => sendGA('navigation_click', { link: 'contact', from_page: 'about' }));
+    onClick('licenseLink', () => sendGA('navigation_click', { link: 'license', from_page: 'about' }));
+    onClick('galleryFooterLink', () => sendGA('navigation_click', { link: 'gallery_footer', from_page: 'about' }));
+    onClick('farmLink', () => sendGA('easter_egg_click', { egg: 'farm', from_page: 'about' }));
+    onClick('emailLink', () => sendGA('contact_click', { method: 'email', from_page: 'about' }));
 
     // Track referrer source
     if (document.referrer) {
-      const referrerUrl = new URL(document.referrer);
-      if (referrerUrl.hostname === window.location.hostname) {
-        sendGA('internal_navigation', {
-          from_page: referrerUrl.pathname,
-          to_page: 'about'
-        });
-      }
+      try {
+        const referrerUrl = new URL(document.referrer);
+        if (referrerUrl.hostname === window.location.hostname) {
+          sendGA('internal_navigation', {
+            from_page: referrerUrl.pathname,
+            to_page: 'about'
+          });
+        }
+      } catch(e) {}
     }
 
-    // Track dwell time and engagement on page unload
-    window.addEventListener('beforeunload', () => {
+    // Track dwell time and engagement — fires once, on whichever exit signal
+    // arrives first. visibilitychange/pagehide are far more reliable than
+    // beforeunload on mobile browsers.
+    function sendEngagement() {
+      if (engagementSent) return;
+      engagementSent = true;
       const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
       sendGA('page_engagement', {
         page: 'about',
         dwell_seconds: dwellTime,
         max_scroll_depth: maxScrollDepth
       });
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) sendEngagement();
     });
+    window.addEventListener('pagehide', sendEngagement);
 
     // Track page view
     sendGA('page_view', { 
