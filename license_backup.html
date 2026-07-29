@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Licensing – The Art Circle Project by Jameson McShane</title>
 
-  <link rel="canonical" href="https://jmsn.art/licensing.html">
+  <link rel="canonical" href="https://jmsn.art/license.html">
 
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -13,33 +13,65 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#111111">
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#0b0b0a">
+  <meta name="theme-color" content="#111111">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <meta name="description" content="Licensing information for artworks from The Art Circle Project by Jameson McShane. Contact for editorial, commercial, media, design, and custom usage rights.">
   <meta name="author" content="Jameson McShane">
 
   <meta property="og:title" content="Licensing – The Art Circle Project by Jameson McShane">
   <meta property="og:description" content="License artwork from The Art Circle Project for editorial, commercial, media, design, and custom uses.">
-  <meta property="og:url" content="https://jmsn.art/licensing.html">
+  <meta property="og:url" content="https://jmsn.art/license.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://jmsn.art/images/File%2000001.jpeg">
   <meta name="twitter:card" content="summary_large_image">
 
+  <!-- JSON-LD (page-scoped graph, consistent with index/about/contact) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "name": "Licensing – The Art Circle Project",
-    "url": "https://jmsn.art/licensing.html",
-    "creator": {
-      "@type": "Person",
-      "name": "Jameson McShane",
-      "url": "https://jmsn.art"
-    },
-    "license": "https://jmsn.art/licensing.html",
-    "inLanguage": "en-US",
-    "description": "How to license artworks from The Art Circle Project for editorial, commercial, media, design, and custom usage."
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://jmsn.art/#person",
+        "name": "Jameson McShane",
+        "url": "https://jmsn.art/about.html",
+        "image": "https://jmsn.art/images/File%2000001.jpeg"
+      },
+      {
+        "@type": "CreativeWork",
+        "@id": "https://jmsn.art/license.html#page",
+        "name": "Licensing – The Art Circle Project",
+        "url": "https://jmsn.art/license.html",
+        "isPartOf": { "@id": "https://jmsn.art/#website" },
+        "about": { "@id": "https://jmsn.art/#person" },
+        "creator": { "@id": "https://jmsn.art/#person" },
+        "license": "https://jmsn.art/license.html",
+        "inLanguage": "en-US",
+        "description": "How to license artworks from The Art Circle Project for editorial, commercial, media, design, and custom usage."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jmsn.art/" },
+          { "@type": "ListItem", "position": 2, "name": "Licensing", "item": "https://jmsn.art/license.html" }
+        ]
+      }
+    ]
   }
+  </script>
+
+  <!-- Preconnect for GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCCF');
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
   </script>
 
   <style>
@@ -166,15 +198,15 @@
   <a href="#main-content" class="skip-link">Skip to licensing information</a>
 
   <header class="masthead">
-    <a class="brand" href="/" aria-label="The Art Circle Project home">
+    <a class="brand" href="/" id="homeLink" aria-label="The Art Circle Project home">
       <span class="brand-name">The Art Circle Project</span>
       <span class="brand-by">Jameson McShane</span>
     </a>
     <nav class="mastnav" aria-label="Primary navigation">
-      <a href="/">Gallery</a>
-      <a href="/about.html">About</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/licensing.html" aria-current="page">Licensing</a>
+      <a href="/" id="galleryLink">Gallery</a>
+      <a href="/about.html" id="aboutLink">About</a>
+      <a href="/contact.html" id="contactLink">Contact</a>
+      <a href="/license.html" aria-current="page">Licensing</a>
     </nav>
   </header>
 
@@ -221,8 +253,8 @@
       <div class="request-copy">
         <p class="eyebrow">Request a license</p>
         <h2>Tell me about the project.</h2>
-        <p>Email <a href="mailto:contact@jmsn.art?subject=Licensing%20Request%20%E2%80%93%20The%20Art%20Circle%20Project">contact@jmsn.art</a> with the information at right. The more context you provide, the easier it is to evaluate the requested use.</p>
-        <a class="cta" href="mailto:contact@jmsn.art?subject=Licensing%20Request%20%E2%80%93%20The%20Art%20Circle%20Project">Request a License ↗</a>
+        <p>Email <a href="mailto:contact@jmsn.art?subject=Licensing%20Request%20%E2%80%93%20The%20Art%20Circle%20Project" id="licenseEmailLink">contact@jmsn.art</a> with the information at right. The more context you provide, the easier it is to evaluate the requested use.</p>
+        <a class="cta" href="mailto:contact@jmsn.art?subject=Licensing%20Request%20%E2%80%93%20The%20Art%20Circle%20Project" id="licenseCta">Request a License ↗</a>
       </div>
 
       <ol class="request-list">
@@ -241,9 +273,11 @@
 
   <footer>
     <span>© <span id="y"></span> Jameson McShane · The Art Circle Project</span>
-    <span><a href="/">Gallery</a> · <a href="/contact.html">Contact</a> </span>
+    <span><a href="/" id="galleryFooterLink">Gallery</a> · <a href="/contact.html" id="contactFooterLink">Contact</a> </span>
     <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
   </footer>
+
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true" style="position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"></div>
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
@@ -253,6 +287,12 @@
       set:(key,val)=>{try{localStorage.setItem(key,val)}catch(e){}}
     };
 
+    const announcer = document.getElementById('a11yAnnouncer');
+    const pageLoadTime = Date.now();
+    let maxScrollDepth = 0;
+    let engagementSent = false;
+
+    // Theme toggle
     (function(){
       const btn=document.getElementById('toggleTheme');
       const saved=storage.get('theme');
@@ -267,8 +307,67 @@
         const light=document.body.classList.toggle('light-mode');
         btn.setAttribute('aria-pressed',String(light));
         storage.set('theme',light?'light':'dark');
+        sendGA('theme_toggle', { mode: light ? 'light' : 'dark', page: 'license' });
       });
     })();
+
+    // Track scroll depth
+    function updateScrollDepth() {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const scrollPercent = Math.round((scrollTop + windowHeight) / documentHeight * 100);
+      if (scrollPercent > maxScrollDepth) maxScrollDepth = scrollPercent;
+    }
+    window.addEventListener('scroll', updateScrollDepth, { passive: true });
+
+    // Navigation + CTA click tracking
+    function onClick(id, handler) {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('click', handler);
+    }
+    onClick('homeLink', () => sendGA('navigation_click', { link: 'home', from_page: 'license' }));
+    onClick('galleryLink', () => sendGA('navigation_click', { link: 'gallery', from_page: 'license' }));
+    onClick('aboutLink', () => sendGA('navigation_click', { link: 'about', from_page: 'license' }));
+    onClick('contactLink', () => sendGA('navigation_click', { link: 'contact', from_page: 'license' }));
+    onClick('galleryFooterLink', () => sendGA('navigation_click', { link: 'gallery_footer', from_page: 'license' }));
+    onClick('contactFooterLink', () => sendGA('navigation_click', { link: 'contact_footer', from_page: 'license' }));
+    onClick('licenseEmailLink', () => sendGA('license_request_click', { link_location: 'inline_text', page: 'license' }));
+    onClick('licenseCta', () => sendGA('license_request_click', { link_location: 'cta_button', page: 'license' }));
+
+    // Track referrer source
+    if (document.referrer) {
+      try {
+        const referrerUrl = new URL(document.referrer);
+        if (referrerUrl.hostname === window.location.hostname) {
+          sendGA('internal_navigation', {
+            from_page: referrerUrl.pathname,
+            to_page: 'license'
+          });
+        }
+      } catch(e) {}
+    }
+
+    // Dwell time / scroll depth — fires once, on whichever exit signal
+    // arrives first. visibilitychange/pagehide are more reliable than
+    // beforeunload on mobile browsers.
+    function sendEngagement() {
+      if (engagementSent) return;
+      engagementSent = true;
+      const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
+      sendGA('page_engagement', {
+        page: 'license',
+        dwell_seconds: dwellTime,
+        max_scroll_depth: maxScrollDepth
+      });
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) sendEngagement();
+    });
+    window.addEventListener('pagehide', sendEngagement);
+
+    // Track page view
+    sendGA('page_view', { page: 'license', page_title: document.title });
   </script>
 </body>
 </html>
