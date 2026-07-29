@@ -153,6 +153,9 @@
     .err-msg{display:none;margin-top:7px;color:var(--err);font-size:12px}
     .err-msg.show{display:block}
     .char-counter{text-align:right;margin-top:6px;color:var(--muted);font-size:10px;letter-spacing:.06em}
+    .char-counter.warn{color:var(--accent)}
+    .length-warning{display:none;margin-top:7px;color:var(--accent);font-size:12px;line-height:1.5}
+    .length-warning.show{display:block}
     .btn-group{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
     button{
       padding:14px 20px;border:1px solid var(--fg);border-radius:0;background:var(--fg);color:var(--bg);
@@ -244,8 +247,9 @@
 
         <label for="message">
           <span>Message</span>
-          <textarea id="message" name="message" placeholder="Tell me about your project, question, or just say hello..." aria-describedby="err-message char-count"></textarea>
+          <textarea id="message" name="message" placeholder="Tell me about your project, question, or just say hello..." aria-describedby="err-message char-count length-warning"></textarea>
           <div class="char-counter" id="char-count" aria-live="polite">0 characters</div>
+          <div class="length-warning" id="length-warning" role="status">Longer messages can get cut off by some email apps. If your message doesn't fully appear once your email app opens, feel free to email directly instead.</div>
           <div class="err-msg" id="err-message" role="alert">Please add a message.</div>
         </label>
 
@@ -291,7 +295,8 @@
   // Track page metrics
   const pageLoadTime = Date.now();
   const fieldInteractions = {};
-  const validationErrors = {};
+  const validationErrors = {}; // cumulative counts for the whole session, used in page_engagement
+  let engagementSent = false;
 
   // Theme toggle
   (function initTheme(){
@@ -332,12 +337,21 @@
     const safeEmail = document.getElementById('safeEmail');
     const copyEmailBtn = document.getElementById('copyEmailBtn');
     const charCount = document.getElementById('char-count');
+    const lengthWarning = document.getElementById('length-warning');
+    const directEmailLink = document.getElementById('directEmailLink');
 
-    // Build email dynamically (better obfuscation)
-    const parts = [99,111,110,116,97,99,116,64,106,109,115,110,46,97,114,116];
-    const addr = String.fromCharCode(...parts);
+    // The mailto address appears in plain text elsewhere on this page
+    // (directEmailLink above, and in about.html's footer), so building
+    // this one from char codes didn't actually add any real protection.
+    // Kept as a single plain constant for clarity/consistency.
+    const addr = 'contact@jmsn.art';
     safeEmail.textContent = addr;
     safeEmail.href = 'mailto:' + addr;
+
+    // Soft warning threshold: leaves headroom for the name/email/subject
+    // boilerplate prepended to the mailto body before hitting client limits
+    // (Outlook truncates mailto links around ~2000 chars total).
+    const LENGTH_WARNING_THRESHOLD = 380;
 
     // Helpers
     const $ = id => document.getElementById(id);
@@ -351,7 +365,7 @@
         errEl.classList.add('show');
         announcer.textContent = `Error: ${msg}`;
         
-        // Track validation error
+        // Track validation error (cumulative, for session-level analytics)
         const fieldName = inputEl.id;
         validationErrors[fieldName] = (validationErrors[fieldName] || 0) + 1;
       } else {
@@ -369,6 +383,8 @@
 
     function valEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
+    // Returns { valid, failedFields } for THIS validation pass specifically,
+    // separate from the cumulative validationErrors counts above.
     function validate(){
       const name = $('name').value.trim();
       const email = $('email').value.trim();
@@ -376,10 +392,12 @@
 
       let valid = true;
       let firstError = null;
+      const failedFields = [];
       
       if (!name){ 
         setErr($('name'), $('err-name'), 'Please add your name.'); 
         valid = false;
+        failedFields.push('name');
         if (!firstError) firstError = $('name');
       } else { 
         setErr($('name'), $('err-name'), ''); 
@@ -389,10 +407,12 @@
       if (!email){ 
         setErr($('email'), $('err-email'), 'Please enter your email.'); 
         valid = false;
+        failedFields.push('email');
         if (!firstError) firstError = $('email');
       } else if (!valEmail(email)){ 
         setErr($('email'), $('err-email'), 'Please enter a valid email.'); 
         valid = false;
+        failedFields.push('email');
         if (!firstError) firstError = $('email');
       } else { 
         setErr($('email'), $('err-email'), ''); 
@@ -402,6 +422,7 @@
       if (!message){ 
         setErr($('message'), $('err-message'), 'Please add a message.'); 
         valid = false;
+        failedFields.push('message');
         if (!firstError) firstError = $('message');
       } else { 
         setErr($('message'), $('err-message'), ''); 
@@ -415,13 +436,21 @@
         announcer.textContent = 'Form is valid and ready to submit';
       }
 
-      return valid;
+      return { valid, failedFields };
     }
 
-    // Character counter
+    // Character counter + soft length warning
     $('message').addEventListener('input', (e) => {
       const length = e.target.value.length;
       charCount.textContent = `${length} character${length !== 1 ? 's' : ''}`;
+      const overThreshold = length > LENGTH_WARNING_THRESHOLD;
+      charCount.classList.toggle('warn', overThreshold);
+      if (overThreshold && !lengthWarning.classList.contains('show')) {
+        lengthWarning.classList.add('show');
+        sendGA('message_length_warning_shown', { page: 'contact' });
+      } else if (!overThreshold) {
+        lengthWarning.classList.remove('show');
+      }
     });
 
     // Track field interactions
@@ -442,6 +471,11 @@
       });
       
       field.addEventListener('input', validate);
+    });
+
+    // Direct email link click tracking
+    directEmailLink.addEventListener('click', () => {
+      sendGA('contact_click', { method: 'email_direct_link', page: 'contact' });
     });
 
     // Copy email button
@@ -476,6 +510,8 @@
         errEl.classList.remove('show');
       });
       charCount.textContent = '0 characters';
+      charCount.classList.remove('warn');
+      lengthWarning.classList.remove('show');
       okBox.style.display = 'none';
       announcer.textContent = 'Form cleared';
       sendGA('form_reset', { page: 'contact' });
@@ -484,11 +520,12 @@
     // Form submission
     f.addEventListener('submit', function(e){
       e.preventDefault();
-      
-      if (!validate()) {
+
+      const result = validate();
+      if (!result.valid) {
         sendGA('form_validation_failed', { 
           page: 'contact',
-          errors: Object.keys(validationErrors)
+          errors: result.failedFields
         });
         return;
       }
@@ -528,22 +565,28 @@
 
     // Track referrer source
     if (document.referrer) {
-      const referrerUrl = new URL(document.referrer);
-      if (referrerUrl.hostname === window.location.hostname) {
-        sendGA('internal_navigation', {
-          from_page: referrerUrl.pathname,
-          to_page: 'contact'
-        });
-      }
+      try {
+        const referrerUrl = new URL(document.referrer);
+        if (referrerUrl.hostname === window.location.hostname) {
+          sendGA('internal_navigation', {
+            from_page: referrerUrl.pathname,
+            to_page: 'contact'
+          });
+        }
+      } catch(e) {}
     }
 
-    // Track dwell time and abandonment on page unload
-    window.addEventListener('beforeunload', () => {
+    // Track dwell time and abandonment — fires once, on whichever exit
+    // signal arrives first. visibilitychange/pagehide are far more
+    // reliable than beforeunload on mobile browsers.
+    function sendEngagement() {
+      if (engagementSent) return;
+      engagementSent = true;
       const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
       const abandonedFields = Object.keys(fieldInteractions).filter(
         id => fieldInteractions[id].focused && !fieldInteractions[id].completed
       );
-      
+
       sendGA('page_engagement', {
         page: 'contact',
         dwell_seconds: dwellTime,
@@ -551,7 +594,11 @@
         abandoned_fields: abandonedFields,
         validation_errors: validationErrors
       });
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) sendEngagement();
     });
+    window.addEventListener('pagehide', sendEngagement);
   })();
 </script>
 </body>
