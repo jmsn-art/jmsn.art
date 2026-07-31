@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Art Circle Farm catalog -->
+  <!-- Secret catalog page: intentionally unlinked -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Keep this page out of search results -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 
-  <title>Art Circle Farm — Catalog</title>
+  <title>Art Circle Farm — Secret Catalog</title>
 
-  <!-- Optional: lightweight social preview (won't be crawled if noindex respected) -->
-  <meta property="og:title" content="Art Circle Farm — Catalog">
-  <meta property="og:description" content="Art Circle Farm: a field-study catalog by Jameson McShane.">
+  <!-- Social preview for shared links (won't be crawled if noindex respected) -->
+  <meta property="og:title" content="Art Circle Farm — Secret Catalog">
+  <meta property="og:description" content="Private catalog of the new Art Circle Farm series by Jameson McShane.">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://jmsn.art/images/Farm_00018.jpeg">
+  <meta property="og:image:alt" content="Art Circle House by Jameson McShane">
+  <meta name="twitter:card" content="summary_large_image">
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png">
 
@@ -78,7 +81,7 @@
       display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
       gap:clamp(40px,8vw,140px);align-items:end;border-bottom:1px solid var(--line)
     }
-    .farm-mark{margin:0 0 20px;color:var(--accent);font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+    .private-mark{margin:0 0 20px;color:var(--accent);font-size:10px;letter-spacing:.22em;text-transform:uppercase}
     .farm-hero h1{
       margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(64px,10vw,168px);
       font-weight:400;line-height:.82;letter-spacing:-.075em
@@ -185,21 +188,19 @@
 </head>
 <body>
   <header class="farm-head">
-    <a class="farm-id" href="/farm.html" aria-label="Art Circle Farm catalog">
+    <a class="farm-id" href="/farm.html" aria-label="Art Circle Farm secret catalog">
       <strong>Art Circle Farm</strong>
-      <small>Field study archive</small>
+      <small>Private study archive</small>
     </a>
     <div class="head-actions">
-      <a href="/farm.html" aria-current="page">Catalog</a>
-      <a href="/about_farm.html">About the Farm</a>
-      <a href="/">↩ jmsn.art</a>
+      <a href="https://jmsn.art" id="headerHomeLink">↩ jmsn.art</a>
       <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
     </div>
   </header>
 
   <section class="farm-hero" aria-labelledby="farm-title">
     <div>
-      <p class="farm-mark">Field study · Art Circle Farm</p>
+      <p class="private-mark">Unlisted · private catalog</p>
       <h1 id="farm-title">Art Circle<br><em>Farm.</em></h1>
     </div>
     <div class="farm-side">
@@ -208,7 +209,7 @@
     </div>
   </section>
 
-  <section class="catalog-head" aria-hidden="true">
+  <section class="catalog-head">
     <h2>Field studies</h2>
     <p>35 images · Farm_00018 pinned first</p>
   </section>
@@ -256,7 +257,7 @@
   <div class="below-gallery-spacer" aria-hidden="true"></div>
 
   <!-- Lightbox -->
-  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-label="Artwork viewer" aria-hidden="true">
     <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close">&times;</button>
     <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
       <div class="lb-frame">
@@ -276,8 +277,8 @@
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
-    <span>© 2026 Jameson McShane — Art Circle Farm</span>
-    <span><a href="/farm.html" aria-current="page">Catalog</a> · <a href="/about_farm.html">About the Farm</a> · <a href="/">jmsn.art</a></span>
+    <span>© 2026 Jameson McShane — Art Circle Farm · private</span>
+    <span><a href="https://jmsn.art" id="footerHomeLink">Return to jmsn.art</a> · <a href="/about_farm.html" id="aboutFarmLink">About the Farm</a></span>
   </footer>
 
 <script>
@@ -290,6 +291,11 @@
       try { localStorage.setItem(key, val); } catch(e) {}
     }
   };
+
+  const pageLoadTime = Date.now();
+  let maxScrollDepth = 0;
+  let engagementSent = false;
+  const announcerEl = document.getElementById('a11yAnnouncer');
 
   // Theme toggle (same behavior as main site)
   (function initTheme(){
@@ -308,6 +314,56 @@
       sendGA('theme_toggle', { mode: isLight ? 'light' : 'dark', page: 'farm' });
     });
   })();
+
+  // Scroll depth tracking
+  function updateScrollDepth() {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.scrollY;
+    const scrollPercent = Math.round((scrollTop + windowHeight) / documentHeight * 100);
+    if (scrollPercent > maxScrollDepth) maxScrollDepth = scrollPercent;
+  }
+  window.addEventListener('scroll', updateScrollDepth, { passive: true });
+
+  // Header/footer link click tracking
+  function onClick(id, handler) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', handler);
+  }
+  onClick('headerHomeLink', () => sendGA('navigation_click', { link: 'home', from_page: 'farm' }));
+  onClick('footerHomeLink', () => sendGA('navigation_click', { link: 'home_footer', from_page: 'farm' }));
+  onClick('aboutFarmLink', () => sendGA('navigation_click', { link: 'about_farm', from_page: 'farm' }));
+
+  // Referrer tracking
+  if (document.referrer) {
+    try {
+      const referrerUrl = new URL(document.referrer);
+      if (referrerUrl.hostname === window.location.hostname) {
+        sendGA('internal_navigation', { from_page: referrerUrl.pathname, to_page: 'farm' });
+      }
+    } catch(e) {}
+  }
+
+  // Dwell time / scroll depth — fires once, on whichever exit signal
+  // arrives first. visibilitychange/pagehide are more reliable than
+  // beforeunload on mobile browsers.
+  function sendEngagement() {
+    if (engagementSent) return;
+    engagementSent = true;
+    const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
+    sendGA('page_engagement', {
+      page: 'farm',
+      dwell_seconds: dwellTime,
+      max_scroll_depth: maxScrollDepth
+    });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) sendEngagement();
+  });
+  window.addEventListener('pagehide', sendEngagement);
+
+  // Page view
+  sendGA('page_view', { page: 'farm', page_title: document.title });
 
   document.addEventListener('DOMContentLoaded', () => {
     const gallery = document.getElementById('gallery');
@@ -356,13 +412,18 @@
     // Build a live ordered list after shuffle (for navigation)
     let ordered = Array.from(gallery.querySelectorAll('img'));
 
-    // Enhanced Intersection Observer
+    // Enhanced Intersection Observer — now actually reports impressions to GA4
     const imgObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target;
           if (!img.dataset.viewed) {
             img.dataset.viewed = 'true';
+            sendGA('art_impression', {
+              artwork_title: img.alt || 'untitled',
+              artwork_src: img.src,
+              page: 'farm'
+            });
             imgObserver.unobserve(img);
           }
         }
