@@ -520,7 +520,6 @@
       }
     }
     @media (max-width:430px) {
-      .mastnav a:nth-child(4) { display:none; }
       .gallery { gap:6px; }
     }
     @media (prefers-reduced-motion:reduce) {
@@ -549,9 +548,10 @@
       <span class="brand-by">Jameson McShane</span>
     </a>
     <nav class="mastnav" aria-label="Primary navigation">
-      <a href="#gallery">Gallery</a>
+      <a href="/" aria-current="page">Gallery</a>
       <a href="/about.html">About</a>
       <a href="/contact.html">Contact</a>
+      <a href="/license.html">Licensing</a>
       <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" id="navPrintsLink">Prints ↗</a>
     </nav>
   </header>
@@ -641,8 +641,11 @@
 
   <footer>
     © 2026 Jameson McShane · The Art Circle Project ·
+    <a href="/">Gallery</a> ·
     <a href="/about.html">About</a> ·
     <a href="/contact.html">Contact</a> ·
+    <a href="/license.html">Licensing</a> ·
+    <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a> ·
     <br>
     <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false" aria-controls="gallery">☀️ / 🌙</button>
   </footer>

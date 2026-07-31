@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Secret catalog page: intentionally unlinked -->
+  <!-- Art Circle Farm catalog -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Keep this page out of search results -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 
-  <title>Art Circle Farm — Secret Catalog</title>
+  <title>Art Circle Farm — Catalog</title>
 
   <!-- Optional: lightweight social preview (won't be crawled if noindex respected) -->
-  <meta property="og:title" content="Art Circle Farm — Secret Catalog">
-  <meta property="og:description" content="Private catalog of the new Art Circle Farm series by Jameson McShane.">
+  <meta property="og:title" content="Art Circle Farm — Catalog">
+  <meta property="og:description" content="Art Circle Farm: a field-study catalog by Jameson McShane.">
   <meta property="og:type" content="website">
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png">
@@ -78,7 +78,7 @@
       display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
       gap:clamp(40px,8vw,140px);align-items:end;border-bottom:1px solid var(--line)
     }
-    .private-mark{margin:0 0 20px;color:var(--accent);font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+    .farm-mark{margin:0 0 20px;color:var(--accent);font-size:10px;letter-spacing:.22em;text-transform:uppercase}
     .farm-hero h1{
       margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(64px,10vw,168px);
       font-weight:400;line-height:.82;letter-spacing:-.075em
@@ -185,19 +185,21 @@
 </head>
 <body>
   <header class="farm-head">
-    <a class="farm-id" href="/farm.html" aria-label="Art Circle Farm secret catalog">
+    <a class="farm-id" href="/farm.html" aria-label="Art Circle Farm catalog">
       <strong>Art Circle Farm</strong>
-      <small>Private study archive</small>
+      <small>Field study archive</small>
     </a>
     <div class="head-actions">
-      <a href="https://jmsn.art">↩ jmsn.art</a>
+      <a href="/farm.html" aria-current="page">Catalog</a>
+      <a href="/about_farm.html">About the Farm</a>
+      <a href="/">↩ jmsn.art</a>
       <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
     </div>
   </header>
 
   <section class="farm-hero" aria-labelledby="farm-title">
     <div>
-      <p class="private-mark">Unlisted · private catalog</p>
+      <p class="farm-mark">Field study · Art Circle Farm</p>
       <h1 id="farm-title">Art Circle<br><em>Farm.</em></h1>
     </div>
     <div class="farm-side">
@@ -274,8 +276,8 @@
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
-    <span>© 2026 Jameson McShane — Art Circle Farm · private</span>
-    <span><a href="https://jmsn.art">Return to jmsn.art</a> · <a href="/about_farm.html">About the Farm</a></span>
+    <span>© 2026 Jameson McShane — Art Circle Farm</span>
+    <span><a href="/farm.html" aria-current="page">Catalog</a> · <a href="/about_farm.html">About the Farm</a> · <a href="/">jmsn.art</a></span>
   </footer>
 
 <script>
