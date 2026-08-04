@@ -1,34 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
+
   <url>
     <loc>https://jmsn.art/</loc>
-    <lastmod>2025-11-09</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  
+
+  <url>
+    <loc>https://jmsn.art/archive.html</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jmsn.art/circles.html</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://jmsn.art/make.html</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://jmsn.art/make-halo.html</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://jmsn.art/make_your_own.html</loc>
+    <lastmod>2026-08-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
   <url>
     <loc>https://jmsn.art/about.html</loc>
-    <lastmod>2025-11-09</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
-  
+
   <url>
     <loc>https://jmsn.art/contact.html</loc>
-    <lastmod>2025-11-09</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
-  
+
   <url>
-    <loc>https://jmsn.art/about_farm.html</loc>
-    <lastmod>2025-11-09</lastmod>
+    <loc>https://jmsn.art/nfts.html</loc>
+    <lastmod>2025-10-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.4</priority>
   </url>
-  
-  <!-- Art Circle Farm catalog is intentionally excluded due to noindex meta tags -->
-  
+
+  <url>
+    <loc>https://jmsn.art/pi.html</loc>
+    <lastmod>2025-10-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://jmsn.art/license.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- farm.html and about_farm.html are intentionally excluded: both carry noindex meta tags -->
+  <!-- 404.html is intentionally excluded: noindex meta tag -->
+
 </urlset>
