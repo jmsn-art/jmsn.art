@@ -49,7 +49,7 @@
 
     /* Masthead — overlays the canvas */
     .masthead {
-      position:fixed; top:0; left:0; right:0; z-index:20;
+      position:fixed; top:0; left:0; right:0; z-index:35;
       display:flex; align-items:center; justify-content:space-between;
       padding:18px clamp(18px,3.2vw,40px);
       pointer-events:none;
@@ -103,6 +103,12 @@
     }
     .overlay-controls { margin-top:26px; color:var(--muted); font-size:10px; letter-spacing:.06em; line-height:2; }
     .overlay-controls b { color:var(--fg); font-weight:normal; }
+    .overlay-exit {
+      display:inline-block; margin-top:30px; color:var(--muted);
+      font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+      text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:3px;
+    }
+    .overlay-exit:hover { color:var(--fg); }
 
     /* Loading */
     #loading {
@@ -190,6 +196,7 @@
       <p class="overlay-controls" id="controlsHint">
         <b>WASD / arrows</b> to move &middot; <b>mouse</b> to look &middot; <b>click</b> a painting to view it &middot; <b>esc</b> to pause
       </p>
+      <a class="overlay-exit" id="overlayExitLink" href="/">← Exit to the gallery</a>
     </div>
   </div>
 
@@ -215,13 +222,18 @@
     const container = document.getElementById('app');
     const isTouch = matchMedia('(hover:none), (pointer:coarse)').matches || 'ontouchstart' in window;
 
+    /* A circular rotunda: all 36 archive works hang in a single ring
+       around the wall, evenly spaced — one full circle of paintings. */
+    const ROOM_R = 10.5, ROOM_H = 6.4;
+    const BOUND_R = ROOM_R - 0.8; // player clamp (radial)
+
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0b0b0a);
     scene.fog = new THREE.FogExp2(0x0b0b0a, 0.035);
 
     const camera = new THREE.PerspectiveCamera(68, innerWidth / innerHeight, 0.05, 100);
     const EYE = 1.65;
-    camera.position.set(0, EYE, 10);
+    camera.position.set(0, EYE, ROOM_R - 2);
 
     const renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference:'high-performance' });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -236,13 +248,6 @@
       camera.updateProjectionMatrix();
       renderer.setSize(innerWidth, innerHeight);
     });
-
-    /* ---------- Room dimensions ---------- */
-    /* A long gallery: two rows of paintings run down both side walls
-       (9 columns x 2 rows x 2 walls = 36, one for every archive work). */
-    const ROOM_W = 14, ROOM_D = 24, ROOM_H = 7.5;
-    const HALF_W = ROOM_W / 2, HALF_D = ROOM_D / 2;
-    const BOUND_X = HALF_W - 0.7, BOUND_Z = HALF_D - 0.7; // player clamp
 
     const gold = 0xd3ad48;
     const cream = 0xf3f0e8;
@@ -261,24 +266,24 @@
     scene.add(centerGlow);
 
     const lampLight = new THREE.PointLight(0xffb862, 1.1, 5, 2);
-    lampLight.position.set(-2.1, 1.4, 8.7);
+    lampLight.position.set(6.6, 1.4, 3.2);
     scene.add(lampLight);
 
-    // A few extra warm lights down the gallery so the far paintings aren't lost to fog.
-    [-7.2, 0, 7.2].forEach((z) => {
-      const galleryLight = new THREE.PointLight(0xf3e6c8, 0.9, 10, 2);
-      galleryLight.position.set(0, 5.4, z);
+    // A ring of warm lights around the room so the wall of paintings is lit evenly.
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2;
+      const galleryLight = new THREE.PointLight(0xf3e6c8, 0.8, 11, 2);
+      galleryLight.position.set(Math.sin(a) * ROOM_R * 0.55, 5.2, Math.cos(a) * ROOM_R * 0.55);
       scene.add(galleryLight);
-    });
+    }
 
     /* ---------- Materials ---------- */
     const floorMat = new THREE.MeshStandardMaterial({ color:0x141210, roughness:0.85, metalness:0.15 });
-    const wallMat = new THREE.MeshStandardMaterial({ color:0x1a1815, roughness:0.95 });
     const ceilingMat = new THREE.MeshStandardMaterial({ color:0x0e0d0b, roughness:1 });
     const trimMat = new THREE.MeshStandardMaterial({ color:gold, roughness:0.4, metalness:0.6, emissive:gold, emissiveIntensity:0.08 });
 
-    /* ---------- Floor / ceiling / walls ---------- */
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(ROOM_W, ROOM_D), floorMat);
+    /* ---------- Floor / ceiling / wall (circular) ---------- */
+    const floor = new THREE.Mesh(new THREE.CircleGeometry(ROOM_R, 64), floorMat);
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     scene.add(floor);
@@ -292,23 +297,18 @@
     rug.position.y = 0.01;
     scene.add(rug);
 
-    const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(ROOM_W, ROOM_D), ceilingMat);
+    const ceiling = new THREE.Mesh(new THREE.CircleGeometry(ROOM_R, 64), ceilingMat);
     ceiling.rotation.x = Math.PI / 2;
     ceiling.position.y = ROOM_H;
     scene.add(ceiling);
 
-    function addWall(w, h, x, y, z, ry) {
-      const wall = new THREE.Mesh(new THREE.PlaneGeometry(w, h), wallMat);
-      wall.position.set(x, y, z);
-      wall.rotation.y = ry;
-      wall.receiveShadow = true;
-      scene.add(wall);
-      return wall;
-    }
-    addWall(ROOM_W, ROOM_H, 0, ROOM_H / 2, -HALF_D, 0);        // back
-    addWall(ROOM_W, ROOM_H, 0, ROOM_H / 2, HALF_D, Math.PI);   // front
-    addWall(ROOM_D, ROOM_H, -HALF_W, ROOM_H / 2, 0, Math.PI/2);   // left
-    addWall(ROOM_D, ROOM_H, HALF_W, ROOM_H / 2, 0, -Math.PI/2);   // right
+    const wall = new THREE.Mesh(
+      new THREE.CylinderGeometry(ROOM_R, ROOM_R, ROOM_H, 64, 1, true),
+      new THREE.MeshStandardMaterial({ color:0x1a1815, roughness:0.95, side:THREE.BackSide })
+    );
+    wall.position.y = ROOM_H / 2;
+    wall.receiveShadow = true;
+    scene.add(wall);
 
     /* ---------- Central broken-circle sculpture ---------- */
     const pedestal = new THREE.Mesh(
@@ -341,19 +341,19 @@
     const pillow = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.2, 0.7), linenMat);
     pillow.position.set(0, 0.78, -1.15);
     [frame, mattress, pillow].forEach(m => { m.castShadow = true; m.receiveShadow = true; bedGroup.add(m); });
-    bedGroup.position.set(-3.6, 0, 8.6);
-    bedGroup.rotation.y = Math.PI / 9;
+    bedGroup.position.set(4.9, 0, 4.1);
+    bedGroup.rotation.y = -Math.PI / 5;
     scene.add(bedGroup);
 
     const nightstand = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.7, 0.7), propMat);
-    nightstand.position.set(-1.7, 0.35, 8.9);
+    nightstand.position.set(6.9, 0.35, 2.4);
     nightstand.castShadow = true;
     scene.add(nightstand);
     const lampShade = new THREE.Mesh(
       new THREE.ConeGeometry(0.28, 0.4, 16, 1, true),
       new THREE.MeshStandardMaterial({ color:0xffb862, emissive:0xffb862, emissiveIntensity:0.6, side:THREE.DoubleSide, roughness:0.6 })
     );
-    lampShade.position.set(-1.7, 0.95, 8.9);
+    lampShade.position.set(6.9, 0.95, 2.4);
     scene.add(lampShade);
 
     /* ---------- Floating dream clock (canvas texture) ---------- */
@@ -379,16 +379,18 @@
       new THREE.CircleGeometry(0.6, 48),
       new THREE.MeshBasicMaterial({ map: makeClockTexture(), transparent:true })
     );
-    clock.position.set(2.6, 6.3, 1.5);
+    clock.position.set(2.6, 5.6, 1.5);
     scene.add(clock);
 
     /* ---------- Dust motes ---------- */
     const moteCount = 480;
     const motePos = new Float32Array(moteCount * 3);
     for (let i=0;i<moteCount;i++){
-      motePos[i*3]   = (Math.random()-0.5) * ROOM_W * 0.9;
+      const r = Math.sqrt(Math.random()) * ROOM_R * 0.92;
+      const a = Math.random() * Math.PI * 2;
+      motePos[i*3]   = Math.sin(a) * r;
       motePos[i*3+1] = Math.random() * ROOM_H;
-      motePos[i*3+2] = (Math.random()-0.5) * ROOM_D * 0.9;
+      motePos[i*3+2] = Math.cos(a) * r;
     }
     const moteGeo = new THREE.BufferGeometry();
     moteGeo.setAttribute('position', new THREE.BufferAttribute(motePos, 3));
@@ -406,12 +408,14 @@
       new THREE.MeshBasicMaterial({ color:0x201a10, transparent:true, opacity:0.75 })
     );
     portalGroup.add(portalDisc, portalRing);
-    portalGroup.position.set(0, 2.4, -HALF_D + 0.08);
+    // Pulled inward from the wall so it stands free in the room and the
+    // painting ring behind it can run uninterrupted all the way around.
+    portalGroup.position.set(0, 2.4, -(ROOM_R - 3.2));
     portalGroup.userData.type = 'portal';
     scene.add(portalGroup);
 
     const portalLabel = makeTextSprite('WAKE UP ↗');
-    portalLabel.position.set(0, 3.9, -HALF_D + 0.15);
+    portalLabel.position.set(0, 3.9, -(ROOM_R - 3.2));
     scene.add(portalLabel);
 
     function makeTextSprite(text) {
@@ -469,22 +473,18 @@
       ['skyscraper.png','Skyscraper'],
     ];
 
-    // Lay the 36 works out as 2 rows x 9 columns on each side wall.
-    const COLS = 9;
-    const COL_STEP = 2.4;
-    const ROW_Y = [1.5, 3.8];
-    const PAINTINGS = [];
-    let workIndex = 0;
-    for (const side of ['left', 'right']) {
-      for (const rowY of ROW_Y) {
-        for (let col = 0; col < COLS; col++) {
-          const [file, title] = WORKS[workIndex++];
-          const z = -((COLS - 1) / 2) * COL_STEP + col * COL_STEP;
-          const x = side === 'left' ? -HALF_W + 0.03 : HALF_W - 0.03;
-          PAINTINGS.push({ file, title, x, y: rowY, z, side });
-        }
-      }
-    }
+    // Hang the 36 works in a single ring around the wall — one full circle.
+    const PAINTING_Y = 2.2;
+    const PAINTINGS = WORKS.map(([file, title], i) => {
+      const a = (i / WORKS.length) * Math.PI * 2;
+      return {
+        file, title,
+        x: Math.sin(a) * (ROOM_R - 0.04),
+        y: PAINTING_Y,
+        z: Math.cos(a) * (ROOM_R - 0.04),
+        ry: a + Math.PI, // face inward, toward room center
+      };
+    });
 
     const loader = new THREE.TextureLoader();
     const paintingMeshes = [];
@@ -501,7 +501,7 @@
       frameGroup.add(frameMesh);
 
       const url = encodeURI('/images/' + p.file);
-      const placeholder = new THREE.MeshStandardMaterial({ color:0x1c1a15, roughness:0.9 });
+      const placeholder = new THREE.MeshBasicMaterial({ color:0x1c1a15 });
       const artMesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), placeholder);
       artMesh.position.z = 0.04;
       artMesh.userData = { type:'painting', title:p.title };
@@ -510,13 +510,13 @@
 
       loader.load(url, (tex) => {
         tex.colorSpace = THREE.SRGBColorSpace;
-        artMesh.material = new THREE.MeshStandardMaterial({ map:tex, roughness:0.85 });
+        artMesh.material = new THREE.MeshBasicMaterial({ map:tex });
         loadedCount++;
         if (loadedCount >= PAINTINGS.length) finishLoading();
       }, undefined, () => { loadedCount++; if (loadedCount >= PAINTINGS.length) finishLoading(); });
 
       frameGroup.position.set(p.x, p.y, p.z);
-      frameGroup.rotation.y = p.side === 'left' ? Math.PI / 2 : -Math.PI / 2;
+      frameGroup.rotation.y = p.ry;
       frameGroup.castShadow = true;
       scene.add(frameGroup);
     });
@@ -582,6 +582,7 @@
     }
 
     enterBtn.addEventListener('click', startGame);
+    document.getElementById('overlayExitLink').addEventListener('click', (e) => e.stopPropagation());
     overlay.addEventListener('click', startGame);
 
     function startGame() {
@@ -730,10 +731,11 @@
     function moveCollide(dx, dz) {
       let nx = camera.position.x + dx;
       let nz = camera.position.z + dz;
-      nx = Math.max(-BOUND_X, Math.min(BOUND_X, nx));
-      nz = Math.max(-BOUND_Z, Math.min(BOUND_Z, nz));
       const distFromCenter = Math.hypot(nx, nz);
-      if (distFromCenter < 1.7) {
+      if (distFromCenter > BOUND_R) {
+        const ang = Math.atan2(nz, nx);
+        nx = Math.cos(ang) * BOUND_R; nz = Math.sin(ang) * BOUND_R;
+      } else if (distFromCenter < 1.7) {
         const ang = Math.atan2(nz, nx);
         nx = Math.cos(ang) * 1.7; nz = Math.sin(ang) * 1.7;
       }
