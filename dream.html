@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="/oaiq-init.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="index,follow">
@@ -100,6 +101,7 @@
       display:inline-block; margin-top:28px; padding:13px 26px;
       border:1px solid var(--accent); color:var(--accent);
       font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+      background:transparent; font:inherit; cursor:pointer;
     }
     .overlay-controls { margin-top:26px; color:var(--muted); font-size:10px; letter-spacing:.06em; line-height:2; }
     .overlay-controls b { color:var(--fg); font-weight:normal; }
@@ -192,7 +194,7 @@
       <p class="overlay-kicker">jmsn.art · an interactive dream</p>
       <h1 class="overlay-title">The Dream<br>Room</h1>
       <p class="overlay-note">A room built from the Art Circle Project — halos, broken circles, and the works that hang between them. <em>A perfect circle exists only as an idea.</em></p>
-      <span class="overlay-cta" id="enterBtn">Enter the dream</span>
+      <button class="overlay-cta" id="enterBtn" type="button">Enter the dream</button>
       <p class="overlay-controls" id="controlsHint">
         <b>WASD / arrows</b> to move &middot; <b>mouse</b> to look &middot; <b>click</b> a painting to view it &middot; <b>esc</b> to pause
       </p>
@@ -681,9 +683,9 @@
       lb.classList.remove('open');
     }
 
-    function checkInteraction() {
+    function checkInteraction(pointer = center) {
       if (lb.classList.contains('open') || !gameStarted) { reticle.classList.remove('active'); promptEl.classList.remove('show'); return; }
-      raycaster.setFromCamera(center, camera);
+      raycaster.setFromCamera(pointer, camera);
       const targets = [...paintingMeshes, portalGroup.children[0]];
       const hits = raycaster.intersectObjects(targets, false);
       const hit = hits.find(h => h.distance < 5);
@@ -716,9 +718,14 @@
     let tapStart = 0, tapMoved = false;
     renderer.domElement.addEventListener('touchstart', () => { tapStart = Date.now(); tapMoved = false; }, { passive:true });
     renderer.domElement.addEventListener('touchmove', () => { tapMoved = true; }, { passive:true });
-    renderer.domElement.addEventListener('touchend', () => {
+    renderer.domElement.addEventListener('touchend', (e) => {
       if (!tapMoved && Date.now() - tapStart < 250) {
-        checkInteraction();
+        const touch = e.changedTouches[0];
+        const tapPoint = new THREE.Vector2(
+          (touch.clientX / innerWidth) * 2 - 1,
+          -(touch.clientY / innerHeight) * 2 + 1,
+        );
+        checkInteraction(tapPoint);
         onInteractClick();
       }
     });
