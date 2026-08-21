@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Single-gap art circle</title>
+  <desc id="desc">A thick circular stroke with one clean gap at the top.</desc>
+  <defs>
+    <linearGradient id="stroke" x1="130" y1="850" x2="860" y2="135" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#37134e"/>
+      <stop offset=".36" stop-color="#e84c69"/>
+      <stop offset=".7" stop-color="#f3a73d"/>
+      <stop offset="1" stop-color="#123f6b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="#f8f3eb"/>
+  <path d="M 390 145 A 380 380 0 1 0 634 145" fill="none" stroke="url(#stroke)" stroke-width="62" stroke-linecap="round"/>
+  <path d="M 393 142 A 384 384 0 1 0 637 142" fill="none" stroke="#fff5e4" stroke-width="7" stroke-linecap="round" opacity=".5"/>
+</svg>
