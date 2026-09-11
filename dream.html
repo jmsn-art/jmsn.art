@@ -225,7 +225,7 @@
     const container = document.getElementById('app');
     const isTouch = matchMedia('(hover:none), (pointer:coarse)').matches || 'ontouchstart' in window;
 
-    /* A circular rotunda: all 36 archive works hang in a single ring
+    /* A circular rotunda: all 40 archive works hang in a single ring
        around the wall, evenly spaced — one full circle of paintings. */
     const ROOM_R = 10.5, ROOM_H = 6.4;
     const BOUND_R = ROOM_R - 0.8; // player clamp (radial)
@@ -436,7 +436,7 @@
     }
 
     /* ---------- Paintings ---------- */
-    /* The full 36-work archive, in the same order as archive.html. */
+    /* The full 40-work archive, in the same order as archive.html. */
     const WORKS = [
       ['File 00001.jpeg','Haloed Figure in Black and White'],
       ['File 00003.jpeg','Leaky Bucket with Water Spill'],
@@ -474,9 +474,13 @@
       ['File 00140.jpeg','Diverse Group in Gym Circle'],
       ['File 00141.jpeg','No Smoking?'],
       ['skyscraper.png','Skyscraper'],
+      ['2saints.png','Madonna and Child with Golden Halos'],
+      ['2 halos.png','Two Halos'],
+      ['art circle.png','September 1981'],
+      ['circles.png','Broken Concentric Circles'],
     ];
 
-    // Hang the 36 works in a single ring around the wall — one full circle.
+    // Hang the 40 works in a single ring around the wall — one full circle.
     const PAINTING_Y = 2.2;
     const PAINTINGS = WORKS.map(([file, title], i) => {
       const a = (i / WORKS.length) * Math.PI * 2;
