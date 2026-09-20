@@ -377,6 +377,40 @@ export function App() {
     setConcepts([]);
     setError("");
   }
+  function startNewProject() {
+    const hasCurrentWork =
+      !!input.trim() ||
+      !!direction.trim() ||
+      !!reference ||
+      !!parentId ||
+      !!selectedId ||
+      concepts.length > 0;
+    if (
+      hasCurrentWork &&
+      !window.confirm(
+        "Clear the current project and start fresh? Your archive, rules, and API setup will stay.",
+      )
+    )
+      return;
+    setView("studio");
+    setMode("Explore");
+    setInput("");
+    setDirection("");
+    setConstraints(["Preserve composition", "Preserve subject"]);
+    setCount(3);
+    setSettings({ size: "1024x1024", quality: "medium" });
+    setConcepts([]);
+    setConceptIndex(0);
+    setSelectedId(null);
+    setParentId(null);
+    setReference(undefined);
+    setJob(undefined);
+    setInspectorOpen(false);
+    setDialog(null);
+    setExportId(undefined);
+    setError("");
+    setNotice("New project ready. Your archive and setup are unchanged.");
+  }
   function chooseMode(next: Mode) {
     setMode(next);
     invalidate();
@@ -637,6 +671,16 @@ export function App() {
           </button>
         </nav>
         <div className="header-right">
+          <button
+            className="new-project-button"
+            disabled={locked}
+            aria-label="New project"
+            title="Clear the current project and start fresh"
+            onClick={startNewProject}
+          >
+            <Icon name="plus" size={14} />
+            <span>New project</span>
+          </button>
           <button className="connection" onClick={() => setDialog("setup")}>
             <span
               className={`status-dot ${config?.hasKey ? "connected" : ""}`}
