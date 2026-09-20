@@ -11,7 +11,13 @@ import { zipSync, strToU8 } from "fflate";
 import { z } from "zod";
 import { Store, readRules, writeRules, atomicWrite, slug } from "./store.js";
 import { OpenAIClient } from "./openai.js";
-import { examples, materials, localConcepts, rulesText } from "./concepts.js";
+import {
+  examples,
+  materials,
+  localConcepts,
+  normalizeConceptFields,
+  rulesText,
+} from "./concepts.js";
 import type { Artwork, Concept, Job } from "../src/types.js";
 
 const rulesSchema = z
@@ -29,6 +35,13 @@ const conceptSchema = z.object({
   prompt: z.string().min(10).max(16000),
   source: z.enum(["local", "ai"]),
 });
+const renderConceptSchema = z.preprocess(
+  (value) =>
+    value && typeof value === "object"
+      ? normalizeConceptFields(value as Record<string, unknown>)
+      : value,
+  conceptSchema,
+);
 const settingsSchema = z.object({
   size: z.enum(["1024x1024", "1536x1024", "1024x1536"]),
   quality: z.enum(["low", "medium", "high"]),
@@ -254,7 +267,7 @@ export function createApp(options: AppOptions) {
   app.post("/api/generate", (req, res) => {
     const body = contextSchema
       .extend({
-        concepts: z.array(conceptSchema).min(1).max(4),
+        concepts: z.array(renderConceptSchema).min(1).max(4),
         settings: settingsSchema,
       })
       .parse(req.body);

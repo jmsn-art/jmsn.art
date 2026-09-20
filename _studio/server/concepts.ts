@@ -1,5 +1,29 @@
 import type { Concept, Rules } from "../src/types.js";
 
+export const conceptFieldLimits = {
+  title: 200,
+  interpretation: 8000,
+  mechanism: 8000,
+  strategy: 200,
+  composition: 2000,
+  prompt: 16000,
+} as const;
+
+export function normalizeConceptFields<T extends Record<string, unknown>>(
+  input: T,
+): T {
+  const concept: Record<string, unknown> = { ...input };
+  for (const [key, limit] of Object.entries(conceptFieldLimits)) {
+    const raw = concept[key];
+    if (typeof raw !== "string") continue;
+    const value = raw.trim();
+    concept[key] = value.length <= limit
+      ? value
+      : `${value.slice(0, limit - 1).trimEnd()}…`;
+  }
+  return concept as T;
+}
+
 export const examples = [
   {
     subject: "Georgia O’Keeffe",
