@@ -183,6 +183,19 @@ code {
   align-items: center;
   gap: 21px;
 }
+.new-project-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  font-size: 9px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.new-project-button:hover {
+  background: var(--soft);
+}
 .connection {
   display: flex;
   align-items: center;
@@ -1467,6 +1480,15 @@ input::placeholder {
   }
   .header-right {
     gap: 8px;
+  }
+  .new-project-button {
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+  }
+  .new-project-button span {
+    display: none;
   }
   .connection {
     font-size: 0;
