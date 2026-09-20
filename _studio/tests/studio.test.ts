@@ -192,10 +192,16 @@ test("AI concepts are normalized to the render schema before they reach the clie
     assert.match(plan.concepts[0].strategy, /…$/);
     const generated = await h.request("/api/generate", {
       ...requestBody(),
-      concepts: plan.concepts,
+      concepts: [
+        {
+          ...plan.concepts[0],
+          strategy: "saved browser strategy ".repeat(20),
+        },
+      ],
     });
     assert.equal(generated.status, 202);
     assert.equal((await h.wait((await generated.json()).id)).status, "complete");
+    assert.equal(h.store.artworks()[0].concept.strategy.length, 200);
   } finally {
     await h.cleanup();
   }

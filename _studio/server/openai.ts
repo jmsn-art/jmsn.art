@@ -1,5 +1,10 @@
 import type { Concept, Critique, Rules, Settings } from "../src/types.js";
-import { plannerInstructions, rulesText } from "./concepts.js";
+import {
+  conceptFieldLimits,
+  normalizeConceptFields,
+  plannerInstructions,
+  rulesText,
+} from "./concepts.js";
 
 export interface AIOptions {
   key: string;
@@ -72,16 +77,8 @@ export class OpenAIClient {
     rules: Rules,
     reference?: Buffer,
   ): Promise<Concept[]> {
-    const limits = {
-      title: 200,
-      interpretation: 8000,
-      mechanism: 8000,
-      strategy: 200,
-      composition: 2000,
-      prompt: 16000,
-    } as const;
     const properties = Object.fromEntries(
-      Object.entries(limits).map(([key, maxLength]) => [
+      Object.entries(conceptFieldLimits).map(([key, maxLength]) => [
         key,
         { type: "string", minLength: 1, maxLength },
       ]),
@@ -124,17 +121,11 @@ export class OpenAIClient {
         "The planner returned an incomplete series. Develop the ideas again.",
       );
     return result.concepts.map((x: any) => {
-      const concept: Record<string, string> = {};
-      for (const [key, limit] of Object.entries(limits)) {
+      for (const key of Object.keys(conceptFieldLimits)) {
         if (typeof x[key] !== "string" || !x[key].trim())
           throw new Error("Invalid concept returned by the planner.");
-        const value = x[key].trim();
-        concept[key] =
-          value.length <= limit
-            ? value
-            : `${value.slice(0, limit - 1).trimEnd()}…`;
       }
-      return { ...concept, source: "ai" } as Concept;
+      return normalizeConceptFields({ ...x, source: "ai" }) as Concept;
     });
   }
   async generate(prompt: string, settings: Settings, reference?: Buffer) {
