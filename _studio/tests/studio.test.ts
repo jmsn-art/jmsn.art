@@ -27,7 +27,12 @@ async function close(server: Server) {
   server.closeAllConnections();
   await new Promise<void>((r) => server.close(() => r()));
 }
-async function harness(key = "test-key", failAt = 0, failCritique = false) {
+async function harness(
+  key = "test-key",
+  failAt = 0,
+  failCritique = false,
+  overlongStrategy = false,
+) {
   const root = mkdtempSync(path.join(os.tmpdir(), "jmsn-test-"));
   copyFileSync(
     new URL("../art-circle-rules.json", import.meta.url),
@@ -87,6 +92,8 @@ async function harness(key = "test-key", failAt = 0, failCritique = false) {
           }),
         );
       } else {
+        const concepts = localConcepts("flowers", 1, "", rules);
+        if (overlongStrategy) concepts[0].strategy = "structure ".repeat(30);
         res.end(
           JSON.stringify({
             output: [
@@ -95,7 +102,7 @@ async function harness(key = "test-key", failAt = 0, failCritique = false) {
                   {
                     type: "output_text",
                     text: JSON.stringify({
-                      concepts: localConcepts("flowers", 1, "", rules),
+                      concepts,
                     }),
                   },
                 ],
@@ -170,6 +177,28 @@ test("local concepts retain the subject, translate artists and diversify series 
     localConcepts("beeswax", 1, "", rules)[0].mechanism,
     /melt opening/,
   );
+});
+
+test("AI concepts are normalized to the render schema before they reach the client", async () => {
+  const h = await harness("test-key", 0, false, true);
+  try {
+    const response = await h.request("/api/plan", {
+      input: "flowers",
+      mode: "Explore",
+    });
+    assert.equal(response.status, 200);
+    const plan = await response.json();
+    assert.equal(plan.concepts[0].strategy.length, 200);
+    assert.match(plan.concepts[0].strategy, /…$/);
+    const generated = await h.request("/api/generate", {
+      ...requestBody(),
+      concepts: plan.concepts,
+    });
+    assert.equal(generated.status, 202);
+    assert.equal((await h.wait((await generated.json()).id)).status, "complete");
+  } finally {
+    await h.cleanup();
+  }
 });
 
 test("no-key mode supports planning and rules, blocks paid rendering, validates uploads and protects localhost", async () => {
