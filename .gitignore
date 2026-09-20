@@ -8,3 +8,11 @@
 
 # Local HTML snapshots; use Git history and branches instead
 *_backup*.html
+
+# Local Art Circle Studio internals; only studio/ is a static website build.
+_studio/node_modules/
+_studio/dist/
+_studio/data/
+_studio/.env*
+!_studio/.env.example
+_studio/*.log
