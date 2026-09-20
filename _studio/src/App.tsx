@@ -498,11 +498,13 @@ export function App() {
       api<{ id: string; name: string; url: string }>("/api/references", form),
     );
     if (result) {
+      setMode("Refine");
       setReference(result);
       setParentId(null);
       setSelectedId(null);
       invalidate();
       if (!input.trim()) setInput("Reinterpret this reference image");
+      setNotice("Reference ready. Describe what should change.");
     }
   }
   async function openExport(id: number) {
@@ -694,6 +696,16 @@ export function App() {
                   <br />
                   Let the idea find its own opening.
                 </p>
+                <input
+                  ref={uploadRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  hidden
+                  onChange={(e) => {
+                    upload(e.target.files?.[0]);
+                    e.target.value = "";
+                  }}
+                />
                 <div
                   className="mode-tabs"
                   role="tablist"
@@ -713,6 +725,20 @@ export function App() {
                     ),
                   )}
                 </div>
+                {mode !== "Refine" && (
+                  <button
+                    type="button"
+                    className="upload-shortcut"
+                    disabled={locked}
+                    onClick={() => uploadRef.current?.click()}
+                  >
+                    <Icon name="upload" />
+                    <span>
+                      Upload an image
+                      <small>Start a refinement · PNG, JPEG, or WebP</small>
+                    </span>
+                  </button>
+                )}
                 <label className="field-label" htmlFor="subject">
                   {mode === "Material"
                     ? "BEGIN WITH A MATERIAL"
@@ -755,16 +781,6 @@ export function App() {
                 )}
                 {mode === "Refine" && (
                   <div className="reference-control">
-                    <input
-                      ref={uploadRef}
-                      type="file"
-                      accept="image/png,image/jpeg,image/webp"
-                      hidden
-                      onChange={(e) => {
-                        upload(e.target.files?.[0]);
-                        e.target.value = "";
-                      }}
-                    />
                     {reference || parent ? (
                       <div className="reference-preview">
                         <img
