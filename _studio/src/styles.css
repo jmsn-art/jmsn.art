@@ -799,6 +799,23 @@ input::placeholder {
   margin-top: 16px;
   font-size: 11px;
 }
+.upload-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0 0 22px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  text-align: left;
+  font-size: 10px;
+}
+.upload-shortcut small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 8px;
+}
 .upload-zone small {
   display: block;
   font-size: 9px;
