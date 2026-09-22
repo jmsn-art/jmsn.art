@@ -768,15 +768,23 @@
       });
     }
 
-    // Hide the floating CTA while the hero's own print CTA is on screen,
-    // so it doesn't sit on top of the hero copy on small viewports.
-    const heroPrintsLink = document.getElementById('heroPrintsLink');
-    if (shopBtn && heroPrintsLink && 'IntersectionObserver' in window) {
+    // Hide the floating CTA whenever any part of the hero is on screen,
+    // so it never sits on top of the hero tagline or its own CTA link on
+    // small viewports (including on initial, unscrolled page load).
+    const heroSection = document.querySelector('.hero');
+    if (shopBtn && heroSection && 'IntersectionObserver' in window) {
       const heroCtaObserver = new IntersectionObserver(([entry]) => {
-        shopBtn.style.opacity = entry.isIntersecting ? '0' : '';
-        shopBtn.style.pointerEvents = entry.isIntersecting ? 'none' : '';
+        // !important: .floating-print's intro animation fills forward and
+        // otherwise outranks a plain inline style for the same property.
+        if (entry.isIntersecting) {
+          shopBtn.style.setProperty('opacity', '0', 'important');
+          shopBtn.style.pointerEvents = 'none';
+        } else {
+          shopBtn.style.removeProperty('opacity');
+          shopBtn.style.pointerEvents = '';
+        }
       }, { threshold: 0 });
-      heroCtaObserver.observe(heroPrintsLink);
+      heroCtaObserver.observe(heroSection);
     }
   });
 
