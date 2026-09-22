@@ -3,14 +3,14 @@
 
   <url>
     <loc>https://jmsn.art/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://jmsn.art/archive.html</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -45,7 +45,7 @@
 
   <url>
     <loc>https://jmsn.art/about.html</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -55,13 +55,6 @@
     <lastmod>2026-07-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://jmsn.art/nfts.html</loc>
-    <lastmod>2025-10-30</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
   </url>
 
   <url>
@@ -78,7 +71,7 @@
     <priority>0.3</priority>
   </url>
 
-  <!-- farm.html and about_farm.html are intentionally excluded: both carry noindex meta tags -->
+  <!-- nfts.html, farm.html, and about_farm.html are intentionally excluded: all carry noindex meta tags -->
   <!-- 404.html is intentionally excluded: noindex meta tag -->
 
 </urlset>
