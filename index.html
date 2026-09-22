@@ -496,7 +496,7 @@
       opacity:0;
       transform:translateY(18px);
       animation:fadeSlideIn .8s ease forwards .7s;
-      transition:transform .25s ease,background .25s ease;
+      transition:transform .25s ease,background .25s ease,opacity .25s ease;
     }
     .floating-print:hover { transform:translateY(-2px); background:var(--accent); color:#111; }
 
@@ -722,6 +722,17 @@
       navPrintsLink.addEventListener('click', () => {
         sendGA('shop_click', { link_location: 'nav', destination: 'jmsnart.store' });
       });
+    }
+
+    // Hide the floating CTA while the hero's own print CTA is on screen,
+    // so it doesn't sit on top of the hero copy on small viewports.
+    const heroPrintsLink = document.getElementById('heroPrintsLink');
+    if (shopBtn && heroPrintsLink && 'IntersectionObserver' in window) {
+      const heroCtaObserver = new IntersectionObserver(([entry]) => {
+        shopBtn.style.opacity = entry.isIntersecting ? '0' : '';
+        shopBtn.style.pointerEvents = entry.isIntersecting ? 'none' : '';
+      }, { threshold: 0 });
+      heroCtaObserver.observe(heroPrintsLink);
     }
   });
 
