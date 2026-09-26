@@ -128,6 +128,30 @@
     @keyframes spin { to { transform:rotate(360deg); } }
     #loading p { margin:0; color:var(--muted); font-size:10px; letter-spacing:.18em; text-transform:uppercase; }
 
+    /* Graceful failure screen — shown whenever the room can't run
+       (library blocked, no WebGL, lost GPU context, unexpected error)
+       so a visitor never sits on an endless loading spinner. */
+    #fallback, #fallbackNoscript {
+      position:fixed; inset:0; z-index:50; background:var(--bg);
+      display:none; align-items:center; justify-content:center; text-align:center;
+      padding:0 24px;
+    }
+    #fallback.show, #fallbackNoscript { display:flex; }
+    .fallback-inner { max-width:440px; }
+    .fallback-mark { font-size:34px; color:var(--accent); line-height:1; }
+    .fallback-inner h2 {
+      margin:20px 0 0; font-family:Georgia,"Times New Roman",serif; font-weight:400;
+      font-size:clamp(26px,5vw,38px); letter-spacing:-.02em;
+    }
+    .fallback-inner p { margin:16px auto 0; max-width:380px; color:var(--muted); font-size:13px; line-height:1.7; }
+    .fallback-actions { margin-top:30px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .fallback-actions a, .fallback-actions button {
+      display:inline-block; padding:12px 22px; border:1px solid var(--accent); color:var(--accent);
+      background:transparent; font:inherit; font-size:10px; letter-spacing:.16em;
+      text-transform:uppercase; text-decoration:none; cursor:pointer;
+    }
+    .fallback-actions a:hover, .fallback-actions button:hover { color:var(--fg); border-color:var(--fg); }
+
     /* Lightbox for paintings */
     .lb {
       position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.95);
@@ -169,9 +193,37 @@
 </head>
 <body>
 
+  <noscript>
+    <style>#loading { display:none; }</style>
+    <div id="fallbackNoscript">
+      <div class="fallback-inner">
+        <div class="fallback-mark">◠</div>
+        <h2>The Dream Room needs JavaScript</h2>
+        <p>This room is a real-time 3D space, so it needs JavaScript enabled. The same works are all viewable as flat images in the archive.</p>
+        <div class="fallback-actions">
+          <a href="/archive.html">View the archive</a>
+          <a href="/">Back to the gallery</a>
+        </div>
+      </div>
+    </div>
+  </noscript>
+
   <div id="loading">
     <div class="loading-ring"></div>
     <p>Falling asleep&hellip;</p>
+  </div>
+
+  <div id="fallback">
+    <div class="fallback-inner">
+      <div class="fallback-mark">◠</div>
+      <h2 id="fallbackTitle">The dream didn't load</h2>
+      <p id="fallbackMessage">Something stopped the room from starting. The works are all viewable as flat images in the archive.</p>
+      <div class="fallback-actions">
+        <button id="fallbackRetry" type="button">Try again</button>
+        <a href="/archive.html">View the archive</a>
+        <a href="/">Back to the gallery</a>
+      </div>
+    </div>
   </div>
 
   <div id="app"></div>
@@ -210,6 +262,66 @@
     <a class="lb-link" href="/archive.html">View the full archive →</a>
   </div>
 
+  <!-- Boot watchdog. Deliberately a classic script, not a module: it has to keep
+       working when the module below never runs at all (CDN blocked, import error,
+       syntax error on an older browser). Without it, any such failure leaves the
+       visitor on the loading spinner forever with no way out and no explanation. -->
+  <script>
+    (function () {
+      var booted = false;
+      var failed = false;
+      var watchdog = null;
+
+      // `force` is for failures that happen *after* a successful boot and really
+      // do end the session (a lost GPU context). Ordinary post-boot errors are
+      // ignored on purpose — they must not tear down a room that still works.
+      function show(title, message, force) {
+        if (failed || (booted && !force)) return;
+        failed = true;
+        clearTimeout(watchdog);
+        var loading = document.getElementById('loading');
+        var overlay = document.getElementById('overlay');
+        var panel = document.getElementById('fallback');
+        if (loading) loading.classList.add('hidden');
+        if (overlay) overlay.classList.add('hidden');
+        if (!panel) return;
+        if (title) document.getElementById('fallbackTitle').textContent = title;
+        if (message) document.getElementById('fallbackMessage').textContent = message;
+        panel.classList.add('show');
+      }
+
+      window.__dreamFail = show;
+      window.__dreamBooted = function () {
+        booted = true;
+        clearTimeout(watchdog);
+      };
+      // Reported by the module once it is far enough along that a slow network,
+      // not a broken page, is the likely cause of any remaining delay.
+      window.__dreamProgress = function () { clearTimeout(watchdog); };
+
+      watchdog = setTimeout(function () {
+        show(
+          'The dream is taking too long',
+          'The 3D library this room depends on did not load. That is usually a slow connection, a blocked CDN, or an offline moment — trying again often works.'
+        );
+      }, 15000);
+
+      window.addEventListener('error', function (event) {
+        // A failed <img>/asset load also fires this; only treat script errors as fatal.
+        if (event && event.target && event.target !== window) return;
+        show('The dream didn’t load', 'Something went wrong starting the room. Trying again often works.');
+      });
+      window.addEventListener('unhandledrejection', function () {
+        show('The dream didn’t load', 'Something went wrong starting the room. Trying again often works.');
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var retry = document.getElementById('fallbackRetry');
+        if (retry) retry.addEventListener('click', function () { location.reload(); });
+      });
+    })();
+  </script>
+
   <script type="importmap">
   {
     "imports": {
@@ -219,11 +331,51 @@
   </script>
 
   <script type="module">
-    import * as THREE from 'three';
+    /* Three.js is this page's one hard external dependency. Try the import-map
+       entry first, then independent mirrors, so a single CDN being blocked,
+       rate-limited, or down doesn't take the whole room down with it. */
+    const THREE_SOURCES = [
+      'three',
+      'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js',
+      'https://esm.sh/three@0.160.0',
+    ];
+
+    async function loadThree() {
+      let lastError;
+      for (const source of THREE_SOURCES) {
+        try {
+          return await import(source);
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error('three.js could not be loaded');
+    }
+
+    let THREE;
+    try {
+      THREE = await loadThree();
+    } catch (error) {
+      window.__dreamFail?.(
+        'The dream didn’t load',
+        'The 3D library this room depends on could not be reached from any of its sources. That is usually a blocked CDN or a dropped connection — trying again often works.'
+      );
+      throw error;
+    }
+    window.__dreamProgress?.();
 
     /* ---------- Setup ---------- */
     const container = document.getElementById('app');
     const isTouch = matchMedia('(hover:none), (pointer:coarse)').matches || 'ontouchstart' in window;
+
+    /* Quality guardrails. Point-light shadows and a 2x pixel ratio are by far the
+       most expensive things in this scene; on phones and low-core machines they
+       are the difference between a smooth room and a GPU-memory crash (which
+       shows up as a lost context, i.e. a frozen black screen). */
+    const lowPower = isTouch
+      || (navigator.hardwareConcurrency || 8) <= 4
+      || (navigator.deviceMemory || 8) <= 4;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     /* A circular rotunda: all 36 archive works hang in a single ring
        around the wall, evenly spaced — one full circle of paintings. */
@@ -238,13 +390,41 @@
     const EYE = 1.65;
     camera.position.set(0, EYE, ROOM_R - 2);
 
-    const renderer = new THREE.WebGLRenderer({ antialias:true, powerPreference:'high-performance' });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    /* WebGL is not guaranteed: it can be absent, disabled by policy, or
+       blocklisted on old drivers. Without this guard that case threw and left
+       the visitor on the loading spinner with no explanation. */
+    let running = true;   // cleared if the GPU context is lost
+    let booted = false;   // set on the first frame that actually renders
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: !lowPower, powerPreference:'high-performance' });
+    } catch (error) {
+      window.__dreamFail?.(
+        'This browser can’t open the room',
+        'The Dream Room needs WebGL, which this browser or device doesn’t have available. Every work in it is viewable as a flat image in the archive.'
+      );
+      throw error;
+    }
+    renderer.setPixelRatio(Math.min(devicePixelRatio, lowPower ? 1.5 : 2));
     renderer.setSize(innerWidth, innerHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.enabled = !lowPower;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
+
+    /* A lost context is a frozen black screen unless it is handled. preventDefault
+       is what makes recovery possible at all; we surface an honest way out rather
+       than pretending the room is still there. */
+    renderer.domElement.addEventListener('webglcontextlost', (event) => {
+      event.preventDefault();
+      running = false;
+      window.__dreamFail?.(
+        'The room lost its graphics context',
+        'The browser dropped this page’s connection to the GPU — usually memory pressure, or being left in the background too long. Reloading brings it back.',
+        true
+      );
+    });
+    renderer.domElement.addEventListener('webglcontextrestored', () => { running = true; });
 
     addEventListener('resize', () => {
       camera.aspect = innerWidth / innerHeight;
@@ -260,7 +440,7 @@
 
     const moon = new THREE.PointLight(0xbfd0e8, 1.4, 22, 2);
     moon.position.set(0, ROOM_H - 0.4, 0);
-    moon.castShadow = true;
+    moon.castShadow = !lowPower;   // a point light casts a 6-face cube shadow: the priciest thing here
     moon.shadow.mapSize.set(1024, 1024);
     scene.add(moon);
 
@@ -386,7 +566,7 @@
     scene.add(clock);
 
     /* ---------- Dust motes ---------- */
-    const moteCount = 480;
+    const moteCount = lowPower ? 220 : 480;
     const motePos = new Float32Array(moteCount * 3);
     for (let i=0;i<moteCount;i++){
       const r = Math.sqrt(Math.random()) * ROOM_R * 0.92;
@@ -753,22 +933,26 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      if (!running) return;   // GPU context is gone; drawing into it would only throw
       const dt = Math.min(clock3.getDelta(), 0.05);
       const t = clock3.elapsedTime;
 
-      // circle sculpture idle motion
-      circleGroup.rotation.y += dt * 0.25;
-      circleGroup.position.y = 2.4 + Math.sin(t * 0.6) * 0.08;
-      portalRing.rotation.z += dt * 0.15;
-      clock.rotation.z -= dt * 0.05;
-      motes.rotation.y += dt * 0.01;
-      const moteAttr = moteGeo.attributes.position;
-      for (let i=0;i<moteCount;i++){
-        let y = moteAttr.getY(i) + dt * 0.05;
-        if (y > ROOM_H) y = 0;
-        moteAttr.setY(i, y);
+      // Ambient drift is decorative, so it yields to a reduced-motion preference.
+      // Everything the visitor actually controls still works.
+      if (!reducedMotion) {
+        circleGroup.rotation.y += dt * 0.25;
+        circleGroup.position.y = 2.4 + Math.sin(t * 0.6) * 0.08;
+        portalRing.rotation.z += dt * 0.15;
+        clock.rotation.z -= dt * 0.05;
+        motes.rotation.y += dt * 0.01;
+        const moteAttr = moteGeo.attributes.position;
+        for (let i=0;i<moteCount;i++){
+          let y = moteAttr.getY(i) + dt * 0.05;
+          if (y > ROOM_H) y = 0;
+          moteAttr.setY(i, y);
+        }
+        moteAttr.needsUpdate = true;
       }
-      moteAttr.needsUpdate = true;
 
       if (gameStarted && lb.classList.contains('open') === false) {
         camera.getWorldDirection(forward);
@@ -796,6 +980,9 @@
       }
 
       renderer.render(scene, camera);
+      // First successful frame: the room demonstrably works, so disarm the
+      // watchdog and stop treating later hiccups as a failed startup.
+      if (!booted) { booted = true; window.__dreamBooted?.(); }
     }
     animate();
   </script>
