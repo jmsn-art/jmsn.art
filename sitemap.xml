@@ -23,13 +23,6 @@
   </url>
 
   <url>
-    <loc>https://jmsn.art/make.html</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
     <loc>https://jmsn.art/make-halo.html</loc>
     <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
@@ -73,5 +66,6 @@
 
   <!-- nfts.html, farm.html, and about_farm.html are intentionally excluded: all carry noindex meta tags -->
   <!-- 404.html is intentionally excluded: noindex meta tag -->
+  <!-- make.html is intentionally excluded: noindex meta tag -->
 
 </urlset>
