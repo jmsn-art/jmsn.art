@@ -68,4 +68,11 @@
   <!-- 404.html is intentionally excluded: noindex meta tag -->
   <!-- make.html is intentionally excluded: noindex meta tag -->
 
+  <url>
+    <loc>https://jmsn.art/video.html</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>

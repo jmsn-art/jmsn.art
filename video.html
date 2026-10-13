@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Video — The Art Circle Project</title>
+  <meta name="description" content="Fluorescent — a moving Art Circle by Jameson McShane. A form that almost closes, with exactly one interruption.">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://jmsn.art/video.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+  <meta property="og:title" content="Fluorescent — The Art Circle Project">
+  <meta property="og:type" content="video.other">
+  <meta property="og:url" content="https://jmsn.art/video.html">
+  <meta property="og:image" content="https://jmsn.art/videos/fluorescent-poster.jpg">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; color: #fff; }
+    body { font-family: Arial, sans-serif; }
+    main { position: fixed; inset: 0; }
+    video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+    .bar { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: max(16px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) 36px max(20px, env(safe-area-inset-left)); background: linear-gradient(#000b, transparent); pointer-events: none; }
+    .bar a, .bar button { pointer-events: auto; color: #fff; background: #0008; border: 1px solid #ffffff45; border-radius: 3px; padding: 12px 14px; font: inherit; font-size: 12px; letter-spacing: .06em; text-decoration: none; cursor: pointer; min-height: 44px; }
+    .bar a:hover, .bar button:hover { background: #333; }
+    :focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+    h1 { margin: 0; font-size: 11px; font-weight: 400; letter-spacing: .16em; text-transform: uppercase; }
+    .error { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 24px; background: #111; text-align: center; }
+    .error a { color: #fff; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main aria-label="Fluorescent video artwork">
+    <video id="artwork" controls loop muted playsinline preload="metadata" poster="/videos/fluorescent-poster.jpg" aria-label="Fluorescent: a glowing circular light with one opening at the top, shifting between white and amber. Silent video.">
+      <source src="/videos/fluorescent.mp4" type="video/mp4">
+      <p>Your browser does not support video. <a href="/videos/fluorescent.mp4">Open Fluorescent</a>.</p>
+    </video>
+    <div class="bar">
+      <a href="/" aria-label="Return to the gallery">← Gallery</a>
+      <h1>Fluorescent</h1>
+      <button id="playback" type="button" hidden>Play</button>
+    </div>
+    <p class="error" id="error" role="status" hidden>The video could not load. <a href="/videos/fluorescent.mp4">Open the video directly</a>.</p>
+  </main>
+  <script>
+    const video = document.getElementById('artwork');
+    const button = document.getElementById('playback');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    button.hidden = false;
+    const updatePlayback = () => { button.textContent = video.paused ? 'Play' : 'Pause'; };
+    video.addEventListener('play', updatePlayback);
+    video.addEventListener('pause', updatePlayback);
+    button.addEventListener('click', () => {
+      if (video.paused) video.play().catch(updatePlayback);
+      else video.pause();
+    });
+    const showError = () => { document.getElementById('error').hidden = false; button.hidden = true; };
+    video.addEventListener('error', showError);
+    video.querySelector('source').addEventListener('error', showError);
+    reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) video.pause(); });
+    if (!reducedMotion.matches) video.play().catch(updatePlayback);
+  </script>
+</body>
+</html>
