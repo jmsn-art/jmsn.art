@@ -4,7 +4,7 @@
   <script src="/oaiq-init.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Contact — jmsn.art</title>
+  <title>Contact · The Art Circle Project</title>
 
   <!-- Canonical -->
   <link rel="canonical" href="https://jmsn.art/contact.html">
@@ -26,7 +26,7 @@
   <meta name="author" content="Jameson McShane">
 
   <!-- Social -->
-  <meta property="og:title" content="Contact — jmsn.art">
+  <meta property="og:title" content="Contact · The Art Circle Project">
   <meta property="og:description" content="Send a note about The Art Circle Project. Your email app opens locally; nothing is stored on the website.">
   <meta property="og:url" content="https://jmsn.art/contact.html">
   <meta property="og:type" content="website">
@@ -192,7 +192,15 @@
       footer{grid-template-columns:1fr}
     }
     @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+      input,textarea{
+      padding:14px 16px;background:rgba(127,127,127,.09);
+      border:1px solid rgba(127,127,127,.38);border-radius:0
+    }
+    input::placeholder,textarea::placeholder{opacity:.72}
+    input:focus,textarea:focus{background:rgba(127,127,127,.14)}
+    .direct{font-family:Georgia,"Times New Roman",serif;font-size:clamp(20px,2vw,28px);letter-spacing:-.02em}
   </style>
+<style>.nav-shop{color:var(--accent)!important}</style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to contact form</a>
@@ -204,11 +212,11 @@
     </a>
     <nav class="mastnav" aria-label="Primary navigation">
       <a href="/">Gallery</a>
+      <a href="/circles.html">Circles</a>
       <a href="/video.html">Video</a>
       <a href="/about.html">About</a>
       <a href="/contact.html" aria-current="page">Contact</a>
-      <a href="/license.html">Licensing</a>
-      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a>
+      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" class="nav-shop">Prints ↗</a>
     </nav>
   </header>
 
@@ -224,7 +232,7 @@
     <section class="contact-layout">
       <aside class="contact-note">
         <h2>Start a conversation.</h2>
-        <p>This form opens your own email application with the message filled in. Nothing you type here is stored on jmsn.art.</p>
+        <p>Email is the quickest way to reach me. Prefer a form? Use the one here — it opens your own email app with the message filled in, and nothing you type is stored on jmsn.art.</p>
         <a class="direct" id="directEmailLink" href="mailto:contact@jmsn.art">contact@jmsn.art ↗</a>
       </aside>
 
@@ -244,7 +252,7 @@
 
         <label for="subject">
           <span>Subject (optional)</span>
-          <input type="text" id="subject" name="subject" placeholder="Commission inquiry" autocomplete="off" aria-describedby="err-subject">
+          <input type="text" id="subject" name="subject" placeholder="Question about a print" autocomplete="off" aria-describedby="err-subject">
           <div class="err-msg" id="err-subject" role="alert"></div>
         </label>
 
@@ -261,7 +269,6 @@
           <button type="button" id="resetBtn" class="secondary">Clear Form</button>
         </div>
 
-        <div class="note">This opens your device's email app. No form data is stored on this site.</div>
 
         <div class="ok" id="okMsg" role="status">
           ✓ Opening your email app…
@@ -279,12 +286,14 @@
     <span>© <span id="y"></span> Jameson McShane · The Art Circle Project</span>
     <span>
       <a href="/">Gallery</a> ·
+      <a href="/circles.html">Circles</a> ·
+      <a href="/archive.html">Archive</a> ·
       <a href="/video.html">Video</a> ·
       <a href="/about.html">About</a> ·
       <a href="/contact.html" aria-current="page">Contact</a> ·
       <a href="/license.html">Licensing</a> ·
       <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a> ·
-      <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+      <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">Light mode</button>
     </span>
   </footer>
 
@@ -612,5 +621,14 @@
     window.addEventListener('pagehide', sendEngagement);
   })();
 </script>
+  <script>
+  // Keep the theme button's label in sync with the current mode.
+  (function(){
+    var b=document.getElementById('toggleTheme'); if(!b) return;
+    var sync=function(){ b.textContent=document.body.classList.contains('light-mode')?'Dark mode':'Light mode'; };
+    new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['class']});
+    sync();
+  })();
+  </script>
 </body>
 </html>

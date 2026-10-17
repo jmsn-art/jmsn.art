@@ -3,13 +3,13 @@
 <head>
   <script src="/oaiq-init.js"></script>
   <meta name="description" content="Make your own Art Circle study and explore the project’s visual language.">
-  <meta property="og:title" content="Make Your Own — jmsn.art">
+  <meta property="og:title" content="Make Your Own · The Art Circle Project">
   <meta property="og:url" content="https://jmsn.art/make_your_own.html">
   <meta property="og:image" content="https://jmsn.art/images/File%2000004.jpeg">
   <link rel="canonical" href="https://jmsn.art/make_your_own.html">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Your Own Art Circle</title>
+  <title>Make Your Own · The Art Circle Project</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
@@ -75,7 +75,7 @@
     .brand-by { color:var(--muted); font-size:9px; letter-spacing:.15em; text-transform:uppercase; }
     .nav { display:flex; align-items:center; gap:18px; }
     .nav a {
-      text-decoration:none; color:var(--muted); font-size:9px;
+      text-decoration:none; color:var(--muted); font-size:11px;
       letter-spacing:.14em; text-transform:uppercase;
     }
     .nav a:hover { color:var(--fg); }
@@ -117,12 +117,12 @@
     }
     .control-group { margin-bottom:24px; position:relative; }
     label {
-      display:block; margin-bottom:10px; font-size:9px; color:var(--muted);
+      display:block; margin-bottom:10px; font-size:11px; color:var(--muted);
       text-transform:uppercase; letter-spacing:.14em;
     }
 
-    .tooltip { position:relative; display:inline-block; margin-left:5px; cursor:help; color:var(--muted); font-size:11px; }
-    .tooltip:hover::after {
+    .tooltip { position:relative; display:inline-block; margin-left:2px; padding:8px; cursor:help; color:var(--muted); font-size:14px; line-height:1; }
+    .tooltip:hover::after, .tooltip:focus::after {
       content:attr(data-tip); position:absolute; bottom:100%; left:50%;
       transform:translateX(-50%); background:var(--bg); color:var(--fg);
       padding:8px 12px; white-space:nowrap; font-size:10px; letter-spacing:.06em;
@@ -130,15 +130,15 @@
     }
 
     input[type="range"] {
-      width:100%; height:2px; background:var(--line); outline:none;
+      width:100%; height:4px; background:var(--line); outline:none; border-radius:2px;
       -webkit-appearance:none; appearance:none; margin:8px 0;
     }
     input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance:none; appearance:none; width:16px; height:16px;
+      -webkit-appearance:none; appearance:none; width:24px; height:24px;
       background:var(--accent); cursor:pointer; border-radius:50%; border:0;
     }
     input[type="range"]::-moz-range-thumb {
-      width:16px; height:16px; background:var(--accent); cursor:pointer;
+      width:24px; height:24px; background:var(--accent); cursor:pointer;
       border-radius:50%; border:none;
     }
     input[type="range"]:focus-visible,
@@ -158,7 +158,7 @@
     .button-group { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:30px; }
     button {
       padding:13px 12px; border:1px solid var(--line); border-radius:0;
-      font:inherit; font-size:9px; font-weight:700; cursor:pointer;
+      font:inherit; font-size:11px; font-weight:700; cursor:pointer;
       text-transform:uppercase; letter-spacing:.13em;
       background:none; color:var(--fg);
       transition:background-color .25s ease,color .25s ease,border-color .25s ease;
@@ -183,7 +183,7 @@
     .site-footer {
       width:min(calc(100% - (var(--pad)*2)),var(--max)); margin:0 auto;
       padding:28px 0 40px; border-top:1px solid var(--line);
-      color:var(--muted); font-size:9px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--muted); font-size:11px; line-height:2.2; letter-spacing:.12em; text-transform:uppercase;
     }
     .site-footer a { text-decoration:none; }
     .site-footer a:hover { color:var(--fg); }
@@ -200,6 +200,8 @@
       * { transition:none!important; animation:none!important; }
     }
   </style>
+<style>.make-note{width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto 18px;color:var(--muted);font-size:13px;line-height:1.6}.make-note a{color:var(--fg)}</style>
+<style>.nav-shop{color:var(--accent)!important}</style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to controls</a>
@@ -212,9 +214,11 @@
     <nav class="nav" aria-label="Primary">
       <a href="/">Gallery</a>
       <a href="/circles.html">Circles</a>
+      <a href="/video.html">Video</a>
       <a href="/about.html">About</a>
       <a href="/contact.html">Contact</a>
-      <button id="themeToggle" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" class="nav-shop">Prints ↗</a>
+      <button id="themeToggle" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">Light mode</button>
     </nav>
   </header>
 
@@ -229,27 +233,27 @@
     <div class="controls" id="main-content">
       <!-- History controls -->
       <div class="history-group">
-        <button class="history-btn" id="undoBtn" disabled aria-label="Undo last change">↶ Undo</button>
-        <button class="history-btn" id="redoBtn" disabled aria-label="Redo last change">↷ Redo</button>
+        <button class="history-btn" id="undoBtn" disabled aria-label="Undo last change">Undo</button>
+        <button class="history-btn" id="redoBtn" disabled aria-label="Redo last change">Redo</button>
       </div>
 
       <div class="control-group">
-        <label>Gap Size <span class="tooltip" data-tip="Size of the break in the circle">ⓘ</span> <span class="value-display" id="gapValue">30°</span></label>
+        <label>Gap Size <span class="tooltip" tabindex="0" role="note" data-tip="Size of the break in the circle">ⓘ</span> <span class="value-display" id="gapValue">30°</span></label>
         <input type="range" id="gapSize" min="5" max="90" value="30" step="1" aria-label="Gap size in degrees">
       </div>
 
       <div class="control-group">
-        <label>Gap Position <span class="tooltip" data-tip="Where the gap starts (rotation)">ⓘ</span> <span class="value-display" id="posValue">0°</span></label>
+        <label>Gap Position <span class="tooltip" tabindex="0" role="note" data-tip="Where the gap starts (rotation)">ⓘ</span> <span class="value-display" id="posValue">0°</span></label>
         <input type="range" id="gapPosition" min="0" max="360" value="0" step="1" aria-label="Gap position in degrees">
       </div>
 
       <div class="control-group">
-        <label>Circle Size <span class="tooltip" data-tip="Diameter of each circle">ⓘ</span> <span class="value-display" id="sizeValue">300px</span></label>
+        <label>Circle Size <span class="tooltip" tabindex="0" role="note" data-tip="Diameter of each circle">ⓘ</span> <span class="value-display" id="sizeValue">300px</span></label>
         <input type="range" id="circleSize" min="100" max="500" value="300" step="10" aria-label="Circle size in pixels">
       </div>
 
       <div class="control-group">
-        <label>Stroke Thickness <span class="tooltip" data-tip="Width of the circle line">ⓘ</span> <span class="value-display" id="thicknessValue">8px</span></label>
+        <label>Stroke Thickness <span class="tooltip" tabindex="0" role="note" data-tip="Width of the circle line">ⓘ</span> <span class="value-display" id="thicknessValue">8px</span></label>
         <input type="range" id="strokeThickness" min="2" max="30" value="8" step="1" aria-label="Stroke thickness in pixels">
       </div>
 
@@ -264,12 +268,12 @@
       </div>
 
       <div class="control-group">
-        <label>Glow Intensity <span class="tooltip" data-tip="Amount of glow/shadow effect">ⓘ</span> <span class="value-display" id="glowValue">20px</span></label>
+        <label>Glow Intensity <span class="tooltip" tabindex="0" role="note" data-tip="Amount of glow/shadow effect">ⓘ</span> <span class="value-display" id="glowValue">20px</span></label>
         <input type="range" id="glowIntensity" min="0" max="50" value="20" step="1" aria-label="Glow intensity in pixels">
       </div>
 
       <div class="control-group">
-        <label>Number of Circles <span class="tooltip" data-tip="Grid of multiple circles">ⓘ</span> <span class="value-display" id="countValue">1</span></label>
+        <label>Number of Circles <span class="tooltip" tabindex="0" role="note" data-tip="Grid of multiple circles">ⓘ</span> <span class="value-display" id="countValue">1</span></label>
         <input type="range" id="circleCount" min="1" max="999" value="1" step="1" aria-label="Number of circles">
       </div>
 
@@ -288,14 +292,16 @@
       <div class="button-group">
         <button class="btn-primary" onclick="downloadSVG()">Download SVG</button>
         <button class="btn-primary" onclick="downloadPNG()">Download PNG</button>
-        <button class="btn-secondary" onclick="shareConfig()">📤 Share</button>
-        <button class="btn-secondary" onclick="copyConfig()">📋 Copy Settings</button>
-        <button class="btn-secondary" onclick="saveConfig()">💾 Save</button>
-        <button class="btn-secondary" onclick="loadConfig()">📂 Load</button>
-        <button class="btn-secondary" onclick="randomize()">🎲 Randomize</button>
-        <button class="btn-secondary" onclick="reset()">↺ Reset</button>
+        <button class="btn-secondary" onclick="shareConfig()">Share</button>
+        <button class="btn-secondary" onclick="copyConfig()">Copy settings</button>
+        <button class="btn-secondary" onclick="saveConfig()">Save</button>
+        <button class="btn-secondary" onclick="loadConfig()">Load</button>
+        <button class="btn-secondary" onclick="randomize()">Randomize</button>
+        <button class="btn-secondary" onclick="reset()">Reset</button>
       </div>
     </div>
+
+    <p class="make-note">Made something you like? Email it to <a href="mailto:contact@jmsn.art?subject=My%20Art%20Circle">contact@jmsn.art</a> — I'd love to see it. Or browse the <a href="/circles.html">studies</a> for ideas.</p>
 
     <div class="canvas-area" id="canvasArea">
       <svg id="artCanvas" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
@@ -306,7 +312,14 @@
 
   <footer class="site-footer">
     © 2026 Jameson McShane · The Art Circle Project ·
-    <a href="/">Gallery</a> · <a href="/circles.html">Circles</a> · <a href="/about.html">About</a> · <a href="/contact.html">Contact</a>
+    <a href="/">Gallery</a> ·
+    <a href="/circles.html">Circles</a> ·
+    <a href="/archive.html">Archive</a> ·
+    <a href="/video.html">Video</a> ·
+    <a href="/about.html">About</a> ·
+    <a href="/contact.html">Contact</a> ·
+    <a href="/license.html">Licensing</a> ·
+    <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a>
   </footer>
 
   <!-- Accessibility announcer -->
@@ -800,6 +813,15 @@
       page: 'art_circle_tool',
       page_title: document.title 
     });
+  </script>
+  <script>
+  // Keep the theme button's label in sync with the current mode.
+  (function(){
+    var b=document.getElementById('themeToggle'); if(!b) return;
+    var sync=function(){ b.textContent=document.body.classList.contains('light-mode')?'Dark mode':'Light mode'; };
+    new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['class']});
+    sync();
+  })();
   </script>
 </body>
 </html>
