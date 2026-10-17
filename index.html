@@ -16,7 +16,7 @@
       {
         "@type": "WebSite",
         "@id": "https://jmsn.art/#website",
-        "name": "jmsn.art – The Art Circle Project by Jameson McShane",
+        "name": "The Art Circle Project – Jameson McShane (jmsn.art)",
         "url": "https://jmsn.art/",
         "publisher": { "@id": "https://jmsn.art/#person" },
         "inLanguage": "en-US",
@@ -77,7 +77,7 @@
   }
   </script>
 
-  <title>jmsn.art – The Art Circle Project by Jameson McShane</title>
+  <title>The Art Circle Project – Jameson McShane (jmsn.art)</title>
 
   <link rel="sitemap" type="application/xml" href="https://jmsn.art/sitemap.xml">
   <meta name="msvalidate.01" content="FB9ACE8AB7FEC46B96561CEC1888FB39">
@@ -96,7 +96,7 @@
   <meta name="description" content="The Art Circle Project by Jameson McShane explores halos, broken circles, and the tension between wholeness and incompleteness through digital and generative-AI collaboration.">
   <meta name="author" content="Jameson McShane">
 
-  <meta property="og:title" content="jmsn.art – The Art Circle Project by Jameson McShane">
+  <meta property="og:title" content="The Art Circle Project – Jameson McShane (jmsn.art)">
   <meta property="og:description" content="The Art Circle Project explores halos, broken circles, and the sacred within the ordinary. Communion of Saints was selected for B-Side No. 1.">
   <meta property="og:image" content="https://jmsn.art/images/File%2000004.jpeg">
   <meta property="og:image:alt" content="Communion of Saints by Jameson McShane and Art Circle">
@@ -105,7 +105,7 @@
   <meta property="og:site_name" content="jmsn.art">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="jmsn.art – The Art Circle Project by Jameson McShane">
+  <meta name="twitter:title" content="The Art Circle Project – Jameson McShane (jmsn.art)">
   <meta name="twitter:description" content="Exploring halos, broken circles, and the sacred within the ordinary through digital and generative-AI collaboration.">
   <meta name="twitter:image" content="https://jmsn.art/images/File%2000004.jpeg">
 
@@ -141,7 +141,7 @@
       --bg:#f4f1e9;
       --fg:#121210;
       --muted:#68645d;
-      --accent:#9a741d;
+      --accent:#7a5a12;
       --line:rgba(0,0,0,.14);
       --panel:#eae6dc;
       color-scheme:light;
@@ -200,6 +200,7 @@
       letter-spacing:.08em;
       text-transform:uppercase;
     }
+    .mastnav a.nav-shop { color:var(--accent); }
     .mastnav a {
       text-decoration:none;
       padding:8px 0;
@@ -211,7 +212,7 @@
     .publication-note {
       width:min(calc(100% - (var(--pad) * 2)),var(--max));
       margin:0 auto;
-      padding:18px 0;
+      padding:16px 0;
       display:grid;
       grid-template-columns:auto 1fr auto;
       align-items:center;
@@ -221,22 +222,22 @@
     .publication-label {
       margin:0;
       color:var(--accent);
-      font-size:9px;
-      letter-spacing:.18em;
+      font-size:11px;
+      letter-spacing:.16em;
       text-transform:uppercase;
       white-space:nowrap;
     }
     .publication-copy {
       margin:0;
       color:var(--muted);
-      font-size:12px;
+      font-size:13px;
       line-height:1.55;
     }
     .publication-copy strong,
     .publication-copy em { color:var(--fg); }
     .publication-link {
       color:var(--fg);
-      font-size:9px;
+      font-size:11px;
       letter-spacing:.14em;
       text-decoration:none;
       text-transform:uppercase;
@@ -261,24 +262,24 @@
       position:relative;
       align-self:stretch;
       min-height:clamp(440px,68vh,760px);
-      overflow:hidden;
-      background:#a4c6cf;
+      margin:0;
+      display:flex;
+      flex-direction:column;
     }
     .hero-art img {
       display:block;
       width:100%;
-      height:100%;
+      flex:1;
+      min-height:0;
       object-fit:contain;
       object-position:center;
+      background:#a4c6cf;
       filter:contrast(1.03);
     }
     .hero-art figcaption {
-      position:absolute;
-      right:14px;
-      bottom:12px;
-      margin:0;
-      color:rgba(255,255,255,.72);
-      font-size:9px;
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:11px;
       letter-spacing:.14em;
       text-transform:uppercase;
     }
@@ -289,7 +290,7 @@
     .hero-kicker {
       margin:0 0 18px;
       color:var(--accent);
-      font-size:10px;
+      font-size:11px;
       letter-spacing:.2em;
       text-transform:uppercase;
     }
@@ -314,7 +315,7 @@
       margin:18px 0 0;
       max-width:350px;
       color:var(--muted);
-      font-size:12px;
+      font-size:13px;
       line-height:1.65;
     }
     .hero-link {
@@ -324,7 +325,7 @@
       color:#111;
       background:var(--accent);
       text-decoration:none;
-      font-size:10px;
+      font-size:11px;
       letter-spacing:.15em;
       text-transform:uppercase;
       transition:background .25s ease,color .25s ease;
@@ -351,21 +352,24 @@
     .gallery-head p {
       margin:0 0 8px;
       color:var(--muted);
-      font-size:10px;
+      font-size:11px;
       letter-spacing:.16em;
       text-transform:uppercase;
     }
+    .gallery-head div { text-align:right; }
     .archive-link {
       display:inline-block;
       margin-top:12px;
+      padding:11px 18px;
       color:var(--fg);
-      font-size:10px;
+      font-size:12px;
       letter-spacing:.14em;
       text-decoration:none;
       text-transform:uppercase;
-      border-bottom:1px solid currentColor;
-      padding-bottom:4px;
+      border:1px solid var(--fg);
+      transition:background .25s ease,color .25s ease;
     }
+    .archive-link:hover { background:var(--fg); color:var(--bg); }
 
     /* Gallery */
     .gallery {
@@ -376,15 +380,38 @@
       gap:clamp(7px,1vw,16px);
       grid-auto-flow:dense;
     }
+    .work {
+      position:relative;
+      margin:0;
+      aspect-ratio:4/5;
+      overflow:hidden;
+    }
+    .work figcaption {
+      position:absolute;
+      left:0; right:0; bottom:0;
+      padding:36px 14px 12px;
+      color:#fff;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:14px;
+      line-height:1.25;
+      background:linear-gradient(transparent,rgba(0,0,0,.72));
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .35s ease;
+    }
+    .work:hover figcaption,
+    .work:focus-within figcaption { opacity:1; }
+    @media (hover:none) { .work figcaption { display:none; } }
     .gallery img {
+      position:absolute;
+      inset:0;
       width:100%;
-      height:auto;
+      height:100%;
       display:block;
       border-radius:0;
       box-shadow:none;
       cursor:pointer;
       opacity:0;
-      aspect-ratio:4/5;
       object-fit:cover;
       transform-origin:center;
       will-change:transform;
@@ -399,9 +426,9 @@
     .gallery img.lazy-loaded { opacity:1; animation:none; background:none; }
 
     /* Editorial rhythm: several works become large anchors */
-    .gallery img:nth-child(1),
-    .gallery img:nth-child(5),
-    .gallery img:nth-child(9) {
+    .work:nth-child(1),
+    .work:nth-child(5),
+    .work:nth-child(9) {
       grid-column:span 2;
       grid-row:span 2;
     }
@@ -512,13 +539,15 @@
       animation:fadeSlideIn .8s ease forwards .7s;
       transition:transform .25s ease,background .25s ease,opacity .25s ease;
     }
+    body.noscroll .floating-print { display:none; }
+    .floating-print.is-away { opacity:0!important; pointer-events:none; }
     .floating-print:hover { transform:translateY(-2px); background:var(--accent); color:#111; }
 
     /* Footer */
     footer {
       width:min(calc(100% - (var(--pad) * 2)),var(--max));
       margin:clamp(90px,12vw,180px) auto 0;
-      padding:40px 0 32px;
+      padding:40px 0 96px;
       border-top:1px solid var(--line);
       color:var(--muted);
       font-size:11px;
@@ -531,7 +560,10 @@
       background:none;
       border:1px solid var(--line);
       color:var(--fg);
-      padding:.55em .75em;
+      font-size:11px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      padding:.65em 1em;
       margin-top:12px;
       cursor:pointer;
     }
@@ -551,20 +583,28 @@
     }
     @media (max-width:700px) {
       .brand-by { display:none; }
-      .mastnav { gap:14px 18px; font-size:9px; }
+      .mastnav { gap:8px 12px; font-size:10px; letter-spacing:.04em; }
       .hero { grid-template-columns:1fr; min-height:auto; padding-top:24px; gap:34px; }
       .publication-note { grid-template-columns:1fr; gap:8px; padding:16px 0 18px; }
       .publication-link { justify-self:start; margin-top:4px; }
-      .hero-art { min-height:0; aspect-ratio:1/1; }
+      .hero-art { min-height:0; }
+      .hero-art img { flex:none; aspect-ratio:2/3; height:auto; max-height:72vh; object-fit:cover; }
       .hero-copy { max-width:560px; }
       .hero h2 { font-size:clamp(52px,16vw,86px); }
       .hero-note { max-width:440px; }
       .gallery-head { align-items:flex-start; flex-direction:column; }
       .gallery { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .gallery img:nth-child(1),
-      .gallery img:nth-child(10),
-      .gallery img:nth-child(19),
-      .gallery img:nth-child(28) {
+      .work:nth-child(1),
+      .work:nth-child(5),
+      .work:nth-child(9) {
+        grid-column:auto;
+        grid-row:auto;
+        aspect-ratio:4/5;
+      }
+      .work:nth-child(1),
+      .work:nth-child(10),
+      .work:nth-child(19),
+      .work:nth-child(28) {
         grid-column:span 2;
         grid-row:span 2;
       }
@@ -580,7 +620,7 @@
     }
     @media (prefers-reduced-motion:reduce) {
       html { scroll-behavior:auto; }
-      .gallery img,.lb,.lb img,.floating-print {
+      .gallery img,.work figcaption,.lb,.lb img,.floating-print {
         transition:none!important;
         animation:none!important;
         transform:none!important;
@@ -609,16 +649,10 @@
       <a href="/video.html">Video</a>
       <a href="/about.html">About</a>
       <a href="/contact.html">Contact</a>
-      <a href="/license.html">Licensing</a>
-      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" id="navPrintsLink">Prints ↗</a>
+      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" id="navPrintsLink" class="nav-shop">Prints ↗</a>
     </nav>
   </header>
 
-  <aside class="publication-note" aria-label="Publication recognition">
-    <p class="publication-label">Selected for publication</p>
-    <p class="publication-copy"><strong><em>Communion of Saints</em></strong>, submitted by Art Circle, is one of 20 works selected from 64 submissions for <em>B-Side No. 1</em> by The AI Art Magazine. Release planned for November 2026.</p>
-    <a class="publication-link" href="https://www.art-magazine.ai/edition/b-side-no1" target="_blank" rel="noopener noreferrer">View the selection ↗</a>
-  </aside>
 
   <section class="hero" aria-labelledby="hero-title">
     <figure class="hero-art">
@@ -636,32 +670,33 @@
     </div>
   </section>
 
+  <aside class="publication-note" aria-label="Publication recognition">
+    <p class="publication-label">Selected for publication</p>
+    <p class="publication-copy"><strong><em>Communion of Saints</em></strong> is one of 20 works chosen from 64 submissions for <em>B-Side No. 1</em>, The AI Art Magazine · November 2026.</p>
+    <a class="publication-link" href="https://www.art-magazine.ai/edition/b-side-no1" target="_blank" rel="noopener noreferrer">View the selection ↗</a>
+  </aside>
+
   <section class="gallery-head">
     <h3>Selected works</h3>
     <div>
-      <p>11 works · a fixed selection</p>
-      <a class="archive-link" href="/archive.html">View the archive →</a>
+      <p>11 selected works</p>
+      <a class="archive-link" href="/archive.html">Browse the full archive →</a>
     </div>
   </section>
 
   <div class="gallery" id="gallery" role="list" aria-label="Art Circle Gallery">
-    <img src="/images/File%2000004.jpeg"
-         alt="Communion of Saints — pale figures gathered beneath incomplete gold halos"
-         decoding="async" fetchpriority="high"
-         width="1200" height="1500"
-         sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"
-         style="content-visibility:auto;" role="listitem">
+    <figure class="work" role="listitem"><img src="/images/File%2000004.jpeg" alt="Communion of Saints — pale figures gathered beneath incomplete gold halos" decoding="async" fetchpriority="high" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" style="content-visibility:auto;"><figcaption>Communion of Saints — pale figures gathered beneath incomplete gold halos</figcaption></figure>
 
-    <img src="/images/File%2000001.jpeg" alt="Haloed Figure in Black and White"                    loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000007.jpeg" alt="Roto Dorado en Mosaico"                            loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000011.jpeg" alt="The Circle of Conflict"                            loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette"              loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000029.jpeg" alt="Broken Circle with Objects"                        loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth"                     loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000035.jpeg" alt="Circular Roadway Interchange in a Dry Landscape"  loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000080.jpeg" alt="Golden Halo Over Silent Figure"                    loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000112.jpeg" alt="Sacred Silhouettes in Gilded Reverence"            loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
-    <img src="/images/File%2000125.jpeg" alt="Stealth Aircraft Against Yellow Halo"              loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px" role="listitem">
+    <figure class="work" role="listitem"><img src="/images/File%2000001.jpeg" alt="Haloed Figure in Black and White" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Haloed Figure in Black and White</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000007.jpeg" alt="Roto Dorado en Mosaico" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Roto Dorado en Mosaico</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000011.jpeg" alt="The Circle of Conflict" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>The Circle of Conflict</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000013.jpeg" alt="Sunset and Satellite Dish Silhouette" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Sunset and Satellite Dish Silhouette</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000029.jpeg" alt="Broken Circle with Objects" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Broken Circle with Objects</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000033.jpeg" alt="Golden Circle and Shark Teeth" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Golden Circle and Shark Teeth</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000035.jpeg" alt="Circular Roadway Interchange in a Dry Landscape" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Circular Roadway Interchange in a Dry Landscape</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000080.jpeg" alt="Golden Halo Over Silent Figure" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Golden Halo Over Silent Figure</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000112.jpeg" alt="Sacred Silhouettes in Gilded Reverence" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Sacred Silhouettes in Gilded Reverence</figcaption></figure>
+    <figure class="work" role="listitem"><img src="/images/File%2000125.jpeg" alt="Stealth Aircraft Against Yellow Halo" loading="lazy" decoding="async" width="1200" height="1500" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 45vw, 350px"><figcaption>Stealth Aircraft Against Yellow Halo</figcaption></figure>
   </div>
 
   <!-- Lightbox -->
@@ -694,9 +729,9 @@
       <a href="/about.html">About</a> ·
     <a href="/contact.html">Contact</a> ·
     <a href="/license.html">Licensing</a> ·
-    <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a> ·
+    <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a>
     <br>
-    <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false" aria-controls="gallery">☀️ / 🌙</button>
+    <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">Light mode</button>
   </footer>
 
   <noscript><p style="color:#ccc;text-align:center">Lightbox requires JavaScript. Images still viewable below.</p></noscript>
@@ -721,6 +756,7 @@
       const isLight = mode === 'light';
       document.body.classList.toggle('light-mode', isLight);
       btn.setAttribute('aria-pressed', String(isLight));
+      btn.textContent = isLight ? 'Dark mode' : 'Light mode';
     }
 
     apply(saved || (preferLight ? 'light' : 'dark'));
@@ -728,6 +764,7 @@
     btn.addEventListener('click', () => {
       const isLight = document.body.classList.toggle('light-mode');
       btn.setAttribute('aria-pressed', String(isLight));
+      btn.textContent = isLight ? 'Dark mode' : 'Light mode';
       storage.set('theme', isLight ? 'light' : 'dark');
       sendGA('theme_toggle', { mode: isLight ? 'light' : 'dark' });
     });
@@ -749,23 +786,19 @@
       });
     }
 
-    // Hide the floating CTA whenever any part of the hero is on screen,
-    // so it never sits on top of the hero tagline or its own CTA link on
-    // small viewports (including on initial, unscrolled page load).
-    const heroSection = document.querySelector('.hero');
-    if (shopBtn && heroSection && 'IntersectionObserver' in window) {
-      const heroCtaObserver = new IntersectionObserver(([entry]) => {
-        // !important: .floating-print's intro animation fills forward and
-        // otherwise outranks a plain inline style for the same property.
-        if (entry.isIntersecting) {
-          shopBtn.style.setProperty('opacity', '0', 'important');
-          shopBtn.style.pointerEvents = 'none';
-        } else {
-          shopBtn.style.removeProperty('opacity');
-          shopBtn.style.pointerEvents = '';
-        }
-      }, { threshold: 0 });
-      heroCtaObserver.observe(heroSection);
+    // Show the floating CTA only once the visitor has scrolled past the
+    // gallery, so it never sits on top of the work.
+    const galleryEl = document.getElementById('gallery');
+    if (shopBtn && galleryEl) {
+      let ticking = false;
+      const update = () => {
+        ticking = false;
+        const pastGallery = galleryEl.getBoundingClientRect().bottom < window.innerHeight;
+        shopBtn.classList.toggle('is-away', !pastGallery);
+      };
+      window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
     }
   });
 
