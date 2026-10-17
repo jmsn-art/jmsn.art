@@ -10,6 +10,7 @@ import type {
 } from "./types";
 
 import { readDraft, saveDraft } from "./draft";
+import { drawIdeas, type Idea } from "./idea-deck";
 const browserOnly = import.meta.env.MODE === "site";
 
 function downloadText(text: string, filename: string, type = "text/plain") {
@@ -239,6 +240,8 @@ export function App() {
   const [mode, setMode] = useState<Mode>(savedDraft?.mode ?? "Explore");
   const [input, setInput] = useState(savedDraft?.input ?? "");
   const [direction, setDirection] = useState(savedDraft?.direction ?? "");
+  const [ideaCards, setIdeaCards] = useState<Idea[]>(() => drawIdeas(4));
+  const [ideaCategory, setIdeaCategory] = useState<Idea["category"] | "all">("all");
   const [constraints, setConstraints] = useState<string[]>(
     savedDraft?.constraints ?? ["Preserve composition", "Preserve subject"],
   );
@@ -985,6 +988,47 @@ export function App() {
                     Read & edit the principles <span>↗</span>
                   </button>
                 </div>
+                <details className="idea-deck" open>
+                  <summary>Idea deck <span>NO API · CONCEPT FIRST</span></summary>
+                  <p>Each starting point has a physical reason for one opening. Choose one, then revise the direction before developing.</p>
+                  <div className="idea-controls">
+                    <select
+                      aria-label="Idea category"
+                      value={ideaCategory}
+                      disabled={locked}
+                      onChange={(e) => {
+                        const category = e.target.value as typeof ideaCategory;
+                        setIdeaCategory(category);
+                        setIdeaCards(drawIdeas(4, Math.random, category === "all" ? undefined : category));
+                      }}
+                    >
+                      <option value="all">All subjects</option>
+                      <option value="architecture">Architecture</option>
+                      <option value="living form">Living form</option>
+                      <option value="material">Material</option>
+                      <option value="light & space">Light & space</option>
+                    </select>
+                    <button type="button" disabled={locked} onClick={() => setIdeaCards(drawIdeas(4, Math.random, ideaCategory === "all" ? undefined : ideaCategory))}>Deal four ↻</button>
+                  </div>
+                  {ideaCards.map((idea) => (
+                    <button
+                      type="button"
+                      className="idea-card"
+                      key={idea.subject}
+                      disabled={locked}
+                      onClick={() => {
+                        setMode("Explore");
+                        setInput(idea.subject);
+                        setDirection(`${idea.gap} ${idea.direction}`);
+                        invalidate();
+                      }}
+                    >
+                      <small>{idea.category}</small>
+                      <strong>{idea.subject}</strong>
+                      <span>{idea.gap}</span>
+                    </button>
+                  ))}
+                </details>
                 <details className="seed-list">
                   <summary>
                     Ways in{" "}
