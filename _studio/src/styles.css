@@ -384,6 +384,21 @@ input::placeholder {
   justify-content: space-between;
   width: 100%;
 }
+.idea-deck {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 17px;
+}
+.idea-deck summary { cursor: pointer; font-family: var(--serif); font-size: 17px; }
+.idea-deck summary span { float: right; font: 8px Arial, sans-serif; letter-spacing: .5px; color: var(--muted); }
+.idea-deck p { font-size: 11px; line-height: 1.6; color: var(--muted); }
+.idea-controls { display: flex; gap: 8px; margin: 12px 0; }
+.idea-controls select, .idea-controls button { flex: 1; min-width: 0; padding: 8px; border: 1px solid var(--line); color: inherit; background: transparent; font-size: 10px; }
+.idea-card { display: block; width: 100%; text-align: left; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.idea-card:hover strong, .idea-controls button:hover { text-decoration: underline; }
+.idea-card small { display: block; text-transform: uppercase; letter-spacing: 1px; font-size: 8px; color: var(--muted); }
+.idea-card strong { display: block; margin: 5px 0; font-size: 12px; font-weight: 500; }
+.idea-card span { display: block; font-size: 10px; line-height: 1.5; color: var(--muted); }
 .seed-list {
   margin-top: 26px;
   border-top: 1px solid var(--line);
