@@ -3,21 +3,21 @@
 
   <url>
     <loc>https://jmsn.art/</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://jmsn.art/archive.html</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://jmsn.art/circles.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -31,21 +31,21 @@
 
   <url>
     <loc>https://jmsn.art/make_your_own.html</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://jmsn.art/about.html</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://jmsn.art/contact.html</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -59,7 +59,7 @@
 
   <url>
     <loc>https://jmsn.art/license.html</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
