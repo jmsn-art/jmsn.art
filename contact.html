@@ -265,13 +265,13 @@
         </label>
 
         <div class="btn-group">
-          <button type="submit" id="sendBtn">Send Message</button>
+          <button type="submit" id="sendBtn">Open email draft</button>
           <button type="button" id="resetBtn" class="secondary">Clear Form</button>
         </div>
 
 
         <div class="ok" id="okMsg" role="status">
-          ✓ Opening your email app…
+          Opening your email draft. Review it and press Send in your email app.
           <br><br>
           If nothing happens: <button type="button" class="copy-btn" id="copyEmailBtn">📋 Copy Email Address</button>
           <br><br>
@@ -453,7 +453,7 @@
       if (!valid && firstError) {
         firstError.focus();
       } else if (valid) {
-        announcer.textContent = 'Form is valid and ready to submit';
+        announcer.textContent = 'Form is ready to open as an email draft';
       }
 
       return { valid, failedFields };
@@ -562,7 +562,7 @@
 
       // Show success message
       okBox.style.display = 'block';
-      announcer.textContent = 'Opening your email application';
+      announcer.textContent = 'Opening your email draft. Send it from your email app.';
       window.location.href = mailto;
 
       // Track successful submission
