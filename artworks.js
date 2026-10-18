@@ -222,28 +222,28 @@ window.artworks = {
     "title": "Ephemeral Guided Trail Loop",
     "description": "Ephemeral Guided Trail Loop",
     "year": 2026,
-    "note": "Digital work developed through multiple prompts and iterations in DALL·E.",
+    "note": "Digital work developed through prompts and iteration using a Codex-built Art Circle generator.",
     "printUrl": null
   },
   "2026-09-20_deserted-portal-of-transience_005.jpg": {
     "title": "Deserted Portal of Transience",
     "description": "Deserted Portal of Transience",
     "year": 2026,
-    "note": "Digital work developed through multiple prompts and iterations in DALL·E.",
+    "note": "Digital work developed through prompts and iteration using a Codex-built Art Circle generator.",
     "printUrl": null
   },
   "2026-10-04_infinite-growth-gap-in-a-bonsai-spiral_030.jpg": {
     "title": "Infinite Growth Gap in a Bonsai Spiral",
     "description": "Infinite Growth Gap in a Bonsai Spiral",
     "year": 2026,
-    "note": "Digital work developed through multiple prompts and iterations in DALL·E.",
+    "note": "Digital work developed through prompts and iteration using a Codex-built Art Circle generator.",
     "printUrl": null
   },
   "2026-10-17_oil-slick-on-asphalt.jpg": {
     "title": "Oil Slick on Asphalt",
     "description": "Oil Slick on Asphalt",
     "year": 2026,
-    "note": "Digital work developed through multiple prompts and iterations in DALL·E.",
+    "note": "Digital work developed through prompts and iteration using a Codex-built Art Circle generator.",
     "printUrl": null
   }
 };
