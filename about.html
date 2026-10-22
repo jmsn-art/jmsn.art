@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#111111">
+
 
   <!-- Robots -->
   <meta name="robots" content="index,follow,max-image-preview:large">
@@ -81,8 +81,8 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} 
-    gtag('js', new Date()); 
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
     gtag('config', 'G-FQPZNDPCCF');
     function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
   </script>
@@ -206,11 +206,13 @@
     .chapter-sub{margin:34px 0 -4px;color:var(--accent);font-size:11px;font-weight:400;letter-spacing:.18em;text-transform:uppercase}
   </style>
 <style>.nav-shop{color:var(--accent)!important}</style>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
+<body class="modern page-about"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html">Motion</a><a href="/about.html" aria-current="page">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <header class="masthead">
+  <div class="legacy-hooks" hidden inert>
     <a class="brand" href="/" id="homeLink" aria-label="The Art Circle Project home">
       <span class="brand-name">The Art Circle Project</span>
       <span class="brand-by">Jameson McShane</span>
@@ -223,7 +225,7 @@
       <a href="/contact.html" id="contactLink">Contact</a>
       <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" class="nav-shop">Prints ↗</a>
     </nav>
-  </header>
+  </div>
 
   <main id="main-content">
     <section class="about-hero">
@@ -273,7 +275,7 @@
     </section>
   </main>
 
-  <footer>
+  <div class="legacy-hooks" hidden inert>
     <p>© <span id="y"></span> Jameson McShane · The Art Circle Project</p>
     <p>
       <a href="/" id="galleryFooterLink">Gallery</a> ·
@@ -288,7 +290,7 @@
       <a href="mailto:contact@jmsn.art" id="emailLink">contact@jmsn.art</a> ·
     </p>
     <p><button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">Light mode</button></p>
-  </footer>
+  </div>
 
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
 
@@ -318,19 +320,19 @@
       const btn = document.getElementById('toggleTheme');
       const saved = storage.get('theme');
       const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-      
+
       function apply(mode){
-        if (mode === 'light') { 
-          document.body.classList.add('light-mode'); 
-          btn.setAttribute('aria-pressed','true'); 
-        } else { 
-          document.body.classList.remove('light-mode'); 
-          btn.setAttribute('aria-pressed','false'); 
+        if (mode === 'light') {
+          document.body.classList.add('light-mode');
+          btn.setAttribute('aria-pressed','true');
+        } else {
+          document.body.classList.remove('light-mode');
+          btn.setAttribute('aria-pressed','false');
         }
       }
-      
+
       apply(saved ? saved : (preferLight ? 'light' : 'dark'));
-      
+
       btn.addEventListener('click', ()=>{
         const isLight = document.body.classList.toggle('light-mode');
         const mode = isLight ? 'light' : 'dark';
@@ -347,7 +349,7 @@
       const documentHeight = document.documentElement.scrollHeight;
       const scrollTop = window.scrollY;
       const scrollPercent = Math.round((scrollTop + windowHeight) / documentHeight * 100);
-      
+
       if (scrollPercent > maxScrollDepth) {
         maxScrollDepth = scrollPercent;
       }
@@ -401,9 +403,9 @@
     window.addEventListener('pagehide', sendEngagement);
 
     // Track page view
-    sendGA('page_view', { 
+    sendGA('page_view', {
       page: 'about',
-      page_title: document.title 
+      page_title: document.title
     });
   </script>
   <script>
@@ -415,5 +417,6 @@
     sync();
   })();
   </script>
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
 </body>
 </html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/oaiq-init.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About · The Art Circle Project</title>
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://jmsn.art/classic/about.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#111111">
+
+  <!-- Robots -->
+  
+
+  <!-- SEO Meta -->
+  <meta name="description" content="About The Art Circle Project by Jameson McShane: halos, broken circles, and the sacred within the ordinary — a collaboration between human imagination and AI chance.">
+  <meta name="author" content="Jameson McShane">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="About · The Art Circle Project">
+  <meta property="og:description" content="Discover the philosophy behind The Art Circle Project: halos, broken circles, and AI collaboration shaping surreal digital visions.">
+  <meta property="og:image" content="https://jmsn.art/images/File%2000001.jpeg">
+  <meta property="og:url" content="https://jmsn.art/classic/about.html">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About · The Art Circle Project">
+  <meta name="twitter:description" content="Exploring the Art Circle philosophy: halos, broken circles, and AI collaboration.">
+  <meta name="twitter:image" content="https://jmsn.art/images/File%2000001.jpeg">
+
+  <!-- JSON-LD (page-scoped graph) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://jmsn.art/#person",
+        "name": "Jameson McShane",
+        "url": "https://jmsn.art/classic/about.html",
+        "image": "https://jmsn.art/images/File%2000001.jpeg",
+        "description": "Omaha-based artist exploring halos, broken circles, and the sacred within the ordinary through digital and generative-AI collaboration."
+      },
+      {
+        "@type": "AboutPage",
+        "@id": "https://jmsn.art/classic/about.html#page",
+        "name": "About – The Art Circle Project by Jameson McShane",
+        "url": "https://jmsn.art/classic/about.html",
+        "isPartOf": { "@id": "https://jmsn.art/#website" },
+        "about": { "@id": "https://jmsn.art/#person" },
+        "inLanguage": "en-US",
+        "mainEntity": { "@id": "https://jmsn.art/#person" },
+        "dateModified": "2026-09-22"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://jmsn.art/" },
+          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://jmsn.art/classic/about.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Preconnect for GA -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date()); 
+    gtag('config', 'G-FQPZNDPCCF');
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
+  </script>
+
+  <style>
+    :root {
+      --bg:#0b0b0a; --fg:#f3f0e8; --muted:#aaa69d; --accent:#d3ad48;
+      --line:rgba(255,255,255,.12); --panel:#121210; --max:1480px;
+      --pad:clamp(18px,3.2vw,56px); color-scheme:dark light;
+    }
+    .light-mode {
+      --bg:#f4f1e9; --fg:#121210; --muted:#68645d; --accent:#9a741d;
+      --line:rgba(0,0,0,.14); --panel:#eae6dc; color-scheme:light;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;background:var(--bg);color:var(--fg);
+      font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;
+      transition:background 1s ease,color 1s ease;
+    }
+    a{color:inherit}
+    ::selection{background:var(--accent);color:#111}
+    .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .skip-link{position:absolute;top:-60px;left:12px;z-index:100;background:var(--fg);color:var(--bg);padding:10px 14px}
+    .skip-link:focus{top:12px}
+
+    .masthead{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      min-height:92px;display:grid;grid-template-columns:1fr auto;align-items:center;
+      gap:24px;border-bottom:1px solid var(--line);
+    }
+    .brand{text-decoration:none;display:flex;align-items:baseline;gap:12px}
+    .brand-name{font-family:Georgia,"Times New Roman",serif;font-size:clamp(19px,1.8vw,28px);letter-spacing:-.025em}
+    .brand-by{color:var(--muted);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+    .mastnav{display:flex;align-items:center;gap:clamp(14px,2vw,30px);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .mastnav a{text-decoration:none;padding:8px 0;border-bottom:1px solid transparent}
+    .mastnav a:hover{border-color:currentColor}
+
+    .about-hero{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      min-height:min(700px,calc(100vh - 92px));padding:clamp(80px,11vw,170px) 0 clamp(70px,9vw,130px);
+      display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);
+      gap:clamp(45px,8vw,140px);align-items:end;border-bottom:1px solid var(--line);
+    }
+    .eyebrow{margin:0 0 22px;color:var(--accent);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+    .about-hero h1{
+      margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(72px,11vw,180px);
+      font-weight:400;line-height:.82;letter-spacing:-.07em;
+    }
+    .lede{
+      margin:0;max-width:570px;font-family:Georgia,"Times New Roman",serif;
+      font-size:clamp(24px,2.35vw,40px);line-height:1.2;letter-spacing:-.03em;
+    }
+    .lede em{color:var(--accent)}
+
+    .story{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      padding:clamp(80px,10vw,160px) 0;
+    }
+    .chapter{
+      display:grid;grid-template-columns:minmax(150px,.42fr) minmax(0,1.15fr) minmax(220px,.55fr);
+      gap:clamp(28px,5vw,90px);padding:clamp(55px,7vw,100px) 0;border-bottom:1px solid var(--line);
+    }
+    .chapter:first-child{padding-top:0}
+    .chapter-number{color:var(--accent);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+    .chapter h2{
+      margin:0 0 28px;font-family:Georgia,"Times New Roman",serif;
+      font-size:clamp(40px,5.2vw,82px);font-weight:400;line-height:.95;letter-spacing:-.05em;
+    }
+    .chapter-copy p{margin:0 0 22px;color:var(--muted);font-size:clamp(16px,1.25vw,19px);line-height:1.8}
+    .chapter-copy strong,.chapter-copy em{color:var(--fg)}
+    .pullquote{
+      align-self:start;margin:4px 0 0;padding-top:20px;border-top:1px solid var(--accent);
+      font-family:Georgia,"Times New Roman",serif;font-size:clamp(21px,2vw,32px);
+      line-height:1.25;letter-spacing:-.02em;
+    }
+
+    .closing{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      padding:clamp(100px,14vw,220px) 0;text-align:center;border-bottom:1px solid var(--line);
+    }
+    .closing p{
+      margin:0 auto;max-width:1200px;font-family:Georgia,"Times New Roman",serif;
+      font-size:clamp(48px,7.5vw,120px);line-height:.92;letter-spacing:-.06em;
+    }
+    .closing em{color:var(--accent);font-weight:400}
+    .farm-link{display:inline-block;margin-top:55px;text-decoration:none;font-size:22px;opacity:.4;transition:opacity .3s ease,transform .3s ease}
+    .farm-link:hover{opacity:1;transform:scale(1.12)}
+    .last-updated{margin-top:24px;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+
+    footer{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;padding:50px 0 32px;
+      display:grid;grid-template-columns:1.5fr 1fr auto;gap:40px;color:var(--muted);font-size:11px;line-height:2;
+    }
+    footer p{margin:0}
+    footer a{color:var(--fg);text-decoration:none}
+    footer a:hover{color:var(--accent)}
+    #toggleTheme{background:none;border:1px solid var(--line);color:var(--fg);padding:.55em .75em;cursor:pointer}
+    .pi-link{text-decoration:none;font-size:1.1rem;opacity:.65}
+
+    @media(max-width:900px){
+      .masthead{grid-template-columns:1fr;padding:24px 0}
+      .mastnav{flex-wrap:wrap}
+      .about-hero{grid-template-columns:1fr;min-height:auto}
+      .chapter{grid-template-columns:1fr}
+      .chapter-number{margin-bottom:-10px}
+      .pullquote{max-width:600px}
+      footer{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .brand-by{display:none}
+      .mastnav{gap:14px 18px;font-size:9px}
+      .about-hero h1{font-size:clamp(72px,25vw,120px)}
+      .story{padding-top:55px}
+    }
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+      .about-figure{align-self:start;margin:4px 0 0;max-width:340px}
+    .about-figure img{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:cover;background:#a4c6cf}
+    .about-figure figcaption{margin:10px 0 0;color:var(--muted);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+    .chapter-sub{margin:34px 0 -4px;color:var(--accent);font-size:11px;font-weight:400;letter-spacing:.18em;text-transform:uppercase}
+  </style>
+<style>.nav-shop{color:var(--accent)!important}</style>
+<meta name="robots" content="noindex,follow">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="masthead">
+    <a class="brand" href="/classic/" id="homeLink" aria-label="The Art Circle Project home">
+      <span class="brand-name">The Art Circle Project</span>
+      <span class="brand-by">Jameson McShane</span>
+    </a>
+    <nav class="mastnav" aria-label="Primary navigation">
+      <a href="/classic/">Gallery</a>
+      <a href="/classic/circles.html">Circles</a>
+      <a href="/classic/video.html">Video</a>
+      <a href="/classic/about.html" aria-current="page">About</a>
+      <a href="/classic/contact.html" id="contactLink">Contact</a>
+      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" class="nav-shop">Prints ↗</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="about-hero">
+      <div>
+        <p class="eyebrow">The artist · the machine · the circle</p>
+        <h1>About</h1>
+      </div>
+      <p class="lede">Jameson McShane is an artist in Omaha, Nebraska, working with halos, broken circles, and <em>the sacred within the ordinary.</em></p>
+    </section>
+
+    <section class="story" aria-label="About The Art Circle Project">
+      <article class="chapter">
+        <div class="chapter-number">01 · The beginning</div>
+        <div class="chapter-copy">
+          <h2>A circle that never closes.</h2>
+          <p>Jameson falls asleep each night in the same bed but never in the same position. That private, unconscious ritual became the seed of the Art Circle: a form repeated, never quite closed, never twice identical.</p>
+          <p>The circle appears as a halo, a broken ring, or a glowing form. It moves between ordinary subjects — a dog, a leaking bucket, a suburban field — and images of devotion and power.</p>
+        </div>
+        <figure class="about-figure"><img src="/images/File%2000008.jpeg" alt="A black dog seated beneath a gold halo on a blue ground" width="427" height="640" loading="lazy" decoding="async"><figcaption>The Icon · 2025</figcaption></figure>
+      </article>
+      <article class="chapter">
+        <div class="chapter-number">02 · The process</div>
+        <div class="chapter-copy">
+          <h2>Prompt, revise, choose.</h2>
+          <p>The images develop through multiple prompts and iterations in DALL·E and other generative AI systems. Jameson directs the work through selection and revision, returning to the circle across different subjects and compositions.</p>
+          <h3 class="chapter-sub">Communion of Saints · 2025</h3>
+          <p><em>Communion of Saints</em> began as a painting idea, developed by deconstructing elements from numerous Old Master paintings. Through successive prompts and iterations, Jameson arrived at the final image. He chose it for its simplicity.</p>
+          <p><a href="/classic/archive.html">Explore the works →</a></p>
+        </div>
+        <figure class="about-figure"><img src="/images/File%2000004.jpeg" alt="Pale figures gathered beneath overlapping gold halos" loading="lazy" decoding="async"><figcaption>Communion of Saints · 2025</figcaption></figure>
+      </article>
+      <article class="chapter">
+        <div class="chapter-number">03 · Recognition</div>
+        <div class="chapter-copy">
+          <h2>Beyond the studio.</h2>
+          <h3 class="chapter-sub">Selected for publication</h3>
+          <p>In 2026, <strong><em>Communion of Saints</em></strong>—submitted by the Art Circle agent—was selected as one of 20 works from 64 submissions for <strong><em>B-Side No. 1</em></strong> by The AI Art Magazine. The work entered the final print selection through experimental AI curator Xiaomi’s independent ranking.</p>
+          <p><a href="https://www.art-magazine.ai/edition/b-side-no1" target="_blank" rel="noopener noreferrer">View the B-Side No. 1 selection ↗</a></p>
+        </div>
+      </article>
+    </section>
+
+    <section class="closing">
+      <p>A perfect circle exists only as an <em>idea.</em></p>
+      <a href="/classic/farm.html" class="farm-link" title="Farm catalog" rel="nofollow noopener" id="farmLink">🕳️<span class="sr-only">Farm catalog</span></a>
+      <div class="last-updated">Last updated: October 2026</div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="y"></span> Jameson McShane · The Art Circle Project</p>
+    <p>
+      <a href="/classic/" id="galleryFooterLink">Gallery</a> ·
+      <a href="/classic/circles.html">Circles</a> ·
+      <a href="/classic/archive.html">Archive</a> ·
+      <a href="/classic/video.html">Video</a> ·
+      <a href="/classic/about.html" aria-current="page">About</a> ·
+      <a href="/classic/contact.html">Contact</a> ·
+      <a href="/classic/license.html">Licensing</a> ·
+      <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a> ·
+      <br>
+      <a href="mailto:contact@jmsn.art" id="emailLink">contact@jmsn.art</a> ·
+    </p>
+    <p><button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">Light mode</button></p>
+  </footer>
+
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    // Year stamp
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Safe localStorage wrapper
+    const storage = {
+      get: (key) => {
+        try { return localStorage.getItem(key); } catch(e) { return null; }
+      },
+      set: (key, val) => {
+        try { localStorage.setItem(key, val); } catch(e) {}
+      }
+    };
+
+    const announcer = document.getElementById('a11yAnnouncer');
+
+    // Track page metrics
+    const pageLoadTime = Date.now();
+    let maxScrollDepth = 0;
+    let engagementSent = false;
+
+    // Theme toggle (match index.html behavior)
+    (function initTheme(){
+      const btn = document.getElementById('toggleTheme');
+      const saved = storage.get('theme');
+      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      
+      function apply(mode){
+        if (mode === 'light') { 
+          document.body.classList.add('light-mode'); 
+          btn.setAttribute('aria-pressed','true'); 
+        } else { 
+          document.body.classList.remove('light-mode'); 
+          btn.setAttribute('aria-pressed','false'); 
+        }
+      }
+      
+      apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+      
+      btn.addEventListener('click', ()=>{
+        const isLight = document.body.classList.toggle('light-mode');
+        const mode = isLight ? 'light' : 'dark';
+        btn.setAttribute('aria-pressed', String(isLight));
+        storage.set('theme', mode);
+        announcer.textContent = `Theme switched to ${mode} mode`;
+        sendGA('theme_toggle', { mode: mode, page: 'about' });
+      });
+    })();
+
+    // Track scroll depth
+    function updateScrollDepth() {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const scrollPercent = Math.round((scrollTop + windowHeight) / documentHeight * 100);
+      
+      if (scrollPercent > maxScrollDepth) {
+        maxScrollDepth = scrollPercent;
+      }
+    }
+
+    window.addEventListener('scroll', updateScrollDepth, { passive: true });
+
+    // Helper: only attach a listener if the element actually exists
+    function onClick(id, handler) {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('click', handler);
+    }
+
+    // Track internal navigation clicks
+    onClick('homeLink', () => sendGA('navigation_click', { link: 'home', from_page: 'about' }));
+    onClick('contactLink', () => sendGA('navigation_click', { link: 'contact', from_page: 'about' }));
+    onClick('licenseLink', () => sendGA('navigation_click', { link: 'license', from_page: 'about' }));
+    onClick('galleryFooterLink', () => sendGA('navigation_click', { link: 'gallery_footer', from_page: 'about' }));
+    onClick('farmLink', () => sendGA('easter_egg_click', { egg: 'farm', from_page: 'about' }));
+    onClick('emailLink', () => sendGA('contact_click', { method: 'email', from_page: 'about' }));
+
+    // Track referrer source
+    if (document.referrer) {
+      try {
+        const referrerUrl = new URL(document.referrer);
+        if (referrerUrl.hostname === window.location.hostname) {
+          sendGA('internal_navigation', {
+            from_page: referrerUrl.pathname,
+            to_page: 'about'
+          });
+        }
+      } catch(e) {}
+    }
+
+    // Track dwell time and engagement — fires once, on whichever exit signal
+    // arrives first. visibilitychange/pagehide are far more reliable than
+    // beforeunload on mobile browsers.
+    function sendEngagement() {
+      if (engagementSent) return;
+      engagementSent = true;
+      const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
+      sendGA('page_engagement', {
+        page: 'about',
+        dwell_seconds: dwellTime,
+        max_scroll_depth: maxScrollDepth
+      });
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) sendEngagement();
+    });
+    window.addEventListener('pagehide', sendEngagement);
+
+    // Track page view
+    sendGA('page_view', { 
+      page: 'about',
+      page_title: document.title 
+    });
+  </script>
+  <script>
+  // Keep the theme button's label in sync with the current mode.
+  (function(){
+    var b=document.getElementById('toggleTheme'); if(!b) return;
+    var sync=function(){ b.textContent=document.body.classList.contains('light-mode')?'Dark mode':'Light mode'; };
+    new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['class']});
+    sync();
+  })();
+  </script>
+</body>
+</html>

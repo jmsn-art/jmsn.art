@@ -14,7 +14,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#111111">
+
   <meta name="robots" content="index,follow,max-image-preview:large">
   <meta name="description" content="Licensing information for artworks from The Art Circle Project by Jameson McShane. Contact for editorial, commercial, media, design, and custom usage rights.">
   <meta name="author" content="Jameson McShane">
@@ -195,11 +195,13 @@
     @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   </style>
 <style>.nav-shop{color:var(--accent)!important}</style>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
+<body class="modern page-license"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html">Motion</a><a href="/about.html">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
   <a href="#main-content" class="skip-link">Skip to licensing information</a>
 
-  <header class="masthead">
+  <div class="legacy-hooks" hidden inert>
     <a class="brand" href="/" id="homeLink" aria-label="The Art Circle Project home">
       <span class="brand-name">The Art Circle Project</span>
       <span class="brand-by">Jameson McShane</span>
@@ -212,7 +214,7 @@
       <a href="/contact.html" id="contactLink">Contact</a>
       <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer" class="nav-shop">Prints ↗</a>
     </nav>
-  </header>
+  </div>
 
   <main id="main-content">
     <section class="hero">
@@ -276,7 +278,7 @@
     </section>
   </main>
 
-  <footer>
+  <div class="legacy-hooks" hidden inert>
     <span>© <span id="y"></span> Jameson McShane · The Art Circle Project</span>
     <span>
       <a href="/" id="galleryFooterLink">Gallery</a> ·
@@ -289,7 +291,7 @@
       <a href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Prints ↗</a>
     </span>
     <button id="toggleTheme" aria-label="Toggle light/dark mode" aria-pressed="false">Light mode</button>
-  </footer>
+  </div>
 
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true" style="position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"></div>
 
@@ -392,5 +394,6 @@
     sync();
   })();
   </script>
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
 </body>
 </html>

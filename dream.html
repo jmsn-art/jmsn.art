@@ -14,7 +14,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <meta name="theme-color" content="#0b0b0a">
+
 
   <link rel="canonical" href="https://jmsn.art/dream.html">
   <meta name="description" content="The Dream Room: an interactive 3D space by Jameson McShane. Walk through a dream built from the Art Circle Project — halos, broken circles, and the works that hang between them.">
@@ -166,8 +166,10 @@
     }
     .mobile-hint.show { display:block; }
   </style>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
+<body class="modern page-dream"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html">Motion</a><a href="/about.html">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
 
   <div id="loading">
     <div class="loading-ring"></div>
@@ -176,13 +178,13 @@
 
   <div id="app"></div>
 
-  <header class="masthead">
+  <div class="legacy-hooks" hidden inert>
     <a class="brand" href="/" aria-label="The Art Circle Project home">
       <span class="brand-name">The Art Circle Project</span>
       <span class="brand-by">Jameson McShane</span>
     </a>
     <a class="exit-link" href="/">Exit ✕</a>
-  </header>
+  </div>
 
   <div id="reticle"></div>
   <div id="prompt"></div>
@@ -803,5 +805,6 @@
     }
     animate();
   </script>
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
 </body>
 </html>

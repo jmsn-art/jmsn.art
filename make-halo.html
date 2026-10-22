@@ -37,9 +37,9 @@
   </script>
 
   <style>
-    :root{ 
-      --bg:#111; --fg:#fff; --muted:#9a9a9a; 
-      --panel:#181818; --line:#2a2a2a; 
+    :root{
+      --bg:#111; --fg:#fff; --muted:#9a9a9a;
+      --panel:#181818; --line:#2a2a2a;
       transition: background 1.5s ease, color 1.5s ease;
     }
     .light-mode {
@@ -52,9 +52,9 @@
       position: absolute !important;
       width: 1px; height: 1px;
       padding: 0; margin: -1px;
-      overflow: hidden; 
+      overflow: hidden;
       clip: rect(0, 0, 0, 0);
-      white-space: nowrap; 
+      white-space: nowrap;
       border: 0;
     }
 
@@ -86,8 +86,8 @@
       display:flex; align-items:center; justify-content:space-between;
       flex-wrap: wrap; gap: 10px;
     }
-    header a, footer a{ 
-      color:var(--fg); 
+    header a, footer a{
+      color:var(--fg);
       text-decoration:underline;
       transition: opacity 0.3s ease;
     }
@@ -127,7 +127,7 @@
       background: #f0f0f0;
     }
 
-    canvas{ 
+    canvas{
       max-width:100%; height:auto; background:transparent; touch-action:none;
       cursor: grab;
     }
@@ -143,13 +143,13 @@
     .grp{ display:flex; flex-direction:column; gap:6px }
     .grp label{ font-size:.9rem; color:var(--muted); transition: color 1.5s ease; }
     .row{ display:flex; gap:8px; align-items:center }
-    
+
     input[type="range"]{ width:100% }
     input[type="range"]:focus-visible {
       outline: 2px solid var(--fg);
       outline-offset: 2px;
     }
-    
+
     input[type="file"]{ display:block }
     input[type="color"]:focus-visible {
       outline: 2px solid var(--fg);
@@ -217,11 +217,13 @@
       }
     }
   </style>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
+<body class="modern page-make-halo"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html">Motion</a><a href="/about.html">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
   <a href="#main-content" class="skip-link">Skip to controls</a>
 
-  <header>
+  <div class="legacy-hooks" hidden inert>
     <div>Make a Halo</div>
     <nav class="inline">
       <a href="/">Gallery</a>
@@ -230,9 +232,9 @@
       <a href="/contact.html">Contact</a>
       <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌓 Theme</button>
     </nav>
-  </header>
+  </div>
 
-  <main class="wrap">
+  <section class="m-tool-intro m-wrap"><p class="eyebrow">The Art Circle Project · Creative tool</p><h1>Make a halo.</h1><p>Your image. A different light.</p></section><main class="wrap">
     <section class="stage">
       <canvas id="c" width="1600" height="1600" aria-label="Halo editor canvas"></canvas>
     </section>
@@ -296,9 +298,9 @@
     </aside>
   </main>
 
-  <footer>
+  <div class="legacy-hooks" hidden inert>
     © 2025 Jameson McShane · <a href="/">jmsn.art</a>
-  </footer>
+  </div>
 
   <!-- Accessibility announcer -->
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
@@ -473,9 +475,9 @@
     el.file.addEventListener('change', e => {
       const f = e.target.files && e.target.files[0];
       if (!f) return;
-      
+
       uploadedImageSize = { width: 0, height: 0, size: f.size };
-      
+
       const img = new Image();
       img.onload = () => {
         state.img = img;
@@ -562,18 +564,18 @@
 
     // Keyboard shortcuts
     window.addEventListener('keydown', (e)=>{
-      if (e.key === 'ArrowLeft')  { 
-        state.halo.rot = (state.halo.rot + 357) % 360; 
-        el.rot.value = state.halo.rot; 
-        draw(true); 
+      if (e.key === 'ArrowLeft')  {
+        state.halo.rot = (state.halo.rot + 357) % 360;
+        el.rot.value = state.halo.rot;
+        draw(true);
       }
-      if (e.key === 'ArrowRight') { 
-        state.halo.rot = (state.halo.rot +   3) % 360; 
-        el.rot.value = state.halo.rot; 
-        draw(true); 
+      if (e.key === 'ArrowRight') {
+        state.halo.rot = (state.halo.rot +   3) % 360;
+        el.rot.value = state.halo.rot;
+        draw(true);
       }
       if (e.key === 'd' || e.key === 'D') downloadPNG();
-      
+
       // Undo/Redo
       if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
         e.preventDefault();
@@ -588,14 +590,14 @@
     // Auto place with FaceDetector
     async function autoPlace() {
       autoPlaceAttempts++;
-      
+
       if (!('FaceDetector' in window)) {
         el.status.innerHTML = 'Auto-place not supported in this browser. <span class="warn">Place manually.</span>';
         announcer.textContent = 'Auto-place not supported in this browser';
         sendGA('auto_place_failed', { page: 'make_halo', reason: 'not_supported' });
         return;
       }
-      
+
       if (!state.img) {
         el.status.textContent = 'Please upload an image first.';
         announcer.textContent = 'Please upload an image first';
@@ -607,14 +609,14 @@
         const det = new FaceDetector({ fastMode:true, maxDetectedFaces:1 });
         const bitmap = await createImageBitmap(cv);
         const faces = await det.detect(bitmap);
-        
+
         if (!faces.length) {
           el.status.textContent = 'No face detected. Try manual placement.';
           announcer.textContent = 'No face detected';
           sendGA('auto_place_failed', { page: 'make_halo', reason: 'no_face' });
           return;
         }
-        
+
         const f = faces[0].boundingBox;
         const cxFace = f.x + f.width/2;
         const cyFace = f.y + f.height/2;
@@ -623,12 +625,12 @@
         state.halo.r = Math.max(f.width, f.height) * 0.6;
         el.radius.value = Math.round(state.halo.r);
         draw(true);
-        
+
         el.status.textContent = 'Auto-placed halo using on-device face detection.';
         announcer.textContent = 'Halo automatically placed on detected face';
         autoPlaceSuccesses++;
-        
-        sendGA('auto_place_success', { 
+
+        sendGA('auto_place_success', {
           page: 'make_halo',
           face_width: Math.round(f.width),
           face_height: Math.round(f.height)
@@ -656,7 +658,7 @@
     function shareImage() {
       cv.toBlob(async (blob) => {
         const file = new File([blob], 'halo.png', { type: 'image/png' });
-        
+
         if (navigator.share && navigator.canShare({ files: [file] })) {
           try {
             await navigator.share({
@@ -719,4 +721,70 @@
     // Event listeners
     el.auto.addEventListener('click', autoPlace);
     el.download.addEventListener('click', downloadPNG);
-    el.share.addEventListener('click', shareImage
+    el.share.addEventListener('click', shareImage);
+    el.save.addEventListener('click', saveConfig);
+    el.load.addEventListener('click', loadConfig);
+    el.reset.addEventListener('click', resetAll);
+    el.undoBtn.addEventListener('click', undo);
+    el.redoBtn.addEventListener('click', redo);
+
+    // Theme toggle
+    const themeToggle = $('themeToggle');
+    const body = document.body;
+
+    const savedTheme = storage.get('theme') || 'dark';
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      const currentTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
+      storage.set('theme', currentTheme);
+      announcer.textContent = `Switched to ${currentTheme} theme`;
+      sendGA('theme_toggle', { theme: currentTheme, page: 'make_halo' });
+    });
+
+    // Show whether FaceDetector is available
+    if ('FaceDetector' in window) {
+      el.autoState.hidden = false;
+      el.autoState.textContent = 'On-device face detection available';
+    } else {
+      el.autoState.hidden = false;
+      el.autoState.textContent = 'Auto-place not available';
+      el.autoState.style.color = '#ffdf9a';
+      el.autoState.style.borderColor = '#5a3';
+    }
+
+    // Track session end
+    window.addEventListener('beforeunload', () => {
+      const sessionTime = Math.round((Date.now() - sessionStart) / 1000);
+      sendGA('session_end', {
+        page: 'make_halo',
+        duration_seconds: sessionTime,
+        control_interactions: controlInteractions,
+        download_count: downloadCount,
+        auto_place_attempts: autoPlaceAttempts,
+        auto_place_successes: autoPlaceSuccesses,
+        auto_place_success_rate: autoPlaceAttempts > 0 ? (autoPlaceSuccesses / autoPlaceAttempts * 100).toFixed(0) : 0,
+        uploaded_image: uploadedImageSize ? {
+          width: uploadedImageSize.width,
+          height: uploadedImageSize.height,
+          size_kb: Math.round(uploadedImageSize.size / 1024)
+        } : null
+      });
+    });
+
+    // Track page view
+    sendGA('page_view', {
+      page: 'make_halo',
+      page_title: document.title,
+      face_detection_available: 'FaceDetector' in window
+    });
+
+    // Initial paint
+    draw(true);
+  </script>
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
+</body>
+</html>

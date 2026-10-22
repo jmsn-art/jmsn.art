@@ -122,24 +122,26 @@
     }
     @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   </style>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
+<body class="modern page-about-farm"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html">Motion</a><a href="/about.html">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
   <a href="#main-content" class="skip-link">Skip to content</a>
 
-  <header class="farm-head">
+  <div class="legacy-hooks" hidden inert>
     <a class="farm-id" href="/farm.html" id="catalogHeaderLink">
       <strong>Art Circle Farm</strong>
       <small>Field study archive</small>
     </a>
     <div class="head-actions">
-      <a href="/farm.html" id="catalogHeaderLink">Catalog</a>
+      <a href="/farm.html">Catalog</a>
       <a href="/about_farm.html" aria-current="page">About the Farm</a>
       <a href="/" id="mainSiteLink">↩ jmsn.art</a>
       <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
     </div>
-  </header>
+  </div>
 
-  <main id="main-content">
+  <main id="main-content"><div class="m-context"><a href="/farm.html">← Farm catalog</a></div>
     <section class="hero">
       <div>
         <p class="eyebrow">Field notes · land · geometry</p>
@@ -180,10 +182,10 @@
     </section>
   </main>
 
-  <footer>
+  <div class="legacy-hooks" hidden inert>
     <span>© <span id="y"></span> Jameson McShane · Art Circle Farm</span>
     <span><a href="/farm.html">Catalog</a> · <a href="/about_farm.html" aria-current="page">About the Farm</a> · <a href="/">jmsn.art</a></span>
-  </footer>
+  </div>
 
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
 
@@ -243,5 +245,6 @@
     });
     sendGA('page_view',{page:'about_farm',page_title:document.title});
   </script>
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
 </body>
 </html>

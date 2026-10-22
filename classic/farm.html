@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/oaiq-init.js"></script>
+  <meta name="description" content="Explore Art Circle Farm, a catalog of imaginative rural architecture and field studies by Jameson McShane.">
+  <!-- Secret catalog page: intentionally unlinked -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Keep this page out of search results -->
+  
+
+  <title>Art Circle Farm — Secret Catalog</title>
+
+  <!-- Social preview for shared links (won't be crawled if noindex respected) -->
+  <meta property="og:title" content="Art Circle Farm — Secret Catalog">
+  <meta property="og:description" content="Private catalog of the new Art Circle Farm series by Jameson McShane.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://jmsn.art/images/Farm_00018.jpeg">
+  <meta property="og:image:alt" content="Art Circle House by Jameson McShane">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png">
+
+  <!-- Preload pinned/LCP image -->
+  <link rel="preload" as="image" href="/images/Farm_00018.jpeg" imagesrcset="/images/Farm_00018.jpeg 1200w" imagesizes="(min-width: 600px) 50vw, 100vw">
+
+  <!-- Preconnect + GA4 (same Measurement ID as main site) -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCCF');
+    // Helper to safely emit GA events
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
+  </script>
+
+  <style>
+    :root{
+      --bg:#0a0d09;--fg:#eef0e7;--muted:#9da394;--accent:#c6b66a;
+      --earth:#7d6848;--line:rgba(238,240,231,.13);--max:1680px;
+      --pad:clamp(18px,3.2vw,56px);color-scheme:dark light;
+    }
+    .light-mode{
+      --bg:#ece9dd;--fg:#171a14;--muted:#62675d;--accent:#7f6a20;
+      --earth:#735d3f;--line:rgba(23,26,20,.15);color-scheme:light;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;background:var(--bg);color:var(--fg);font-family:Arial,Helvetica,sans-serif;
+      -webkit-font-smoothing:antialiased;transition:background 1s ease,color 1s ease
+    }
+    body.noscroll{overflow:hidden}
+    a{color:inherit}
+    ::selection{background:var(--accent);color:#111}
+    .sr-only{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+
+    /* deliberately distinct from the public site */
+    .farm-head{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      min-height:92px;display:grid;grid-template-columns:1fr auto;align-items:center;
+      gap:24px;border-bottom:1px solid var(--line)
+    }
+    .farm-id{text-decoration:none}
+    .farm-id strong{
+      display:block;font-family:Georgia,"Times New Roman",serif;font-size:clamp(20px,2vw,30px);
+      font-weight:400;letter-spacing:-.03em
+    }
+    .farm-id small{display:block;margin-top:5px;color:var(--muted);font-size:9px;letter-spacing:.18em;text-transform:uppercase}
+    .head-actions{display:flex;align-items:center;gap:18px}
+    .head-actions a{font-size:10px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+    #toggleTheme{
+      background:none;border:1px solid var(--line);color:var(--fg);padding:.55em .75em;cursor:pointer
+    }
+
+    .farm-hero{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      min-height:min(690px,calc(100vh - 92px));padding:clamp(75px,10vw,150px) 0 clamp(60px,8vw,110px);
+      display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
+      gap:clamp(40px,8vw,140px);align-items:end;border-bottom:1px solid var(--line)
+    }
+    .private-mark{margin:0 0 20px;color:var(--accent);font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+    .farm-hero h1{
+      margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(64px,10vw,168px);
+      font-weight:400;line-height:.82;letter-spacing:-.075em
+    }
+    .farm-hero h1 em{color:var(--accent);font-weight:400}
+    .farm-side{max-width:520px}
+    .farm-side p{
+      margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(22px,2.1vw,36px);
+      line-height:1.22;letter-spacing:-.025em
+    }
+    .farm-side small{display:block;margin-top:25px;color:var(--muted);font-size:11px;line-height:1.7;letter-spacing:.04em}
+
+    .catalog-head{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      padding:clamp(50px,7vw,95px) 0 26px;display:flex;justify-content:space-between;align-items:end;
+      gap:30px
+    }
+    .catalog-head h2{
+      margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(34px,4.6vw,70px);
+      font-weight:400;letter-spacing:-.05em
+    }
+    .catalog-head p{margin:0 0 7px;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+
+    .gallery{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:0 auto;
+      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(7px,1vw,15px);
+      grid-auto-flow:dense;margin-bottom:48px
+    }
+    .gallery img{
+      width:100%;height:auto;display:block;border-radius:0;box-shadow:none;cursor:pointer;
+      opacity:0;transition:transform .8s cubic-bezier(.2,.7,.2,1),opacity 1.2s ease;
+      transform-origin:center;will-change:transform;aspect-ratio:4/5;object-fit:cover;
+      -webkit-tap-highlight-color:transparent;
+      background:linear-gradient(90deg,rgba(255,255,255,.025) 25%,rgba(255,255,255,.07) 50%,rgba(255,255,255,.025) 75%);
+      background-size:200% 100%;animation:skeleton-loading 1.5s ease-in-out infinite;
+      content-visibility:auto;contain-intrinsic-size:1200px 1500px
+    }
+    .gallery img.lazy-loaded{opacity:1;animation:none;background:none}
+    .gallery img:nth-child(1),.gallery img:nth-child(12),.gallery img:nth-child(23){
+      grid-column:span 2;grid-row:span 2
+    }
+    @media(hover:hover) and (pointer:fine){
+      .gallery img:hover{transform:scale(.985)}
+      .gallery img:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+    }
+    @keyframes skeleton-loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+    .lb{
+      position:fixed;inset:0;background:rgba(3,5,3,.96);z-index:9999;display:flex;
+      align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .65s ease
+    }
+    .lb.open{opacity:1;pointer-events:auto}
+    .close{
+      position:fixed;top:14px;right:24px;font-size:40px;color:#fff;cursor:pointer;
+      background:transparent;border:0;line-height:1;padding:0;appearance:none
+    }
+    .close:focus-visible{outline:2px solid #aaa;outline-offset:4px}
+    .lb .lb-frame{position:relative;width:92vw;height:80vh}
+    .lb .lb-frame img{
+      position:absolute;inset:0;margin:auto;max-width:92vw;max-height:80vh;object-fit:contain;
+      opacity:0;transition:opacity .4s ease,filter .4s ease,transform .4s ease;
+      will-change:transform;cursor:zoom-in;touch-action:none
+    }
+    #lbimg{transition:opacity 1.4s ease-in-out,filter .9s ease,transform .9s ease}
+    #lbprev{opacity:1;filter:blur(6px);transform:scale(1.02)}
+    #lbimg.ready{opacity:1}
+    #lbprev.out{opacity:0;filter:blur(0);transform:scale(1)}
+    #lbimg.zoomed{cursor:grab}#lbimg.zoomed:active{cursor:grabbing}
+    #lb-title{
+      margin-top:12px;color:#fff;background:rgba(0,0,0,.7);padding:6px 12px;
+      font-family:Georgia,"Times New Roman",serif;font-size:14px;white-space:normal;text-align:center;
+      opacity:0;transition:opacity .75s ease;pointer-events:none
+    }
+    .touch-hint{
+      position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+      background:rgba(255,255,255,.95);color:#111;padding:12px 20px;font-size:13px;
+      opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:10000
+    }
+    .touch-hint.show{opacity:1}
+    .below-gallery-spacer{height:48px}
+
+    footer{
+      width:min(calc(100% - (var(--pad)*2)),var(--max));margin:clamp(70px,9vw,130px) auto 0!important;
+      padding:38px 0 28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;
+      gap:30px;flex-wrap:wrap;color:var(--muted);font-size:10px;letter-spacing:.06em
+    }
+    footer a{color:var(--fg);text-decoration:none}
+
+    @media(max-width:1000px){
+      .farm-hero{grid-template-columns:1fr;min-height:auto}
+      .gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+    @media(max-width:700px){
+      .farm-head{grid-template-columns:1fr;padding:22px 0}.head-actions{justify-content:space-between}
+      .farm-hero h1{font-size:clamp(64px,22vw,112px)}
+      .catalog-head{align-items:flex-start;flex-direction:column}
+      .gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+      .gallery img:nth-child(1),.gallery img:nth-child(12),.gallery img:nth-child(23){grid-column:span 2;grid-row:span 2}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .gallery img,.lb,.lb img{transition:none!important;animation:none!important}
+    }
+  </style>
+<meta name="robots" content="noindex,follow">
+</head>
+<body>
+  <header class="farm-head">
+    <a class="farm-id" href="/classic/farm.html" aria-label="Art Circle Farm secret catalog">
+      <strong>Art Circle Farm</strong>
+      <small>Private study archive</small>
+    </a>
+    <div class="head-actions">
+      <a href="https://jmsn.art" id="headerHomeLink">↩ jmsn.art</a>
+      <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
+    </div>
+  </header>
+
+  <section class="farm-hero" aria-labelledby="farm-title">
+    <div>
+      <p class="private-mark">Unlisted · private catalog</p>
+      <h1 id="farm-title">Art Circle<br><em>Farm.</em></h1>
+    </div>
+    <div class="farm-side">
+      <p>An architectural fiction of circles, silos, water, cultivation, shelter, and rural self-sufficiency.</p>
+      <small>This page is intentionally unlisted. Share the URL only with trusted viewers.</small>
+    </div>
+  </section>
+
+  <section class="catalog-head">
+    <h2>Field studies</h2>
+    <p>35 images · Farm_00018 pinned first</p>
+  </section>
+
+<div class="gallery" id="gallery" role="list" aria-label="Art Circle Farm Gallery">
+    <!-- Order will be shuffled on load with Farm_00018.jpeg pinned first -->
+    <img src="/images/Farm_00001.jpeg" alt="Glass Dome Water Collector by Jameson McShane" width="1200" height="1500" decoding="async" role="listitem">
+    <img src="/images/Farm_00002.jpeg" alt="Spiral Staircase to Greenhouse by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00004.jpeg" alt="Wood Storage by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00005.jpeg" alt="Art Circle Yurt by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00006.jpeg" alt="Circular Cutout by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00007.jpeg" alt="Vertical Urinal by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00009.jpeg" alt="Tech Specs by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00010.jpeg" alt="Dining Room Table with Art Circles by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00011.jpeg" alt="Library (optional) by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00012.jpeg" alt="House at Dusk by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00013.jpeg" alt="Third Floor Silo Bedroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00014.jpeg" alt="Living Area with Art Circle by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00015.jpeg" alt="Blueprint Title Page by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00016.jpeg" alt="Diagram 1 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00017.jpeg" alt="Diagram 2 by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00018.jpeg" alt="Art Circle House by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00019.jpeg" alt="Cutout with Second Floor Inaccuracy by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00020.jpeg" alt="House in Evening by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00021.jpeg" alt="Aerial View with Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00022.jpeg" alt="Nighttime Blueprint by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00023.jpeg" alt="Second Floor Silo Bathroom by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00024.jpeg" alt="Single Family Diagram without Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00026.jpeg" alt="Art Circle Fire Ring by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00027.jpeg" alt="Silo View by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00029.jpeg" alt="Two Story Farmhouse with Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00031.jpeg" alt="Circular Chicken Coop in Farm Landscape by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00032.jpeg" alt="Rural Farmstead with Crops and Pond by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00033.jpeg" alt="Tilapia Farming and Composting Process by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00034.jpeg" alt="Minimalist Cylindrical Home Design by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00035.jpeg" alt="Sustainable Tower and Earthy Home Design by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00036.jpeg" alt="Architectural Layout: House and Silo by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00037.jpeg" alt="Twilight Over a Rural Farmstead by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00038.jpeg" alt="Greenhouse Serenity with Avocado Plant by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00039.jpeg" alt="Mudroom with Illuminated Archway by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+    <img src="/images/Farm_00040.jpeg" alt="Sustainable Living: Solar and Geothermal Integration by Jameson McShane" loading="lazy" decoding="async" width="1200" height="1500" role="listitem">
+  </div>
+
+  <!-- guaranteed gap before the footer -->
+  <div class="below-gallery-spacer" aria-hidden="true"></div>
+
+  <!-- Lightbox -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-label="Artwork viewer" aria-hidden="true">
+    <button id="lightboxClose" class="close" type="button" aria-label="Close lightbox" title="Close">&times;</button>
+    <div id="lb-content" style="text-align:center; display:flex; flex-direction:column; align-items:center;">
+      <div class="lb-frame">
+        <img id="lbprev" alt="" aria-hidden="true">
+        <img id="lbimg" alt="" tabindex="-1" aria-describedby="lb-title">
+      </div>
+      <div id="lb-title" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- Touch hint tooltip -->
+  <div class="touch-hint" id="touchHint">
+    Tap to zoom • Swipe or use arrow keys to navigate
+  </div>
+
+  <!-- Accessibility announcer -->
+  <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
+
+  <footer>
+    <span>© 2026 Jameson McShane — Art Circle Farm · private</span>
+    <span><a href="https://jmsn.art" id="footerHomeLink">Return to jmsn.art</a> · <a href="/classic/about_farm.html" id="aboutFarmLink">About the Farm</a></span>
+  </footer>
+
+<script>
+  // Safe localStorage wrapper
+  const storage = {
+    get: (key) => {
+      try { return localStorage.getItem(key); } catch(e) { return null; }
+    },
+    set: (key, val) => {
+      try { localStorage.setItem(key, val); } catch(e) {}
+    }
+  };
+
+  const pageLoadTime = Date.now();
+  let maxScrollDepth = 0;
+  let engagementSent = false;
+  const announcerEl = document.getElementById('a11yAnnouncer');
+
+  // Theme toggle (same behavior as main site)
+  (function initTheme(){
+    const btn = document.getElementById('toggleTheme');
+    const saved = storage.get('theme');
+    const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    function apply(mode){
+      if (mode === 'light') { document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','true'); }
+      else { document.body.classList.remove('light-mode'); btn.setAttribute('aria-pressed','false'); }
+    }
+    apply(saved ? saved : (preferLight ? 'light' : 'dark'));
+    btn.addEventListener('click', ()=>{
+      const isLight = document.body.classList.toggle('light-mode');
+      btn.setAttribute('aria-pressed', String(isLight));
+      storage.set('theme', isLight ? 'light' : 'dark');
+      sendGA('theme_toggle', { mode: isLight ? 'light' : 'dark', page: 'farm' });
+    });
+  })();
+
+  // Scroll depth tracking
+  function updateScrollDepth() {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.scrollY;
+    const scrollPercent = Math.round((scrollTop + windowHeight) / documentHeight * 100);
+    if (scrollPercent > maxScrollDepth) maxScrollDepth = scrollPercent;
+  }
+  window.addEventListener('scroll', updateScrollDepth, { passive: true });
+
+  // Header/footer link click tracking
+  function onClick(id, handler) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', handler);
+  }
+  onClick('headerHomeLink', () => sendGA('navigation_click', { link: 'home', from_page: 'farm' }));
+  onClick('footerHomeLink', () => sendGA('navigation_click', { link: 'home_footer', from_page: 'farm' }));
+  onClick('aboutFarmLink', () => sendGA('navigation_click', { link: 'about_farm', from_page: 'farm' }));
+
+  // Referrer tracking
+  if (document.referrer) {
+    try {
+      const referrerUrl = new URL(document.referrer);
+      if (referrerUrl.hostname === window.location.hostname) {
+        sendGA('internal_navigation', { from_page: referrerUrl.pathname, to_page: 'farm' });
+      }
+    } catch(e) {}
+  }
+
+  // Dwell time / scroll depth — fires once, on whichever exit signal
+  // arrives first. visibilitychange/pagehide are more reliable than
+  // beforeunload on mobile browsers.
+  function sendEngagement() {
+    if (engagementSent) return;
+    engagementSent = true;
+    const dwellTime = Math.round((Date.now() - pageLoadTime) / 1000);
+    sendGA('page_engagement', {
+      page: 'farm',
+      dwell_seconds: dwellTime,
+      max_scroll_depth: maxScrollDepth
+    });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) sendEngagement();
+  });
+  window.addEventListener('pagehide', sendEngagement);
+
+  // Page view
+  sendGA('page_view', { page: 'farm', page_title: document.title });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.getElementById('gallery');
+    const touchHint = document.getElementById('touchHint');
+    const announcer = document.getElementById('a11yAnnouncer');
+    
+    let totalImages = 0;
+    let hasShownTouchHint = storage.get('touchHintShown') === 'true';
+
+    // Fisher–Yates shuffle but keep Farm_00018.jpeg first
+    function shuffleExceptFirst(container) {
+      const all = Array.from(container.querySelectorAll('img'));
+      totalImages = all.length;
+      if (all.length <= 1) return;
+
+      // Find the intended first image (Farm_00018.jpeg)
+      const first = all.find(img => img.src.includes("Farm_00018.jpeg"));
+      const rest = all.filter(img => img !== first);
+
+      // Shuffle the rest
+      for (let i = rest.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rest[i], rest[j]] = [rest[j], rest[i]];
+      }
+
+      // Rebuild with Farm_00018 first (if found)
+      if (first) container.replaceChildren(first, ...rest);
+      else container.replaceChildren(...rest);
+    }
+
+    // Track shuffle event
+    const shuffleId = Date.now();
+    sendGA('gallery_shuffle', { shuffle_id: shuffleId, page: 'farm' });
+
+    // Shuffle now
+    shuffleExceptFirst(gallery);
+
+    // PRIORITIZE the pinned first image for LCP + make it visible immediately
+    const firstImg = gallery.querySelector('img');
+    if (firstImg) {
+      firstImg.setAttribute('fetchpriority', 'high');
+      firstImg.removeAttribute('loading');
+      firstImg.classList.add('lazy-loaded');
+    }
+
+    // Build a live ordered list after shuffle (for navigation)
+    let ordered = Array.from(gallery.querySelectorAll('img'));
+
+    // Enhanced Intersection Observer — now actually reports impressions to GA4
+    const imgObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          if (!img.dataset.viewed) {
+            img.dataset.viewed = 'true';
+            sendGA('art_impression', {
+              artwork_title: img.alt || 'untitled',
+              artwork_src: img.src,
+              page: 'farm'
+            });
+            imgObserver.unobserve(img);
+          }
+        }
+      });
+    }, { rootMargin: '50px' });
+
+    // Lightbox elements
+    const lb = document.getElementById('lb');
+    const lbprev = document.getElementById('lbprev');
+    const lbimgEl = document.getElementById('lbimg');
+    const closeBtn = document.getElementById('lightboxClose');
+    const lbTitle = document.getElementById('lb-title');
+    const frame = document.querySelector('.lb-frame');
+
+    // Progressive fade-in on load for the rest
+    ordered.forEach((img, idx) => {
+      if (img !== firstImg) {
+        if (img.complete) img.classList.add('lazy-loaded');
+        else img.addEventListener('load', () => img.classList.add('lazy-loaded'));
+      }
+      img.tabIndex = 0;
+      img.setAttribute('role','button');
+      img.setAttribute('aria-label', (img.alt || 'Artwork') + ' — open in viewer');
+      imgObserver.observe(img);
+    });
+
+    // Zoom/pan state
+    let scale = 1, tx = 0, ty = 0;
+    let dragging = false, startDragX = 0, startDragY = 0, activePointerId = null;
+    let lastZoomLevel = 1;
+
+    function applyTransform() {
+      lbimgEl.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+    }
+
+    function resetZoom() {
+      scale = 1; tx = 0; ty = 0;
+      lbimgEl.classList.remove('zoomed');
+      applyTransform();
+      lastZoomLevel = 1;
+    }
+
+    function clampPan() {
+      const rect = lbimgEl.getBoundingClientRect();
+      const maxX = ((rect.width * scale) - rect.width) / 2;
+      const maxY = ((rect.height * scale) - rect.height) / 2;
+      tx = maxX > 0 ? Math.max(-maxX, Math.min(maxX, tx)) : 0;
+      ty = maxY > 0 ? Math.max(-maxY, Math.min(maxY, ty)) : 0;
+    }
+
+    function zoomAt(clientX, clientY, newScale) {
+      const rect = lbimgEl.getBoundingClientRect();
+      const cx = clientX - (rect.left + rect.width / 2);
+      const cy = clientY - (rect.top + rect.height / 2);
+      const k = newScale / scale;
+      tx = tx - cx * (k - 1);
+      ty = ty - cy * (k - 1);
+      scale = newScale;
+      clampPan();
+      applyTransform();
+
+      if (scale > 1) {
+        lbimgEl.classList.add('zoomed');
+        lbimgEl.setAttribute('aria-label', `Zoomed to ${Math.round(scale*100)}%`);
+      } else {
+        lbimgEl.classList.remove('zoomed');
+        lbimgEl.setAttribute('aria-label', 'Click to zoom');
+      }
+
+      // Track zoom interactions
+      if (Math.abs(scale - lastZoomLevel) > 0.3) {
+        sendGA('image_zoom', { 
+          zoom_level: Math.round(scale*100),
+          artwork_src: currentSrc,
+          page: 'farm'
+        });
+        lastZoomLevel = scale;
+      }
+    }
+
+    // Click to toggle zoom
+    lbimgEl.addEventListener('click', (e) => {
+      if (scale === 1) {
+        zoomAt(e.clientX, e.clientY, 2.5);
+      } else {
+        resetZoom();
+      }
+    });
+
+    // Wheel to zoom
+    lbimgEl.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const step = e.deltaY < 0 ? 1.1 : 0.9;
+      const next = Math.max(1, Math.min(5, scale * step));
+      if (next !== scale) zoomAt(e.clientX, e.clientY, next);
+    }, { passive: false });
+
+    // Drag to pan when zoomed
+    lbimgEl.addEventListener('pointerdown', (e) => {
+      if (scale <= 1) return;
+      dragging = true;
+      activePointerId = e.pointerId;
+      lbimgEl.setPointerCapture(activePointerId);
+      startDragX = e.clientX;
+      startDragY = e.clientY;
+    });
+
+    lbimgEl.addEventListener('pointermove', (e) => {
+      if (!dragging || e.pointerId !== activePointerId) return;
+      const dx = e.clientX - startDragX;
+      const dy = e.clientY - startDragY;
+      startDragX = e.clientX;
+      startDragY = e.clientY;
+      tx += dx;
+      ty += dy;
+      clampPan();
+      applyTransform();
+    });
+
+    function endPan(e) {
+      if (e.pointerId !== activePointerId) return;
+      dragging = false;
+      activePointerId = null;
+    }
+
+    lbimgEl.addEventListener('pointerup', endPan);
+    lbimgEl.addEventListener('pointercancel', endPan);
+    lbimgEl.addEventListener('lostpointercapture', () => { dragging = false; activePointerId = null; });
+
+    let currentIndex = 0;
+    let openedAt = 0;
+    let lastFocus = null;
+    let currentTitle = '';
+    let currentSrc = '';
+
+    // --- Simple caches for faster next/prev loads ---
+    const urlCache = new Map();
+    const imgCache = new Map();
+
+    // --- Build candidate URLs for full-res ---
+    function deriveFullCandidates(img) {
+      const list = [];
+      if (img.dataset.full) list.push(img.dataset.full);
+
+      const url = new URL(img.src, location.href);
+      const dir = url.pathname.slice(0, url.pathname.lastIndexOf('/classic/') + 1);
+      const file = url.pathname.slice(url.pathname.lastIndexOf('/classic/') + 1);
+      const base = file.replace(/\.(jpe?g|png|webp|avif)$/i, '');
+
+      list.push(`${dir}full/${base}.png`);
+      list.push(`${dir}full/${base}.jpeg`);
+      list.push(`${dir}full/${base}.jpg`);
+      list.push(`${dir}${base}.png`);
+      list.push(img.src);
+
+      return [...new Set(list)];
+    }
+
+    // --- Resolve first loadable URL; uses urlCache if available ---
+    function findFirstLoadableURL(candidates, cacheKey) {
+      if (cacheKey && urlCache.has(cacheKey)) {
+        return Promise.resolve(urlCache.get(cacheKey));
+      }
+      return new Promise((resolve) => {
+        let i = 0;
+        const tryNext = () => {
+          const candidate = candidates[i++];
+          if (!candidate) {
+            if (cacheKey) urlCache.set(cacheKey, null);
+            return resolve(null);
+          }
+          if (imgCache.has(candidate)) {
+            if (cacheKey) urlCache.set(cacheKey, candidate);
+            return resolve(candidate);
+          }
+          const test = new Image();
+          test.onload = () => {
+            if (cacheKey) urlCache.set(cacheKey, candidate);
+            imgCache.set(candidate, test);
+            resolve(candidate);
+          };
+          test.onerror = tryNext;
+          test.src = candidate;
+        };
+        tryNext();
+      });
+    }
+
+    function normalizeIndex(idx) {
+      ordered = Array.from(gallery.querySelectorAll('img'));
+      const len = ordered.length;
+      return ((idx % len) + len) % len;
+    }
+
+    function preloadNeighbors(idx) {
+      ordered = Array.from(gallery.querySelectorAll('img'));
+      const nextIdx = normalizeIndex(idx + 1);
+      const prevIdx = normalizeIndex(idx - 1);
+      [nextIdx, prevIdx].forEach(i => {
+        const neighbor = ordered[i];
+        if (!neighbor) return;
+        const key = neighbor.src;
+        const candidates = deriveFullCandidates(neighbor);
+        findFirstLoadableURL(candidates, key).then((url) => {
+          if (url && !imgCache.has(url)) {
+            const im = new Image();
+            im.src = url;
+            imgCache.set(url, im);
+          }
+        });
+      });
+    }
+
+    function openLightboxByIndex(index){
+      ordered = Array.from(gallery.querySelectorAll('img'));
+      currentIndex = normalizeIndex(index);
+      const img = ordered[currentIndex];
+
+      currentTitle = img.alt || 'untitled';
+      
+      // Update title with image counter
+      const counter = `${currentIndex + 1} of ${totalImages}`;
+      lbTitle.textContent = `${currentTitle} (${counter})`;
+      lbTitle.style.opacity = '1';
+      setTimeout(() => { lbTitle.style.opacity = '0'; }, 7000);
+
+      // Reset classes
+      lbprev.classList.remove('out');
+      lbimgEl.classList.remove('ready');
+      resetZoom();
+
+      // Show lightbox immediately (fast UI)
+      lb.classList.add('open');
+      lb.removeAttribute('aria-hidden');
+      document.body.classList.add('noscroll');
+      lastFocus = document.activeElement;
+      setTimeout(()=> closeBtn.focus(), 50);
+
+      lbprev.alt = currentTitle;
+      lbimgEl.alt = currentTitle;
+      lbimgEl.setAttribute('aria-label', 'Click to zoom');
+
+      // Announce to screen readers
+      announcer.textContent = `Viewing ${currentTitle}, image ${currentIndex + 1} of ${totalImages}. Use arrow keys to navigate.`;
+
+      // Start with the grid version as blurred preview
+      lbprev.src = img.src;
+
+      // Resolve and load full-res, then crossfade
+      const candidates = deriveFullCandidates(img);
+      findFirstLoadableURL(candidates, img.src).then((chosenUrl) => {
+        const finalUrl = chosenUrl || img.src;
+        currentSrc = finalUrl;
+
+        // Clear stale srcset/sizes to avoid DPR surprises
+        lbimgEl.removeAttribute('srcset');
+        lbimgEl.removeAttribute('sizes');
+
+        const onFullLoad = () => {
+          lbimgEl.classList.add('ready');
+          lbprev.classList.add('out');
+
+          // GA after full-res chosen
+          sendGA('art_view', { 
+            artwork_title: currentTitle, 
+            artwork_src: currentSrc,
+            position: currentIndex + 1,
+            shuffle_id: shuffleId,
+            page: 'farm'
+          });
+          sendGA('view_item', { 
+            items: [{ 
+              item_name: currentTitle, 
+              item_id: currentSrc,
+              index: currentIndex
+            }] 
+          });
+
+          lbimgEl.removeEventListener('load', onFullLoad);
+
+          // Preload neighbors for instant flips
+          preloadNeighbors(currentIndex);
+        };
+
+        lbimgEl.addEventListener('load', onFullLoad);
+        lbimgEl.src = finalUrl;
+      });
+
+      openedAt = Date.now();
+      
+      // Show touch hint on first lightbox open (mobile only)
+      if (!hasShownTouchHint && 'ontouchstart' in window) {
+        setTimeout(() => {
+          touchHint.classList.add('show');
+          setTimeout(() => {
+            touchHint.classList.remove('show');
+            hasShownTouchHint = true;
+            storage.set('touchHintShown', 'true');
+          }, 4000);
+        }, 500);
+      }
+    }
+
+    function openLightboxByEl(el){
+      ordered = Array.from(gallery.querySelectorAll('img'));
+      const idx = ordered.indexOf(el);
+      openLightboxByIndex(idx >= 0 ? idx : 0);
+    }
+
+    function closeLightbox(){
+      const dwell = openedAt ? Math.max(0, Math.round((Date.now() - openedAt)/1000)) : 0;
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden','true');
+      document.body.classList.remove('noscroll');
+      if (lastFocus) lastFocus.focus();
+
+      // GA4: close event with dwell time
+      if (openedAt) {
+        sendGA('art_close', { 
+          artwork_title: currentTitle || 'unknown', 
+          artwork_src: currentSrc || 'unknown', 
+          dwell_time_seconds: dwell,
+          max_zoom: Math.round(lastZoomLevel * 100),
+          page: 'farm'
+        });
+      }
+
+      // Reset layers for next open
+      lbprev.classList.remove('out');
+      lbprev.removeAttribute('src');
+      lbimgEl.classList.remove('ready');
+
+      openedAt = 0; currentTitle = ''; currentSrc = '';
+      announcer.textContent = '';
+    }
+
+    function navigateTo(idx) {
+      openLightboxByIndex(idx);
+      // Announce navigation to screen readers
+      setTimeout(() => {
+        const img = ordered[normalizeIndex(idx)];
+        announcer.textContent = `Now viewing ${img.alt || 'untitled'}, image ${normalizeIndex(idx) + 1} of ${totalImages}`;
+      }, 100);
+    }
+
+    function showNext(delta){
+      const newIdx = currentIndex + delta;
+      navigateTo(newIdx);
+    }
+
+    // Click / keyboard hooks
+    ordered.forEach((img) => {
+      img.addEventListener('click', () => openLightboxByEl(img));
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightboxByEl(img); }
+      });
+    });
+
+    // Close interactions
+    closeBtn.addEventListener('click', closeLightbox);
+    document.getElementById('lb').addEventListener('click', e => { if (e.target.id === 'lb') closeLightbox(); });
+
+    // Global key handling
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') {
+        showNext(+1);
+        sendGA('keyboard_navigation', { direction: 'next', position: normalizeIndex(currentIndex) + 1, page: 'farm' });
+      }
+      if (e.key === 'ArrowLeft') {
+        showNext(-1);
+        sendGA('keyboard_navigation', { direction: 'prev', position: normalizeIndex(currentIndex) + 1, page: 'farm' });
+      }
+    });
+
+    // --- Swipe gestures on the lightbox frame ---
+    let startX = 0, startY = 0, startT = 0;
+    const SWIPE_DIST = 40;
+    
+    frame.addEventListener('touchstart', (e) => {
+      // Don't interfere with zoom/pan
+      if (scale > 1) return;
+      const t = e.changedTouches[0];
+      startX = t.clientX; startY = t.clientY; startT = performance.now();
+    }, { passive: true });
+
+    frame.addEventListener('touchend', (e) => {
+      if (!lb.classList.contains('open') || scale > 1) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = Math.abs(t.clientY - startY);
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > SWIPE_DIST) {
+        const direction = dx < 0 ? 'left' : 'right';
+        showNext(dx < 0 ? +1 : -1);
+        sendGA('swipe_navigation', { 
+          direction: direction, 
+          position: normalizeIndex(currentIndex) + 1,
+          page: 'farm'
+        });
+      }
+    }, { passive: true });
+  });
+</script>
+
+</body>
+</html>

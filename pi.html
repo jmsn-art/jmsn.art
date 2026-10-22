@@ -110,7 +110,7 @@
 
     main{display:grid; place-items:center; padding:24px 16px;}
     figure{margin:0; text-align:center; position: relative;}
-    
+
     /* Image container for zoom */
     .img-container {
       position: relative;
@@ -130,13 +130,13 @@
       background-size: 200% 100%;
       opacity: 0;
     }
-    
+
     img.art.loaded {
       opacity: 1;
       animation: none;
       background: none;
     }
-    
+
     @keyframes skeleton-loading {
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -245,12 +245,14 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} 
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-FQPZNDPCCF');
   </script>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
+<body class="modern page-pi"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html">Motion</a><a href="/about.html">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
   <script>
     // Safe localStorage wrapper
     const storage = {
@@ -271,22 +273,22 @@
   </script>
 
   <div class="wrap">
-    <header class="topbar" aria-label="Top bar">
+    <div class="legacy-hooks" hidden inert>
       <a class="btn" href="/" aria-label="Back to home">← Home</a>
       <span class="spacer"></span>
       <button id="shareBtn" class="btn" aria-label="Share this page">Share</button>
       <button id="themeToggle" class="btn" aria-pressed="false" aria-label="Toggle dark / light (press t)">☀︎ / 🌙</button>
-    </header>
+    </div>
 
-    <main>
+    <main><div class="m-tool-intro"><p class="eyebrow">An interactive work</p><h1>π (Negative).</h1></div>
       <figure>
         <div class="img-container">
-          <img 
+          <img
             id="piImage"
             class="art"
             src="/images/pi.jpg"
             alt="Digits of pi filling a square; a centered single-gap broken circle is present but has no outline, implied only by absence. High-contrast white on black."
-            loading="eager" 
+            loading="eager"
             fetchpriority="high"
             tabindex="0"
             role="button"
@@ -296,17 +298,17 @@
         <figcaption>
           π (Negative) — a single-gap broken circle implied within infinite digits.
           <div class="keyboard-hints">
-            <kbd>Click</kbd> or <kbd>Enter</kbd>/<kbd>Space</kbd> to invert • 
-            <kbd>Scroll</kbd> to zoom • 
+            <kbd>Click</kbd> or <kbd>Enter</kbd>/<kbd>Space</kbd> to invert •
+            <kbd>Scroll</kbd> to zoom •
             <kbd>T</kbd> for theme
           </div>
         </figcaption>
       </figure>
     </main>
 
-    <footer>
+    <div class="legacy-hooks" hidden inert>
       © <span id="yr"></span> Jameson McShane — <a href="/circles.html">Art Circle Studies</a>
-    </footer>
+    </div>
   </div>
 
   <!-- Accessibility announcer -->
@@ -355,7 +357,7 @@
       btn.setAttribute('aria-pressed', mode==='dark');
       announcer.textContent = `Theme switched to ${mode} mode`;
     }
-    
+
     btn.addEventListener('click', ()=>{
       const isDark = document.documentElement.classList.contains('dark');
       const newMode = isDark ? 'light' : 'dark';
@@ -364,15 +366,15 @@
     });
 
     // Keyboard shortcut for theme
-    addEventListener('keydown', (e)=>{ 
-      if(e.key.toLowerCase()==='t' && e.target !== img) btn.click(); 
+    addEventListener('keydown', (e)=>{
+      if(e.key.toLowerCase()==='t' && e.target !== img) btn.click();
     });
 
     // Image loading state
     img.addEventListener('load', ()=>{
       img.classList.add('loaded');
       gtag('event','art_image_view',{label:'pi_negative', page: 'pi'});
-      
+
       // Show hint briefly
       setTimeout(() => {
         hint.classList.add('show');
@@ -391,9 +393,9 @@
       inversionCount++;
       img.style.filter = inverted ? 'invert(1)' : 'invert(0)';
       announcer.textContent = inverted ? 'Image inverted to show negative' : 'Image restored to normal';
-      
+
       gtag('event','art_image_interaction',{
-        label:'pi_negative', 
+        label:'pi_negative',
         action: inverted ? 'invert_on' : 'invert_off',
         inversion_count: inversionCount,
         page: 'pi'
@@ -429,11 +431,11 @@
       e.preventDefault();
       const delta = e.deltaY > 0 ? -0.1 : 0.1;
       const newScale = Math.max(1, Math.min(3, scale + delta));
-      
+
       if (newScale !== scale) {
         if (scale === 1 && newScale > 1) {
           zoomCount++;
-          gtag('event', 'image_zoom', { 
+          gtag('event', 'image_zoom', {
             zoom_level: Math.round(newScale * 100),
             zoom_count: zoomCount,
             page: 'pi'
@@ -501,5 +503,6 @@
       }
     }
   </script>
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
 </body>
 </html>

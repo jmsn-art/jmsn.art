@@ -188,9 +188,11 @@
       .gallery img,.lb,.lb img{transition:none!important;animation:none!important}
     }
   </style>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
-  <header class="farm-head">
+<body class="modern page-farm"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html">Motion</a><a href="/about.html">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
+  <div class="legacy-hooks" hidden inert>
     <a class="farm-id" href="/farm.html" aria-label="Art Circle Farm secret catalog">
       <strong>Art Circle Farm</strong>
       <small>Private study archive</small>
@@ -199,7 +201,7 @@
       <a href="https://jmsn.art" id="headerHomeLink">↩ jmsn.art</a>
       <button id="toggleTheme" type="button" aria-label="Toggle light/dark mode" aria-pressed="false">☀️ / 🌙</button>
     </div>
-  </header>
+  </div>
 
   <section class="farm-hero" aria-labelledby="farm-title">
     <div>
@@ -212,7 +214,7 @@
     </div>
   </section>
 
-  <section class="catalog-head">
+  <div class="m-wrap m-context"><a href="/about_farm.html">About the Farm ↗</a></div><section class="catalog-head">
     <h2>Field studies</h2>
     <p>35 images · Farm_00018 pinned first</p>
   </section>
@@ -279,10 +281,10 @@
   <!-- Accessibility announcer -->
   <div class="sr-only" id="a11yAnnouncer" aria-live="polite" aria-atomic="true"></div>
 
-  <footer>
+  <div class="legacy-hooks" hidden inert>
     <span>© 2026 Jameson McShane — Art Circle Farm · private</span>
     <span><a href="https://jmsn.art" id="footerHomeLink">Return to jmsn.art</a> · <a href="/about_farm.html" id="aboutFarmLink">About the Farm</a></span>
-  </footer>
+  </div>
 
 <script>
   // Safe localStorage wrapper
@@ -372,7 +374,7 @@
     const gallery = document.getElementById('gallery');
     const touchHint = document.getElementById('touchHint');
     const announcer = document.getElementById('a11yAnnouncer');
-    
+
     let totalImages = 0;
     let hasShownTouchHint = storage.get('touchHintShown') === 'true';
 
@@ -498,7 +500,7 @@
 
       // Track zoom interactions
       if (Math.abs(scale - lastZoomLevel) > 0.3) {
-        sendGA('image_zoom', { 
+        sendGA('image_zoom', {
           zoom_level: Math.round(scale*100),
           artwork_src: currentSrc,
           page: 'farm'
@@ -646,7 +648,7 @@
       const img = ordered[currentIndex];
 
       currentTitle = img.alt || 'untitled';
-      
+
       // Update title with image counter
       const counter = `${currentIndex + 1} of ${totalImages}`;
       lbTitle.textContent = `${currentTitle} (${counter})`;
@@ -690,19 +692,19 @@
           lbprev.classList.add('out');
 
           // GA after full-res chosen
-          sendGA('art_view', { 
-            artwork_title: currentTitle, 
+          sendGA('art_view', {
+            artwork_title: currentTitle,
             artwork_src: currentSrc,
             position: currentIndex + 1,
             shuffle_id: shuffleId,
             page: 'farm'
           });
-          sendGA('view_item', { 
-            items: [{ 
-              item_name: currentTitle, 
+          sendGA('view_item', {
+            items: [{
+              item_name: currentTitle,
               item_id: currentSrc,
               index: currentIndex
-            }] 
+            }]
           });
 
           lbimgEl.removeEventListener('load', onFullLoad);
@@ -716,7 +718,7 @@
       });
 
       openedAt = Date.now();
-      
+
       // Show touch hint on first lightbox open (mobile only)
       if (!hasShownTouchHint && 'ontouchstart' in window) {
         setTimeout(() => {
@@ -745,9 +747,9 @@
 
       // GA4: close event with dwell time
       if (openedAt) {
-        sendGA('art_close', { 
-          artwork_title: currentTitle || 'unknown', 
-          artwork_src: currentSrc || 'unknown', 
+        sendGA('art_close', {
+          artwork_title: currentTitle || 'unknown',
+          artwork_src: currentSrc || 'unknown',
           dwell_time_seconds: dwell,
           max_zoom: Math.round(lastZoomLevel * 100),
           page: 'farm'
@@ -806,7 +808,7 @@
     // --- Swipe gestures on the lightbox frame ---
     let startX = 0, startY = 0, startT = 0;
     const SWIPE_DIST = 40;
-    
+
     frame.addEventListener('touchstart', (e) => {
       // Don't interfere with zoom/pan
       if (scale > 1) return;
@@ -822,8 +824,8 @@
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > SWIPE_DIST) {
         const direction = dx < 0 ? 'left' : 'right';
         showNext(dx < 0 ? +1 : -1);
-        sendGA('swipe_navigation', { 
-          direction: direction, 
+        sendGA('swipe_navigation', {
+          direction: direction,
           position: normalizeIndex(currentIndex) + 1,
           page: 'farm'
         });
@@ -832,5 +834,6 @@
   });
 </script>
 
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
 </body>
 </html>

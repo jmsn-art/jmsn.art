@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>Art Circle Project NFTs</title>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
+<body class="modern page-nfts"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html">Motion</a><a href="/about.html">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
 <!-- Art Circle Project NFT Collection Embed (Enhanced) -->
 <section id="nfts" style="padding: 2rem 0; text-align: center; position: relative;">
-  <h2 style="margin-bottom: 1rem; font-size: 1.8rem; font-weight: 600;">The Art Circle Project — 2025 NFTs</h2>
-  
+  <p class="eyebrow">The Art Circle Project</p><h1>Digital editions.</h1><p>2025 NFT collection</p>
+
   <div style="position: relative; width: 100%; max-width: 1200px; margin: 0 auto;">
     <!-- Loading State -->
     <div id="nft-loading" style="
@@ -32,9 +34,9 @@
       "></div>
       <p style="color: #999; font-size: 0.9rem;">Loading collection...</p>
     </div>
-    
+
     <!-- Light mode embed -->
-    <iframe 
+    <iframe
       id="manifold-light"
       src="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG?theme=light"
       width="100%"
@@ -51,9 +53,9 @@
         transition: opacity 0.3s ease;
       ">
     </iframe>
-    
+
     <!-- Dark mode embed -->
-    <iframe 
+    <iframe
       id="manifold-dark"
       src="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG?theme=dark"
       width="100%"
@@ -71,14 +73,14 @@
       ">
     </iframe>
   </div>
-  
+
   <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: center;">
     <p style="font-size: 0.9rem; color: #999; margin: 0;">
       Minted on <a href="https://manifold.xyz" target="_blank" rel="noopener" style="color: #9fe2bf; text-decoration: none; font-weight: 500; transition: color 0.2s;">Manifold</a> · Powered by Base
     </p>
-    <a 
-      href="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG" 
-      target="_blank" 
+    <a
+      href="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG"
+      target="_blank"
       rel="noopener"
       style="
         display: inline-block;
@@ -104,7 +106,7 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
-  
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     #nfts h2 {
@@ -115,7 +117,7 @@
       height: 600px;
     }
   }
-  
+
   @media (max-width: 480px) {
     #nfts {
       padding: 1.5rem 1rem;
@@ -137,22 +139,22 @@
     const darkFrame = document.getElementById('manifold-dark');
     const loadingDiv = document.getElementById('nft-loading');
     let hasLoaded = false;
-    
+
     function show(mode) {
       const dark = (mode === 'dark');
       const activeFrame = dark ? darkFrame : lightFrame;
       const inactiveFrame = dark ? lightFrame : darkFrame;
-      
+
       // Show active frame
       activeFrame.style.display = 'block';
       inactiveFrame.style.display = 'none';
-      
+
       // If already loaded, show immediately
       if (hasLoaded) {
         activeFrame.style.opacity = '1';
       }
     }
-    
+
     function detectTheme() {
       // 1) Check data-theme on <html> or <body>
       const htmlTheme = document.documentElement.getAttribute('data-theme');
@@ -162,7 +164,7 @@
       // 2) Fallback to system preference
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-    
+
     // Handle iframe load events
     function handleLoad() {
       hasLoaded = true;
@@ -171,26 +173,26 @@
       const activeFrame = currentTheme === 'dark' ? darkFrame : lightFrame;
       activeFrame.style.opacity = '1';
     }
-    
+
     lightFrame.addEventListener('load', handleLoad);
     darkFrame.addEventListener('load', handleLoad);
-    
+
     // Fallback: hide loading after 5 seconds even if load event doesn't fire
     setTimeout(() => {
       if (!hasLoaded) {
         handleLoad();
       }
     }, 5000);
-    
+
     // Initial render
     show(detectTheme());
-    
+
     // Listen for system preference changes
     try {
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
       mq.addEventListener('change', () => show(detectTheme()));
     } catch (e) {}
-    
+
     // Listen for custom theme change events
     window.addEventListener('themechange', (e) => {
       if (e && e.detail && (e.detail.theme === 'dark' || e.detail.theme === 'light')) {
@@ -199,16 +201,17 @@
         show(detectTheme());
       }
     });
-    
+
     // Observe data-theme attribute changes
     const observer = new MutationObserver(() => show(detectTheme()));
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
-    
+
     // Hook into theme toggle button if it exists
     const btn = document.getElementById('theme-toggle');
     if (btn) btn.addEventListener('click', () => setTimeout(() => show(detectTheme()), 0));
   })();
 </script>
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
 </body>
 </html>

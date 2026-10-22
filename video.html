@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Video · The Art Circle Project</title>
   <meta name="description" content="Fluorescent — a moving Art Circle by Jameson McShane. A form that almost closes, with exactly one interruption.">
-  <meta name="theme-color" content="#000000">
+
   <link rel="canonical" href="https://jmsn.art/video.html">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
   <meta property="og:title" content="Fluorescent — The Art Circle Project">
@@ -32,9 +32,11 @@
     .error a { color: #fff; }
     [hidden] { display: none !important; }
   </style>
+<link rel="stylesheet" href="/modern/site.css"><script src="/modern/site.js" defer></script>
+<meta name="theme-color" content="#fafaf8">
 </head>
-<body>
-  <main aria-label="Fluorescent video artwork">
+<body class="modern page-video"><header class="m-header"><nav class="m-nav m-wrap" aria-label="Main navigation"><a href="/" class="m-brand" aria-label="JMSN art home">jmsn<span>.art</span></a><div class="m-links" id="modern-navigation"><a href="/">Gallery</a><a href="/circles.html">Circles</a><a href="/archive.html">Archive</a><a href="/video.html" aria-current="page">Motion</a><a href="/about.html">About</a></div><a class="m-print" href="https://jmsnart.store" target="_blank" rel="noopener noreferrer">Collect a print <span>↗</span></a><button class="m-menu" type="button" aria-expanded="false" aria-controls="modern-navigation" aria-label="Open navigation"><span aria-hidden="true">☰</span></button></nav></header>
+  <main aria-label="Fluorescent video artwork"><div class="motion-title"><p class="eyebrow">Art in motion</p><h1>Fluorescent.</h1><p>A form. A break. A moment of light.</p></div>
     <video id="artwork" controls loop muted playsinline preload="metadata" poster="/videos/fluorescent-poster.jpg" aria-label="Fluorescent: a glowing circular light with one opening at the top, shifting between white and amber. Silent video.">
       <source src="/videos/fluorescent.mp4" type="video/mp4">
       <p>Your browser does not support video. <a href="/videos/fluorescent.mp4">Open Fluorescent</a>.</p>
@@ -49,7 +51,7 @@
     </div>
     <div class="bar">
       <a href="/" aria-label="Return to the gallery">← Gallery</a>
-      <h1>Fluorescent</h1>
+      <span class="motion-label">Silent loop · Jameson McShane</span>
       <button id="playback" type="button" hidden>Play</button>
     </div>
     <p class="error" id="error" role="status" hidden>The video could not load. <a href="/videos/fluorescent.mp4">Open the video directly</a>.</p>
@@ -72,5 +74,6 @@
     reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) video.pause(); });
     if (!reducedMotion.matches) video.play().catch(updatePlayback);
   </script>
+<footer class="m-footer m-wrap"><div class="m-footer-top"><a class="m-brand" href="/">jmsn<span>.art</span></a><p>The Art Circle Project<br><span>Jameson McShane</span></p><nav aria-label="Footer navigation"><a href="/archive.html">Archive</a><a href="/contact.html">Contact ↗</a><a href="/license.html">Licensing ↗</a><a href="/classic/">Classic site ↗</a></nav></div><div class="m-footer-bottom"><span>© <span data-modern-year>2026</span> Jameson McShane</span><span>A perfect circle exists only as an idea.</span><a href="#">Back to top ↑</a></div></footer>
 </body>
 </html>
