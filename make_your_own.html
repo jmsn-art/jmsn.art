@@ -520,7 +520,7 @@
 
       // Visuals
       canvasArea.style.background = state.bg;
-      updatePageBackground(state.bg);
+      updatePageBackground(state.color);
       canvas.style.filter = state.glow > 0 ? `drop-shadow(0 0 ${state.glow}px ${state.color})` : 'none';
 
       if (addToHistory) {
