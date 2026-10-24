@@ -46,7 +46,7 @@
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body {
-      margin:0; background:var(--page-bg,var(--bg)); color:var(--fg);
+      margin:0; background:var(--bg); color:var(--fg);
       font-family:Arial,Helvetica,sans-serif; -webkit-font-smoothing:antialiased;
       transition:background .8s ease,color .8s ease;
     }
@@ -518,7 +518,6 @@
 
       // Visuals
       canvasArea.style.background = state.bg;
-      updatePageBackground(state.bg);
       canvas.style.filter = state.glow > 0 ? `drop-shadow(0 0 ${state.glow}px ${state.color})` : 'none';
 
       if (addToHistory) {
@@ -543,28 +542,6 @@
     }
 
     function hsl(h, s, l) { return '#' + [0, 8, 4].map(n => { const a = s * Math.min(l, 1 - l) / 100; const k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, '0'); }).join(''); }
-
-    function hueFromHex(hex) {
-      const value = hex.replace('#', '');
-      const r = parseInt(value.slice(0, 2), 16) / 255;
-      const g = parseInt(value.slice(2, 4), 16) / 255;
-      const b = parseInt(value.slice(4, 6), 16) / 255;
-      const max = Math.max(r, g, b), min = Math.min(r, g, b), delta = max - min;
-      if (delta === 0) return 0;
-      let hue;
-      if (max === r) hue = ((g - b) / delta % 6) * 60;
-      else if (max === g) hue = ((b - r) / delta + 2) * 60;
-      else hue = ((r - g) / delta + 4) * 60;
-      return (hue + 360) % 360;
-    }
-
-    function updatePageBackground(canvasBackground) {
-      const isLight = document.body.classList.contains('light-mode');
-      const pageBackground = isLight
-        ? hsl(hueFromHex(canvasBackground), 20, 0.94)
-        : canvasBackground;
-      document.documentElement.style.setProperty('--page-bg', pageBackground);
-    }
 
     function randomize() {
       const state = {
@@ -804,7 +781,6 @@
       const isLight = body.classList.toggle('light-mode');
       themeToggle.setAttribute('aria-pressed', isLight);
       const currentTheme = isLight ? 'light' : 'dark';
-      updatePageBackground(getState().bg);
       storage.set('theme', currentTheme);
       announcer.textContent = `Switched to ${currentTheme} theme`;
       track('theme_toggle', { theme: currentTheme, page: 'art_circle_tool' });
