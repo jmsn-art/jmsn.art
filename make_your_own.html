@@ -520,6 +520,7 @@
 
       // Visuals
       canvasArea.style.background = state.bg;
+      updatePageBackground(state.bg);
       canvas.style.filter = state.glow > 0 ? `drop-shadow(0 0 ${state.glow}px ${state.color})` : 'none';
 
       if (addToHistory) {
@@ -544,6 +545,21 @@
     }
 
     function hsl(h, s, l) { return '#' + [0, 8, 4].map(n => { const a = s * Math.min(l, 1 - l) / 100; const k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, '0'); }).join(''); }
+
+    function updatePageBackground(background) {
+      const hex = background.replace('#', '');
+      const [r, g, b] = [0, 2, 4].map(index => parseInt(hex.slice(index, index + 2), 16) / 255);
+      const max = Math.max(r, g, b), min = Math.min(r, g, b), delta = max - min;
+      let hue = 0;
+      if (delta) {
+        if (max === r) hue = 60 * (((g - b) / delta) % 6);
+        else if (max === g) hue = 60 * ((b - r) / delta + 2);
+        else hue = 60 * ((r - g) / delta + 4);
+      }
+      const pageColor = hsl((hue + 360) % 360, 18, 0.95);
+      document.documentElement.style.backgroundColor = pageColor;
+      document.body.style.backgroundColor = pageColor;
+    }
 
     function randomize() {
       const state = {
