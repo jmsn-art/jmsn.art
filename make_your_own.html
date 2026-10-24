@@ -364,7 +364,6 @@
     };
 
     let toastTimer;
-    let pageBackgroundColor = '#fafaf8';
     function toast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg; t.classList.add('show');
@@ -413,7 +412,6 @@
         thick: parseFloat(strokeThickness.value),
         color: circleColor.value,
         bg: bgColor.value,
-        pageBg: pageBackgroundColor,
         glow: parseFloat(glowIntensity.value),
         count: parseInt(circleCount.value)
       };
@@ -426,8 +424,6 @@
       strokeThickness.value = state.thick;
       circleColor.value = state.color;
       bgColor.value = state.bg;
-      pageBackgroundColor = /^#[0-9a-f]{6}$/i.test(state.pageBg || '') ? state.pageBg : '#fafaf8';
-      updatePageBackground(pageBackgroundColor);
       glowIntensity.value = state.glow;
       circleCount.value = state.count;
       updateCircle(addToHistory);
@@ -549,11 +545,7 @@
 
     function hsl(h, s, l) { return '#' + [0, 8, 4].map(n => { const a = s * Math.min(l, 1 - l) / 100; const k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, '0'); }).join(''); }
 
-    function updatePageBackground(background) {
-      const pageColor = /^#[0-9a-f]{6}$/i.test(background || '') ? background : '#fafaf8';
-      document.documentElement.style.backgroundColor = pageColor;
-      document.body.style.backgroundColor = pageColor;
-    }
+    function randomColor() { return '#' + Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0'); }
 
     function randomize() {
       const state = {
@@ -561,9 +553,8 @@
         pos: Math.floor(Math.random() * 360),
         size: Math.floor(Math.random() * 300) + 200,
         thick: Math.floor(Math.random() * 28) + 2,
-        color: hsl(Math.random() * 360, 55 + Math.random() * 40, 0.55 + Math.random() * 0.15),
-        bg: hsl(Math.random() * 360, 20 + Math.random() * 40, 0.04 + Math.random() * 0.08),
-        pageBg: hsl(Math.random() * 360, 30 + Math.random() * 50, 0.84 + Math.random() * 0.14),
+        color: randomColor(),
+        bg: randomColor(),
         glow: Math.floor(Math.random() * 50),
         count: [1, 1, 4, 9, 16, 25, 36, 64, 100, 196][Math.floor(Math.random() * 10)]
       };
@@ -627,7 +618,6 @@
         thick: state.thick,
         color: state.color.replace('#', ''),
         bg: state.bg.replace('#', ''),
-        pagebg: state.pageBg.replace('#', ''),
         glow: state.glow,
         count: state.count
       });
@@ -832,7 +822,6 @@
           thick: num('thick', 8, 2, 30),
           color: hex('color', '#d3ad48'),
           bg: hex('bg', '#0b0b0a'),
-          pageBg: hex('pagebg', '#fafaf8'),
           glow: num('glow', 12, 0, 50),
           count: Math.round(num('count', 1, 1, 400))
         });
