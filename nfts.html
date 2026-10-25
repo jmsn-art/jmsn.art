@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <title>Art Circle Project NFTs</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQPZNDPCCF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FQPZNDPCCF');
+    function sendGA(eventName, params){ try { if (typeof gtag === 'function') gtag('event', eventName, params || {}); } catch(e){} }
+  </script>
 </head>
 <body>
 <!-- Art Circle Project NFT Collection Embed (Enhanced) -->
@@ -33,10 +42,9 @@
       <p style="color: #999; font-size: 0.9rem;">Loading collection...</p>
     </div>
     
-    <!-- Light mode embed -->
+    <!-- Light mode embed: set the Manifold collection slug here (src="https://gallery.manifold.xyz/SLUG?theme=light") -->
     <iframe 
       id="manifold-light"
-      src="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG?theme=light"
       width="100%"
       height="800"
       frameborder="0"
@@ -52,10 +60,9 @@
       ">
     </iframe>
     
-    <!-- Dark mode embed -->
+    <!-- Dark mode embed: set the Manifold collection slug here (src="https://gallery.manifold.xyz/SLUG?theme=dark") -->
     <iframe 
       id="manifold-dark"
-      src="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG?theme=dark"
       width="100%"
       height="800"
       frameborder="0"
@@ -76,27 +83,6 @@
     <p style="font-size: 0.9rem; color: #999; margin: 0;">
       Minted on <a href="https://manifold.xyz" target="_blank" rel="noopener" style="color: #9fe2bf; text-decoration: none; font-weight: 500; transition: color 0.2s;">Manifold</a> · Powered by Base
     </p>
-    <a 
-      href="https://gallery.manifold.xyz/YOUR_COLLECTION_SLUG" 
-      target="_blank" 
-      rel="noopener"
-      style="
-        display: inline-block;
-        padding: 0.5rem 1.2rem;
-        background: linear-gradient(135deg, #9fe2bf, #7bc9a0);
-        color: #111;
-        text-decoration: none;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 2px 8px rgba(159, 226, 191, 0.3);
-      "
-      onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(159, 226, 191, 0.4)';"
-      onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(159, 226, 191, 0.3)';"
-    >
-      View Full Collection →
-    </a>
   </div>
 </section>
 
