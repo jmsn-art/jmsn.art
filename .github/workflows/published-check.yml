@@ -1,0 +1,45 @@
+# Keep this workflow on main as well: workflow_run and schedules use the default branch.
+name: Published site verification
+on:
+  workflow_run:
+    workflows: ['pages build and deployment']
+    types: [completed]
+    branches: [modern-site]
+  schedule:
+    - cron: '43 12 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: read
+jobs:
+  published:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    name: Published assets
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Resolve the successful Pages commit
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          status=$(gh api "repos/$GITHUB_REPOSITORY/pages/builds/latest" --jq .status)
+          sha=$(gh api "repos/$GITHUB_REPOSITORY/pages/builds/latest" --jq .commit)
+          if [ "$status" != built ]; then
+            echo 'Latest Pages build is not successful.' >&2
+            exit 1
+          fi
+          if [ -n "$EVENT_SHA" ] && [ "$EVENT_SHA" != "$sha" ]; then
+            echo 'This deployment was superseded; the newer deployment will be checked.'
+            exit 0
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        if: steps.pages.outputs.sha != ''
+        with:
+          ref: ${{ steps.pages.outputs.sha }}
+          persist-credentials: false
+      - name: Compare published files with deployed source
+        if: steps.pages.outputs.sha != ''
+        run: python3 _checks/published.py
