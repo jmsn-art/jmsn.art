@@ -23,7 +23,7 @@ rules. Do not merge the modern design into main.
   a non-default branch. Nothing auto-merges. Review majors separately; rebuild
   published Studio assets when needed. Security PRs for main do not automatically
   fix modern-site, so review the daily live-branch audit and update PRs as well.
-- **Published site verification**: after successful Pages workflow completion,
+- **Published site verification**: after a successful github-pages deployment-status event,
   daily at 12:43 UTC, and on manual dispatch. Resolves the latest built Pages
   commit and compares public HTML, CSS, JS, SVG and text metadata against that
   exact commit, including classic backups and Studio. Retries five times over
