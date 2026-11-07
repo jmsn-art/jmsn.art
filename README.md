@@ -16,7 +16,7 @@ Do not merge this branch into `main` or change the repository default branch: th
 
 All 16 root HTML pages use the shared modern presentation in `modern/site.css` and navigation behavior in `modern/site.js`. The homepage uses `modern/home.css` and `modern/home.js`, based on the approved preview, with the hook “The sacred. Hiding in plain sight.”
 
-Artwork files, metadata, archive order, study count, video, and creative-tool functionality are retained. The existing truncated `make-halo.html` script was completed from the full companion editor `make.html`. The unlisted Studio application and `_studio` development project are separate and unchanged. Shopify remains an external store.
+Artwork files, metadata, archive order, study count, video, and creative-tool functionality are retained. The existing truncated `make-halo.html` script was completed from the full companion editor `make.html`. Studio has been retired from this website repository; its source and published files remain recoverable from Git history. Shopify remains an external store.
 
 Original header/footer hooks remain hidden and inert where existing scripts reference them; visitors receive the shared modern navigation and footer. The modern presentation uses a consistent light theme independently of previous theme preferences.
 
