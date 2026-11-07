@@ -1,22 +1,5 @@
 version: 2
 updates:
-  # Advisory-driven security PRs target main. Disable routine npm version PRs there.
-  - package-ecosystem: npm
-    directory: /_studio
-    schedule:
-      interval: daily
-    open-pull-requests-limit: 0
-  # Dependabot security PRs cannot target a non-default branch. Daily version
-  # updates bring fixes to production, backed by a separate daily npm audit.
-  - package-ecosystem: npm
-    directory: /_studio
-    target-branch: modern-site
-    schedule:
-      interval: daily
-    open-pull-requests-limit: 5
-    groups:
-      compatible-dependencies:
-        update-types: [minor, patch]
   - package-ecosystem: github-actions
     directory: /
     schedule:
